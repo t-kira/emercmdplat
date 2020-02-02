@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+/**
+ * 异常捕捉
+ */
 @ControllerAdvice //抛出的异常会被这个类捕获
 @ResponseBody
 public class GlobalExceptionHandler {
