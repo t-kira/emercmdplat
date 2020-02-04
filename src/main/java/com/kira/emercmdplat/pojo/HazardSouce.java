@@ -3,15 +3,11 @@ package com.kira.emercmdplat.pojo;
 /**
  * @Author: kira
  * @Date: 2020/2/1 11:01
- * @Description:基础数据
+ * @Description:
  */
-public class BaseData {
+public class HazardSouce {
 
     private Long id;
-    /**
-     * 数据类型
-     */
-    private Integer dataType;
     /**
      * 名称
      */
@@ -19,7 +15,7 @@ public class BaseData {
     /**
      * 类型
      */
-    private Integer tId;
+    private Integer type;
     /**
      * 行政区划
      */
@@ -39,7 +35,7 @@ public class BaseData {
     /**
      * 维护单位
      */
-    private String maintenanceUnit;
+    private String maintenanceCompany;
     /**
      * 危险等级
      */
@@ -97,13 +93,6 @@ public class BaseData {
         this.id = id;
     }
 
-    public Integer getDataType() {
-        return dataType;
-    }
-
-    public void setDataType(Integer dataType) {
-        this.dataType = dataType;
-    }
 
     public String getName() {
         return name;
@@ -113,16 +102,18 @@ public class BaseData {
         this.name = name;
     }
 
-    public Integer gettId() {
-        return tId;
-    }
 
-    public void settId(Integer tId) {
-        this.tId = tId;
-    }
 
     public String getDistrict() {
         return district;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public void setDistrict(String district) {
@@ -153,12 +144,12 @@ public class BaseData {
         this.addr = addr;
     }
 
-    public String getMaintenanceUnit() {
-        return maintenanceUnit;
+    public String getMaintenanceCompany() {
+        return maintenanceCompany;
     }
 
-    public void setMaintenanceUnit(String maintenanceUnit) {
-        this.maintenanceUnit = maintenanceUnit;
+    public void setMaintenanceCompany(String maintenanceCompany) {
+        this.maintenanceCompany = maintenanceCompany;
     }
 
     public Integer getWarningLevel() {

@@ -1,9 +1,13 @@
 package com.kira.emercmdplat.utils;
 
+import net.sf.json.JSONObject;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -180,7 +184,7 @@ public class StringUtil {
         return b1.subtract(b2).doubleValue();
     }
 
-    public static String  getStrKeyJson(JSONObject json,String key){
+    public static String  getStrKeyJson(JSONObject json, String key){
         if(json.containsKey(key)){
             return json.get(key).toString();
         }
