@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.utils;
 
+import net.sf.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -184,7 +186,7 @@ public class StringUtil {
         return b1.subtract(b2).doubleValue();
     }
 
-    public static String  getStrKeyJson(JSONObject json,String key){
+    public static String  getStrKeyJson(JSONObject json, String key){
         if(json.containsKey(key)){
             return json.get(key).toString();
         }
