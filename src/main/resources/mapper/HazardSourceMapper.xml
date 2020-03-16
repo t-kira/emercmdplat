@@ -92,7 +92,7 @@
       and h_update_time = #{updateTime,jdbcType=VARCHAR}
     </if>
   </sql>
-  <insert id="insert" parameterType="com.weidong.measure.pojo.Area" >
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.HazardSouce" >
     insert into hazard_source (h_id, h_name, h_type, h_district, h_number, h_PIC, h_addr, h_maintenance_company, h_warning_level, h_lng, h_lat,
     h_contact_num, h_cell_num, h_home_num, h_fax_num, h_email, h_contact_name, h_contact_work_num, h_contact_cell_num,
     h_update_time)
@@ -104,67 +104,67 @@
   </insert>
   <update id="delete" parameterType="com.kira.emercmdplat.pojo.HazardSouce" >
     DELETE hazard_source
-    where id = #{id,jdbcType=INTEGER}
+    where h_id = #{id,jdbcType=INTEGER}
   </update>
   <update id="update" parameterType="com.kira.emercmdplat.pojo.HazardSouce" >
     update hazard_source
     <set >
       <if test="name != null" >
-        and h_name = #{name,jdbcType=VARCHAR}
+        h_name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
-        and h_type = #{type,jdbcType=INTEGER}
+        h_type = #{type,jdbcType=INTEGER},
       </if>
       <if test="district != null" >
-        and h_district = #{district,jdbcType=VARCHAR}
+        h_district = #{district,jdbcType=VARCHAR},
       </if>
       <if test="number != null" >
-        and h_number = #{number,jdbcType=INTEGER}
+        h_number = #{number,jdbcType=INTEGER},
       </if>
       <if test="PIC != null" >
-        and h_PIC = #{PIC,jdbcType=VARCHAR}
+        h_PIC = #{PIC,jdbcType=VARCHAR},
       </if>
       <if test="addr != null" >
-        and h_addr = #{addr,jdbcType=VARCHAR}
+        h_addr = #{addr,jdbcType=VARCHAR},
       </if>
       <if test="maintenanceCompany != null" >
-        and h_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR}
+        h_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR},
       </if>
       <if test="warningLevel != null" >
-        and h_warning_level = #{warningLevel,jdbcType=INTEGER}
+        h_warning_level = #{warningLevel,jdbcType=INTEGER},
       </if>
       <if test="lng != null" >
-        and h_lng = #{lng,jdbcType=VARCHAR}
+        h_lng = #{lng,jdbcType=VARCHAR},
       </if>
       <if test="lat != null" >
-        and h_lat = #{lat,jdbcType=VARCHAR}
+        h_lat = #{lat,jdbcType=VARCHAR},
       </if>
       <if test="contactNum != null" >
-        and h_contact_num = #{contactNum,jdbcType=VARCHAR}
+        h_contact_num = #{contactNum,jdbcType=VARCHAR},
       </if>
       <if test="cellNum != null" >
-        and h_cell_num = #{cellNum,jdbcType=VARCHAR}
+        h_cell_num = #{cellNum,jdbcType=VARCHAR},
       </if>
       <if test="homeNum != null" >
-        and h_home_num = #{homeNum,jdbcType=VARCHAR}
+        h_home_num = #{homeNum,jdbcType=VARCHAR},
       </if>
       <if test="faxNum != null" >
-        and h_fax_num = #{faxNum,jdbcType=VARCHAR}
+        h_fax_num = #{faxNum,jdbcType=VARCHAR},
       </if>
       <if test="email != null" >
-        and h_email = #{email,jdbcType=VARCHAR}
+        h_email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="contactName != null" >
-        and h_contact_name = #{contactName,jdbcType=VARCHAR}
+        h_contact_name = #{contactName,jdbcType=VARCHAR},
       </if>
       <if test="contactWorkNum != null" >
-        and h_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR}
+        h_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR},
       </if>
       <if test="contactCellNum != null" >
-        and h_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR}
+        h_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null" >
-        and h_update_time = #{updateTime,jdbcType=VARCHAR}
+        h_update_time = #{updateTime,jdbcType=VARCHAR},
       </if>
     </set>
     where h_id = #{id,jdbcType=INTEGER}

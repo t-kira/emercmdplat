@@ -319,5 +319,17 @@ public class StringUtil {
         Matcher m = p.matcher(str);
         return m.matches();
     }
+    
+    public static boolean isNotBlank(String[] strs) {
+    	String[] arrayOfString = strs; 
+    	int j = strs.length; 
+    	for (int i = 0; i < j; i++) { 
+    		String str = arrayOfString[i];
+    		if (isEmpty(str)) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
 
 }

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.ShelterMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Shelter" >
+    <id column="s_id" property="id" jdbcType="INTEGER" />
+    <result column="s_name" property="name" jdbcType="VARCHAR" />
+    <result column="s_type" property="type" jdbcType="INTEGER" />
+    <result column="s_district" property="district" jdbcType="VARCHAR" />
+    <result column="s_maintenance_company" property="maintenanceCompany" jdbcType="VARCHAR"/>
+    <result column="s_level" property="level" jdbcType="INTEGER" />
+    <result column="s_area" property="area" jdbcType="VARCHAR" />
+    <result column="s_capacity" property="capacity" jdbcType="INTEGER" />
+    <result column="s_addr" property="addr" jdbcType="VARCHAR"/>
+    <result column="s_lng" property="lng" jdbcType="VARCHAR" />
+    <result column="s_lat" property="lat" jdbcType="VARCHAR" />
+    <result column="s_PIC" property="PIC" jdbcType="VARCHAR" />
+    <result column="s_contact_num" property="contactNum" jdbcType="VARCHAR" />
+    <result column="s_cell_num" property="cellNum" jdbcType="VARCHAR" />
+    <result column="s_home_num" property="homeNum" jdbcType="VARCHAR" />
+    <result column="s_fax_num" property="faxNum" jdbcType="VARCHAR" />
+    <result column="s_email" property="email" jdbcType="VARCHAR" />
+    <result column="s_contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="s_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR" />
+    <result column="s_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR" />
+    <result column="s_update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    s_id, s_name, s_type, s_district, s_maintenance_company, s_level, s_area, s_capacity, s_addr, s_lng, s_lat, s_PIC, 
+    s_contact_num, s_cell_num, s_home_num, s_fax_num, s_email, s_contact_name, s_contact_work_num, s_contact_cell_num,
+    s_update_time
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and s_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and s_name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and s_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="district != null" >
+      and s_district = #{district,jdbcType=VARCHAR}
+    </if>
+    <if test="maintenanceCompany != null" >
+      and s_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR}
+    </if>
+    <if test="level != null" >
+      and s_level = #{level,jdbcType=INTEGER}
+    </if>
+    <if test="area != null" >
+      and s_area = #{area,jdbcType=VARCHAR}
+    </if>
+    <if test="capacity != null" >
+      and s_capacity = #{capacity,jdbcType=INTEGER}
+    </if>
+    <if test="addr != null" >
+      and s_addr = #{addr,jdbcType=VARCHAR}
+    </if>
+    <if test="lng != null" >
+      and s_lng = #{lng,jdbcType=VARCHAR}
+    </if>
+    <if test="lat != null" >
+      and s_lat = #{lat,jdbcType=VARCHAR}
+    </if>
+    <if test="PIC != null" >
+      and s_PIC = #{PIC,jdbcType=VARCHAR}
+    </if>
+    <if test="contactNum != null" >
+      and s_contact_num = #{contactNum,jdbcType=VARCHAR}
+    </if>
+    <if test="cellNum != null" >
+      and s_cell_num = #{cellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="homeNum != null" >
+      and s_home_num = #{homeNum,jdbcType=VARCHAR}
+    </if>
+    <if test="faxNum != null" >
+      and s_fax_num = #{faxNum,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+      and s_email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="contactName != null" >
+      and s_contact_name = #{contactName,jdbcType=VARCHAR}
+    </if>
+    <if test="contactWorkNum != null" >
+      and s_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR}
+    </if>
+    <if test="contactCellNum != null" >
+      and s_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null" >
+      and s_update_time = #{updateTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Shelter" >
+    insert into shelter (s_id, s_name, s_type, s_district, s_maintenance_company, s_level, s_area, s_capacity, s_addr, s_lng,
+    s_lat, s_PIC, s_contact_num, s_cell_num, s_home_num, s_fax_num, s_email, s_contact_name, s_contact_work_num, s_contact_cell_num,
+    s_update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{district,jdbcType=VARCHR},
+      #{maintenanceCompany,jdbcType=VARCHR}, #{level,jdbcType=INTEGER}, #{area,jdbcType=VARCHR}, #{capacity,jdbcType=INTEGER},
+      #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{PIC,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR},
+      #{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.Shelter" >
+    DELETE shelter
+    where s_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.Shelter" >
+    update shelter
+    <set >
+      <if test="name != null" >
+        s_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        s_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="district != null" >
+        s_district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceCompany != null" >
+        s_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        s_level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="area != null" >
+        s_area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null" >
+        s_capacity = #{capacity,jdbcType=INTEGER},
+      </if>
+      <if test="addr != null" >
+        s_addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null" >
+        s_lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        s_lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="PIC != null" >
+        s_PIC = #{PIC,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        s_contact_num = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cellNum != null" >
+        s_cell_num = #{cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="homeNum != null" >
+        s_home_num = #{homeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="faxNum != null" >
+        s_fax_num = #{faxNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        s_email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        s_contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWorkNum != null" >
+        s_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR},
+      </if>
+      <if test="contactCellNum != null" >
+        s_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        s_update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where s_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shelter
+    where s_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Shelter" >
+    select
+    <include refid="Base_Column_List" />
+    from shelter
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from shelter
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Shelter" >
+    select count(s_id)
+    from shelter
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>

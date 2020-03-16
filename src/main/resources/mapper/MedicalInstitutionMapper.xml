@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.MedicalInstitutionMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.MedicalInstitution" >
+    <id column="m_id" property="id" jdbcType="INTEGER" />
+    <result column="m_name" property="name" jdbcType="VARCHAR" />
+    <result column="m_type" property="type" jdbcType="INTEGER" />
+    <result column="m_district" property="district" jdbcType="VARCHAR" />
+    <result column="m_maintenance_company" property="maintenanceCompany" jdbcType="VARCHAR"/>
+    <result column="m_institution_level" property="institutionLevel" jdbcType="INTEGER" />
+    <result column="m_UID" property="UID" jdbcType="VARCHAR" />
+    <result column="m_sickbed_num" property="sickbedNum" jdbcType="INTEGER" />
+    <result column="m_medical_subjects" property="medicalSubjects" jdbcType="VARCHAR" />
+    <result column="m_addr" property="addr" jdbcType="VARCHAR"/>
+    <result column="m_lng" property="lng" jdbcType="VARCHAR" />
+    <result column="m_lat" property="lat" jdbcType="VARCHAR" />
+    <result column="m_PIC" property="PIC" jdbcType="VARCHAR" />
+    <result column="m_contact_num" property="contactNum" jdbcType="VARCHAR" />
+    <result column="m_cell_num" property="cellNum" jdbcType="VARCHAR" />
+    <result column="m_home_num" property="homeNum" jdbcType="VARCHAR" />
+    <result column="m_fax_num" property="faxNum" jdbcType="VARCHAR" />
+    <result column="m_email" property="email" jdbcType="VARCHAR" />
+    <result column="m_contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="m_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR" />
+    <result column="m_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR" />
+    <result column="m_update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    m_id, m_name, m_type, m_district, m_maintenance_company, m_institution_level, m_UID, m_sickbed_num, m_medical_subjects, m_addr, m_lng, m_lat, 
+    m_PIC, m_contact_num, m_cell_num, m_home_num, m_fax_num, m_email, m_contact_name, m_contact_work_num, m_contact_cell_num,
+    m_update_time
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and m_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and m_name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and m_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="district != null" >
+      and m_district = #{district,jdbcType=VARCHAR}
+    </if>
+    <if test="maintenanceCompany != null" >
+      and m_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR}
+    </if>
+    <if test="institutionLevel != null" >
+      and m_institution_level = #{institutionLevel,jdbcType=INTEGER}
+    </if>
+    <if test="UID != null" >
+      and m_UID = #{UID,jdbcType=VARCHAR}
+    </if>
+    <if test="sickbedNum != null" >
+      and m_sickbed_num = #{sickbedNum,jdbcType=INTEGER}
+    </if>
+    <if test="medicalSubjects != null" >
+      and m_medical_subjects = #{medicalSubjects,jdbcType=VARCHAR}
+    </if>
+    <if test="addr != null" >
+      and m_addr = #{addr,jdbcType=VARCHAR}
+    </if>
+    <if test="lng != null" >
+      and m_lng = #{lng,jdbcType=VARCHAR}
+    </if>
+    <if test="lat != null" >
+      and m_lat = #{lat,jdbcType=VARCHAR}
+    </if>
+    <if test="PIC != null" >
+      and m_PIC = #{PIC,jdbcType=VARCHAR}
+    </if>
+    <if test="contactNum != null" >
+      and m_contact_num = #{contactNum,jdbcType=VARCHAR}
+    </if>
+    <if test="cellNum != null" >
+      and m_cell_num = #{cellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="homeNum != null" >
+      and m_home_num = #{homeNum,jdbcType=VARCHAR}
+    </if>
+    <if test="faxNum != null" >
+      and m_fax_num = #{faxNum,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+      and m_email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="contactName != null" >
+      and m_contact_name = #{contactName,jdbcType=VARCHAR}
+    </if>
+    <if test="contactWorkNum != null" >
+      and m_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR}
+    </if>
+    <if test="contactCellNum != null" >
+      and m_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null" >
+      and m_update_time = #{updateTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution" >
+    insert into medical_institution (m_id, m_name, m_type, m_district, m_maintenance_company, m_institution_level, m_UID, m_sickbed_num, 
+    m_medical_subjects, m_addr, m_lng, m_lat, m_PIC, m_contact_num, m_cell_num, m_home_num, m_fax_num, m_email, m_contact_name,
+    m_contact_work_num, m_contact_cell_num, m_update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{district,jdbcType=VARCHR},
+      #{maintenanceCompany,jdbcType=VARCHR}, #{institutionLevel,jdbcType=INTEGER}, #{UID,jdbcType=VARCHR}, #{sickbedNum,jdbcType=INTEGER},
+      #{medicalSubjects,jdbcType=VARCHR}, #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{PIC,jdbcType=VARCHAR},
+      #{contactNum,jdbcType=VARCHAR},#{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution" >
+    DELETE medical_institution
+    where m_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution" >
+    update medical_institution
+    <set >
+      <if test="name != null" >
+        m_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        m_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="district != null" >
+        m_district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceCompany != null" >
+        m_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="institutionLevel != null" >
+        m_institution_level = #{institutionLevel,jdbcType=INTEGER},
+      </if>
+      <if test="UID != null" >
+        m_UID = #{UID,jdbcType=VARCHR},
+      </if>
+      <if test="sickbedNum != null" >
+        m_sickbed_num = #{sickbedNum,jdbcType=INTEGER},
+      </if>
+      <if test="medicalSubjects != null" >
+        m_medical_subjects = #{medicalSubjects,jdbcType=VARCHR},
+      </if>
+      <if test="addr != null" >
+        m_addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null" >
+        m_lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        m_lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="PIC != null" >
+        m_PIC = #{PIC,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        m_contact_num = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cellNum != null" >
+        m_cell_num = #{cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="homeNum != null" >
+        m_home_num = #{homeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="faxNum != null" >
+        m_fax_num = #{faxNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        m_email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        m_contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWorkNum != null" >
+        m_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR},
+      </if>
+      <if test="contactCellNum != null" >
+        m_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        m_update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where m_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from medical_institution
+    where m_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution" >
+    select
+    <include refid="Base_Column_List" />
+    from protection_target
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from medical_institution
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution" >
+    select count(m_id)
+    from medical_institution
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>

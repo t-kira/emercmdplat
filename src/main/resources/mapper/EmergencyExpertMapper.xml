@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.EmergencyExpertMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EmergencyExpert" >
+    <id column="e_id" property="id" jdbcType="INTEGER" />
+    <result column="e_name" property="name" jdbcType="VARCHAR" />
+    <result column="e_type" property="type" jdbcType="INTEGER" />
+    <result column="e_unit" property="unit" jdbcType="INTEGER"/>
+    <result column="e_position" property="position" jdbcType="VARCHAR"/>
+    <result column="e_gender" property="gender" jdbcType="INTEGER"/>
+    <result column="e_level" property="level" jdbcType="INTEGER"/>
+    <result column="e_expertise" property="expertise" jdbcType="VARCHAR"/>
+    <result column="e_contact_num" property="contactNum" jdbcType="VARCHAR"/>
+    <result column="e_cell_num" property="cellNum" jdbcType="VARCHAR"/>
+    <result column="e_fax_num" property="faxNum" jdbcType="VARCHAR"/>
+    <result column="e_email" property="email" jdbcType="VARCHAR"/>
+    <result column="e_home_num" property="homeNum" jdbcType="VARCHAR"/>
+    <result column="e_home_addr" property="homeAddr" jdbcType="VARCHAR"/>
+    <result column="e_information" property="information" jdbcType="VARCHAR"/>
+    <result column="e_update_time" property="updateTime" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    e_id, e_name, e_type, e_unit, e_position, e_gender, e_level, e_expertise, e_contact_num, e_cell_num,
+    e_fax_num, e_email, e_home_num, e_home_addr, e_information, e_update_time
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and e_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and e_name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and e_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="unit != null" >
+      and e_unit = #{unit,jdbcType=INTEGER}
+    </if>
+    <if test="position != null" >
+      and e_position = #{position,jdbcType=VARCHAR}
+    </if>
+    <if test="gender != null" >
+      and e_gender = #{gender,jdbcType=INTEGER}
+    </if>
+    <if test="level != null" >
+      and e_level = #{level,jdbcType=INTEGER}
+    </if>
+    <if test="expertise != null" >
+      and e_expertise = #{expertise,jdbcType=VARCHAR}
+    </if>
+    <if test="contactNum != null" >
+      and e_contact_num = #{contactNum,jdbcType=VARCHAR}
+    </if>
+    <if test="cellNum != null" >
+      and e_cell_num = #{cellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="faxNum != null" >
+      and e_fax_num = #{faxNum,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+      and e_email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="homeNum != null" >
+      and e_home_num = #{homeNum,jdbcType=VARCHAR}
+    </if>
+    <if test="homeAddr != null" >
+      and e_home_addr = #{homeAddr,jdbcType=VARCHAR}
+    </if>
+    <if test="information != null" >
+      and e_information = #{information,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null" >
+      and e_update_time = #{updateTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert" >
+    insert into emergency_expert (e_id, e_name, e_type, e_unit, e_position, e_gender, e_level, e_expertise, e_contact_num, e_cell_num,
+    e_fax_num, e_email, e_home_num, e_home_addr, e_information, e_update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{unit,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR},
+    #{gender,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{expertise,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR}, 
+    #{cellNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{homeAddr,jdbcType=VARCHAR},
+    #{information,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert" >
+    DELETE emergency_expert
+    where e_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert" >
+    update emergency_expert
+    <set >
+      <if test="name != null" >
+        e_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        e_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        e_unit = #{unit,jdbcType=INTEGER},
+      </if>
+      <if test="position != null" >
+        e_position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        e_gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        e_level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="expertise != null" >
+        e_expertise = #{expertise,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        e_contact_num = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cellNum != null" >
+      	e_cell_num = #{cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="faxNum != null" >
+      	e_fax_num = #{faxNum,jdbcType=VARCHAR},
+      </if>
+	  <if test="email != null" >
+	    e_email = #{email,jdbcType=VARCHAR},
+	  </if>
+      <if test="homeNum != null" >
+      	e_home_num = #{homeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="homeAddr != null" >
+      	e_home_addr = #{homeAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="information != null" >
+      	e_information = #{information,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+      	e_update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where e_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emergency_expert
+    where e_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_expert
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_expert
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert" >
+    select count(e_id)
+    from emergency_expert
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>

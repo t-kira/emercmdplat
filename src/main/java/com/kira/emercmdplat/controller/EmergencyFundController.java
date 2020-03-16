@@ -1,7 +1,7 @@
 package com.kira.emercmdplat.controller;
 
-import com.kira.emercmdplat.pojo.HazardSouce;
-import com.kira.emercmdplat.service.HazardSourceService;
+import com.kira.emercmdplat.pojo.EmergencyFund;
+import com.kira.emercmdplat.service.EmergencyFundService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 
 import java.util.HashMap;
@@ -18,41 +18,41 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description:
  */
 @RestController
-@RequestMapping("/hazardSource")
-public class HazardSourceController {
+@RequestMapping("/emergencyFund")
+public class EmergencyFundController {
 
     @Autowired
-    private HazardSourceService hazardSourceService;
+    private EmergencyFundService emergencyFundService;
 
     @RequestMapping("/add")
-    public AlvesJSONResult insert(HazardSouce hazardSouce) {
-    	hazardSourceService.insert(hazardSouce);
+    public AlvesJSONResult insert(EmergencyFund emergencyFund) {
+    	emergencyFundService.insert(emergencyFund);
         return AlvesJSONResult.ok();
     }
     
     @RequestMapping("/update")
-    public AlvesJSONResult update(HazardSouce hazardSouce) {
-    	hazardSourceService.update(hazardSouce);
+    public AlvesJSONResult update(EmergencyFund emergencyFund) {
+    	emergencyFundService.update(emergencyFund);
         return AlvesJSONResult.ok();
     }
     
     @RequestMapping("/delete")
-    public AlvesJSONResult delete(HazardSouce hazardSouce) {
-    	hazardSourceService.delete(hazardSouce);
+    public AlvesJSONResult delete(EmergencyFund emergencyFund) {
+    	emergencyFundService.delete(emergencyFund);
         return AlvesJSONResult.ok();
     }
     
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	HazardSouce hazardSource = hazardSourceService.selectById(id);
-        return AlvesJSONResult.ok(hazardSource);
+    	EmergencyFund emergencyFund = emergencyFundService.selectById(id);
+        return AlvesJSONResult.ok(emergencyFund);
     }
     
     @RequestMapping("/list")
-    public AlvesJSONResult list(HazardSouce hazardSouce,Integer page,Integer pageSize) {
+    public AlvesJSONResult list(EmergencyFund emergencyFund,Integer page,Integer pageSize) {
     	Map<String,Object> map = new HashMap<>();
-    	List<HazardSouce> list = hazardSourceService.queryForPage(hazardSouce, page, pageSize);
-    	Long count = hazardSourceService.queryForCounts(hazardSouce);
+    	List<EmergencyFund> list = emergencyFundService.queryForPage(emergencyFund, page, pageSize);
+    	Long count = emergencyFundService.queryForCounts(emergencyFund);
     	map.put("list", list);
     	map.put("count", count);
         return AlvesJSONResult.ok(map);

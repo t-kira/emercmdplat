@@ -1,7 +1,7 @@
 package com.kira.emercmdplat.controller;
 
-import com.kira.emercmdplat.pojo.HazardSouce;
-import com.kira.emercmdplat.service.HazardSourceService;
+import com.kira.emercmdplat.pojo.TransportUnit;
+import com.kira.emercmdplat.service.TransportUnitService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 
 import java.util.HashMap;
@@ -18,41 +18,41 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description:
  */
 @RestController
-@RequestMapping("/hazardSource")
-public class HazardSourceController {
+@RequestMapping("/transportUnit")
+public class TransportUnitController {
 
     @Autowired
-    private HazardSourceService hazardSourceService;
+    private TransportUnitService transportUnitService;
 
     @RequestMapping("/add")
-    public AlvesJSONResult insert(HazardSouce hazardSouce) {
-    	hazardSourceService.insert(hazardSouce);
+    public AlvesJSONResult insert(TransportUnit transportUnit) {
+    	transportUnitService.insert(transportUnit);
         return AlvesJSONResult.ok();
     }
     
     @RequestMapping("/update")
-    public AlvesJSONResult update(HazardSouce hazardSouce) {
-    	hazardSourceService.update(hazardSouce);
+    public AlvesJSONResult update(TransportUnit transportUnit) {
+    	transportUnitService.update(transportUnit);
         return AlvesJSONResult.ok();
     }
     
     @RequestMapping("/delete")
-    public AlvesJSONResult delete(HazardSouce hazardSouce) {
-    	hazardSourceService.delete(hazardSouce);
+    public AlvesJSONResult delete(TransportUnit transportUnit) {
+    	transportUnitService.delete(transportUnit);
         return AlvesJSONResult.ok();
     }
     
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	HazardSouce hazardSource = hazardSourceService.selectById(id);
-        return AlvesJSONResult.ok(hazardSource);
+    	TransportUnit transportUnit = transportUnitService.selectById(id);
+        return AlvesJSONResult.ok(transportUnit);
     }
     
     @RequestMapping("/list")
-    public AlvesJSONResult list(HazardSouce hazardSouce,Integer page,Integer pageSize) {
+    public AlvesJSONResult list(TransportUnit transportUnit,Integer page,Integer pageSize) {
     	Map<String,Object> map = new HashMap<>();
-    	List<HazardSouce> list = hazardSourceService.queryForPage(hazardSouce, page, pageSize);
-    	Long count = hazardSourceService.queryForCounts(hazardSouce);
+    	List<TransportUnit> list = transportUnitService.queryForPage(transportUnit, page, pageSize);
+    	Long count = transportUnitService.queryForCounts(transportUnit);
     	map.put("list", list);
     	map.put("count", count);
         return AlvesJSONResult.ok(map);

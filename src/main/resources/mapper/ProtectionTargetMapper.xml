@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.ProtectionTargetMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.ProtectionTarget" >
+    <id column="p_id" property="id" jdbcType="INTEGER" />
+    <result column="p_name" property="name" jdbcType="VARCHAR" />
+    <result column="p_type" property="type" jdbcType="INTEGER" />
+    <result column="p_district" property="district" jdbcType="VARCHAR" />
+    <result column="p_maintenance_company" property="maintenanceCompany" jdbcType="VARCHAR"/>
+    <result column="p_protection_level" property="protectionLevel" jdbcType="INTEGER" />
+    <result column="p_level" property="level" jdbcType="INTEGER" />
+    <result column="p_number" property="number" jdbcType="INTEGER" />
+    <result column="p_addr" property="addr" jdbcType="VARCHAR"/>
+    <result column="p_lng" property="lng" jdbcType="VARCHAR" />
+    <result column="p_lat" property="lat" jdbcType="VARCHAR" />
+    <result column="p_PIC" property="PIC" jdbcType="VARCHAR" />
+    <result column="p_contact_num" property="contactNum" jdbcType="VARCHAR" />
+    <result column="p_cell_num" property="cellNum" jdbcType="VARCHAR" />
+    <result column="p_home_num" property="homeNum" jdbcType="VARCHAR" />
+    <result column="p_fax_num" property="faxNum" jdbcType="VARCHAR" />
+    <result column="p_email" property="email" jdbcType="VARCHAR" />
+    <result column="p_contact_name" property="contactName" jdbcType="VARCHAR" />
+    <result column="p_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR" />
+    <result column="p_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR" />
+    <result column="p_update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    p_id, p_name, p_type, p_district, p_maintenance_company, p_protection_level, p_level, p_number, p_addr, p_lng, p_lat, p_PIC, 
+    p_contact_num, p_cell_num, p_home_num, p_fax_num, p_email, p_contact_name, p_contact_work_num, p_contact_cell_num,
+    p_update_time
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and p_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and p_name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and p_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="district != null" >
+      and p_district = #{district,jdbcType=VARCHAR}
+    </if>
+    <if test="maintenanceCompany != null" >
+      and p_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR}
+    </if>
+    <if test="protectionLevel != null" >
+      and p_protection_level = #{warningLevel,jdbcType=INTEGER}
+    </if>
+    <if test="level != null" >
+      and p_level = #{level,jdbcType=INTEGER}
+    </if>
+    <if test="number != null" >
+      and p_number = #{number,jdbcType=INTEGER}
+    </if>
+    <if test="addr != null" >
+      and p_addr = #{addr,jdbcType=VARCHAR}
+    </if>
+    <if test="lng != null" >
+      and p_lng = #{lng,jdbcType=VARCHAR}
+    </if>
+    <if test="lat != null" >
+      and p_lat = #{lat,jdbcType=VARCHAR}
+    </if>
+    <if test="PIC != null" >
+      and p_PIC = #{PIC,jdbcType=VARCHAR}
+    </if>
+    <if test="contactNum != null" >
+      and p_contact_num = #{contactNum,jdbcType=VARCHAR}
+    </if>
+    <if test="cellNum != null" >
+      and p_cell_num = #{cellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="homeNum != null" >
+      and p_home_num = #{homeNum,jdbcType=VARCHAR}
+    </if>
+    <if test="faxNum != null" >
+      and p_fax_num = #{faxNum,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+      and p_email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="contactName != null" >
+      and p_contact_name = #{contactName,jdbcType=VARCHAR}
+    </if>
+    <if test="contactWorkNum != null" >
+      and p_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR}
+    </if>
+    <if test="contactCellNum != null" >
+      and p_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null" >
+      and p_update_time = #{updateTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.ProtectionTarget" >
+    insert into protection_target (p_id, p_name, p_type, p_district, p_maintenance_company, p_protection_level, p_level, p_number, p_addr, p_lng,
+    p_lat, p_PIC, p_contact_num, p_cell_num, p_home_num, p_fax_num, p_email, p_contact_name, p_contact_work_num, p_contact_cell_num,
+    p_update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{district,jdbcType=VARCHR},
+      #{maintenanceCompany,jdbcType=VARCHR}, #{protectionLevel,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{number,jdbcType=INTEGER},
+      #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{PIC,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR},
+      #{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.ProtectionTarget" >
+    DELETE protection_target
+    where p_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.ProtectionTarget" >
+    update protection_target
+    <set >
+      <if test="name != null" >
+        p_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        p_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="district != null" >
+        p_district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceCompany != null" >
+        p_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="protectionLevel != null" >
+        p_protection_level = #{protectionLevel,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        p_level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="number != null" >
+        p_number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="addr != null" >
+        p_addr = #{addr,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null" >
+        p_lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        p_lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="PIC != null" >
+        p_PIC = #{PIC,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        p_contact_num = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cellNum != null" >
+        p_cell_num = #{cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="homeNum != null" >
+        p_home_num = #{homeNum,jdbcType=VARCHAR},
+      </if>
+      <if test="faxNum != null" >
+        p_fax_num = #{faxNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        p_email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        p_contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWorkNum != null" >
+        p_contact_work_num = #{contactWorkNum,jdbcType=VARCHAR},
+      </if>
+      <if test="contactCellNum != null" >
+        p_contact_cell_num = #{contactCellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        p_update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where p_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from protection_target
+    where p_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ProtectionTarget" >
+    select
+    <include refid="Base_Column_List" />
+    from protection_target
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from protection_target
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ProtectionTarget" >
+    select count(p_id)
+    from protection_target
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>

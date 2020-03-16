@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.EmergencySupplyMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EmergencySupply" >
+    <id column="es_id" property="id" jdbcType="INTEGER" />
+    <result column="es_name" property="name" jdbcType="VARCHAR" />
+    <result column="es_type" property="type" jdbcType="INTEGER" />
+    <result column="es_measurement_unit" property="measurementUnit" jdbcType="VARCHAR"/>
+    <result column="es_supply_num" property="supplyNum" jdbcType="INTEGER"/>
+    <result column="es_supply_source" property="supplySource" jdbcType="INTEGER"/>
+    <result column="es_storage_point" property="storagePoint" jdbcType="INTEGER"/>
+    <result column="es_contact_name" property="contactName" jdbcType="VARCHAR"/>
+    <result column="es_contact_num" property="contactNum" jdbcType="VARCHAR"/>
+    <result column="es_unit_price" property="unitPrice" jdbcType="VARCHAR"/>
+    <result column="es_maintenance_company" property="maintenanceCompany" jdbcType="VARCHAR"/>
+    <result column="es_remark" property="remark" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    es_id, es_name, es_type, es_measurement_unit, es_supply_num, es_supply_source, es_storage_point, es_contact_name, es_contact_num,
+    es_unit_price, es_maintenance_company, es_remark
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and es_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and es_name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and es_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="measurementUnit != null" >
+      and es_measurement_unit = #{measurementUnit,jdbcType=VARCHAR}
+    </if>
+    <if test="supplyNum != null" >
+      and es_supply_num = #{supplyNum,jdbcType=INTEGER}
+    </if>
+    <if test="supplySource != null" >
+      and es_supply_source = #{supplySource,jdbcType=INTEGER}
+    </if>
+    <if test="storagePoint != null" >
+      and es_storage_point = #{storagePoint,jdbcType=INTEGER}
+    </if>
+    <if test="contactName != null" >
+      and es_contact_name = #{contactName,jdbcType=VARCHAR}
+    </if>
+    <if test="contactNum != null" >
+      and es_contact_num = #{contactNum,jdbcType=VARCHAR}
+    </if>
+    <if test="unitPrice != null" >
+      and es_unit_price = #{unitPrice,jdbcType=VARCHAR}
+    </if>
+    <if test="maintenanceCompany != null" >
+      and es_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null" >
+      and es_remark = #{remark,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencySupply" >
+    insert into emergency_supply (es_id, es_name, es_type, es_measurement_unit, es_supply_num, es_supply_source, es_storage_point, es_contact_name,
+    es_contact_num, es_unit_price, es_maintenance_company, es_remark)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{measurementUnit,jdbcType=VARCHAR},
+    #{supplyNum,jdbcType=INTEGER}, #{supplySource,jdbcType=INTEGER}, #{storagePoint,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR},
+    #{contactNum,jdbcType=VARCHAR}, #{unitPrice,jdbcType=VARCHAR}, #{maintenanceCompany,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencySupply" >
+    DELETE emergency_supply
+    where r_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencySupply" >
+    update emergency_supply
+    <set >
+      <if test="name != null" >
+        es_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        es_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="measurementUnit != null" >
+        es_measurement_unit = #{measurementUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyNum != null" >
+        es_supply_num = #{supplyNum,jdbcType=INTEGER},
+      </if>
+      <if test="supplySource != null" >
+        es_supply_source = #{supplySource,jdbcType=INTEGER},
+      </if>
+      <if test="storagePoint != null" >
+        es_storage_point = #{storagePoint,jdbcType=INTEGER},
+      </if>
+      <if test="contactName != null" >
+        es_contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+      	es_contact_num = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+      	es_unit_price = #{unitPrice,jdbcType=VARCHAR},
+      </if>
+	  <if test="maintenanceCompany != null" >
+	    es_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR},
+	  </if>
+      <if test="remark != null" >
+      	es_remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where es_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emergency_supply
+    where es_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencySupply" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_supply
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_supply
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencySupply" >
+    select count(es_id)
+    from emergency_supply
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.EmergencyReferenceMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EmergencyReference" >
+    <id column="er_id" property="id" jdbcType="INTEGER" />
+    <result column="er_title" property="title" jdbcType="VARCHAR" />
+    <result column="er_type" property="type" jdbcType="INTEGER" />
+    <result column="er_content" property="content" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    er_id, er_title, er_type, er_content
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and er_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="title != null" >
+      and er_title = #{title,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and er_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="content != null" >
+      and er_content = #{content,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
+    insert into emergency_reference (er_id, er_title, er_type, er_content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
+    DELETE emergency_reference
+    where er_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
+    update emergency_reference
+    <set >
+      <if test="title != null" >
+        er_title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+      	er_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+      	er_content = #{content,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where er_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emergency_reference
+    where er_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_reference
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_reference
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
+    select count(er_id)
+    from emergency_reference
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>

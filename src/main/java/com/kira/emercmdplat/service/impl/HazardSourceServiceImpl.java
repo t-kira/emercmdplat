@@ -3,10 +3,11 @@ package com.kira.emercmdplat.service.impl;
 import com.kira.emercmdplat.mapper.HazardSouceMapper;
 import com.kira.emercmdplat.pojo.HazardSouce;
 import com.kira.emercmdplat.service.HazardSourceService;
+import com.kira.emercmdplat.utils.PojoUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class HazardSourceServiceImpl implements HazardSourceService {
 
     @Override
     public List<HazardSouce> queryForPage(HazardSouce pojo, Integer page, Integer pageSize) {
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return hazardSouceMapper.queryForPage(paramMap);
     }
 

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.EmergencyFundMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EmergencyFund" >
+    <id column="ef_id" property="id" jdbcType="INTEGER" />
+    <result column="ef_name" property="name" jdbcType="VARCHAR" />
+    <result column="ef_type" property="type" jdbcType="INTEGER" />
+    <result column="ef_source" property="source" jdbcType="INTEGER"/>
+    <result column="ef_purpose" property="purpose" jdbcType="VARCHAR"/>
+    <result column="ef_remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="ef_maintenance_company" property="maintenanceCompany" jdbcType="VARCHAR"/>
+    <result column="ef_contact_name" property="contactName" jdbcType="VARCHAR"/>
+    <result column="ef_contact_num" property="contactNum" jdbcType="VARCHAR"/>
+    <result column="ef_cell_num" property="cellNum" jdbcType="VARCHAR"/>
+    <result column="ef_email" property="email" jdbcType="VARCHAR"/>
+    <result column="ef_fax_num" property="faxNum" jdbcType="VARCHAR"/>
+    <result column="ef_work_addr" property="workAddr" jdbcType="VARCHAR"/>
+    <result column="ef_information" property="information" jdbcType="VARCHAR"/>
+    <result column="ef_update_time" property="updateTime" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ef_id, ef_name, ef_type, ef_source, ef_purpose, ef_remark, ef_maintenance_company, ef_contact_name, ef_contact_num, ef_cell_num,
+    ef_email, ef_fax_num, ef_work_addr, ef_information, ef_update_time
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and ef_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and ef_name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and ef_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="source != null" >
+      and ef_source = #{source,jdbcType=INTEGER}
+    </if>
+    <if test="purpose != null" >
+      and ef_purpose = #{purpose,jdbcType=VARCHAR}
+    </if>
+    <if test="remark != null" >
+      and ef_remark = #{remark,jdbcType=VARCHAR}
+    </if>
+    <if test="maintenanceCompany != null" >
+      and ef_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR}
+    </if>
+    <if test="contactName != null" >
+      and ef_contact_name = #{contactName,jdbcType=VARCHAR}
+    </if>
+    <if test="contactNum != null" >
+      and ef_contact_num = #{contactNum,jdbcType=VARCHAR}
+    </if>
+    <if test="cellNum != null" >
+      and ef_cell_num = #{cellNum,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null" >
+      and ef_email = #{email,jdbcType=VARCHAR}
+    </if>
+    <if test="faxNum != null" >
+      and ef_fax_num = #{faxNum,jdbcType=VARCHAR}
+    </if>
+    <if test="workAddr != null" >
+      and ef_work_addr = #{workAddr,jdbcType=VARCHAR}
+    </if>
+    <if test="information != null" >
+      and ef_information = #{information,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null" >
+      and ef_update_time = #{updateTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyFund" >
+    insert into emergency_fund (ef_id, ef_name, ef_type, ef_source, ef_purpose, ef_remark, ef_maintenance_company, ef_contact_name, ef_contact_num,
+    ef_cell_num, ef_email, ef_fax_num, ef_work_addr, ef_information, ef_update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{source,jdbcType=INTEGER}, #{purpose,jdbcType=VARCHAR},
+    #{remark,jdbcType=VARCHAR}, #{maintenanceCompany,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR}, 
+    #{cellNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{workAddr,jdbcType=VARCHAR},
+    #{information,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyFund" >
+    DELETE emergency_fund
+    where ef_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyFund" >
+    update emergency_fund
+    <set >
+      <if test="name != null" >
+        ef_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        ef_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        ef_source = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="purpose != null" >
+        ef_purpose = #{purpose,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        ef_remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="maintenanceCompany != null" >
+        ef_maintenance_company = #{maintenanceCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        ef_contact_name = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactNum != null" >
+        ef_contact_num = #{contactNum,jdbcType=VARCHAR},
+      </if>
+      <if test="cellNum != null" >
+      	ef_cell_num = #{cellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+	    ef_email = #{email,jdbcType=VARCHAR},
+	  </if>
+      <if test="faxNum != null" >
+      	ef_fax_num = #{faxNum,jdbcType=VARCHAR},
+      </if>
+      <if test="homeAddr != null" >
+      	ef_work_addr = #{workAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="information != null" >
+      	ef_information = #{information,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+      	ef_update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ef_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emergency_fund
+    where ef_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyFund" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_fund
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from emergency_fund
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyFund" >
+    select count(ef_id)
+    from emergency_fund
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>
