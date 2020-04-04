@@ -178,7 +178,7 @@
 
   <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ReserveLibrary" >
     select count(r_id)
-    from shelter
+    from reserve_library
     <include refid="Basic_Conditions" />
   </select>
 
