@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.PlanParamMapper" >
+  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.PlanParam" >
+    <id column="pp_id" property="id" jdbcType="INTEGER" />
+    <result column="pp_name" property="name" jdbcType="VARCHAR" />
+    <result column="pp_type" property="type" jdbcType="INTEGER"/>
+    <result column="pp_unit" property="unit" jdbcType="VARCHAR"/>
+    <result column="pt_id" property="ptId" jdbcType="INTEGER"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    pp_id, pp_name, pp_type, pp_unit, pt_id
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and pp_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="name != null" >
+      and pp_name = #{name,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and pp_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="unit != null" >
+      and pp_unit = #{unit,jdbcType=VARCHAR}
+    </if>
+    <if test="ptId != null" >
+      and pt_id = #{ptId,jdbcType=INTEGER}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanParam" >
+    insert into plan_param (pp_id, pp_name, pp_type, pp_unit, pt_id)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{ptId,jdbcType=INTEGER})
+  </insert>
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanParam" >
+    DELETE plan_param
+    where pp_id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanParam" >
+    update plan_param
+    <set >
+      <if test="name != null" >
+        pp_name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        pp_type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        pp_unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="ptId != null" >
+        pt_id = #{ptId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pp_id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from plan_param
+    where pp_id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.PlanParam" >
+    select
+    <include refid="Base_Column_List" />
+    from plan_param
+    <include refid="Basic_Conditions" />
+  </select>
+
+  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from plan_param
+    <include refid="Basic_Conditions" />
+    limit ${index}, ${pageSize}
+  </select>
+
+  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.PlanParam" >
+    select count(pp_id)
+    from plan_param
+    <include refid="Basic_Conditions" />
+  </select>
+
+</mapper>
