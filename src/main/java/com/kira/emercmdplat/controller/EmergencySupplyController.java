@@ -26,35 +26,35 @@ public class EmergencySupplyController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(EmergencySupply emergencySupply) {
-    	emergencySupplyService.insert(emergencySupply);
+        emergencySupplyService.insert(emergencySupply);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(EmergencySupply emergencySupply) {
-    	emergencySupplyService.update(emergencySupply);
+        emergencySupplyService.update(emergencySupply);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(EmergencySupply emergencySupply) {
-    	emergencySupplyService.delete(emergencySupply);
+        emergencySupplyService.delete(emergencySupply);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	EmergencySupply emergencySupply = emergencySupplyService.selectById(id);
+        EmergencySupply emergencySupply = emergencySupplyService.selectById(id);
         return AlvesJSONResult.ok(emergencySupply);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(EmergencySupply emergencySupply,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<EmergencySupply> list = emergencySupplyService.queryForPage(emergencySupply, page, pageSize);
-    	Long count = emergencySupplyService.queryForCounts(emergencySupply);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(EmergencySupply emergencySupply, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<EmergencySupply> list = emergencySupplyService.queryForPage(emergencySupply, page, pageSize);
+        Long count = emergencySupplyService.queryForCounts(emergencySupply);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }
