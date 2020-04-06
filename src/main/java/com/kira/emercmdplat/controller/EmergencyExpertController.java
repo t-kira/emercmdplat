@@ -26,35 +26,35 @@ public class EmergencyExpertController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(EmergencyExpert emergencyExpert) {
-    	emergencyExpertService.insert(emergencyExpert);
+        emergencyExpertService.insert(emergencyExpert);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(EmergencyExpert emergencyExpert) {
-    	emergencyExpertService.update(emergencyExpert);
+        emergencyExpertService.update(emergencyExpert);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(EmergencyExpert emergencyExpert) {
-    	emergencyExpertService.delete(emergencyExpert);
+        emergencyExpertService.delete(emergencyExpert);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	EmergencyExpert emergencyExpert = emergencyExpertService.selectById(id);
+        EmergencyExpert emergencyExpert = emergencyExpertService.selectById(id);
         return AlvesJSONResult.ok(emergencyExpert);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(EmergencyExpert emergencyExpert,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<EmergencyExpert> list = emergencyExpertService.queryForPage(emergencyExpert, page, pageSize);
-    	Long count = emergencyExpertService.queryForCounts(emergencyExpert);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(EmergencyExpert emergencyExpert, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<EmergencyExpert> list = emergencyExpertService.queryForPage(emergencyExpert, page, pageSize);
+        Long count = emergencyExpertService.queryForCounts(emergencyExpert);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }
