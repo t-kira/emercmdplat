@@ -26,35 +26,35 @@ public class HazardSourceController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(HazardSouce hazardSouce) {
-    	hazardSourceService.insert(hazardSouce);
+        hazardSourceService.insert(hazardSouce);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(HazardSouce hazardSouce) {
-    	hazardSourceService.update(hazardSouce);
+        hazardSourceService.update(hazardSouce);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(HazardSouce hazardSouce) {
-    	hazardSourceService.delete(hazardSouce);
+        hazardSourceService.delete(hazardSouce);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	HazardSouce hazardSource = hazardSourceService.selectById(id);
+        HazardSouce hazardSource = hazardSourceService.selectById(id);
         return AlvesJSONResult.ok(hazardSource);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(HazardSouce hazardSouce,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<HazardSouce> list = hazardSourceService.queryForPage(hazardSouce, page, pageSize);
-    	Long count = hazardSourceService.queryForCounts(hazardSouce);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(HazardSouce hazardSouce, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<HazardSouce> list = hazardSourceService.queryForPage(hazardSouce, page, pageSize);
+        Long count = hazardSourceService.queryForCounts(hazardSouce);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }
