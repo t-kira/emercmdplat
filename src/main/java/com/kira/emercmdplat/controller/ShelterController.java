@@ -26,35 +26,35 @@ public class ShelterController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(Shelter shelter) {
-    	shelterService.insert(shelter);
+        shelterService.insert(shelter);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(Shelter shelter) {
-    	shelterService.update(shelter);
+        shelterService.update(shelter);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(Shelter shelter) {
-    	shelterService.delete(shelter);
+        shelterService.delete(shelter);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	Shelter shelter = shelterService.selectById(id);
+        Shelter shelter = shelterService.selectById(id);
         return AlvesJSONResult.ok(shelter);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(Shelter shelter,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<Shelter> list = shelterService.queryForPage(shelter, page, pageSize);
-    	Long count = shelterService.queryForCounts(shelter);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(Shelter shelter, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<Shelter> list = shelterService.queryForPage(shelter, page, pageSize);
+        Long count = shelterService.queryForCounts(shelter);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }

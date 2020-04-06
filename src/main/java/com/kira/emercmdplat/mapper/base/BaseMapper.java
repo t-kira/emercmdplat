@@ -10,9 +10,10 @@ import java.util.Map;
  * @Version: V1.0.0
  * @Description: 此类/接口(或继承它的接口) 对应的就是*Mapper.xml文件
  */
-public interface BaseMapper<T>{
+public interface BaseMapper<T> {
     /**
      * 增/插入数据
+     *
      * @param pojo
      * @return
      */
@@ -20,32 +21,38 @@ public interface BaseMapper<T>{
 
     /**
      * 删（其实就是修改了状态，使其不显示，在客户端看来是删除了）
+     *
      * @param pojo
      * @return
      */
-     boolean delete(T pojo);
+    boolean delete(T pojo);
 
     /**
      * 改，
+     *
      * @param pojo
      * @return
      */
-     boolean update(T pojo);
+    boolean update(T pojo);
 
     /**
      * 根据id查询单个
+     *
      * @param id
      * @return
      */
-     T selectById(Integer id);
+    T selectById(Integer id);
 
     /**
      * 按条件查询
+     *
      * @param pojo
      * @return
      */
     List<T> queryForAll(T pojo);
+
     List<T> queryForPage(Map<String, Object> map);
+
     Long queryForCounts(T pojo);
 
 }

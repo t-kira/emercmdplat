@@ -3,6 +3,8 @@ package com.kira.emercmdplat.service.impl;
 import com.kira.emercmdplat.mapper.DutyMapper;
 import com.kira.emercmdplat.pojo.Duty;
 import com.kira.emercmdplat.service.DutyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;

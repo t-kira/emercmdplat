@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.ProtectionTarget;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface ProtectionTargetMapper extends BaseMapper<ProtectionTarget>{
+public interface ProtectionTargetMapper extends BaseMapper<ProtectionTarget> {
 
 }

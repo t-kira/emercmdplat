@@ -49,7 +49,7 @@ public class HazardSourceServiceImpl implements HazardSourceService {
 
     @Override
     public List<HazardSouce> queryForPage(HazardSouce pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return hazardSouceMapper.queryForPage(paramMap);
     }
 

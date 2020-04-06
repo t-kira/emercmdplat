@@ -49,7 +49,7 @@ public class MedicalInstitutionServiceImpl implements MedicalInstitutionService 
 
     @Override
     public List<MedicalInstitution> queryForPage(MedicalInstitution pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return medicalInstitutionMapper.queryForPage(paramMap);
     }
 

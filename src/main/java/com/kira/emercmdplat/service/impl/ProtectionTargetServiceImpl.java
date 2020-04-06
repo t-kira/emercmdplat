@@ -49,7 +49,7 @@ public class ProtectionTargetServiceImpl implements ProtectionTargetService {
 
     @Override
     public List<ProtectionTarget> queryForPage(ProtectionTarget pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return protectionTargetMapper.queryForPage(paramMap);
     }
 

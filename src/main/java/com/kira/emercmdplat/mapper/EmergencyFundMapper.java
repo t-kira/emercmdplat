@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.EmergencyFund;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface EmergencyFundMapper extends BaseMapper<EmergencyFund>{
+public interface EmergencyFundMapper extends BaseMapper<EmergencyFund> {
 
 }

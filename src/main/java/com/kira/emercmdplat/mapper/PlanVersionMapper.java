@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.PlanVersion;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface PlanVersionMapper extends BaseMapper<PlanVersion>{
+public interface PlanVersionMapper extends BaseMapper<PlanVersion> {
 
 }

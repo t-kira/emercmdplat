@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.ReserveLibrary;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface ReserveLibraryMapper extends BaseMapper<ReserveLibrary>{
+public interface ReserveLibraryMapper extends BaseMapper<ReserveLibrary> {
 
 }

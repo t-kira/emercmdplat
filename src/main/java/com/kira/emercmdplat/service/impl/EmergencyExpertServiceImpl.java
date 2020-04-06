@@ -49,7 +49,7 @@ public class EmergencyExpertServiceImpl implements EmergencyExpertService {
 
     @Override
     public List<EmergencyExpert> queryForPage(EmergencyExpert pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return emergencyExpertMapper.queryForPage(paramMap);
     }
 

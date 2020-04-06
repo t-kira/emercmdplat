@@ -49,7 +49,7 @@ public class TransportUnitServiceImpl implements TransportUnitService {
 
     @Override
     public List<TransportUnit> queryForPage(TransportUnit pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return transportUnitMapper.queryForPage(paramMap);
     }
 

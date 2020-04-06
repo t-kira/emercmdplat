@@ -49,7 +49,7 @@ public class EmergencyFundServiceImpl implements EmergencyFundService {
 
     @Override
     public List<EmergencyFund> queryForPage(EmergencyFund pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return emergencyFundMapper.queryForPage(paramMap);
     }
 

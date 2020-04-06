@@ -26,35 +26,35 @@ public class TransportUnitController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(TransportUnit transportUnit) {
-    	transportUnitService.insert(transportUnit);
+        transportUnitService.insert(transportUnit);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(TransportUnit transportUnit) {
-    	transportUnitService.update(transportUnit);
+        transportUnitService.update(transportUnit);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(TransportUnit transportUnit) {
-    	transportUnitService.delete(transportUnit);
+        transportUnitService.delete(transportUnit);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	TransportUnit transportUnit = transportUnitService.selectById(id);
+        TransportUnit transportUnit = transportUnitService.selectById(id);
         return AlvesJSONResult.ok(transportUnit);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(TransportUnit transportUnit,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<TransportUnit> list = transportUnitService.queryForPage(transportUnit, page, pageSize);
-    	Long count = transportUnitService.queryForCounts(transportUnit);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(TransportUnit transportUnit, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<TransportUnit> list = transportUnitService.queryForPage(transportUnit, page, pageSize);
+        Long count = transportUnitService.queryForCounts(transportUnit);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }

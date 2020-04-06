@@ -49,7 +49,7 @@ public class EmergencyReferenceServiceImpl implements EmergencyReferenceService 
 
     @Override
     public List<EmergencyReference> queryForPage(EmergencyReference pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return emergencyReferenceMapper.queryForPage(paramMap);
     }
 

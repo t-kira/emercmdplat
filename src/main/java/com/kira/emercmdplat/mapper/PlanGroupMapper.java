@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.PlanGroup;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface PlanGroupMapper extends BaseMapper<PlanGroup>{
+public interface PlanGroupMapper extends BaseMapper<PlanGroup> {
 
 }

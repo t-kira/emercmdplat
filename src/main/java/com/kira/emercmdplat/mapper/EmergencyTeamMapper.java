@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.EmergencyTeam;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface EmergencyTeamMapper extends BaseMapper<EmergencyTeam>{
+public interface EmergencyTeamMapper extends BaseMapper<EmergencyTeam> {
 
 }

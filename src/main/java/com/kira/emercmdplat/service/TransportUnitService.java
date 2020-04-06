@@ -8,6 +8,6 @@ import com.kira.emercmdplat.service.base.BaseService;
  * @Date: 2020/2/5 00:05
  * @Description:
  */
-public interface TransportUnitService extends BaseService<TransportUnit>{
+public interface TransportUnitService extends BaseService<TransportUnit> {
 
 }

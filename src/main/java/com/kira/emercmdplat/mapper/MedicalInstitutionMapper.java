@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.MedicalInstitution;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface MedicalInstitutionMapper extends BaseMapper<MedicalInstitution>{
+public interface MedicalInstitutionMapper extends BaseMapper<MedicalInstitution> {
 
 }

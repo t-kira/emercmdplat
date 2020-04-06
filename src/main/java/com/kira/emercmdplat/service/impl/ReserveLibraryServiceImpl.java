@@ -49,7 +49,7 @@ public class ReserveLibraryServiceImpl implements ReserveLibraryService {
 
     @Override
     public List<ReserveLibrary> queryForPage(ReserveLibrary pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return reserveLibraryMapper.queryForPage(paramMap);
     }
 

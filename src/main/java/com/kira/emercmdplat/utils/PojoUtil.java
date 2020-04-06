@@ -13,16 +13,15 @@ import java.util.Map;
 public final class PojoUtil {
 
     /**
-     *
      * @param pojo
-     * @param index  页数
-     * @param pageSize  每页条数
+     * @param index    页数
+     * @param pageSize 每页条数
      * @return
      */
-    public static Map<String, Object> pojoToMap(Object pojo,Integer index,Integer pageSize){
-        Map map = pojoToMap(pojo,true);// LIMIT #{pageIndex},#{pageSize}
-        map.put("index",(index-1)*pageSize);
-        map.put("pageSize",pageSize);
+    public static Map<String, Object> pojoToMap(Object pojo, Integer index, Integer pageSize) {
+        Map map = pojoToMap(pojo, true);// LIMIT #{pageIndex},#{pageSize}
+        map.put("index", (index - 1) * pageSize);
+        map.put("pageSize", pageSize);
         return map;
     }
 

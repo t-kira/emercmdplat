@@ -49,7 +49,7 @@ public class EmergencyCaseServiceImpl implements EmergencyCaseService {
 
     @Override
     public List<EmergencyCase> queryForPage(EmergencyCase pojo, Integer page, Integer pageSize) {
-        Map<String,Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return emergencyCaseMapper.queryForPage(paramMap);
     }
 

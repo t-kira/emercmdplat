@@ -26,10 +26,10 @@ public class AlvesJSONResult {
 
     // 响应中的数据
     private Object data;
-    
+
     //private String ok;	// 不使用
 
-    private String token ;
+    private String token;
 
     public static AlvesJSONResult build(Integer status, String msg, Object data) {
         return new AlvesJSONResult(status, msg, data);
@@ -41,12 +41,13 @@ public class AlvesJSONResult {
 
     /**
      * 添加  sessionId 返回给手机端用户的
+     *
      * @param data
      * @param token
      * @return
      */
-    public static AlvesJSONResult ok(Object data,String token) {
-        return new AlvesJSONResult(data,token);
+    public static AlvesJSONResult ok(Object data, String token) {
+        return new AlvesJSONResult(data, token);
     }
 
     public static AlvesJSONResult ok() {
@@ -55,17 +56,19 @@ public class AlvesJSONResult {
 
     /**
      * 常规错误 status 500
+     *
      * @param msg
      * @return
      */
     public static AlvesJSONResult errorMsg(String msg) {
         return new AlvesJSONResult(500, msg, null);
     }
-   /** public static AlvesJSONResult errorMsg(String msg,Object data){
-      return new AlvesJSONResult(500,msg,data);
-    }*/
+    /** public static AlvesJSONResult errorMsg(String msg,Object data){
+     return new AlvesJSONResult(500,msg,data);
+     }*/
     /**
      * 带数据的错误 status 501
+     *
      * @param data
      * @return
      */
@@ -75,6 +78,7 @@ public class AlvesJSONResult {
 
     /**
      * token异常错误 status 502
+     *
      * @param msg
      * @return
      */
@@ -84,16 +88,17 @@ public class AlvesJSONResult {
 
     /**
      * 查询不到数据 ，无数据报错误 status 503
+     *
      * @param msg
      * @return
      */
-    public static  AlvesJSONResult errorNullData(String msg){
+    public static AlvesJSONResult errorNullData(String msg) {
         return new AlvesJSONResult(503, msg, null);
     }
+
     public static AlvesJSONResult errorException(String msg) {
         return new AlvesJSONResult(555, msg, null);
     }
-
 
 
     public AlvesJSONResult() {
@@ -148,7 +153,6 @@ public class AlvesJSONResult {
     }
 
 
-
     public String getToken() {
         return token;
     }
@@ -160,6 +164,7 @@ public class AlvesJSONResult {
     /**
      * 将json结果集转化为   AlvesJSONResult  对象
      * 需要转换的对象是一个类
+     *
      * @param jsonData
      * @param clazz
      * @return
@@ -184,15 +189,16 @@ public class AlvesJSONResult {
             return null;
         }
     }
+
     /**
      * 将json结果集转化为对象
      *
      * @param jsonData json数据
-     * @param clazz 对象中的object类型
+     * @param clazz    对象中的object类型
      * @return
      */
     public static <T> T jsonToPojo(String jsonData, Class<T> clazz) {
-        if(StringUtils.isEmpty(jsonData) || clazz == null){
+        if (StringUtils.isEmpty(jsonData) || clazz == null) {
             return null;
         }
         try {
@@ -203,7 +209,6 @@ public class AlvesJSONResult {
         }
         return null;
     }
-
 
 
     /**
@@ -220,7 +225,8 @@ public class AlvesJSONResult {
     }
 
     /**
-     *没有object对象的转化
+     * 没有object对象的转化
+     *
      * @param json
      * @return
      */
@@ -236,7 +242,8 @@ public class AlvesJSONResult {
 
     /**
      * Object是集合转化
-     *      * 				需要转换的对象是一个list
+     * * 				需要转换的对象是一个list
+     *
      * @param jsonData
      * @param clazz
      * @return

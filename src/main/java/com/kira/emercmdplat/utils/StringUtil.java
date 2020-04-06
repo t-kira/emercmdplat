@@ -101,13 +101,13 @@ public class StringUtil {
     }
 
     /**
-     * @Title: isEq
-     * @Description: 比较两个字符串是否相等
      * @param
      * @return boolean
+     * @throws
+     * @Title: isEq
+     * @Description: 比较两个字符串是否相等
      * @author kira
      * @date 2015年7月17日 下午5:33:08
-     * @throws
      */
     public static boolean isEq(String a, String b) {
         if (null == a || null == b) {
@@ -118,6 +118,7 @@ public class StringUtil {
 
     /**
      * 转化
+     *
      * @author kira
      * @创建时间 2016年9月28日 下午3:36:06
      * @备注 TODO
@@ -126,7 +127,7 @@ public class StringUtil {
         StringBuffer json = new StringBuffer();
         try {
             byte[] bytes = new byte[1024];
-            if(is==null){
+            if (is == null) {
                 return "";
             }
             int len = 0;
@@ -167,17 +168,17 @@ public class StringUtil {
         return null;
     }
 
-    public static double mul(double v1, double v2,int scale) {
-        if(scale<0){
+    public static double mul(double v1, double v2, int scale) {
+        if (scale < 0) {
             throw new IllegalArgumentException(
                     "The scale must be a positive integer or zero");
         }
-        if(v2 == 0){
+        if (v2 == 0) {
             return v2;
         }
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
-        return b1.divide(b2,scale,BigDecimal.ROUND_HALF_UP).doubleValue();
+        return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     public static double sub(double v1, double v2) {
@@ -186,37 +187,37 @@ public class StringUtil {
         return b1.subtract(b2).doubleValue();
     }
 
-    public static String  getStrKeyJson(JSONObject json, String key){
-        if(json.containsKey(key)){
+    public static String getStrKeyJson(JSONObject json, String key) {
+        if (json.containsKey(key)) {
             return json.get(key).toString();
         }
         return null;
     }
 
-    public static long  getLongKeyJson(JSONObject json,String key){
-        if(json.containsKey(key)){
+    public static long getLongKeyJson(JSONObject json, String key) {
+        if (json.containsKey(key)) {
             return json.getLong(key);
         }
         return 0;
     }
 
-    public static int  getIntKeyJson(JSONObject json,String key){
-        if(json.containsKey(key)){
+    public static int getIntKeyJson(JSONObject json, String key) {
+        if (json.containsKey(key)) {
             return json.getInt(key);
         }
         return 0;
     }
 
-    public static String getPar(String urlString,String key){
+    public static String getPar(String urlString, String key) {
         String[] queryStringSplit = urlString.split("&");
-        Map<String,String> queryStringMap = new HashMap<String,String>(queryStringSplit.length);
+        Map<String, String> queryStringMap = new HashMap<String, String>(queryStringSplit.length);
         String[] queryStringParam;
         for (String qs : queryStringSplit) {
             queryStringParam = qs.split("=");
             queryStringMap.put(queryStringParam[0], queryStringParam[1]);
         }
 
-        if(queryStringMap.containsKey(key)){
+        if (queryStringMap.containsKey(key)) {
             return queryStringMap.get(key);
         }
         return "";
@@ -234,6 +235,7 @@ public class StringUtil {
 
     /**
      * 返回指定范围内的随机数
+     *
      * @param num 指定范围
      * @return
      */
@@ -265,33 +267,23 @@ public class StringUtil {
     public static int lastImei(String imei) {
         int sum1 = 0, sum2 = 0, temp = 0, total = 0, lastNum = 0;
         String[] imeiArr = imei.split("");
-        for (int i = 0; i < 14; i++)
-        {
-            if ((i % 2) == 0)
-            {//奇数位
+        for (int i = 0; i < 14; i++) {
+            if ((i % 2) == 0) {//奇数位
                 sum1 = sum1 + StringUtil.toIntDefValue(imeiArr[i], 0);
-            }
-            else
-            {//偶数位
+            } else {//偶数位
                 temp = (StringUtil.toIntDefValue(imeiArr[i], 0)) * 2;
-                if (temp < 10)
-                {
+                if (temp < 10) {
                     sum2 = sum2 + temp;
-                }
-                else
-                {
+                } else {
                     sum2 = sum2 + 1 + temp - 10;
                 }
             }
         }
         total = sum1 + sum2;
         //获取个位数
-        if ((total % 10) == 0)
-        {
+        if ((total % 10) == 0) {
             lastNum = 0;
-        }
-        else
-        {
+        } else {
             lastNum = total % 10;
         }
         return lastNum;
@@ -319,17 +311,17 @@ public class StringUtil {
         Matcher m = p.matcher(str);
         return m.matches();
     }
-    
+
     public static boolean isNotBlank(String[] strs) {
-    	String[] arrayOfString = strs; 
-    	int j = strs.length; 
-    	for (int i = 0; i < j; i++) { 
-    		String str = arrayOfString[i];
-    		if (isEmpty(str)) {
-    			return false;
-    		}
-    	}
-    	return true;
+        String[] arrayOfString = strs;
+        int j = strs.length;
+        for (int i = 0; i < j; i++) {
+            String str = arrayOfString[i];
+            if (isEmpty(str)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

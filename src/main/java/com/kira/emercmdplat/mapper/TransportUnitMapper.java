@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.TransportUnit;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface TransportUnitMapper extends BaseMapper<TransportUnit>{
+public interface TransportUnitMapper extends BaseMapper<TransportUnit> {
 
 }

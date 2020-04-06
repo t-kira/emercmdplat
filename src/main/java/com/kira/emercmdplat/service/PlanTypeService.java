@@ -10,38 +10,38 @@ import com.kira.emercmdplat.utils.Node;
 
 public interface PlanTypeService {
 
-	List<Node> listTypeTree(String name);
+    List<Node> listTypeTree(String name);
 
-	void insertType(PlanType planType);
+    void insertType(PlanType planType);
 
-	void updateType(PlanType planType);
+    void updateType(PlanType planType);
 
-	void deleteType(Integer id);
+    void deleteType(Integer id);
 
-	List<PlanTag> listTags(int ptId);
+    List<PlanTag> listTags(int ptId);
 
-	void insertTag(PlanTag planTag);
+    void insertTag(PlanTag planTag);
 
-	void deleteTag(Integer id);
+    void deleteTag(Integer id);
 
-	List<PlanParam> listParams(int ptId, Integer page, Integer pageSize);
-	
-	Long countParams(int ptId);
+    List<PlanParam> listParams(int ptId, Integer page, Integer pageSize);
 
-	void insertParam(PlanParam planParam);
+    Long countParams(int ptId);
 
-	void updateParam(PlanParam planParam);
+    void insertParam(PlanParam planParam);
 
-	void deleteParam(Integer id);
+    void updateParam(PlanParam planParam);
 
-	List<PlanGroup> listGroups(PlanGroup planGroup, Integer page, Integer pageSize);
+    void deleteParam(Integer id);
 
-	Long countGroups(PlanGroup planGroup);
+    List<PlanGroup> listGroups(PlanGroup planGroup, Integer page, Integer pageSize);
 
-	void insertGroup(PlanGroup planGroup);
+    Long countGroups(PlanGroup planGroup);
 
-	void updateGroup(PlanGroup planGroup);
+    void insertGroup(PlanGroup planGroup);
 
-	void deleteGroup(Integer id);
-	
+    void updateGroup(PlanGroup planGroup);
+
+    void deleteGroup(Integer id);
+
 }

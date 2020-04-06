@@ -8,6 +8,6 @@ import com.kira.emercmdplat.service.base.BaseService;
  * @Date: 2020/2/5 00:05
  * @Description:
  */
-public interface EmergencyFundService extends BaseService<EmergencyFund>{
+public interface EmergencyFundService extends BaseService<EmergencyFund> {
 
 }

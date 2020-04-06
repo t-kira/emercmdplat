@@ -1,134 +1,134 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kira.emercmdplat.mapper.EmergencyCaseMapper" >
-  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EmergencyCase" >
-    <id column="ec_id" property="id" jdbcType="INTEGER" />
-    <result column="ec_name" property="name" jdbcType="VARCHAR" />
-    <result column="ec_key" property="key" jdbcType="VARCHAR"/>
-    <result column="ec_point" property="point" jdbcType="VARCHAR"/>
-    <result column="ec_source" property="source" jdbcType="VARCHAR"/>
-    <result column="ec_happen_time" property="happenTime" jdbcType="VARCHAR"/>
-    <result column="ec_duration" property="duration" jdbcType="INTEGER"/>
-    <result column="ec_district" property="district" jdbcType="VARCHAR"/>
-    <result column="ec_type" property="type" jdbcType="INTEGER" />
-    <result column="ec_summary" property="summary" jdbcType="VARCHAR"/>
-    <result column="ec_content" property="content" jdbcType="VARCHAR"/>
-  </resultMap>
+<mapper namespace="com.kira.emercmdplat.mapper.EmergencyCaseMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EmergencyCase">
+        <id column="ec_id" property="id" jdbcType="INTEGER"/>
+        <result column="ec_name" property="name" jdbcType="VARCHAR"/>
+        <result column="ec_key" property="key" jdbcType="VARCHAR"/>
+        <result column="ec_point" property="point" jdbcType="VARCHAR"/>
+        <result column="ec_source" property="source" jdbcType="VARCHAR"/>
+        <result column="ec_happen_time" property="happenTime" jdbcType="VARCHAR"/>
+        <result column="ec_duration" property="duration" jdbcType="INTEGER"/>
+        <result column="ec_district" property="district" jdbcType="VARCHAR"/>
+        <result column="ec_type" property="type" jdbcType="INTEGER"/>
+        <result column="ec_summary" property="summary" jdbcType="VARCHAR"/>
+        <result column="ec_content" property="content" jdbcType="VARCHAR"/>
+    </resultMap>
 
-  <sql id="Base_Column_List" >
+    <sql id="Base_Column_List">
     ec_id, ec_name, ec_key, ec_point, ec_source, ec_happen_time, ec_duration, ec_district,
     ec_type, ec_summary, ec_content
   </sql>
-  <sql id="Basic_Conditions" >
-    <![CDATA[where 1=1 ]]>
-    <if test="id != null" >
-      and ec_id = #{id,jdbcType=INTEGER}
-    </if>
-    <if test="name != null" >
-      and ec_name = #{name,jdbcType=VARCHAR}
-    </if>
-    <if test="key != null" >
-      and ec_key = #{key,jdbcType=VARCHAR}
-    </if>
-    <if test="point != null" >
-      and ec_point = #{point,jdbcType=VARCHAR}
-    </if>
-    <if test="source != null" >
-      and ec_source = #{source,jdbcType=VARCHAR}
-    </if>
-    <if test="happenTime != null" >
-      and ec_happen_time = #{happenTime,jdbcType=VARCHAR}
-    </if>
-    <if test="duration != null" >
-      and ec_duration = #{duration,jdbcType=INTEGER}
-    </if>
-    <if test="district != null" >
-      and ec_district = #{district,jdbcType=VARCHAR}
-    </if>
-    <if test="type != null" >
-      and ec_type = #{type,jdbcType=INTEGER}
-    </if>
-    <if test="summary != null" >
-      and ec_summary = #{summary,jdbcType=VARCHAR}
-    </if>
-    <if test="content != null" >
-      and ec_content = #{content,jdbcType=VARCHAR}
-    </if>
-  </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
+    <sql id="Basic_Conditions">
+        <![CDATA[where 1=1 ]]>
+        <if test="id != null">
+            and ec_id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null">
+            and ec_name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="key != null">
+            and ec_key = #{key,jdbcType=VARCHAR}
+        </if>
+        <if test="point != null">
+            and ec_point = #{point,jdbcType=VARCHAR}
+        </if>
+        <if test="source != null">
+            and ec_source = #{source,jdbcType=VARCHAR}
+        </if>
+        <if test="happenTime != null">
+            and ec_happen_time = #{happenTime,jdbcType=VARCHAR}
+        </if>
+        <if test="duration != null">
+            and ec_duration = #{duration,jdbcType=INTEGER}
+        </if>
+        <if test="district != null">
+            and ec_district = #{district,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null">
+            and ec_type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="summary != null">
+            and ec_summary = #{summary,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null">
+            and ec_content = #{content,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
     insert into emergency_case (ec_id, ec_name, ec_key, ec_point, ec_source, ec_happen_time, ec_duration, ec_district,
     ec_type, ec_summary, ec_content)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{key,jdbcType=VARCHAR}, #{point,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR},
-    #{happenTime,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER}, #{district,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+    #{happenTime,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER}, #{district,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER},
     #{summary,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
   </insert>
-  <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
     DELETE emergency_case
     where ec_id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
-    update emergency_case
-    <set >
-      <if test="name != null" >
-        ec_name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="key != null" >
-        es_key = #{key,jdbcType=VARCHAR},
-      </if>
-      <if test="point != null" >
-        es_point = #{point,jdbcType=VARCHAR},
-      </if>
-      <if test="source != null" >
-        es_source = #{source,jdbcType=VARCHAR},
-      </if>
-      <if test="happenTime != null" >
-        es_happen_time = #{happenTime,jdbcType=VARCHAR},
-      </if>
-      <if test="duration != null" >
-        es_duration = #{duration,jdbcType=INTEGER},
-      </if>
-      <if test="district != null" >
-      	es_district = #{district,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null" >
-      	es_type = #{type,jdbcType=INTEGER},
-      </if>
-	  <if test="summary != null" >
-	    es_summary = #{summary,jdbcType=VARCHAR},
-	  </if>
-      <if test="content != null" >
-      	es_content = #{content,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where ec_id = #{id,jdbcType=INTEGER}
-  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+        update emergency_case
+        <set>
+            <if test="name != null">
+                ec_name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="key != null">
+                es_key = #{key,jdbcType=VARCHAR},
+            </if>
+            <if test="point != null">
+                es_point = #{point,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null">
+                es_source = #{source,jdbcType=VARCHAR},
+            </if>
+            <if test="happenTime != null">
+                es_happen_time = #{happenTime,jdbcType=VARCHAR},
+            </if>
+            <if test="duration != null">
+                es_duration = #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="district != null">
+                es_district = #{district,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                es_type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="summary != null">
+                es_summary = #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                es_content = #{content,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ec_id = #{id,jdbcType=INTEGER}
+    </update>
 
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from emergency_case
-    where ec_id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from emergency_case
+        where ec_id = #{id,jdbcType=INTEGER}
+    </select>
 
-  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
-    select
-    <include refid="Base_Column_List" />
-    from emergency_case
-    <include refid="Basic_Conditions" />
-  </select>
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+        select
+        <include refid="Base_Column_List"/>
+        from emergency_case
+        <include refid="Basic_Conditions"/>
+    </select>
 
-  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
-    select
-    <include refid="Base_Column_List" />
-    from emergency_case
-    <include refid="Basic_Conditions" />
-    limit ${index}, ${pageSize}
-  </select>
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from emergency_case
+        <include refid="Basic_Conditions"/>
+        limit ${index}, ${pageSize}
+    </select>
 
-  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyCase" >
-    select count(ec_id)
-    from emergency_case
-    <include refid="Basic_Conditions" />
-  </select>
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+        select count(ec_id)
+        from emergency_case
+        <include refid="Basic_Conditions"/>
+    </select>
 
 </mapper>

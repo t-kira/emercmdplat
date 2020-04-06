@@ -8,6 +8,6 @@ import com.kira.emercmdplat.pojo.EmergencyReference;
  * @Date: 2020/2/4 23:07
  * @Description:危险源mapper
  */
-public interface EmergencyReferenceMapper extends BaseMapper<EmergencyReference>{
+public interface EmergencyReferenceMapper extends BaseMapper<EmergencyReference> {
 
 }

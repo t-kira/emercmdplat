@@ -8,6 +8,6 @@ import com.kira.emercmdplat.service.base.BaseService;
  * @Date: 2020/2/5 00:05
  * @Description:
  */
-public interface EmergencyExpertService extends BaseService<EmergencyExpert>{
+public interface EmergencyExpertService extends BaseService<EmergencyExpert> {
 
 }

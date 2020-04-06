@@ -8,11 +8,17 @@ import java.util.List;
  * @Version: V1.0.0
  */
 public interface BaseService<T> {
-     int insert(T pojo);
-     boolean delete(T pojo);
-     boolean update(T pojo);
-     T selectById(Integer id);
-     List<T> queryForAll(T pojo);
-     List<T> queryForPage(T pojo, Integer page, Integer pageSize);
-     Long queryForCounts(T pojo);
+    int insert(T pojo);
+
+    boolean delete(T pojo);
+
+    boolean update(T pojo);
+
+    T selectById(Integer id);
+
+    List<T> queryForAll(T pojo);
+
+    List<T> queryForPage(T pojo, Integer page, Integer pageSize);
+
+    Long queryForCounts(T pojo);
 }

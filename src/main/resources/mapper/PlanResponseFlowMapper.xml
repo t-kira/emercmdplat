@@ -1,89 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.kira.emercmdplat.mapper.PlanResponseFlowMapper" >
-  <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.PlanResponseFlow" >
-    <id column="prf_id" property="id" jdbcType="INTEGER" />
-    <result column="prf_name" property="name" jdbcType="VARCHAR" />
-    <result column="prf_content" property="content" jdbcType="VARCHAR"/>
-    <result column="prf_group_ids" property="groupIds" jdbcType="VARCHAR"/>
-    <result column="prf_pr_id" property="prId" jdbcType="INTEGER"/>
-  </resultMap>
+<mapper namespace="com.kira.emercmdplat.mapper.PlanResponseFlowMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.PlanResponseFlow">
+        <id column="prf_id" property="id" jdbcType="INTEGER"/>
+        <result column="prf_name" property="name" jdbcType="VARCHAR"/>
+        <result column="prf_content" property="content" jdbcType="VARCHAR"/>
+        <result column="prf_group_ids" property="groupIds" jdbcType="VARCHAR"/>
+        <result column="prf_pr_id" property="prId" jdbcType="INTEGER"/>
+    </resultMap>
 
-  <sql id="Base_Column_List" >
+    <sql id="Base_Column_List">
     prf_id, prf_name, prf_content, prf_group_ids, prf_pr_id
   </sql>
-  <sql id="Basic_Conditions" >
-    <![CDATA[where 1=1 ]]>
-    <if test="id != null" >
-      and prf_id = #{id,jdbcType=INTEGER}
-    </if>
-    <if test="name != null" >
-      and prf_name = #{name,jdbcType=VARCHAR}
-    </if>
-    <if test="content != null" >
-      and prf_content = #{content,jdbcType=VARCHAR}
-    </if>
-    <if test="groupIds != null" >
-      and prf_group_ids = #{groupIds,jdbcType=VARCHAR}
-    </if>
-    <if test="prId != null" >
-      and prf_pr_id = #{prId,jdbcType=INTEGER}
-    </if>
-  </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow" >
+    <sql id="Basic_Conditions">
+        <![CDATA[where 1=1 ]]>
+        <if test="id != null">
+            and prf_id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null">
+            and prf_name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null">
+            and prf_content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="groupIds != null">
+            and prf_group_ids = #{groupIds,jdbcType=VARCHAR}
+        </if>
+        <if test="prId != null">
+            and prf_pr_id = #{prId,jdbcType=INTEGER}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow">
     insert into plan_response_flow (prf_id, prf_name, prf_content, prf_group_ids, prf_pr_id)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{groupIds,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{groupIds,jdbcType=VARCHAR},
     #{prId,jdbcType=INTEGER})
   </insert>
-  <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow" >
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow">
     DELETE plan_response_flow
     where prf_id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow" >
-    update plan_response_flow
-    <set >
-      <if test="name != null" >
-        prf_name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="content != null" >
-        prf_content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="groupIds != null" >
-        prf_group_ids = #{groupIds,jdbcType=VARCHAR},
-      </if>
-      <if test="prId != null" >
-        prf_pr_id = #{prId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where prf_id = #{id,jdbcType=INTEGER}
-  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow">
+        update plan_response_flow
+        <set>
+            <if test="name != null">
+                prf_name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                prf_content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="groupIds != null">
+                prf_group_ids = #{groupIds,jdbcType=VARCHAR},
+            </if>
+            <if test="prId != null">
+                prf_pr_id = #{prId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where prf_id = #{id,jdbcType=INTEGER}
+    </update>
 
-  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from plan_response_flow
-    where prf_id = #{id,jdbcType=INTEGER}
-  </select>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_response_flow
+        where prf_id = #{id,jdbcType=INTEGER}
+    </select>
 
-  <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow" >
-    select
-    <include refid="Base_Column_List" />
-    from plan_response_flow
-    <include refid="Basic_Conditions" />
-  </select>
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_response_flow
+        <include refid="Basic_Conditions"/>
+    </select>
 
-  <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
-    select
-    <include refid="Base_Column_List" />
-    from plan_response_flow
-    <include refid="Basic_Conditions" />
-    limit ${index}, ${pageSize}
-  </select>
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_response_flow
+        <include refid="Basic_Conditions"/>
+        limit ${index}, ${pageSize}
+    </select>
 
-  <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow" >
-    select count(prf_id)
-    from plan_response_flow
-    <include refid="Basic_Conditions" />
-  </select>
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlow">
+        select count(prf_id)
+        from plan_response_flow
+        <include refid="Basic_Conditions"/>
+    </select>
 
 </mapper>

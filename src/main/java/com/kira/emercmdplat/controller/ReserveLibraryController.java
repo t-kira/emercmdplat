@@ -26,35 +26,35 @@ public class ReserveLibraryController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(ReserveLibrary reserveLibrary) {
-    	reserveLibraryService.insert(reserveLibrary);
+        reserveLibraryService.insert(reserveLibrary);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(ReserveLibrary reserveLibrary) {
-    	reserveLibraryService.update(reserveLibrary);
+        reserveLibraryService.update(reserveLibrary);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(ReserveLibrary reserveLibrary) {
-    	reserveLibraryService.delete(reserveLibrary);
+        reserveLibraryService.delete(reserveLibrary);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	ReserveLibrary reserveLibrary = reserveLibraryService.selectById(id);
+        ReserveLibrary reserveLibrary = reserveLibraryService.selectById(id);
         return AlvesJSONResult.ok(reserveLibrary);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(ReserveLibrary reserveLibrary,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<ReserveLibrary> list = reserveLibraryService.queryForPage(reserveLibrary, page, pageSize);
-    	Long count = reserveLibraryService.queryForCounts(reserveLibrary);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(ReserveLibrary reserveLibrary, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<ReserveLibrary> list = reserveLibraryService.queryForPage(reserveLibrary, page, pageSize);
+        Long count = reserveLibraryService.queryForCounts(reserveLibrary);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }
