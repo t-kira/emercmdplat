@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.EventMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Event">
+        <id column="e_id" property="id" jdbcType="INTEGER"/>
+        <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
+        <result column="event_title" property="eventTitle" jdbcType="VARCHAR"/>
+        <result column="receive_time" property="receiveTime" jdbcType="VARCHAR"/>
+        <result column="incident_time" property="incidentTime" jdbcType="VARCHAR"/>
+        <result column="incident_location" property="incidentLocation" jdbcType="VARCHAR"/>
+        <result column="lng" property="lng" jdbcType="DOUBLE"/>
+        <result column="lat" property="lat" jdbcType="DOUBLE"/>
+        <result column="influence_sphere" property="influenceSphere" jdbcType="DOUBLE"/>
+        <result column="incident_area_id" property="incidentAreaId" jdbcType="INTEGER"/>
+        <result column="pp_id" property="ppId" jdbcType="INTEGER"/>
+        <result column="report_mechanism_id" property="reportMechanismId" jdbcType="INTEGER"/>
+        <result column="reporter" property="reporter" jdbcType="VARCHAR"/>
+        <result column="report_tel" property="reportTel" jdbcType="VARCHAR"/>
+        <result column="d_id" property="dId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    e_id, event_number, event_title, receive_time, incident_time, incident_location, lng, lat, influence_sphere, incident_area_id, pp_id, report_mechanism_id,
+    reporter, report_tel, d_id, status
+    </sql>
+    <sql id="Basic_Conditions">
+        <![CDATA[where 1=1 ]]>
+        <if test="id != null">
+            and e_id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="eventNumber != null">
+            and event_number = #{eventNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="eventTitle != null">
+            and event_title = #{eventTitle,jdbcType=VARCHAR}
+        </if>
+        <if test="receiveTime != null">
+            and receive_time = #{receiveTime,jdbcType=VARCHAR}
+        </if>
+        <if test="incidentTime != null">
+            and incident_time = #{incidentTime,jdbcType=VARCHAR}
+        </if>
+        <if test="incidentLocation != null">
+            and incident_location = #{incidentLocation,jdbcType=VARCHAR}
+        </if>
+        <if test="lng != null">
+            and lng = #{lng,jdbcType=DOUBLE}
+        </if>
+        <if test="lat != null">
+            and lat = #{lat,jdbcType=DOUBLE}
+        </if>
+        <if test="influenceSphere != null">
+            and influence_sphere = #{influenceSphere,jdbcType=DOUBLE}
+        </if>
+        <if test="incidentAreaId != null">
+            and incident_area_id = #{incidentAreaId,jdbcType=INTEGER}
+        </if>
+        <if test="ppId != null">
+            and pp_id = #{ppId,jdbcType=INTEGER}
+        </if>
+        <if test="reportMechanismId != null">
+            and report_mechanism_id = #{reportMechanismId,jdbcType=INTEGER}
+        </if>
+        <if test="reporter != null">
+            and reporter = #{reporter,jdbcType=VARCHAR}
+        </if>
+        <if test="reportTel != null">
+            and report_tel = #{reportTel,jdbcType=VARCHAR}
+        </if>
+        <if test="dId != null">
+            and d_id = #{dId,jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Event" useGeneratedKeys="true" keyProperty="id">
+        insert into event_receive (e_id, event_number, event_title, receive_time, incident_time, incident_location, lng, lat, influence_sphere, incident_area_id, pp_id, report_mechanism_id,
+        reporter, report_tel, d_id, status)
+        values (#{id,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, #{receiveTime,jdbcType=VARCHAR},
+          #{incidentTime,jdbcType=VARCHAR}, #{incidentLocation,jdbcType=VARCHAR}, #{lng,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE},
+          #{influenceSphere,jdbcType=VARCHAR}, #{incidentAreaId,jdbcType=INTEGER}, #{ppId,jdbcType=INTEGER}, #{reportMechanismId,jdbcType=INTEGER},
+          #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{dId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+          )
+    </insert>
+    <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Event">
+      DELETE event_receive
+      where e_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.Event">
+        update event_receive
+        <set>
+            <if test="eventNumber != null">
+                event_number = #{eventNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="eventTitle != null">
+                event_title = #{eventTitle,jdbcType=VARCHAR}
+            </if>
+            <if test="receiveTime != null">
+                receive_time = #{receiveTime,jdbcType=VARCHAR}
+            </if>
+            <if test="incidentTime != null">
+                incident_time = #{incidentTime,jdbcType=VARCHAR}
+            </if>
+            <if test="incidentLocation != null">
+                incident_location = #{incidentLocation,jdbcType=VARCHAR}
+            </if>
+            <if test="lng != null">
+                lng = #{lng,jdbcType=DOUBLE}
+            </if>
+            <if test="lat != null">
+                lat = #{lat,jdbcType=DOUBLE}
+            </if>
+            <if test="influenceSphere != null">
+                influence_sphere = #{influenceSphere,jdbcType=DOUBLE}
+            </if>
+            <if test="incidentAreaId != null">
+                incident_area_id = #{incidentAreaId,jdbcType=INTEGER}
+            </if>
+            <if test="ppId != null">
+                pp_id = #{ppId,jdbcType=INTEGER}
+            </if>
+            <if test="reportMechanismId != null">
+                report_mechanism_id = #{reportMechanismId,jdbcType=INTEGER}
+            </if>
+            <if test="reporter != null">
+                reporter = #{reporter,jdbcType=VARCHAR}
+            </if>
+            <if test="reportTel != null">
+                report_tel = #{reportTel,jdbcType=VARCHAR}
+            </if>
+            <if test="dId != null">
+                d_id = #{dId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER}
+            </if>
+        </set>
+        where e_id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from event_receive
+        where e_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
+        select
+        <include refid="Base_Column_List"/>
+        from event_receive
+        <include refid="Basic_Conditions"/>
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from event_receive
+        <include refid="Basic_Conditions"/>
+        limit ${index}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Event">
+        select count(e_id)
+        from event_receive
+        <include refid="Basic_Conditions"/>
+    </select>
+    <insert id="insertParam" parameterType="com.kira.emercmdplat.pojo.EventParam">
+        insert into event_param(id, e_id, event_number, pp_id, pp_value)
+        values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{ppId,jdbcType=INTEGER}, #{ppValue, jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">
+        insert into event_development(id, e_id, report_time, report_content, reporter)
+        values (#{id, jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR},
+        #{reportContent,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">
+        update event_development
+        <set>
+            <if test="reportTime != null">
+                report_time = #{reportTime,jdbcType=VARCHAR}
+            </if>
+            <if test="reportContent != null">
+                report_content = #{reportContent,jdbcType=VARCHAR}
+            </if>
+            <if test="reporter != null">
+                reporter = #{reporter,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
