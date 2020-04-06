@@ -26,35 +26,35 @@ public class EmergencyReferenceController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(EmergencyReference emergencyReference) {
-    	emergencyReferenceService.insert(emergencyReference);
+        emergencyReferenceService.insert(emergencyReference);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(EmergencyReference emergencyReference) {
-    	emergencyReferenceService.update(emergencyReference);
+        emergencyReferenceService.update(emergencyReference);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(EmergencyReference emergencyReference) {
-    	emergencyReferenceService.delete(emergencyReference);
+        emergencyReferenceService.delete(emergencyReference);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	EmergencyReference emergencyReference = emergencyReferenceService.selectById(id);
+        EmergencyReference emergencyReference = emergencyReferenceService.selectById(id);
         return AlvesJSONResult.ok(emergencyReference);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(EmergencyReference emergencyReference,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<EmergencyReference> list = emergencyReferenceService.queryForPage(emergencyReference, page, pageSize);
-    	Long count = emergencyReferenceService.queryForCounts(emergencyReference);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(EmergencyReference emergencyReference, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<EmergencyReference> list = emergencyReferenceService.queryForPage(emergencyReference, page, pageSize);
+        Long count = emergencyReferenceService.queryForCounts(emergencyReference);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }
