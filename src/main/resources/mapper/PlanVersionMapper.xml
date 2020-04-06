@@ -14,10 +14,11 @@
     <result column="pv_file" property="file" jdbcType="VARCHAR"/>
     <result column="pv_pp_ids" property="params" jdbcType="VARCHAR"/>
     <result column="pv_pta_ids" property="tags" jdbcType="VARCHAR"/>
+    <result column="pv_status" property="status" jdbcType="INTEGER"/>
   </resultMap>
 
   <sql id="Base_Column_List" >
-    pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, pv_pta_ids
+    pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, pv_pta_ids, pv_status
   </sql>
   <sql id="Basic_Conditions" >
     <![CDATA[where 1=1 ]]>
@@ -57,12 +58,16 @@
     <if test="tags != null" >
       and pv_pta_ids = #{tags,jdbcType=VARCHAR}
     </if>
+    <if test="status != null" >
+      and pv_status = #{status,jdbcType=INTEGER}
+    </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanVersion" >
-    insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, pv_pta_ids)
+    insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, 
+    pv_pta_ids, pv_status)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
     #{org,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{pubTime,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR},
-    #{params,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR})
+    #{params,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
   <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersion" >
     DELETE plan_version
@@ -103,6 +108,9 @@
       </if>
       <if test="tags != null" >
         pv_pta_ids = #{tags,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        pv_status = #{status,jdbcType=INTEGER},
       </if>
     </set>
     where pv_id = #{id,jdbcType=INTEGER}
