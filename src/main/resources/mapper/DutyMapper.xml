@@ -59,7 +59,7 @@
     </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Duty" >
-    insert into hazard_source (id, d_name, d_gender, d_username, m_id, j_id, d_contact_num, d_cell_num, d_email, d_fax_num, d_create_time,d_update_time)
+    insert into duty (id, d_name, d_gender, d_username, m_id, j_id, d_contact_num, d_cell_num, d_email, d_fax_num, d_create_time,d_update_time)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{userName,jdbcType=VARCHR},
       #{mId,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{contactNum,jdbcType=VARCHAR}, #{cellNUM,jdbcType=VARCHR},
       #{email,jdbcType=INTEGER}, #{faxNum,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})

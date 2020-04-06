@@ -109,7 +109,7 @@ public class PlanTypeController {
 		return AlvesJSONResult.ok();
 	}
 	
-	@RequestMapping("/updateParam")
+	@RequestMapping("/updateGroup")
 	public AlvesJSONResult updateGroup(PlanGroup planGroup) {
 		planTypeService.updateGroup(planGroup);
 		return AlvesJSONResult.ok();
