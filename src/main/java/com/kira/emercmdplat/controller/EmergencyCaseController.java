@@ -26,35 +26,35 @@ public class EmergencyCaseController {
 
     @RequestMapping("/add")
     public AlvesJSONResult insert(EmergencyCase emergencyCase) {
-    	emergencyCaseService.insert(emergencyCase);
+        emergencyCaseService.insert(emergencyCase);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/update")
     public AlvesJSONResult update(EmergencyCase emergencyCase) {
-    	emergencyCaseService.update(emergencyCase);
+        emergencyCaseService.update(emergencyCase);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/delete")
     public AlvesJSONResult delete(EmergencyCase emergencyCase) {
-    	emergencyCaseService.delete(emergencyCase);
+        emergencyCaseService.delete(emergencyCase);
         return AlvesJSONResult.ok();
     }
-    
+
     @RequestMapping("/selectById")
     public AlvesJSONResult selectById(Integer id) {
-    	EmergencyCase emergencyCase = emergencyCaseService.selectById(id);
+        EmergencyCase emergencyCase = emergencyCaseService.selectById(id);
         return AlvesJSONResult.ok(emergencyCase);
     }
-    
+
     @RequestMapping("/list")
-    public AlvesJSONResult list(EmergencyCase emergencyCase,Integer page,Integer pageSize) {
-    	Map<String,Object> map = new HashMap<>();
-    	List<EmergencyCase> list = emergencyCaseService.queryForPage(emergencyCase, page, pageSize);
-    	Long count = emergencyCaseService.queryForCounts(emergencyCase);
-    	map.put("list", list);
-    	map.put("count", count);
+    public AlvesJSONResult list(EmergencyCase emergencyCase, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        List<EmergencyCase> list = emergencyCaseService.queryForPage(emergencyCase, page, pageSize);
+        Long count = emergencyCaseService.queryForCounts(emergencyCase);
+        map.put("list", list);
+        map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
 }
