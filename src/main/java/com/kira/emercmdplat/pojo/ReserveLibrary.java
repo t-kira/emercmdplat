@@ -1,5 +1,10 @@
 package com.kira.emercmdplat.pojo;
 
+/**
+ * 储备库
+ * @author richard.yuq
+ *
+ */
 public class ReserveLibrary {
     private Long id;
     /**

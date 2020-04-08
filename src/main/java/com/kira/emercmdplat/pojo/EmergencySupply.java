@@ -1,5 +1,10 @@
 package com.kira.emercmdplat.pojo;
 
+/**
+ * 应急物资
+ * @author richard.yuq
+ *
+ */
 public class EmergencySupply {
     private Integer id;
     /**

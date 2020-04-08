@@ -1,6 +1,11 @@
 package com.kira.emercmdplat.pojo;
 
-public class EmergencyTeam {
+/**
+ * 应急队伍
+ * @author richard.yuq
+ *
+ */
+public class EmergencyTeam extends BaseObject {
     private Long id;
     /**
      * 名称

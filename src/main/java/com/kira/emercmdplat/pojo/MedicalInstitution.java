@@ -1,5 +1,10 @@
 package com.kira.emercmdplat.pojo;
 
+/**
+ * 医疗机构
+ * @author richard.yuq
+ *
+ */
 public class MedicalInstitution {
     private Long id;
     /**

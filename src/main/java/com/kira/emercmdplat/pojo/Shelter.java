@@ -1,5 +1,10 @@
 package com.kira.emercmdplat.pojo;
 
+/**
+ * 避难场所
+ * @author richard.yuq
+ *
+ */
 public class Shelter {
     private Long id;
     /**
