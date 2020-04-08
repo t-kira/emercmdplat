@@ -63,13 +63,13 @@
     </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanVersion" >
-    insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, 
+    insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids,
     pv_pta_ids, pv_status)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
     #{org,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{pubTime,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR},
     #{params,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
-  <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
     DELETE plan_version
     where pv_id = #{id,jdbcType=INTEGER}
   </update>
@@ -114,7 +114,8 @@
       </if>
     </set>
     where pv_id = #{id,jdbcType=INTEGER}
-  	</update>
+  </update>
+
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>

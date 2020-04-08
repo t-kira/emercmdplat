@@ -26,6 +26,8 @@ public interface PlanTypeService {
 
     List<PlanParam> listParams(int ptId, Integer page, Integer pageSize);
 
+    List<PlanParam> listParamsByPtId(int ptId);
+
     Long countParams(int ptId);
 
     void insertParam(PlanParam planParam);
