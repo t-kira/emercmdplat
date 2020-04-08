@@ -2,9 +2,9 @@ package com.kira.emercmdplat.pojo;
 
 public class BaseObject {
 	
-	private String commonIcon = "1";
+	private String commonIcon = "http://116.62.229.247:8989/img/common.png";
 	
-	private String activeIcon = "2";
+	private String activeIcon = "http://116.62.229.247:8989/img/active.png";
 
 	public String getCommonIcon() {
 		return commonIcon;
