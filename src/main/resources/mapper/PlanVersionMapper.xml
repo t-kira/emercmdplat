@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<<<<<<< Updated upstream
 <mapper namespace="com.kira.emercmdplat.mapper.PlanVersionMapper" >
   <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.PlanVersion" >
     <id column="pv_id" property="id" jdbcType="INTEGER" />
@@ -67,77 +66,13 @@
     insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, 
     pv_pta_ids, pv_status)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, 
-=======
-<mapper namespace="com.kira.emercmdplat.mapper.PlanVersionMapper">
-    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.PlanVersion">
-        <id column="pv_id" property="id" jdbcType="INTEGER"/>
-        <result column="pv_name" property="name" jdbcType="VARCHAR"/>
-        <result column="pv_version" property="version" jdbcType="VARCHAR"/>
-        <result column="pv_pt_id" property="type" jdbcType="INTEGER"/>
-        <result column="pv_code" property="code" jdbcType="VARCHAR"/>
-        <result column="pv_org" property="org" jdbcType="VARCHAR"/>
-        <result column="pv_d_id" property="userId" jdbcType="INTEGER"/>
-        <result column="pv_pub_time" property="pubTime" jdbcType="VARCHAR"/>
-        <result column="pv_scope" property="scope" jdbcType="VARCHAR"/>
-        <result column="pv_file" property="file" jdbcType="VARCHAR"/>
-        <result column="pv_pp_ids" property="params" jdbcType="VARCHAR"/>
-        <result column="pv_pta_ids" property="tags" jdbcType="VARCHAR"/>
-    </resultMap>
-
-    <sql id="Base_Column_List">
-    pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, pv_pta_ids
-  </sql>
-    <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
-        <if test="id != null">
-            and pv_id = #{id,jdbcType=INTEGER}
-        </if>
-        <if test="name != null">
-            and pv_name = #{name,jdbcType=VARCHAR}
-        </if>
-        <if test="version != null">
-            and pv_version = #{version,jdbcType=VARCHAR}
-        </if>
-        <if test="type != null">
-            and pv_pt_id = #{type,jdbcType=INTEGER}
-        </if>
-        <if test="code != null">
-            and pv_code = #{code,jdbcType=VARCHAR}
-        </if>
-        <if test="org != null">
-            and pv_org = #{org,jdbcType=VARCHAR}
-        </if>
-        <if test="userId != null">
-            and pv_d_id = #{userId,jdbcType=INTEGER}
-        </if>
-        <if test="pubTime != null">
-            and pv_pub_time = #{pubTime,jdbcType=VARCHAR}
-        </if>
-        <if test="scope != null">
-            and pv_scope = #{scope,jdbcType=VARCHAR}
-        </if>
-        <if test="file != null">
-            and pv_file = #{file,jdbcType=VARCHAR}
-        </if>
-        <if test="params != null">
-            and pv_pp_ids = #{params,jdbcType=VARCHAR}
-        </if>
-        <if test="tags != null">
-            and pv_pta_ids = #{tags,jdbcType=VARCHAR}
-        </if>
-    </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
-    insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, pv_pta_ids)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
->>>>>>> Stashed changes
     #{org,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{pubTime,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR},
     #{params,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
-    <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
+  <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
     DELETE plan_version
     where pv_id = #{id,jdbcType=INTEGER}
   </update>
-<<<<<<< Updated upstream
   <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanVersion" >
     update plan_version
     <set >
@@ -179,49 +114,7 @@
       </if>
     </set>
     where pv_id = #{id,jdbcType=INTEGER}
-  </update>
-=======
-    <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
-        update plan_version
-        <set>
-            <if test="name != null">
-                pv_name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="version != null">
-                pv_version = #{version,jdbcType=VARCHAR},
-            </if>
-            <if test="type != null">
-                pv_pt_id = #{type,jdbcType=INTEGER},
-            </if>
-            <if test="code != null">
-                pv_code = #{code,jdbcType=VARCHAR},
-            </if>
-            <if test="org != null">
-                pv_org = #{org,jdbcType=VARCHAR},
-            </if>
-            <if test="userId != null">
-                pv_d_id = #{userId,jdbcType=INTEGER},
-            </if>
-            <if test="pubTime != null">
-                pv_pub_time = #{pubTime,jdbcType=VARCHAR},
-            </if>
-            <if test="scope != null">
-                pv_scope = #{scope,jdbcType=VARCHAR},
-            </if>
-            <if test="file != null">
-                pv_file = #{file,jdbcType=VARCHAR},
-            </if>
-            <if test="params != null">
-                pv_pp_ids = #{params,jdbcType=VARCHAR},
-            </if>
-            <if test="tags != null">
-                pv_pta_ids = #{tags,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where pv_id = #{id,jdbcType=INTEGER}
-    </update>
->>>>>>> Stashed changes
-
+  	</update>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
