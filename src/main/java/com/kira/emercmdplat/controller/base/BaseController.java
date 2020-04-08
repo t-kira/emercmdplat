@@ -1,6 +1,8 @@
 package com.kira.emercmdplat.controller.base;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Author: kira
@@ -8,5 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * @Description:
  */
 @CrossOrigin
+@RestController
 public class BaseController {
 }

@@ -2,16 +2,18 @@ package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.*;
-import com.kira.emercmdplat.service.DutyService;
-import com.kira.emercmdplat.service.EventService;
-import com.kira.emercmdplat.service.MechanismService;
-import com.kira.emercmdplat.service.PlanTypeService;
+import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.Node;
+import com.kira.emercmdplat.utils.PojoUtil;
+import com.kira.emercmdplat.utils.PropertiesUtils;
+import com.kira.emercmdplat.utils.file.FileResult;
+import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,8 @@ public class EventController extends BaseController {
     private DutyService ds;
     @Autowired
     private MechanismService ms;
+    @Autowired
+    private VerifyReportService vrs;
 
     @ResponseBody
     @PostMapping(value = "add")
@@ -99,8 +103,33 @@ public class EventController extends BaseController {
         return AlvesJSONResult.ok(mechanismList);
     }
 
+    /**
+     * 添加核实报告内容
+     * @param verifyReport
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value = "add_verify")
+    public AlvesJSONResult insertVerifyReport(@PathVariable VerifyReport verifyReport) {
+        int result = vrs.insert(verifyReport);
+        if (result > 0) {
+            return AlvesJSONResult.ok("verifyReport insert ok ...");
+        } else {
+            return AlvesJSONResult.errorMsg("fail insert verifyReport...");
+        }
+    }
+
+    @ResponseBody
+    @PostMapping(value = "upload")
     public AlvesJSONResult upload(@PathVariable MultipartFile multipartFile) {
-        return AlvesJSONResult.ok();
+        try {
+            String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
+            FileResult fileResult = FileuploadUtil.saveFile(multipartFile, path, "jpg");
+            return AlvesJSONResult.ok(fileResult);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return AlvesJSONResult.errorMsg("fail upload...");
     }
 
     @ResponseBody

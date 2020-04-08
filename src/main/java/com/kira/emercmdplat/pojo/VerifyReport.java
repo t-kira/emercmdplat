@@ -41,6 +41,14 @@ public class VerifyReport {
         this.id = id;
     }
 
+    public Long geteId() {
+        return eId;
+    }
+
+    public void seteId(Long eId) {
+        this.eId = eId;
+    }
+
     public Long getPvId() {
         return pvId;
     }
