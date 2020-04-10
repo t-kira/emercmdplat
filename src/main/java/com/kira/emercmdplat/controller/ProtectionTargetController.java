@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.ProtectionTarget;
 import com.kira.emercmdplat.service.ProtectionTargetService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/protectionTarget")
-public class ProtectionTargetController {
+public class ProtectionTargetController extends BaseController {
 
     @Autowired
     private ProtectionTargetService protectionTargetService;

@@ -1,6 +1,6 @@
 package com.kira.emercmdplat.pojo;
 
-public class ProtectionTarget {
+public class ProtectionTarget extends BaseObject {
     private Long id;
     /**
      * 名称
