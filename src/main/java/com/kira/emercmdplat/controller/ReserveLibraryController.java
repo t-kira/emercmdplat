@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.ReserveLibrary;
 import com.kira.emercmdplat.service.ReserveLibraryService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/reserveLibrary")
-public class ReserveLibraryController {
+public class ReserveLibraryController extends BaseController {
 
     @Autowired
     private ReserveLibraryService reserveLibraryService;

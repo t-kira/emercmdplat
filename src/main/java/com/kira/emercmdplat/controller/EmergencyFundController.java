@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.EmergencyFund;
 import com.kira.emercmdplat.service.EmergencyFundService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/emergencyFund")
-public class EmergencyFundController {
+public class EmergencyFundController extends BaseController {
 
     @Autowired
     private EmergencyFundService emergencyFundService;

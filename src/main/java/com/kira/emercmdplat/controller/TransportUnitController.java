@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.TransportUnit;
 import com.kira.emercmdplat.service.TransportUnitService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/transportUnit")
-public class TransportUnitController {
+public class TransportUnitController extends BaseController{
 
     @Autowired
     private TransportUnitService transportUnitService;

@@ -5,7 +5,7 @@ package com.kira.emercmdplat.pojo;
  * @author richard.yuq
  *
  */
-public class MedicalInstitution {
+public class MedicalInstitution extends BaseObject {
     private Long id;
     /**
      * 名称

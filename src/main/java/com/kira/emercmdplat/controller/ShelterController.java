@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.Shelter;
 import com.kira.emercmdplat.service.ShelterService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/shelter")
-public class ShelterController {
+public class ShelterController extends BaseController {
 
     @Autowired
     private ShelterService shelterService;

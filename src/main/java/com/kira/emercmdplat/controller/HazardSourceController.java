@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.HazardSouce;
 import com.kira.emercmdplat.service.HazardSourceService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/hazardSource")
-public class HazardSourceController {
+public class HazardSourceController extends BaseController {
 
     @Autowired
     private HazardSourceService hazardSourceService;

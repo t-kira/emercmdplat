@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.PlanGroup;
 import com.kira.emercmdplat.pojo.PlanParam;
 import com.kira.emercmdplat.pojo.PlanTag;
@@ -18,7 +19,7 @@ import com.kira.emercmdplat.utils.Node;
 
 @RestController
 @RequestMapping("/planType")
-public class PlanTypeController {
+public class PlanTypeController extends BaseController {
 	
 	@Autowired
 	private PlanTypeService planTypeService;
