@@ -1,14 +1,15 @@
 package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.EventProcess;
+import com.kira.emercmdplat.enums.MessageStatus;
+import com.kira.emercmdplat.enums.ReservePlanStatus;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
-import com.kira.emercmdplat.utils.Node;
-import com.kira.emercmdplat.utils.PojoUtil;
-import com.kira.emercmdplat.utils.PropertiesUtils;
+import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,25 +38,62 @@ public class EventController extends BaseController {
     private MechanismService ms;
     @Autowired
     private VerifyReportService vrs;
+    @Autowired
+    private PlanVersionService pvs;
+    @Autowired
+    private LeaderInstructService lis;
+    @Autowired
+    private ReservePlanService rps;
+    @Autowired
+    private QuickReportService qrs;
+    @Autowired
+    private MessageService mas;
 
     @ResponseBody
     @PostMapping(value = "add")
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
         Event event = eventDomain.getEvent();
         List<EventParam> eventParamList = eventDomain.getEventParamList();
+        event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
         int result = es.insert(event);
         if (result > 0) {
             if (eventParamList.size() > 0) {
                 for (EventParam eventParam : eventParamList) {
-                    eventParam.seteId(event.getId());
+                    eventParam.setEId(event.getId());
                     eventParam.setEventNumber(event.getEventNumber());
                     es.insertParam(eventParam);
                 }
             }
-            return AlvesJSONResult.ok("insert ok");
+            return AlvesJSONResult.ok(event);
         } else {
             return AlvesJSONResult.errorMsg("fail insert...");
         }
+    }
+
+    /**
+     * 终结事件
+     * @param event
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value = "end")
+    public AlvesJSONResult end(@RequestBody Event event) {
+        event.setProcess(EventProcess.EVENT_FINISH.getNo());
+        boolean result = es.update(event);
+        if (result) {
+            return AlvesJSONResult.ok("success close");
+        } else {
+            return AlvesJSONResult.errorMsg("error close event...");
+        }
+    }
+
+    /**
+     * 事件合并
+     * @return
+     */
+    @ResponseBody
+    public AlvesJSONResult eventMerge() {
+        return AlvesJSONResult.ok();
     }
 
     /**
@@ -88,8 +126,20 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping(value = "duty_list")
     public AlvesJSONResult listDuty(){
-        List<Duty> dutyList = ds.queryForAll(new Duty());
+        List<DutyExtent> dutyList = ds.queryForAll(new DutyExtent());
         return AlvesJSONResult.ok(dutyList);
+    }
+
+    /**
+     * 获取值班人员信息
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @GetMapping(value = "duty/{id}")
+    public AlvesJSONResult selectDuty(@PathVariable int id){
+        Duty duty = ds.selectById(id);
+        return AlvesJSONResult.ok(duty);
     }
 
     /**
@@ -105,31 +155,139 @@ public class EventController extends BaseController {
 
     /**
      * 添加核实报告内容
-     * @param verifyReport
+     * @param verifyQuickReport
      * @return
      */
     @ResponseBody
     @PostMapping(value = "add_verify")
-    public AlvesJSONResult insertVerifyReport(@PathVariable VerifyReport verifyReport) {
-        int result = vrs.insert(verifyReport);
+    public AlvesJSONResult insertVerifyReport(@RequestBody VerifyQuickReport verifyQuickReport) {
+        VerifyReport verifyReport = verifyQuickReport.getVerify();
+        int result = vrs.insert(verifyQuickReport.getVerify());
         if (result > 0) {
-            return AlvesJSONResult.ok("verifyReport insert ok ...");
+            QuickReport quickReport = verifyQuickReport.getQuick();
+            quickReport.setEid(verifyReport.getEid());
+            quickReport.setOrigin(1);
+            qrs.insert(quickReport);
+            //生成PDF
+            Event event = es.selectById(verifyReport.getEid());
+            event.setId(verifyReport.getEid());
+            event.setProcess(EventProcess.VERIFY_REPORT.getNo());
+            //新增一条消息
+            Message message = new Message();
+            message.setEid(event.getId());
+            message.setDid(verifyReport.getDid());
+            message.setVId(verifyReport.getId());
+            message.setStatus(MessageStatus.MESSAGE_UNREAD.getNo());
+            message.setType(0);
+            mas.insert(message);
+
+            es.update(event);
+            ReservePlan reservePlan = new ReservePlan();
+            reservePlan.setEId(verifyReport.getEid());
+            reservePlan.setStatus(ReservePlanStatus.UNEDIT.getNo());
+            rps.insert(reservePlan);
+            return AlvesJSONResult.ok(EventProcess.VERIFY_REPORT.getNo());
         } else {
             return AlvesJSONResult.errorMsg("fail insert verifyReport...");
         }
     }
 
+
+
     @ResponseBody
-    @PostMapping(value = "upload")
-    public AlvesJSONResult upload(@PathVariable MultipartFile multipartFile) {
+    @GetMapping(value = "verify/{eId}")
+    public AlvesJSONResult selectVerifyReportByEid(@PathVariable long eId) {
+        VerifyReport verifyReport = new VerifyReport();
+        verifyReport.setEid(eId);
+        List<VerifyReport> verifyReportList = vrs.queryForAll(verifyReport);
+        if (verifyReportList != null && verifyReportList.size() > 0) {
+            return AlvesJSONResult.ok(verifyReportList.get(0));
+        } else {
+            return AlvesJSONResult.errorMsg("verify report is null ...");
+        }
+    }
+
+    /**
+     * 附件上传
+     * @param file
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value = "fileUpload")
+    public AlvesJSONResult upload(@RequestParam(value = "file") MultipartFile file) {
         try {
             String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
-            FileResult fileResult = FileuploadUtil.saveFile(multipartFile, path, "jpg");
+            String extension = PropertiesUtils.getInstance().getProperty("imageExtension").toString();
+            FileResult fileResult = FileuploadUtil.saveFile(file, path, extension);
             return AlvesJSONResult.ok(fileResult);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return AlvesJSONResult.errorMsg("fail upload...");
+    }
+
+    @ResponseBody
+    @GetMapping("plan_version_list/{id}")
+    public AlvesJSONResult listPlanVersion(@PathVariable int id) {
+        PlanVersion planVersion = new PlanVersion();
+        planVersion.setType(id);
+        List<PlanVersion> planVersionList = pvs.listVersions(planVersion);
+        return AlvesJSONResult.ok(planVersionList);
+    }
+
+    @ResponseBody
+    @GetMapping("plan_response_list/{id}")
+    public AlvesJSONResult listPlanResponse(@PathVariable int id) {
+        List<PlanResponse> responseList = pvs.listResponses(id);
+        return AlvesJSONResult.ok(responseList);
+    }
+
+    /**
+     * 添加领导批示
+     * @param leaderInstruct
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value = "add_leader_instruct")
+    public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstruct leaderInstruct) {
+        leaderInstruct.setInstructTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        int result = lis.insert(leaderInstruct);
+        if (result > 0) {
+            Event event = new Event();
+            event.setId(leaderInstruct.getEId());
+            event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
+            es.update(event);
+            return AlvesJSONResult.ok(EventProcess.LEADER_INSTRUCT.getNo());
+        } else {
+            return AlvesJSONResult.errorMsg("fail insert leader instruct...");
+        }
+    }
+
+    /**
+     * 领导批示
+     * @param eId
+     * @return
+     */
+    @ResponseBody
+    @GetMapping(value = "leader_instruct_list/{eId}")
+    public AlvesJSONResult listLeaderInstruct(@PathVariable Long eId) {
+        LeaderInstruct leaderInstruct = new LeaderInstruct();
+        leaderInstruct.setEId(eId);
+        List<LeaderInstruct> list = lis.queryForAll(leaderInstruct);
+        return AlvesJSONResult.ok(list);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "leader_instruct/{eId}")
+    public AlvesJSONResult selectLeaderInstructByEid(@PathVariable long eId) {
+        LeaderInstruct leaderInstruct = new LeaderInstruct();
+        leaderInstruct.setEId(eId);
+        List<LeaderInstruct> list = lis.queryForAll(leaderInstruct);
+        if (list != null && list.size() > 0) {
+            return AlvesJSONResult.ok(list.get(0));
+        } else {
+            return AlvesJSONResult.errorMsg("verify report is null ...");
+        }
     }
 
     @ResponseBody
@@ -143,6 +301,11 @@ public class EventController extends BaseController {
         }
     }
 
+    /**
+     * 修改事件发展
+     * @param development
+     * @return
+     */
     @ResponseBody
     @PostMapping(value = "updateDevelopment")
     public AlvesJSONResult updateDevelopment(@RequestBody EventDevelopment development) {
@@ -154,6 +317,64 @@ public class EventController extends BaseController {
         }
     }
 
+    /**
+     * 查询预案
+     * @param eId
+     * @return
+     */
+    @ResponseBody
+    @GetMapping(value = "reserve_plan_list/{eId}")
+    public AlvesJSONResult selectReservePlanByEId(@PathVariable Long eId) {
+        List<ReservePlanResult> list = rps.selectByEId(eId);
+        return AlvesJSONResult.ok(list);
+    }
+
+    /**
+     * 查询预案
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @GetMapping(value = "reserve_plan/{id}")
+    public AlvesJSONResult selectReservePlan(@PathVariable Long id) {
+        ReservePlanResult reservePlanResult = rps.selectById(id);
+        return AlvesJSONResult.ok(reservePlanResult);
+    }
+
+    /**
+     * 启动预案
+     * @param reservePlanResult
+     * @return
+     */
+    @ResponseBody
+    @PostMapping(value = "reserve_start")
+    public AlvesJSONResult startReservePlan(@RequestBody ReservePlanResult reservePlanResult) {
+        VerifyReport verifyReport = new VerifyReport();
+        verifyReport.setId(reservePlanResult.getVrId());
+        verifyReport.setPrId(reservePlanResult.getPrId());
+        boolean result = vrs.update(verifyReport);
+        if (result) {
+            if (reservePlanResult.getStatus() < 0) {
+                reservePlanResult.setStatus(ReservePlanStatus.STOP.getNo());
+                Event event = new Event();
+                event.setId(reservePlanResult.getEId());
+                event.setProcess(EventProcess.RESERVE_PLAN.getNo());
+                es.update(event);
+            } else {
+                reservePlanResult.setStatus(ReservePlanStatus.START.getNo());
+            }
+            rps.update(reservePlanResult);
+            return AlvesJSONResult.ok("ok start...");
+        } else {
+            return AlvesJSONResult.errorMsg("fail start reserve...");
+        }
+    }
+
+    /**
+     * 删除事件
+     * @param event
+     * @return
+     */
     @ResponseBody
     @PostMapping(value = "remove")
     public AlvesJSONResult delete(Event event) {
@@ -176,17 +397,19 @@ public class EventController extends BaseController {
         }
     }
 
-    @RequestMapping("/selectById")
-    public AlvesJSONResult selectById(Integer id) {
-        Event event = es.selectById(id);
+    @ResponseBody
+    @GetMapping(value = "event/{id}")
+    public AlvesJSONResult selectById(@PathVariable Long id) {
+        EventResult event = es.selectById(id);
         return AlvesJSONResult.ok(event);
     }
 
-    @RequestMapping("/list")
-    public AlvesJSONResult list(Event event, Integer page, Integer pageSize) {
+    @ResponseBody
+    @PostMapping("list")
+    public AlvesJSONResult list(@RequestBody EventExtend eventExtend) {
         Map<String, Object> map = new HashMap<>();
-        List<Event> list = es.queryForPage(event, page, pageSize);
-        Long count = es.queryForCounts(event);
+        List<EventResult> list = es.queryForPage(eventExtend);
+        Long count = es.queryForCounts(eventExtend);
         map.put("list", list);
         map.put("count", count);
         return AlvesJSONResult.ok(map);
