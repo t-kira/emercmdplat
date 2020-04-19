@@ -27,25 +27,25 @@ import com.kira.emercmdplat.utils.PojoUtil;
 
 @Service
 public class PlanVersionServiceImpl implements PlanVersionService {
-	
+
 	@Autowired
 	private PlanVersionMapper planVersionMapper;
-	
+
 	@Autowired
 	private PlanOrgMapper planOrgMapper;
-	
+
 	@Autowired
 	private PlanResponseMapper planResponseMapper;
-	
+
 	@Autowired
 	private PlanResponseFlowMapper planResponseFlowMapper;
-	
+
 	@Autowired
 	private PlanResponseFlowTaskMapper planResponseFlowTaskMapper;
-	
+
 	@Autowired
 	private PlanResponseGuardMapper planResponseGuardMapper;
-	
+
 	@Autowired
 	private PlanCatalogMapper planCatalogMapper;
 
@@ -53,6 +53,12 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	public List<PlanVersion> listVersions(PlanVersion planVersion, Integer page, Integer pageSize) {
 		Map<String,Object> paramMap = PojoUtil.pojoToMap(planVersion, page, pageSize);
 		return planVersionMapper.queryForPage(paramMap);
+	}
+
+	@Override
+	public List<PlanVersion> listVersions(PlanVersion planVersion) {
+
+		return planVersionMapper.queryForAll(planVersion);
 	}
 
 	@Override
@@ -214,5 +220,5 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 		param.setId(id);
 		planCatalogMapper.delete(param);
 	}
-	
+
 }
