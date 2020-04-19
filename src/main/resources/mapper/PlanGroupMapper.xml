@@ -18,7 +18,7 @@
         <if test="id != null">
             and pg_id = #{id,jdbcType=INTEGER}
         </if>
-        <if test="name != null">
+        <if test="name != null and name != ''">
             and pg_name = #{name,jdbcType=VARCHAR}
         </if>
         <if test="leader != null">
