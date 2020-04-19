@@ -1,10 +1,13 @@
 package com.kira.emercmdplat.pojo;
 
+import lombok.Data;
+
 /**
  * @Author: kira
  * @Date: 2020/4/6 13:47
  * @Description:
  */
+@Data
 public class Duty {
 
     private Long id;
@@ -53,99 +56,4 @@ public class Duty {
      */
     private String updateTime;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Long getmId() {
-        return mId;
-    }
-
-    public void setmId(Long mId) {
-        this.mId = mId;
-    }
-
-    public Long getjId() {
-        return jId;
-    }
-
-    public void setjId(Long jId) {
-        this.jId = jId;
-    }
-
-    public String getContactNum() {
-        return contactNum;
-    }
-
-    public void setContactNum(String contactNum) {
-        this.contactNum = contactNum;
-    }
-
-    public String getCellNum() {
-        return cellNum;
-    }
-
-    public void setCellNum(String cellNum) {
-        this.cellNum = cellNum;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFaxNum() {
-        return faxNum;
-    }
-
-    public void setFaxNum(String faxNum) {
-        this.faxNum = faxNum;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
 }
