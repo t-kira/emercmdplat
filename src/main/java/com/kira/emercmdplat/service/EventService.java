@@ -1,34 +1,37 @@
 package com.kira.emercmdplat.service;
 
-import com.kira.emercmdplat.pojo.Event;
-import com.kira.emercmdplat.pojo.EventDevelopment;
-import com.kira.emercmdplat.pojo.EventParam;
+import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.base.BaseService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kira
  * @Date: 2020/4/6 22:47
  * @Description:
  */
-public interface EventService extends BaseService<Event> {
-    /**
-     * 新增事件参数
-     * @param eventParam
-     * @return
-     */
+public interface EventService{
+    int insert(Event event);
+
+    boolean delete(Event event);
+
+    boolean update(Event event);
+
+    EventResult selectById(Long id);
+
+    EventResult selectByEId(Long eId);
+
+    List<EventResult> queryForAll(EventExtend eventExtend);
+
+    Long queryForCounts(EventExtend eventExtend);
+
     int insertParam(EventParam eventParam);
 
-    /**
-     * 新增事件发展
-     * @param eventDevelopment
-     * @return
-     */
     int insertDevelopment(EventDevelopment eventDevelopment);
 
-    /**
-     * 修改事件发展内容
-     * @param eventDevelopment
-     * @return
-     */
     int updateDevelopment(EventDevelopment eventDevelopment);
+
+    List<EventResult> queryForPage(EventExtend eventExtend);
+
 }
