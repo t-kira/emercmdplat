@@ -126,7 +126,7 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping(value = "duty_list")
     public AlvesJSONResult listDuty(){
-        List<Duty> dutyList = ds.queryForAll(new DutyExtent());
+        List<DutyExtent> dutyList = ds.queryForAll(new DutyExtent());
         return AlvesJSONResult.ok(dutyList);
     }
 

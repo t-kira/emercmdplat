@@ -2,6 +2,7 @@ package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.mapper.DutyMapper;
 import com.kira.emercmdplat.pojo.Duty;
+import com.kira.emercmdplat.pojo.DutyExtent;
 import com.kira.emercmdplat.service.DutyService;
 import com.kira.emercmdplat.utils.PojoUtil;
 
@@ -42,17 +43,17 @@ public class DutyServiceImpl implements DutyService {
     }
 
     @Override
-    public Duty selectById(Integer id) {
+    public DutyExtent selectById(Integer id) {
         return dm.selectById(id);
     }
 
     @Override
-    public List<Duty> queryForAll(Duty pojo) {
+    public List<DutyExtent> queryForAll(Duty pojo) {
         return dm.queryForAll(pojo);
     }
 
     @Override
-    public List<Duty> queryForPage(Duty pojo, Integer page, Integer pageSize) {
+    public List<DutyExtent> queryForPage(Duty pojo, Integer page, Integer pageSize) {
         Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return dm.queryForPage(paramMap);
     }
@@ -68,5 +69,5 @@ public class DutyServiceImpl implements DutyService {
 		paramMap.put("ids", ids);
 		return dm.queryForIds(paramMap);
 	}
-	
+
 }

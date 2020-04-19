@@ -122,12 +122,12 @@
         where d.m_id = m.id and d.j_id = j.id
         <include refid="Basic_Conditions"/>
     </select>
-    
+
     <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from duty
-        where id IN
+        from from duty d, mechanism m, job j
+        and d.id IN
         <foreach collection="ids" separator="," item="item" close=")" open="(">
 			#{item}
 		</foreach>
