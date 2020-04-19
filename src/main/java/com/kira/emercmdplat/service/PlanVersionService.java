@@ -15,6 +15,8 @@ public interface PlanVersionService {
 
 	List<PlanVersion> listVersions(PlanVersion planVersion, Integer page, Integer pageSize);
 
+	List<PlanVersion> listVersions(PlanVersion planVersion);
+
 	Long countVersions(PlanVersion planVersion);
 
 	void insertVersion(PlanVersion planVersion);
