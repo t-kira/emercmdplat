@@ -1,23 +1,30 @@
 package com.kira.emercmdplat.pojo;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 public class PlanCatalog {
 
+	@ApiComment(value = "id", sample = "1")
     private Integer id;
     /**
      * 节点
      */
+	@ApiComment(value = "节点", sample = "aaa")
     private String node;
     /**
      * 节点内容
      */
+	@ApiComment(value = "节点内容", sample = "aaa")
     private String nodeContent;
     /**
      * 父级ID
      */
+	@ApiComment(value = "父级ID", sample = "1")
     private Integer parentId;
     /**
-     * 预案版本ID
+     * 预案ID
      */
+	@ApiComment(value = "预案ID", sample = "1")
     private Integer pvId;
 
     public Integer getId() {

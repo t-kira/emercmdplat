@@ -1,56 +1,70 @@
 package com.kira.emercmdplat.pojo;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 /**
  * @Author: kira
  * @Date: 2020/4/6 13:47
  * @Description:
  */
 public class Duty {
-
+	
+	@ApiComment(value = "id", sample = "1")
     private Long id;
     /**
      * 值班人员姓名
      */
+	@ApiComment(value = "姓名", sample = "aaa")
     private String name;
     /**
      * 性别 0：男 非0：女
      */
+	@ApiComment(value = "性别 0：男 非0：女", sample = "0")
     private Integer gender;
     /**
      * 用户名
      */
+	@ApiComment(value = "用户名", sample = "aaa")
     private String userName;
     /**
      * 所属机构ID
      */
+	@ApiComment(value = "所属机构ID", sample = "1")
     private Long mId;
     /**
      * 职务id
      */
+	@ApiComment(value = "职务id", sample = "1")
     private Long jId;
     /**
      * 联系电话
      */
+	@ApiComment(value = "联系电话", sample = "1")
     private String contactNum;
     /**
      * 手机号码
      */
+	@ApiComment(value = "手机号码", sample = "1")
     private String cellNum;
     /**
      * 邮箱地址
      */
+	@ApiComment(value = "邮箱地址", sample = "1")
     private String email;
     /**
      * 传真号码
      */
+	@ApiComment(value = "传真号码", sample = "1")
     private String faxNum;
     /**
      * 创建时间
      */
+	@ApiComment(value = "创建时间", sample = "1")
     private String createTime;
     /**
      * 更新时间
      */
+	@ApiComment(value = "更新时间", sample = "1")
     private String updateTime;
 
     public Long getId() {

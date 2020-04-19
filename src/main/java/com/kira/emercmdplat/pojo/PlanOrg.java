@@ -1,32 +1,48 @@
 package com.kira.emercmdplat.pojo;
 
+import java.util.List;
+
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 public class PlanOrg {
 
+	@ApiComment(value = "id", sample = "1")
     private Integer id;
     /**
      * 名称
      */
+	@ApiComment(value = "名称", sample = "aaa")
     private String name;
     /**
      * 类型
      */
+	@ApiComment(value = "类型1 职位 2 部门", sample = "1")
     private Integer type;
     /**
      * 职责
      */
+	@ApiComment(value = "职责", sample = "aaa")
     private String duty;
     /**
      * 成员ID
      */
+	@ApiComment(value = "成员ID", sample = "1,2,3")
     private String userIds;
     /**
      * 父级ID
      */
+	@ApiComment(value = "父级ID", sample = "1")
     private Integer parentId;
     /**
-     * 预案版本ID
+     * 预案ID
      */
+	@ApiComment(value = "预案ID", sample = "1")
     private Integer pvId;
+	/**
+	 * 成员集合
+	 */
+	@ApiComment(value = "成员集合", sample = "[]")
+	private List<Duty> userList;
 
     public Integer getId() {
         return id;
@@ -83,5 +99,13 @@ public class PlanOrg {
     public void setPvId(Integer pvId) {
         this.pvId = pvId;
     }
+
+	public List<Duty> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(List<Duty> userList) {
+		this.userList = userList;
+	}
 
 }

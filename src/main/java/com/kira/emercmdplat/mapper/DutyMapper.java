@@ -1,5 +1,8 @@
 package com.kira.emercmdplat.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import com.kira.emercmdplat.mapper.base.BaseMapper;
 import com.kira.emercmdplat.pojo.Duty;
 
@@ -9,4 +12,6 @@ import com.kira.emercmdplat.pojo.Duty;
  * @Description:
  */
 public interface DutyMapper extends BaseMapper<Duty> {
+
+	List<Duty> queryForIds(Map<String, Object> map);
 }

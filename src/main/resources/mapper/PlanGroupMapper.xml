@@ -40,7 +40,7 @@
     #{duty,jdbcType=VARCHAR}, #{ptId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanGroup">
-    DELETE plan_group
+    DELETE from plan_group
     where pg_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanGroup">
@@ -77,6 +77,16 @@
         <include refid="Base_Column_List"/>
         from plan_group
         <include refid="Basic_Conditions"/>
+    </select>
+    
+    <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_group
+        where pg_id IN
+        <foreach collection="ids" separator="," item="item" close=")" open="(">
+			#{item}
+		</foreach>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">

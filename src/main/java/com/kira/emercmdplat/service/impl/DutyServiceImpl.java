@@ -3,6 +3,8 @@ package com.kira.emercmdplat.service.impl;
 import com.kira.emercmdplat.mapper.DutyMapper;
 import com.kira.emercmdplat.pojo.Duty;
 import com.kira.emercmdplat.service.DutyService;
+import com.kira.emercmdplat.utils.PojoUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +53,7 @@ public class DutyServiceImpl implements DutyService {
 
     @Override
     public List<Duty> queryForPage(Duty pojo, Integer page, Integer pageSize) {
-        Map<String, Object> paramMap = new HashMap<>();
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(pojo, page, pageSize);
         return dm.queryForPage(paramMap);
     }
 
@@ -59,4 +61,12 @@ public class DutyServiceImpl implements DutyService {
     public Long queryForCounts(Duty pojo) {
         return dm.queryForCounts(pojo);
     }
+
+	@Override
+	public List<Duty> queryForIds(List ids) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("ids", ids);
+		return dm.queryForIds(paramMap);
+	}
+	
 }

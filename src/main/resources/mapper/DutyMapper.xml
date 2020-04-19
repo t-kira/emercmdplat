@@ -120,6 +120,16 @@
         from duty
         <include refid="Basic_Conditions"/>
     </select>
+    
+    <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from duty
+        where id IN
+        <foreach collection="ids" separator="," item="item" close=")" open="(">
+			#{item}
+		</foreach>
+    </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select

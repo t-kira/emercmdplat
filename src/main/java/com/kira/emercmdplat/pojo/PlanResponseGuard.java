@@ -1,87 +1,122 @@
 package com.kira.emercmdplat.pojo;
 
+import java.util.List;
+
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 public class PlanResponseGuard {
 
-    private Integer id;
-    /**
-     * 类型
-     */
-    private Integer type;
-    /**
-     * 保障名称
-     */
-    private String name;
-    /**
-     * 保障描述
-     */
-    private String desc;
-    /**
-     * 资源项json
-     */
-    private String res;
-    /**
-     * 父级ID
-     */
-    private Integer parentId;
-    /**
-     * 预案响应ID
-     */
-    private Integer prId;
+	@ApiComment(value = "id", sample = "1")
+	private Integer id;
+	/**
+	 * 类型
+	 */
+	@ApiComment(value = "类型1 保障项 2 资源项", sample = "1")
+	private Integer type;
+	/**
+	 * 保障名称
+	 */
+	@ApiComment(value = "保障名称", sample = "aaa")
+	private String name;
+	/**
+	 * 保障描述
+	 */
+	@ApiComment(value = "保障描述", sample = "aaa")
+	private String desc;
+	/**
+	 * 资源项json
+	 */
+	@ApiComment(value = "资源项json", sample = "[{type:1,id:1}]")
+	private String res;
 
-    public Integer getId() {
-        return id;
-    }
+	@ApiComment(value = "资源项节点名", sample = "aaa-bbb")
+	private String resName;
+	/**
+	 * 父级ID
+	 */
+	@ApiComment(value = "父级ID", sample = "1")
+	private Integer parentId;
+	/**
+	 * 预案响应ID
+	 */
+	@ApiComment(value = "预案响应ID", sample = "1")
+	private Integer prId;
+	/**
+	 * 资源项列表
+	 */
+	@ApiComment(value = "资源项json", sample = "[{type:1,typeName:'aaa',id:1,name:'bbb'}]")
+	private List<DataType> resList;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public Integer getType() {
-        return type;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
+	public Integer getType() {
+		return type;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getDesc() {
-        return desc;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
+	public String getDesc() {
+		return desc;
+	}
 
-    public String getRes() {
-        return res;
-    }
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
 
-    public void setRes(String res) {
-        this.res = res;
-    }
+	public String getRes() {
+		return res;
+	}
 
-    public Integer getParentId() {
-        return parentId;
-    }
+	public void setRes(String res) {
+		this.res = res;
+	}
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
+	public String getResName() {
+		return resName;
+	}
 
-    public Integer getPrId() {
-        return prId;
-    }
+	public void setResName(String resName) {
+		this.resName = resName;
+	}
 
-    public void setPrId(Integer prId) {
-        this.prId = prId;
-    }
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+
+	public Integer getPrId() {
+		return prId;
+	}
+
+	public void setPrId(Integer prId) {
+		this.prId = prId;
+	}
+
+	public List<DataType> getResList() {
+		return resList;
+	}
+
+	public void setResList(List<DataType> resList) {
+		this.resList = resList;
+	}
 
 }

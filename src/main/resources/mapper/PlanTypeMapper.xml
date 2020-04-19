@@ -31,7 +31,7 @@
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{order,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanType">
-    DELETE plan_type
+    DELETE from plan_type
     where pt_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanType">
@@ -62,6 +62,7 @@
         <include refid="Base_Column_List"/>
         from plan_type
         <include refid="Basic_Conditions"/>
+        order by pt_parent_id,pt_order
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">

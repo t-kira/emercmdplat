@@ -17,7 +17,7 @@
         <if test="id != null">
             and pc_id = #{id,jdbcType=INTEGER}
         </if>
-        <if test="node != null">
+        <if test="node != null and node != ''">
             and pc_node = #{node,jdbcType=VARCHAR}
         </if>
         <if test="nodeContent != null">
@@ -36,7 +36,7 @@
     #{pvId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanCatalog">
-    DELETE plan_catalog
+    DELETE from plan_catalog
     where pc_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanCatalog">

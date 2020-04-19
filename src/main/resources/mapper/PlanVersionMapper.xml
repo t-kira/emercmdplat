@@ -25,7 +25,7 @@
     <if test="id != null" >
       and pv_id = #{id,jdbcType=INTEGER}
     </if>
-    <if test="name != null" >
+    <if test="name != null and name != ''" >
       and pv_name = #{name,jdbcType=VARCHAR}
     </if>
     <if test="version != null" >
@@ -62,7 +62,7 @@
       and pv_status = #{status,jdbcType=INTEGER}
     </if>
   </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanVersion" >
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanVersion" keyColumn="pv_id" keyProperty="id" useGeneratedKeys="true">
     insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids,
     pv_pta_ids, pv_status)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
@@ -70,7 +70,7 @@
     #{params,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
-    DELETE plan_version
+    DELETE from plan_version
     where pv_id = #{id,jdbcType=INTEGER}
   </update>
   <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanVersion" >

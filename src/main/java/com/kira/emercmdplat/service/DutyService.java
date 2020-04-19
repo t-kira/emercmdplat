@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.service;
 
+import java.util.List;
+
 import com.kira.emercmdplat.pojo.Duty;
 import com.kira.emercmdplat.service.base.BaseService;
 
@@ -9,4 +11,6 @@ import com.kira.emercmdplat.service.base.BaseService;
  * @Description:
  */
 public interface DutyService extends BaseService<Duty> {
+
+	List<Duty> queryForIds(List ids);
 }
