@@ -1,15 +1,20 @@
 package com.kira.emercmdplat.pojo;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 public class PlanTag {
 
-    private Integer id;
+	@ApiComment(value = "id", sample = "1")
+	private Integer id;
     /**
      * 名称
      */
+	@ApiComment(value = "名称", sample = "aaa")
     private String name;
     /**
      * 预案类型ID
      */
+	@ApiComment(value = "预案类型ID", sample = "1")
     private Integer ptId;
 
     public Integer getId() {

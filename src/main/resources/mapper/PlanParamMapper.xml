@@ -11,7 +11,7 @@
 
     <sql id="Base_Column_List">
     pp_id, pp_name, pp_type, pp_unit, pt_id
-  </sql>
+  	</sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
         <if test="id != null">
@@ -33,11 +33,11 @@
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanParam">
     insert into plan_param (pp_id, pp_name, pp_type, pp_unit, pt_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{ptId,jdbcType=INTEGER})
-  </insert>
+    </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanParam">
-    DELETE plan_param
+    DELETE from plan_param
     where pp_id = #{id,jdbcType=INTEGER}
-  </update>
+    </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanParam">
         update plan_param
         <set>
@@ -69,6 +69,16 @@
         <include refid="Base_Column_List"/>
         from plan_param
         <include refid="Basic_Conditions"/>
+    </select>
+    
+    <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_param
+        where pp_id IN
+        <foreach collection="ids" separator="," item="item" close=")" open="(">
+			#{item}
+		</foreach>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">

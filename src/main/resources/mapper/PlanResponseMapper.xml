@@ -40,7 +40,7 @@
     #{desc,jdbcType=VARCHAR}, #{pvId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanResponse">
-    DELETE plan_response
+    DELETE from plan_response
     where pr_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanResponse">

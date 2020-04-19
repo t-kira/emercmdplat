@@ -46,4 +46,14 @@ public interface PlanTypeService {
 
     void deleteGroup(Integer id);
 
+	List<PlanParam> queryForParamIds(List ids);
+
+	List<PlanTag> queryForTagIds(List ids);
+
+	List<PlanGroup> queryForGroupIds(List ids);
+
+	PlanGroup getGroupById(Integer id);
+
+	PlanType getPlanTypeById(Integer id);
+
 }

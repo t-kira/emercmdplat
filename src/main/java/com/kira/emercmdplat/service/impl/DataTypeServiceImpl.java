@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kira.emercmdplat.mapper.DataTypeMapper;
 import com.kira.emercmdplat.mapper.EmergencyTeamMapper;
 import com.kira.emercmdplat.mapper.MedicalInstitutionMapper;
 import com.kira.emercmdplat.mapper.ShelterMapper;
@@ -21,22 +22,22 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- *
+ * 
  * @author richard.yuq
  *
  */
 @Service
 public class DataTypeServiceImpl implements DataTypeService {
-
+	
 	@Autowired
     private DataTypeMapper dm;
-
+	
 	@Autowired
     private EmergencyTeamMapper etm;
-
+	
 	@Autowired
     private MedicalInstitutionMapper mim;
-
+	
 	@Autowired
 	private ShelterMapper sm;
 
@@ -104,7 +105,7 @@ public class DataTypeServiceImpl implements DataTypeService {
 				result.add(d);
 			}
 		} else {
-
+			
 		}
 		return result;
 	}

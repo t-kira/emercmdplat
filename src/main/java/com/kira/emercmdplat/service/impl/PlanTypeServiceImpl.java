@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -148,5 +149,36 @@ public class PlanTypeServiceImpl implements PlanTypeService {
         param.setId(id);
         planGroupMapper.delete(param);
     }
+
+	@Override
+	public List<PlanParam> queryForParamIds(List ids) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("ids", ids);
+		return planParamMapper.queryForIds(paramMap);
+	}
+
+	@Override
+	public List<PlanTag> queryForTagIds(List ids) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("ids", ids);
+		return planTagMapper.queryForIds(paramMap);
+	}
+
+	@Override
+	public List<PlanGroup> queryForGroupIds(List ids) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("ids", ids);
+		return planGroupMapper.queryForIds(paramMap);
+	}
+
+	@Override
+	public PlanGroup getGroupById(Integer id) {
+		return planGroupMapper.selectById(id);
+	}
+
+	@Override
+	public PlanType getPlanTypeById(Integer id) {
+		return planTypeMapper.selectById(id);
+	}
 
 }

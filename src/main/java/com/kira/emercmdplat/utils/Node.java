@@ -3,18 +3,25 @@ package com.kira.emercmdplat.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 import net.sf.json.JSONArray;
 
 public class Node {
-
+	
+	@ApiComment(value = "id", sample = "1")
     private Integer id;
-
+	
+	@ApiComment(value = "节点名", sample = "aaa")
     private String name;
-
+	
+	@ApiComment(value = "父级ID", sample = "0")
     private Integer parentId;
-
+	
+	@ApiComment(value = "排序编号", sample = "1")
     private Integer order;
-
+	
+	@ApiComment(value = "子节点集合", sample = "[]")
     private List<Node> children;
 
     public Node(Integer id, String name, Integer parentId, Integer order) {

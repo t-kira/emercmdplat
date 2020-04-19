@@ -22,7 +22,7 @@
         <if test="type != null">
             and prg_type = #{type,jdbcType=INTEGER}
         </if>
-        <if test="name != null">
+        <if test="name != null and name != ''">
             and prg_name = #{name,jdbcType=VARCHAR}
         </if>
         <if test="desc != null">
@@ -44,7 +44,7 @@
     #{res,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanResponseGuard">
-    DELETE plan_response_guard
+    DELETE from plan_response_guard
     where prg_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanResponseGuard">

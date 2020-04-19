@@ -19,7 +19,7 @@ public interface PlanVersionService {
 
 	Long countVersions(PlanVersion planVersion);
 
-	void insertVersion(PlanVersion planVersion);
+	int insertVersion(PlanVersion planVersion);
 
 	void updateVersion(PlanVersion planVersion);
 
@@ -66,5 +66,13 @@ public interface PlanVersionService {
 	void updateCatalog(PlanCatalog planCatalog);
 
 	void deleteCatalog(Integer id);
+
+	PlanOrg getOrgById(Integer id);
+
+	PlanResponseGuard getResponseGuardById(Integer id);
+
+	PlanCatalog getCatalogById(Integer id);
+	
+	PlanVersion getPlanVerionById(Integer id);
 
 }

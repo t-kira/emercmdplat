@@ -36,7 +36,7 @@
     #{prfId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlowTask">
-    DELETE plan_response_flow_task
+    DELETE from plan_response_flow_task
     where prft_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanResponseFlowTask">

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import com.kira.emercmdplat.mapper.PlanResponseFlowTaskMapper;
 import com.kira.emercmdplat.mapper.PlanResponseGuardMapper;
 import com.kira.emercmdplat.mapper.PlanResponseMapper;
 import com.kira.emercmdplat.mapper.PlanVersionMapper;
+import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.PlanCatalog;
 import com.kira.emercmdplat.pojo.PlanOrg;
 import com.kira.emercmdplat.pojo.PlanResponse;
@@ -21,33 +23,37 @@ import com.kira.emercmdplat.pojo.PlanResponseFlow;
 import com.kira.emercmdplat.pojo.PlanResponseFlowTask;
 import com.kira.emercmdplat.pojo.PlanResponseGuard;
 import com.kira.emercmdplat.pojo.PlanVersion;
+import com.kira.emercmdplat.service.DataTypeService;
 import com.kira.emercmdplat.service.PlanVersionService;
 import com.kira.emercmdplat.utils.Node;
 import com.kira.emercmdplat.utils.PojoUtil;
 
 @Service
 public class PlanVersionServiceImpl implements PlanVersionService {
-
+	
 	@Autowired
 	private PlanVersionMapper planVersionMapper;
-
+	
 	@Autowired
 	private PlanOrgMapper planOrgMapper;
-
+	
 	@Autowired
 	private PlanResponseMapper planResponseMapper;
-
+	
 	@Autowired
 	private PlanResponseFlowMapper planResponseFlowMapper;
-
+	
 	@Autowired
 	private PlanResponseFlowTaskMapper planResponseFlowTaskMapper;
-
+	
 	@Autowired
 	private PlanResponseGuardMapper planResponseGuardMapper;
-
+	
 	@Autowired
 	private PlanCatalogMapper planCatalogMapper;
+	
+	@Autowired
+	private DataTypeService dataTypeService;
 
 	@Override
 	public List<PlanVersion> listVersions(PlanVersion planVersion, Integer page, Integer pageSize) {
@@ -56,19 +62,14 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public List<PlanVersion> listVersions(PlanVersion planVersion) {
-
-		return planVersionMapper.queryForAll(planVersion);
-	}
-
-	@Override
 	public Long countVersions(PlanVersion planVersion) {
 		return planVersionMapper.queryForCounts(planVersion);
 	}
 
 	@Override
-	public void insertVersion(PlanVersion planVersion) {
+	public int insertVersion(PlanVersion planVersion) {
 		planVersionMapper.insert(planVersion);
+		return planVersion.getId();
 	}
 
 	@Override
@@ -172,6 +173,15 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 		List<PlanResponseGuard> list = planResponseGuardMapper.queryForAll(planResponseGuard);
 		List<Node> newList = new ArrayList<>();
 		for (PlanResponseGuard item : list) {
+			if (item.getType() == 2) {
+				if (!StringUtils.isEmpty(item.getRes())) {
+					List<DataType> resList = dataTypeService.getResourcesByJson(item.getRes());
+					if (resList.size() > 0) {
+						DataType d = resList.get(0);
+						item.setName(d.getTypeName() + "-" + d.getName() + "等");
+					}
+				}
+			}
 			newList.add(new Node(item.getId(),item.getName(),item.getParentId(),1));
 		}
 		return Node.buildTree(newList, 0);
@@ -221,4 +231,24 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 		planCatalogMapper.delete(param);
 	}
 
+	@Override
+	public PlanOrg getOrgById(Integer id) {
+		return planOrgMapper.selectById(id);
+	}
+
+	@Override
+	public PlanResponseGuard getResponseGuardById(Integer id) {
+		return planResponseGuardMapper.selectById(id);
+	}
+
+	@Override
+	public PlanCatalog getCatalogById(Integer id) {
+		return planCatalogMapper.selectById(id);
+	}
+
+	@Override
+	public PlanVersion getPlanVerionById(Integer id) {
+		return planVersionMapper.selectById(id);
+	}
+	
 }
