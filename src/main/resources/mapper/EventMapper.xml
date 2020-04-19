@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.EventMapper">
-    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Event">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EventResult">
         <id column="e_id" property="id" jdbcType="INTEGER"/>
         <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
+        <result column="event_desc" property="eventDesc" jdbcType="VARCHAR"/>
         <result column="event_title" property="eventTitle" jdbcType="VARCHAR"/>
         <result column="receive_time" property="receiveTime" jdbcType="VARCHAR"/>
         <result column="incident_time" property="incidentTime" jdbcType="VARCHAR"/>
@@ -12,77 +13,96 @@
         <result column="lat" property="lat" jdbcType="DOUBLE"/>
         <result column="influence_sphere" property="influenceSphere" jdbcType="DOUBLE"/>
         <result column="incident_area_id" property="incidentAreaId" jdbcType="INTEGER"/>
-        <result column="pp_id" property="ppId" jdbcType="INTEGER"/>
+<!--        <result column="incident_area_name" property="incidentAreaName" jdbcType="VARCHAR"/>-->
+        <result column="pt_id" property="ptId" jdbcType="INTEGER"/>
+        <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
         <result column="report_mechanism_id" property="reportMechanismId" jdbcType="INTEGER"/>
+        <result column="m_name" property="mechanismName" jdbcType="VARCHAR"/>
         <result column="reporter" property="reporter" jdbcType="VARCHAR"/>
         <result column="report_tel" property="reportTel" jdbcType="VARCHAR"/>
-        <result column="d_id" property="dId" jdbcType="INTEGER"/>
+        <result column="d_id" property="did" jdbcType="INTEGER"/>
+        <result column="d_name" property="dName" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="process" property="process" jdbcType="INTEGER"/>
+        <result column="summary" property="summary" jdbcType="VARCHAR"/>
+        <result column="merge_reason" property="mergeReason" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-    e_id, event_number, event_title, receive_time, incident_time, incident_location, lng, lat, influence_sphere, incident_area_id, pp_id, report_mechanism_id,
-    reporter, report_tel, d_id, status
+    e.e_id, e.event_number, e.event_desc, e.event_title, e.receive_time, e.incident_time, e.incident_location, e.lng, e.lat, e.influence_sphere, e.incident_area_id,
+    e.pt_id, pt.pt_name, e.report_mechanism_id, m.m_name, e.reporter, e.report_tel, e.d_id, d.d_name, e.status, e.process, e.summary, e.merge_reason
     </sql>
     <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
+<!--        <![CDATA[where 1=1 ]]>-->
         <if test="id != null">
-            and e_id = #{id,jdbcType=INTEGER}
+            and e.e_id = #{id,jdbcType=INTEGER}
         </if>
         <if test="eventNumber != null">
-            and event_number = #{eventNumber,jdbcType=VARCHAR}
+            and e.event_number = #{eventNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="eventDesc != null">
+            and e.event_desc = #{eventDesc,jdbcType=VARCHAR}
         </if>
         <if test="eventTitle != null">
-            and event_title = #{eventTitle,jdbcType=VARCHAR}
+            and e.event_title = #{eventTitle,jdbcType=VARCHAR}
         </if>
         <if test="receiveTime != null">
-            and receive_time = #{receiveTime,jdbcType=VARCHAR}
+            and e.receive_time = #{receiveTime,jdbcType=VARCHAR}
         </if>
         <if test="incidentTime != null">
-            and incident_time = #{incidentTime,jdbcType=VARCHAR}
+            and e.incident_time = #{incidentTime,jdbcType=VARCHAR}
         </if>
         <if test="incidentLocation != null">
-            and incident_location = #{incidentLocation,jdbcType=VARCHAR}
+            and e.incident_location = #{incidentLocation,jdbcType=VARCHAR}
         </if>
         <if test="lng != null">
-            and lng = #{lng,jdbcType=DOUBLE}
+            and e.lng = #{lng,jdbcType=DOUBLE}
         </if>
         <if test="lat != null">
-            and lat = #{lat,jdbcType=DOUBLE}
+            and e.lat = #{lat,jdbcType=DOUBLE}
         </if>
         <if test="influenceSphere != null">
-            and influence_sphere = #{influenceSphere,jdbcType=DOUBLE}
+            and e.influence_sphere = #{influenceSphere,jdbcType=DOUBLE}
         </if>
         <if test="incidentAreaId != null">
-            and incident_area_id = #{incidentAreaId,jdbcType=INTEGER}
+            and e.incident_area_id = #{incidentAreaId,jdbcType=BIGINT}
         </if>
-        <if test="ppId != null">
-            and pp_id = #{ppId,jdbcType=INTEGER}
+        <if test="ptId != null">
+            and e.pt_id = #{ptId,jdbcType=INTEGER}
         </if>
         <if test="reportMechanismId != null">
-            and report_mechanism_id = #{reportMechanismId,jdbcType=INTEGER}
+            and e.report_mechanism_id = #{reportMechanismId,jdbcType=INTEGER}
         </if>
         <if test="reporter != null">
-            and reporter = #{reporter,jdbcType=VARCHAR}
+            and e.reporter = #{reporter,jdbcType=VARCHAR}
         </if>
         <if test="reportTel != null">
-            and report_tel = #{reportTel,jdbcType=VARCHAR}
+            and e.report_tel = #{reportTel,jdbcType=VARCHAR}
         </if>
-        <if test="dId != null">
-            and d_id = #{dId,jdbcType=INTEGER}
+        <if test="did != null">
+            and e.d_id = #{did,jdbcType=INTEGER}
         </if>
         <if test="status != null">
-            and status = #{status,jdbcType=INTEGER}
+            and e.status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="process != null">
+            and e.process = #{process,jdbcType=INTEGER}
+        </if>
+        <if test="summary != null">
+            and e.summary = #{summary,jdbcType=VARCHAR}
+        </if>
+        <if test="mergeReason != null">
+            and e.merge_reason = #{mergeReason,jdbcType=VARCHAR}
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Event" useGeneratedKeys="true" keyProperty="id">
-        insert into event_receive (e_id, event_number, event_title, receive_time, incident_time, incident_location, lng, lat, influence_sphere, incident_area_id, pp_id, report_mechanism_id,
-        reporter, report_tel, d_id, status)
-        values (#{id,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, #{receiveTime,jdbcType=VARCHAR},
+        insert into event_receive (e_id, event_number, event_desc, event_title, receive_time, incident_time, incident_location, lng, lat, influence_sphere, incident_area_id, pt_id, report_mechanism_id,
+        reporter, report_tel, d_id, status, process, summary, merge_reason)
+        values (#{id,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{eventDesc,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, #{receiveTime,jdbcType=VARCHAR},
           #{incidentTime,jdbcType=VARCHAR}, #{incidentLocation,jdbcType=VARCHAR}, #{lng,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE},
-          #{influenceSphere,jdbcType=VARCHAR}, #{incidentAreaId,jdbcType=INTEGER}, #{ppId,jdbcType=INTEGER}, #{reportMechanismId,jdbcType=INTEGER},
-          #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{dId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
-          )
+          #{influenceSphere,jdbcType=VARCHAR}, #{incidentAreaId,jdbcType=INTEGER}, #{ptId,jdbcType=INTEGER}, #{reportMechanismId,jdbcType=INTEGER},
+          #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
+          #{summary,jdbcType=VARCHAR}, #{mergeReason,jdbcType=VARCHAR})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Event">
       DELETE event_receive
@@ -92,76 +112,89 @@
         update event_receive
         <set>
             <if test="eventNumber != null">
-                event_number = #{eventNumber,jdbcType=VARCHAR}
+                event_number = #{eventNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="eventDesc != null">
+                event_desc = #{eventDesc,jdbcType=VARCHAR},
             </if>
             <if test="eventTitle != null">
-                event_title = #{eventTitle,jdbcType=VARCHAR}
+                event_title = #{eventTitle,jdbcType=VARCHAR},
             </if>
             <if test="receiveTime != null">
-                receive_time = #{receiveTime,jdbcType=VARCHAR}
+                receive_time = #{receiveTime,jdbcType=VARCHAR},
             </if>
             <if test="incidentTime != null">
-                incident_time = #{incidentTime,jdbcType=VARCHAR}
+                incident_time = #{incidentTime,jdbcType=VARCHAR},
             </if>
             <if test="incidentLocation != null">
-                incident_location = #{incidentLocation,jdbcType=VARCHAR}
+                incident_location = #{incidentLocation,jdbcType=VARCHAR},
             </if>
             <if test="lng != null">
-                lng = #{lng,jdbcType=DOUBLE}
+                lng = #{lng,jdbcType=DOUBLE},
             </if>
             <if test="lat != null">
-                lat = #{lat,jdbcType=DOUBLE}
+                lat = #{lat,jdbcType=DOUBLE},
             </if>
             <if test="influenceSphere != null">
-                influence_sphere = #{influenceSphere,jdbcType=DOUBLE}
+                influence_sphere = #{influenceSphere,jdbcType=DOUBLE},
             </if>
             <if test="incidentAreaId != null">
-                incident_area_id = #{incidentAreaId,jdbcType=INTEGER}
+                incident_area_id = #{incidentAreaId,jdbcType=INTEGER},
             </if>
-            <if test="ppId != null">
-                pp_id = #{ppId,jdbcType=INTEGER}
+            <if test="ptId != null">
+                pt_id = #{ptId,jdbcType=INTEGER},
             </if>
             <if test="reportMechanismId != null">
-                report_mechanism_id = #{reportMechanismId,jdbcType=INTEGER}
+                report_mechanism_id = #{reportMechanismId,jdbcType=INTEGER},
             </if>
             <if test="reporter != null">
-                reporter = #{reporter,jdbcType=VARCHAR}
+                reporter = #{reporter,jdbcType=VARCHAR},
             </if>
             <if test="reportTel != null">
-                report_tel = #{reportTel,jdbcType=VARCHAR}
+                report_tel = #{reportTel,jdbcType=VARCHAR},
             </if>
-            <if test="dId != null">
-                d_id = #{dId,jdbcType=INTEGER}
+            <if test="did != null">
+                d_id = #{did,jdbcType=INTEGER},
             </if>
             <if test="status != null">
-                status = #{status,jdbcType=INTEGER}
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="process != null">
+                process = #{process,jdbcType=INTEGER},
+            </if>
+            <if test="summary != null">
+                e.summary = #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="mergeReason != null">
+               e.merge_reason = #{mergeReason,jdbcType=VARCHAR},
             </if>
         </set>
         where e_id = #{id,jdbcType=INTEGER}
     </update>
-
-    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from event_receive
-        where e_id = #{id,jdbcType=INTEGER}
+        from event_receive e, plan_type pt, mechanism m, duty d
+        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.d_id = d.id and e.e_id = #{id,jdbcType=BIGINT}
     </select>
-
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventExtend">
         select
         <include refid="Base_Column_List"/>
-        from event_receive
+        from event_receive e, plan_type pt, mechanism m, duty d
+        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.d_id = d.id
         <include refid="Basic_Conditions"/>
     </select>
-
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventExtend">
         select
         <include refid="Base_Column_List"/>
-        from event_receive
+        from event_receive e, plan_type pt, mechanism m, duty d
+        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.d_id = d.id
         <include refid="Basic_Conditions"/>
-        limit ${index}, ${pageSize}
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        limit ${page}, ${pageSize}
     </select>
-
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Event">
         select count(e_id)
         from event_receive
@@ -176,7 +209,6 @@
         values (#{id, jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR},
         #{reportContent,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR})
     </insert>
-
     <update id="updateDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">
         update event_development
         <set>

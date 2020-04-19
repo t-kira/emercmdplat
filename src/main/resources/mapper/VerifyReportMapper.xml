@@ -3,105 +3,77 @@
 <mapper namespace="com.kira.emercmdplat.mapper.VerifyReportMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.VerifyReport">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="e_id" property="eid" jdbcType="INTEGER"/>
         <result column="pv_id" property="pvId" jdbcType="INTEGER"/>
         <result column="pr_id" property="prId" jdbcType="INTEGER"/>
+        <result column="d_id"  property="did" jdbcType="INTEGER"/>
         <result column="judge_opinion" property="judgeOpinion" jdbcType="VARCHAR"/>
         <result column="attach_address" property="attachAddress" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
-        <result column="d_contact_num" property="contactNum" jdbcType="VARCHAR"/>
-        <result column="d_cell_num" property="cellNum" jdbcType="VARCHAR"/>
-        <result column="d_email" property="email" jdbcType="VARCHAR"/>
-        <result column="d_fax_num" property="faxNum" jdbcType="VARCHAR"/>
-        <result column="d_create_time" property="createTime" jdbcType="VARCHAR"/>
-        <result column="d_update_time" property="updateTime" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, d_name, d_gender, d_username, m_id, j_id, d_contact_num, d_cell_num, d_email, d_fax_num, d_create_time,d_update_time
+    id,e_id, pv_id, pr_id, d_id, judge_opinion, attach_address, create_time
   </sql>
   <sql id="Basic_Conditions" >
     <![CDATA[where 1=1 ]]>
     <if test="id != null" >
       and id = #{id,jdbcType=INTEGER}
     </if>
-    <if test="name != null" >
-      and d_name = #{name,jdbcType=VARCHAR}
+      <if test="eid != null">
+        and e_id = #{eid, jdbcType=INTEGER}
+      </if>
+    <if test="pvId != null" >
+      and pv_id = #{pvId,jdbcType=INTEGER}
     </if>
-    <if test="gender != null" >
-      and d_gender = #{gender,jdbcType=INTEGER}
+    <if test="prId != null" >
+      and pr_id = #{prId,jdbcType=INTEGER}
     </if>
-    <if test="userName != null" >
-      and d_username = #{userName,jdbcType=VARCHAR}
+      <if test="did != null" >
+          and d_id = #{did,jdbcType=INTEGER}
+      </if>
+    <if test="judgeOpinion != null" >
+      and judge_opinion = #{judgeOpinion,jdbcType=VARCHAR}
     </if>
-    <if test="mId != null" >
-      and m_id = #{mId,jdbcType=INTEGER}
-    </if>
-    <if test="jId != null" >
-      and j_id = #{jId,jdbcType=INTEGER}
-    </if>
-    <if test="contactNum != null" >
-      and d_contact_num = #{contactNum,jdbcType=VARCHAR}
-    </if>
-    <if test="cellNum != null" >
-      and d_cell_num = #{cellNum,jdbcType=VARCHAR}
-    </if>
-    <if test="email != null" >
-      and d_email = #{email,jdbcType=VARCHAR}
-    </if>
-    <if test="faxNum != null" >
-      and d_fax_num = #{faxNum,jdbcType=VARCHAR}
+    <if test="attachAddress != null" >
+      and attach_address = #{attachAddress,jdbcType=VARCHAR}
     </if>
     <if test="createTime != null" >
-      and d_create_time = #{createTime,jdbcType=VARCHAR}
-    </if>
-    <if test="updateTime != null" >
-      and d_update_time = #{updateTime,jdbcType=VARCHAR}
+      and create_time = #{createTime,jdbcType=VARCHAR}
     </if>
   </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Duty" >
-    insert into duty (id, d_name, d_gender, d_username, m_id, j_id, d_contact_num, d_cell_num, d_email, d_fax_num, d_create_time,d_update_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
-      #{mId,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{contactNum,jdbcType=VARCHAR}, #{cellNum,jdbcType=VARCHAR},
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.VerifyReport" useGeneratedKeys="true" keyProperty="id">
+    insert into verify_report (id, e_id, pv_id, pr_id, d_id, judge_opinion, attach_address, create_time)
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{pvId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{judgeOpinion,jdbcType=VARCHAR},
+      #{attachAddress,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
   </insert>
-    <update id="delete" parameterType="com.kira.emercmdplat.pojo.Duty">
-    DELETE duty
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
+    DELETE verify_report
     where id = #{id,jdbcType=INTEGER}
   </update>
-    <update id="update" parameterType="com.kira.emercmdplat.pojo.Duty">
-        update duty
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
+        update verify_report
         <set>
-            <if test="name != null">
-                d_name = #{name,jdbcType=VARCHAR}
+            <if test="eid != null">
+                e_id = #{eid, jdbcType=INTEGER},
             </if>
-            <if test="gender != null">
-                d_gender = #{gender,jdbcType=INTEGER}
+            <if test="pvId != null" >
+                 pv_id = #{pvId,jdbcType=INTEGER},
             </if>
-            <if test="userName != null">
-                d_username = #{userName,jdbcType=VARCHAR}
+            <if test="prId != null" >
+                 pr_id = #{prId,jdbcType=INTEGER},
             </if>
-            <if test="mId != null">
-                m_id = #{mId,jdbcType=INTEGER}
+            <if test="did != null">
+                d_id = #{did, jdbcType=INTEGER},
             </if>
-            <if test="jId != null">
-                j_id = #{jId,jdbcType=INTEGER}
+            <if test="judgeOpinion != null" >
+                 judge_opinion = #{judgeOpinion,jdbcType=VARCHAR},
             </if>
-            <if test="contactNum != null">
-                d_contact_num = #{contactNum,jdbcType=VARCHAR}
+            <if test="attachAddress != null" >
+                 attach_address = #{attachAddress,jdbcType=VARCHAR},
             </if>
-            <if test="cellNum != null">
-                d_cell_num = #{cellNum,jdbcType=VARCHAR}
-            </if>
-            <if test="email != null">
-                d_email = #{email,jdbcType=VARCHAR}
-            </if>
-            <if test="faxNum != null">
-                d_fax_num = #{faxNum,jdbcType=VARCHAR}
-            </if>
-            <if test="createTime != null">
-                d_create_time = #{createTime,jdbcType=VARCHAR}
-            </if>
-            <if test="updateTime != null">
-                d_update_time = #{updateTime,jdbcType=VARCHAR}
+            <if test="createTime != null" >
+                 create_time = #{createTime,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
@@ -110,28 +82,28 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from duty
+        from verify_report
         where id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Duty">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         select
         <include refid="Base_Column_List"/>
-        from duty
+        from verify_report
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from duty
+        from verify_report
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
 
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Duty">
-        select count(h_id)
-        from duty
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
+        select count(id)
+        from verify_report
         <include refid="Basic_Conditions"/>
     </select>
 

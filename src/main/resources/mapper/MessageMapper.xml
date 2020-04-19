@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.MessageMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.MessageResult">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="e_id" property="eid" jdbcType="INTEGER"/>
+        <result column="d_id" property="did" jdbcType="INTEGER"/>
+        <result column="to_d_id" property="toDid" jdbcType="INTEGER"/>
+        <result column="v_id" property="vId" jdbcType="INTEGER"/>
+        <result column="m_type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
+        <result column="event_title" property="eventTitle" jdbcType="VARCHAR"/>
+        <result column="event_desc" property="eventDesc" jdbcType="VARCHAR"/>
+        <result column="receive_time" property="receiveTime" jdbcType="VARCHAR"/>
+        <result column="incident_time" property="incidentTime" jdbcType="VARCHAR"/>
+        <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
+        <result column="d_name" property="dName" jdbcType="VARCHAR"/>
+        <result column="reporter" property="reporter" jdbcType="VARCHAR"/>
+        <result column="report_tel" property="reportTel" jdbcType="VARCHAR"/>
+        <result column="quick_report_addr" property="quickReportAddr" jdbcType="VARCHAR"/>
+        <result column="attach_address" property="enclosureAddr" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    m.id, m.e_id, m.d_id, m.to_d_id, m.v_id, m.type, m.status, m.reason, m.v_id,
+    e.event_number, e.event_title, e.event_desc, e.receive_time, e.incident_time,pt.pt_name,
+    d.d_name, e.reporter, e.report_tel, v.attach_address, v.quick_report_addr
+  </sql>
+    <sql id="Basic_Conditions">
+        <!--    <![CDATA[where 1=1 ]]>-->
+        <if test="id != null">
+            and m.id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="eid != null">
+            and m.e_id = #{eid,jdbcType=INTEGER}
+        </if>
+        <if test="did != null">
+            and m.d_id = #{did,jdbcType=INTEGER}
+        </if>
+        <if test="toDid != null">
+            and m.to_d_id = #{toDid,jdbcType=INTEGER}
+        </if>
+        <if test="vId != null">
+            and m.v_id = #{vId,jdbcType=INTEGER}
+        </if>
+        <if test="type != null">
+            and m.m_type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="status != null">
+            and m.status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="reason != null">
+            and m.reason = #{reason,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Message">
+    insert into message (id, e_id, d_id, to_d_id, v_id, m_type, status, reason)
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{toDid,jdbcType=INTEGER},
+      #{vId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR})
+  </insert>
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.Message">
+    DELETE message
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.Message">
+        update message
+        <set>
+            <if test="eid != null">
+                e_id = #{eid,jdbcType=INTEGER},
+            </if>
+            <if test="did != null">
+                d_id = #{did,jdbcType=INTEGER},
+            </if>
+            <if test="toDid != null">
+                to_d_id = #{toDid,jdbcType=INTEGER},
+            </if>
+            <if test="vId != null">
+                v_id = #{vId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                m_type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from message m, event e, plan_type pt, duty d, verify_report v
+        where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.id = e.e_id
+        and m.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Duty">
+        select
+        <include refid="Base_Column_List"/>
+        from message m, event e, plan_type pt, duty d, verify_report v
+        where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.id = e.e_id
+        <include refid="Basic_Conditions"/>
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from message m, event e, plan_type pt, duty d, verify_report v
+        where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.id = e.e_id
+        <include refid="Basic_Conditions"/>
+        limit ${page}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Message">
+        select count(id)
+        from message m
+        <include refid="Basic_Conditions"/>
+    </select>
+
+</mapper>

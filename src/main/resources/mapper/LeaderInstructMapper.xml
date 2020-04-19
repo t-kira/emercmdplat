@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.LeaderInstructMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.LeaderInstruct">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="e_id" property="eId" jdbcType="INTEGER"/>
+        <result column="d_id" property="did" jdbcType="INTEGER"/>
+        <result column="instruct_content" property="instructContent" jdbcType="VARCHAR"/>
+        <result column="instruct_status" property="instructStatus" jdbcType="INTEGER"/>
+        <result column="instruct_time" property="instructTime" jdbcType="VARCHAR"/>
+<!--        <result column="d_name" property="dName" jdbcType="VARCHAR"/>-->
+<!--        <result column="j_name" property="jName" jdbcType="VARCHAR"/>-->
+<!--        <result column="mechanism_name" property="mechanismName" jdbcType="VARCHAR"/>-->
+    </resultMap>
+
+<!--    <sql id="Base_Column_List">-->
+<!--    l.id, l.e_id, l.d_id, l.instruct_content, l.instruct_status, l.instruct_time, d.d_name, j.j_name, m.mechanism_name-->
+<!--  </sql>-->
+    <sql id="Base_Column_List">
+    id, e_id, d_id, instruct_content, instruct_status, instruct_time
+  </sql>
+  <sql id="Basic_Conditions" >
+    <![CDATA[where 1=1 ]]>
+    <if test="id != null" >
+      and id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="eId != null">
+        and e_id = #{eId, jdbcType=INTEGER}
+    </if>
+    <if test="did != null" >
+      and d_id = #{did,jdbcType=INTEGER}
+    </if>
+    <if test="instructContent != null" >
+      and instruct_content = #{instructContent,jdbcType=VARCHAR}
+    </if>
+    <if test="instructStatus != null" >
+      and instruct_status = #{instructStatus,jdbcType=INTEGER}
+    </if>
+    <if test="instructTime != null" >
+      and instruct_time = #{instructTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct" >
+    insert into leader_instruct (id, e_id, d_id, instruct_content, instruct_status, instruct_time)
+    values (#{id,jdbcType=INTEGER}, #{eId, jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{instructContent,jdbcType=VARCHAR}, #{instructStatus,jdbcType=INTEGER},
+      #{instructTime,jdbcType=VARCHAR})
+  </insert>
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
+    DELETE leader_instruct
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
+        update leader_instruct
+        <set>
+            <if test="eId != null">
+                e_id = #{eId, jdbcType=INTEGER}
+            </if>
+            <if test="did != null" >
+                d_id = #{did,jdbcType=INTEGER}
+            </if>
+            <if test="instructContent != null" >
+                instruct_content = #{instructContent,jdbcType=VARCHAR}
+            </if>
+            <if test="instructStatus != null" >
+                instruct_status = #{instructStatus,jdbcType=INTEGER}
+            </if>
+            <if test="instructTime != null" >
+                instruct_time = #{instructTime,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select leader_instruct
+        <include refid="Base_Column_List"/>
+        from
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
+        select
+        <include refid="Base_Column_List"/>
+        from leader_instruct
+        <include refid="Basic_Conditions"/>
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from leader_instruct
+        <include refid="Basic_Conditions"/>
+        limit ${index}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
+        select count(id)
+        from leader_instruct
+        <include refid="Basic_Conditions"/>
+    </select>
+
+</mapper>

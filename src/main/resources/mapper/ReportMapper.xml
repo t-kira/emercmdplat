@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.ReportMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.ReportResult">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="e_id" property="eId" jdbcType="INTEGER"/>
+        <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
+        <result column="d_id" property="did" jdbcType="INTEGER"/>
+        <result column="d_name" property="dName" jdbcType="VARCHAR"/>
+        <result column="report_time" property="reportTime" jdbcType="VARCHAR"/>
+        <result column="key_word" property="keyWord" jdbcType="VARCHAR"/>
+        <result column="report_content" property="reportContent" jdbcType="VARCHAR"/>
+        <result column="r_type" property="type" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    r.id, r.e_id, e.event_number, r.d_id, d.d_name, r.report_time, r.key_word, r.report_content, r.r_type, r.create_time, r.update_time
+  </sql>
+  <sql id="Basic_Conditions" >
+<!--    <![CDATA[where 1=1 ]]>-->
+    <if test="id != null" >
+      and r.id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="eId != null" >
+      and r.e_id = #{eId,jdbcType=INTEGER}
+    </if>
+    <if test="did != null" >
+      and r.d_id = #{did,jdbcType=INTEGER}
+    </if>
+    <if test="reportTime != null" >
+      and r.report_time = #{reportTime,jdbcType=VARCHAR}
+    </if>
+    <if test="keyWord != null" >
+      and r.key_word = #{keyWord,jdbcType=VARCHAR}
+    </if>
+    <if test="reportContent != null" >
+      and r.report_content = #{reportContent,jdbcType=VARCHAR}
+    </if>
+    <if test="type != null" >
+      and r.r_type = #{type,jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null" >
+      and r.create_time = #{createTime,jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null" >
+      and r.update_time = #{updateTime,jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Report" >
+    insert into report (id, e_id, d_id, report_time, key_word, report_content, r_type, create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR},
+      #{keyWord,jdbcType=VARCHAR}, #{reportContent,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
+      #{updateTime,jdbcType=VARCHAR})
+  </insert>
+    <update id="delete" parameterType="java.lang.Long">
+    DELETE report
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.Report">
+        update report
+        <set>
+            <if test="eId != null" >
+                e_id = #{eId,jdbcType=INTEGER},
+            </if>
+            <if test="did != null" >
+                d_id = #{did,jdbcType=INTEGER},
+            </if>
+            <if test="reportTime != null" >
+                report_time = #{reportTime,jdbcType=VARCHAR},
+            </if>
+            <if test="keyWord != null" >
+                key_word = #{keyWord,jdbcType=VARCHAR},
+            </if>
+            <if test="reportContent != null" >
+                report_content = #{reportContent,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                r_type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from report r, event_receive e, duty d
+        where r.e_id = e.e_id and r.d_id = d.d_id and r.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from report r, event_receive e, duty d
+        where r.e_id = e.e_id and r.d_id = d.d_id
+        <include refid="Basic_Conditions"/>
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from report r, event_receive e, duty d
+        where r.e_id = e.e_id and r.d_id = d.d_id
+        <include refid="Basic_Conditions"/>
+        limit ${page}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
+        select count(id)
+        from report r
+        <include refid="Basic_Conditions"/>
+    </select>
+
+</mapper>

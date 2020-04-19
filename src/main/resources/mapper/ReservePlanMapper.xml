@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.ReservePlanMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.ReservePlanResult">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="e_id" property="eid" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
+        <result column="pv_name" property="pvName" jdbcType="VARCHAR"/>
+        <result column="pv_id" property="pvId" jdbcType="INTEGER"/>
+        <result column="pr_id" property="prId" jdbcType="INTEGER"/>
+        <result column="vr_id" property="vrId" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    r.id, r.e_id, r.status, pt.pt_name, pv.pv_name, pv.pv_id, vr.id as vr_id, pr.pr_id
+    </sql>
+    <sql id="Basic_Conditions">
+<!--        <![CDATA[where 1=1 ]]>-->
+        <if test="eId != null">
+            and r.e_id = #{eId,jdbcType=INTEGER}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.ReservePlan" useGeneratedKeys="true" keyProperty="id">
+        insert into reserve_plan (id, e_id, status)
+        values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+    </insert>
+    <delete id="delete" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
+      DELETE reserve_plan
+      where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.ReservePlanResult">
+        update reserve_plan
+        <set>
+            <if test="eId != null">
+                e_id = #{eId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectByEId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_report vr
+        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and e.e_id = #{eId,jdbcType=BIGINT}
+    </select>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_report vr
+        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and r.id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
+        select
+        <include refid="Base_Column_List"/>
+        from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_eport vr
+        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
+        <include refid="Basic_Conditions"/>
+    </select>
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlanExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_eport vr
+        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
+        <include refid="Basic_Conditions"/>
+        limit ${page}, ${pageSize}
+    </select>
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ReservePlanExtend">
+        select count(e_id)
+        from reserve_plan
+        <include refid="Basic_Conditions"/>
+    </select>
+</mapper>
