@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.DutyMapper">
-    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Duty">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.DutyExtent">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="d_name" property="name" jdbcType="VARCHAR"/>
         <result column="d_gender" property="gender" jdbcType="INTEGER"/>
         <result column="d_username" property="userName" jdbcType="VARCHAR"/>
-        <result column="m_id" property="mId" jdbcType="INTEGER"/>
-        <result column="j_id" property="jId" jdbcType="INTEGER"/>
+        <result column="mechanism_name" property="mechanismName" jdbcType="VARCHAR"/>
+        <result column="job_name" property="jobName" jdbcType="VARCHAR"/>
         <result column="d_contact_num" property="contactNum" jdbcType="VARCHAR"/>
         <result column="d_cell_num" property="cellNum" jdbcType="VARCHAR"/>
         <result column="d_email" property="email" jdbcType="VARCHAR"/>
@@ -17,51 +17,52 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, d_name, d_gender, d_username, m_id, j_id, d_contact_num, d_cell_num, d_email, d_fax_num, d_create_time,d_update_time
+    d.id, d.d_name, d.d_gender, d.d_username, m.m_name as mechanism_name, j.j_name as job_name, d.d_contact_num, d.d_cell_num, d.d_email, d.d_fax_num, d.d_create_time,d.d_update_time
   </sql>
   <sql id="Basic_Conditions" >
-    <![CDATA[where 1=1 ]]>
+<!--    <![CDATA[where 1=1 ]]>-->
     <if test="id != null" >
-      and id = #{id,jdbcType=INTEGER}
+      and d.id = #{id,jdbcType=INTEGER}
     </if>
     <if test="name != null" >
-      and d_name = #{name,jdbcType=VARCHAR}
+      and d.d_name = #{name,jdbcType=VARCHAR}
     </if>
     <if test="gender != null" >
-      and d_gender = #{gender,jdbcType=INTEGER}
+      and d.d_gender = #{gender,jdbcType=INTEGER}
     </if>
     <if test="userName != null" >
-      and d_username = #{userName,jdbcType=VARCHAR}
+      and d.d_username = #{userName,jdbcType=VARCHAR}
     </if>
     <if test="mId != null" >
-      and m_id = #{mId,jdbcType=INTEGER}
+      and d.m_id = #{mId,jdbcType=INTEGER}
     </if>
     <if test="jId != null" >
-      and j_id = #{jId,jdbcType=INTEGER}
+      and d.j_id = #{jId,jdbcType=INTEGER}
     </if>
     <if test="contactNum != null" >
-      and d_contact_num = #{contactNum,jdbcType=VARCHAR}
+      and d.d_contact_num = #{contactNum,jdbcType=VARCHAR}
     </if>
     <if test="cellNum != null" >
-      and d_cell_num = #{cellNum,jdbcType=VARCHAR}
+      and d.d_cell_num = #{cellNum,jdbcType=VARCHAR}
     </if>
     <if test="email != null" >
-      and d_email = #{email,jdbcType=VARCHAR}
+      and d.d_email = #{email,jdbcType=VARCHAR}
     </if>
     <if test="faxNum != null" >
-      and d_fax_num = #{faxNum,jdbcType=VARCHAR}
+      and d.d_fax_num = #{faxNum,jdbcType=VARCHAR}
     </if>
     <if test="createTime != null" >
-      and d_create_time = #{createTime,jdbcType=VARCHAR}
+      and d.d_create_time = #{createTime,jdbcType=VARCHAR}
     </if>
     <if test="updateTime != null" >
-      and d_update_time = #{updateTime,jdbcType=VARCHAR}
+      and d.d_update_time = #{updateTime,jdbcType=VARCHAR}
     </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Duty" >
     insert into duty (id, d_name, d_gender, d_username, m_id, j_id, d_contact_num, d_cell_num, d_email, d_fax_num, d_create_time,d_update_time)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR},
-      #{mId,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{contactNum,jdbcType=VARCHAR}, #{cellNum,jdbcType=VARCHAR},
+      #{mId,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{contactNum,jdbcType=VARCHAR}, #{cellNum,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{faxNum,jdbcType=VARCHAR},
+      #{createTim,jdbcType=VARCHAR},#{updateTime,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.Duty">
     DELETE duty
@@ -110,28 +111,30 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from duty
-        where id = #{id,jdbcType=INTEGER}
+        from duty d, mechanism m, job j
+        where d.m_id = m.id and d.j_id = j.id and d.id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Duty">
         select
         <include refid="Base_Column_List"/>
-        from duty
+        from duty d, mechanism m, job j
+        where d.m_id = m.id and d.j_id = j.id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from duty
+        from duty d, mechanism m, job j
+        where d.m_id = m.id and d.j_id = j.id and
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
 
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Duty">
         select count(h_id)
-        from duty
+        from duty d
         <include refid="Basic_Conditions"/>
     </select>
 
