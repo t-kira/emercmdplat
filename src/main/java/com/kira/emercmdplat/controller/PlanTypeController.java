@@ -127,7 +127,7 @@ public class PlanTypeController extends BaseController {
 		List<PlanGroup> list = planTypeService.listGroups(planGroup, page, pageSize);
 		for (PlanGroup pg : list) {
 			String userIds = pg.getUserIds();
-			List<Duty> userList = dutyService.queryForIds(Arrays.asList(userIds.split(",")));
+			List<DutyExtent> userList = dutyService.queryForIds(Arrays.asList(userIds.split(",")));
 			pg.setUserList(userList);
 		}
 		Long count = planTypeService.countGroups(planGroup);

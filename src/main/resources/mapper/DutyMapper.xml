@@ -126,7 +126,8 @@
     <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from from duty d, mechanism m, job j
+        from duty d, mechanism m, job j
+        where d.m_id = m.id and d.j_id = j.id
         and d.id IN
         <foreach collection="ids" separator="," item="item" close=")" open="(">
 			#{item}

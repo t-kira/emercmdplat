@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.Duty;
+import com.kira.emercmdplat.pojo.DutyExtent;
 import com.kira.emercmdplat.pojo.PlanCatalog;
 import com.kira.emercmdplat.pojo.PlanGroup;
 import com.kira.emercmdplat.pojo.PlanOrg;
@@ -136,7 +137,7 @@ public class PlanVersionController extends BaseController {
 	public PlanOrg getOrgById(@ApiComment("预案组织id") Integer id) {
 		PlanOrg planOrg = planVersionService.getOrgById(id);
 		String userIds = planOrg.getUserIds();
-		List<Duty> userList = dutyService.queryForIds(Arrays.asList(userIds.split(",")));
+		List<DutyExtent> userList = dutyService.queryForIds(Arrays.asList(userIds.split(",")));
 		planOrg.setUserList(userList);
 		return planOrg;
 	}

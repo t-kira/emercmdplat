@@ -56,5 +56,5 @@ public interface DutyMapper {
 
 	Long queryForCounts(Duty duty);
 
-	List<Duty> queryForIds(Map<String, Object> map);
+	List<DutyExtent> queryForIds(Map<String, Object> map);
 }

@@ -64,7 +64,7 @@ public class DutyServiceImpl implements DutyService {
     }
 
 	@Override
-	public List<Duty> queryForIds(List ids) {
+	public List<DutyExtent> queryForIds(List ids) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("ids", ids);
 		return dm.queryForIds(paramMap);

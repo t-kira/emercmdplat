@@ -28,5 +28,5 @@ public interface DutyService {
 
 	Long queryForCounts(Duty duty);
 
-	List<Duty> queryForIds(List ids);
+	List<DutyExtent> queryForIds(List ids);
 }

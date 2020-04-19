@@ -37,7 +37,7 @@ public class PlanGroup {
 	 * 预案组成员集合
 	 */
 	@ApiComment(value = "预案组成员集合", sample = "[]")
-	private List<Duty> userList;
+	private List<DutyExtent> userList;
 
     public Integer getId() {
         return id;
@@ -87,11 +87,11 @@ public class PlanGroup {
         this.ptId = ptId;
     }
 
-	public List<Duty> getUserList() {
+	public List<DutyExtent> getUserList() {
 		return userList;
 	}
 
-	public void setUserList(List<Duty> userList) {
+	public void setUserList(List<DutyExtent> userList) {
 		this.userList = userList;
 	}
 
