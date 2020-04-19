@@ -1,10 +1,13 @@
 package com.kira.emercmdplat.pojo;
 
+import lombok.Data;
+
 /**
  * @Author: kira
  * @Date: 2020/4/6 22:59
  * @Description:事件参数
  */
+@Data
 public class EventParam {
     /**
      * 事件录入事件参数ID
@@ -27,43 +30,4 @@ public class EventParam {
      */
     private String ppValue;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long geteId() {
-        return eId;
-    }
-
-    public void seteId(Long eId) {
-        this.eId = eId;
-    }
-
-    public String getEventNumber() {
-        return eventNumber;
-    }
-
-    public void setEventNumber(String eventNumber) {
-        this.eventNumber = eventNumber;
-    }
-
-    public Long getPpId() {
-        return ppId;
-    }
-
-    public void setPpId(Long ppId) {
-        this.ppId = ppId;
-    }
-
-    public String getPpValue() {
-        return ppValue;
-    }
-
-    public void setPpValue(String ppValue) {
-        this.ppValue = ppValue;
-    }
 }

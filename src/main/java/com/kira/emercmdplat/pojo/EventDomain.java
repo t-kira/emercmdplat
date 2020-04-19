@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -7,25 +9,10 @@ import java.util.List;
  * @Date: 2020/4/7 00:05
  * @Description:
  */
+@Data
 public class EventDomain {
 
     private Event event;
 
     private List<EventParam> eventParamList;
-
-    public Event getEvent() {
-        return event;
-    }
-
-    public void setEvent(Event event) {
-        this.event = event;
-    }
-
-    public List<EventParam> getEventParamList() {
-        return eventParamList;
-    }
-
-    public void setEventParamList(List<EventParam> eventParamList) {
-        this.eventParamList = eventParamList;
-    }
 }
