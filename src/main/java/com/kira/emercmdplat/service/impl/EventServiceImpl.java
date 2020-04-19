@@ -1,9 +1,7 @@
 package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.mapper.EventMapper;
-import com.kira.emercmdplat.pojo.Event;
-import com.kira.emercmdplat.pojo.EventDevelopment;
-import com.kira.emercmdplat.pojo.EventParam;
+import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,39 +21,38 @@ public class EventServiceImpl implements EventService {
     @Autowired
     private EventMapper em;
 
-    @Override
-    public int insert(Event pojo) {
-        return em.insert(pojo);
+    public int insert(Event event) {
+        return em.insert(event);
     }
 
     @Override
-    public boolean delete(Event pojo) {
-        return em.delete(pojo);
+    public boolean delete(Event event) {
+        return em.delete(event);
     }
 
     @Override
-    public boolean update(Event pojo) {
-        return em.update(pojo);
+    public boolean update(Event event) {
+        return em.update(event);
     }
 
     @Override
-    public Event selectById(Integer id) {
+    public EventResult selectById(Long id) {
         return em.selectById(id);
     }
 
     @Override
-    public List<Event> queryForAll(Event pojo) {
-        return em.queryForAll(pojo);
+    public List<EventResult> queryForAll(EventExtend eventExtend) {
+        return em.queryForAll(eventExtend);
     }
 
     @Override
-    public List<Event> queryForPage(Event pojo, Integer page, Integer pageSize) {
-        Map<String, Object> paramMap = new HashMap<>();
-        return em.queryForPage(paramMap);
+    public List<EventResult> queryForPage(EventExtend eventExtend) {
+        eventExtend.setPage((eventExtend.getPage() - 1) * eventExtend.getPageSize());
+        return em.queryForPage(eventExtend);
     }
 
     @Override
-    public Long queryForCounts(Event pojo) {
+    public Long queryForCounts(EventExtend pojo) {
         return em.queryForCounts(pojo);
     }
 
@@ -78,5 +75,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public int updateDevelopment(EventDevelopment eventDevelopment) {
         return em.updateDevelopment(eventDevelopment);
+    }
+
+    @Override
+    public EventResult selectByEId(Long eId) {
+        return em.selectByEId(eId);
     }
 }
