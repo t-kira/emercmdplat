@@ -2,6 +2,7 @@ package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.mapper.DutyMapper;
 import com.kira.emercmdplat.pojo.Duty;
+import com.kira.emercmdplat.pojo.DutyExtent;
 import com.kira.emercmdplat.service.DutyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,38 +26,38 @@ public class DutyServiceImpl implements DutyService {
     private DutyMapper dm;
 
     @Override
-    public int insert(Duty pojo) {
+    public int insert(DutyExtent pojo) {
         return dm.insert(pojo);
     }
 
     @Override
-    public boolean delete(Duty pojo) {
+    public boolean delete(DutyExtent pojo) {
         return dm.delete(pojo);
     }
 
     @Override
-    public boolean update(Duty pojo) {
+    public boolean update(DutyExtent pojo) {
         return dm.update(pojo);
     }
 
     @Override
-    public Duty selectById(Integer id) {
+    public DutyExtent selectById(Integer id) {
         return dm.selectById(id);
     }
 
     @Override
-    public List<Duty> queryForAll(Duty pojo) {
+    public List<DutyExtent> queryForAll(DutyExtent pojo) {
         return dm.queryForAll(pojo);
     }
 
     @Override
-    public List<Duty> queryForPage(Duty pojo, Integer page, Integer pageSize) {
+    public List<DutyExtent> queryForPage(DutyExtent pojo, Integer page, Integer pageSize) {
         Map<String, Object> paramMap = new HashMap<>();
         return dm.queryForPage(paramMap);
     }
 
     @Override
-    public Long queryForCounts(Duty pojo) {
+    public Long queryForCounts(DutyExtent pojo) {
         return dm.queryForCounts(pojo);
     }
 }
