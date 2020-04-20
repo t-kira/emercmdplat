@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,9 +53,9 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 1)
     @ApiComment(value="列出预案列表")
 	@RequestMapping(name="列出预案列表",value="/listVersions",method=RequestMethod.POST)
-	public PlanVersionResult listVersions(@ApiComment(value="查询参数",sample="{name:'aaa'}") PlanVersion planVersion,@ApiComment("第几页") Integer page,@ApiComment("每页显示条数") Integer pageSize) {
+	public PlanVersionResult listVersions(@ApiComment(value="查询参数",sample="{name:'aaa'}") @RequestBody PlanVersion planVersion) {
 		PlanVersionResult result = new PlanVersionResult();
-		List<PlanVersion> list = planVersionService.listVersions(planVersion, page, pageSize);
+		List<PlanVersion> list = planVersionService.listVersions(planVersion);
 		for (PlanVersion pv : list) {
 			Integer type = pv.getType();
 			pv.setTypeName(planTypeService.getPlanTypeById(type).getName());
@@ -102,7 +103,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 2)
 	@ApiComment("插入预案，参数类型参见列出预案列表")
 	@RequestMapping(name="插入预案",value="/insertVersion",method=RequestMethod.POST)
-	public int insertVersion(@ApiComment(value="插入预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") PlanVersion planVersion) {
+	public int insertVersion(@ApiComment(value="插入预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
 		int id = planVersionService.insertVersion(planVersion);
 		return id;
 	}
@@ -110,7 +111,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 3)
 	@ApiComment("修改预案，参数类型参见列出预案列表")
 	@RequestMapping(name="修改预案",value="/updateVersion",method=RequestMethod.POST)
-	public String updateVersion(@ApiComment(value="修改预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") PlanVersion planVersion) {
+	public String updateVersion(@ApiComment(value="修改预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
 		planVersionService.updateVersion(planVersion);
 		return "success";
 	}
@@ -126,7 +127,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 5)
     @ApiComment(value="列出预案组织树")
 	@RequestMapping(name="列出预案组织树",value="/listOrgTree",method=RequestMethod.POST)
-	public List<Node> listOrgTree(@ApiComment(value="查询参数",sample="{name:'aaa',pvId:1}") PlanOrg planOrg) {
+	public List<Node> listOrgTree(@ApiComment(value="查询参数",sample="{name:'aaa',pvId:1}") @RequestBody PlanOrg planOrg) {
 		List<Node> list = planVersionService.listOrgTree(planOrg);
 		return list;
 	}
@@ -145,7 +146,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 6)
     @ApiComment(value="插入预案组织树")
 	@RequestMapping(name="插入预案组织树",value="/insertOrg",method=RequestMethod.POST)
-	public PlanOrg insertOrg(PlanOrg planOrg) {
+	public PlanOrg insertOrg(@RequestBody PlanOrg planOrg) {
 		planVersionService.insertOrg(planOrg);
 		return planOrg;
 	}
@@ -153,7 +154,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 7)
     @ApiComment(value="修改预案组织树")
 	@RequestMapping(name="修改预案组织树",value="/updateOrg",method=RequestMethod.POST)
-	public PlanOrg updateOrg(PlanOrg planOrg) {
+	public PlanOrg updateOrg(@RequestBody PlanOrg planOrg) {
 		planVersionService.updateOrg(planOrg);
 		return planOrg;
 	}
@@ -177,7 +178,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 10)
     @ApiComment(value="插入预案响应")
 	@RequestMapping(name="插入预案响应",value="/insertResponse",method=RequestMethod.POST)
-	public String insertResponse(@ApiComment(value="插入预案响应",sample="{id:1,level:'一级响应',color:1,type:1,desc:'aaa',pvId:1}") PlanResponse planResponse) {
+	public String insertResponse(@ApiComment(value="插入预案响应",sample="{id:1,level:'一级响应',color:1,type:1,desc:'aaa',pvId:1}") @RequestBody PlanResponse planResponse) {
 		planVersionService.insertResponse(planResponse);
 		return "success";
 	}
@@ -206,7 +207,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 13)
     @ApiComment(value="插入预案响应流程")
 	@RequestMapping(name="插入预案响应流程",value="/insertResponseFlow",method=RequestMethod.POST)
-	public String insertResponseFlow(@ApiComment(value="插入预案响应流程",sample="{id:1,name:'aaa',content:'aaa',groupIds:'1,2,3',prId:1}") PlanResponseFlow planResponseFlow) {
+	public String insertResponseFlow(@ApiComment(value="插入预案响应流程",sample="{id:1,name:'aaa',content:'aaa',groupIds:'1,2,3',prId:1}") @RequestBody PlanResponseFlow planResponseFlow) {
 		planVersionService.insertResponseFlow(planResponseFlow);
 		return "success";
 	}
@@ -234,7 +235,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 16)
     @ApiComment(value="插入预案响应流程任务")
 	@RequestMapping(name="插入预案响应流程任务",value="/insertResponseFlowTask",method=RequestMethod.POST)
-	public String insertResponseFlowTask(@ApiComment(value="插入预案响应流程",sample="{id:1,name:'aaa',desc:'aaa',groupId:'1',prfId:1}") PlanResponseFlowTask planResponseFlowTask) {
+	public String insertResponseFlowTask(@ApiComment(value="插入预案响应流程",sample="{id:1,name:'aaa',desc:'aaa',groupId:'1',prfId:1}") @RequestBody PlanResponseFlowTask planResponseFlowTask) {
 		planVersionService.insertResponseFlowTask(planResponseFlowTask);
 		return "success";
 	}
@@ -250,7 +251,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 18)
     @ApiComment(value="列出预案响应保障树")
 	@RequestMapping(name="列出预案响应保障树",value="/listResponseGuardTree",method=RequestMethod.POST)
-	public List<Node> listResponseGuardTree(@ApiComment(value="查询参数",sample="{name:'aaa',prId:1}") PlanResponseGuard planResponseGuard) {
+	public List<Node> listResponseGuardTree(@ApiComment(value="查询参数",sample="{name:'aaa',prId:1}") @RequestBody PlanResponseGuard planResponseGuard) {
 		List<Node> list = planVersionService.listResponseGuardTree(planResponseGuard);
 		return list;
 	}
@@ -292,7 +293,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 19)
     @ApiComment(value="插入预案响应保障")
 	@RequestMapping(name="插入预案响应保障",value="/insertResponseGuard",method=RequestMethod.POST)
-	public PlanResponseGuard insertResponseGuard(PlanResponseGuard planResponseGuard) {
+	public PlanResponseGuard insertResponseGuard(@RequestBody PlanResponseGuard planResponseGuard) {
 		planVersionService.insertResponseGuard(planResponseGuard);
 		return planResponseGuard;
 	}
@@ -300,7 +301,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 20)
     @ApiComment(value="修改预案响应保障")
 	@RequestMapping(name="修改预案响应保障",value="/updateResponseGuard",method=RequestMethod.POST)
-	public PlanResponseGuard updateResponseGuard(PlanResponseGuard planResponseGuard) {
+	public PlanResponseGuard updateResponseGuard(@RequestBody PlanResponseGuard planResponseGuard) {
 		planVersionService.updateResponseGuard(planResponseGuard);
 		return planResponseGuard;
 	}
@@ -316,7 +317,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 22)
     @ApiComment(value="列出预案文本目录")
 	@RequestMapping(name="列出预案文本目录",value="/listCatalogTree",method=RequestMethod.POST)
-	public List<Node> listCatalogTree(@ApiComment(value="查询参数",sample="{node:'aaa',pvId:1}") PlanCatalog planCatalog) {
+	public List<Node> listCatalogTree(@ApiComment(value="查询参数",sample="{node:'aaa',pvId:1}") @RequestBody PlanCatalog planCatalog) {
 		List<Node> list = planVersionService.listCatalogTree(planCatalog);
 		return list;
 	}
@@ -332,7 +333,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 23)
     @ApiComment(value="插入预案文本目录")
 	@RequestMapping(name="插入预案文本目录",value="/insertCatalog",method=RequestMethod.POST)
-	public PlanCatalog insertCatalog(PlanCatalog planCatalog) {
+	public PlanCatalog insertCatalog(@RequestBody PlanCatalog planCatalog) {
 		planVersionService.insertCatalog(planCatalog);
 		return planCatalog;
 	}
@@ -340,7 +341,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 24)
     @ApiComment(value="修改预案文本目录")
 	@RequestMapping(name="修改预案文本目录",value="/updateCatalog",method=RequestMethod.POST)
-	public PlanCatalog updateCatalog(PlanCatalog planCatalog) {
+	public PlanCatalog updateCatalog(@RequestBody PlanCatalog planCatalog) {
 		planVersionService.updateCatalog(planCatalog);
 		return planCatalog;
 	}

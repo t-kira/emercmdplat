@@ -13,7 +13,7 @@ import com.kira.emercmdplat.utils.Node;
 
 public interface PlanVersionService {
 
-	List<PlanVersion> listVersions(PlanVersion planVersion, Integer page, Integer pageSize);
+	List<PlanVersion> listVersions(PlanVersion planVersion);
 
 	List<PlanVersion> listAllVersions(PlanVersion planVersion);
 

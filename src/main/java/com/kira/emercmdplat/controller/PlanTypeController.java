@@ -31,15 +31,15 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 1)
     @ApiComment(value="列出预案分类树")
 	@RequestMapping(name="列出预案分类树",value="/listTypeTree",method=RequestMethod.POST)
-	public List<Node> listTypeTree(@ApiComment("查询名字") String name) {
-		List<Node> list = planTypeService.listTypeTree(name);
+	public List<Node> listTypeTree(@ApiComment("查询名字") @RequestBody Node node) {
+		List<Node> list = planTypeService.listTypeTree(node);
 		return list;
 	}
 
 	@Api2Doc(order = 2)
 	@ApiComment(value="插入预案类型，参数类型参见预案分类树")
 	@RequestMapping(name="插入预案类型",value="/insertType",method=RequestMethod.POST)
-	public String insertType(@ApiComment(value="插入预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") PlanType planType) {
+	public String insertType(@ApiComment(value="插入预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") @RequestBody PlanType planType) {
 		planTypeService.insertType(planType);
 		return "success";
 	}
@@ -47,7 +47,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 3)
 	@ApiComment(value="修改预案类型，参数类型参见预案分类树")
 	@RequestMapping(name="修改预案类型",value="/updateType",method=RequestMethod.POST)
-	public String updateType(@ApiComment(value="修改预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") PlanType planType) {
+	public String updateType(@ApiComment(value="修改预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") @RequestBody PlanType planType) {
 		planTypeService.updateType(planType);
 		return "success";
 	}
@@ -99,7 +99,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 9)
 	@ApiComment("插入预案参数，参数类型参见列出预案参数")
 	@RequestMapping(name="插入预案参数",value="/insertParam",method=RequestMethod.POST)
-	public String insertParam(@ApiComment(value="插入预案参数",sample="{id:1,name:'aaa',type:1,unit:'人数',ptId:3}") PlanParam planParam) {
+	public String insertParam(@ApiComment(value="插入预案参数",sample="{id:1,name:'aaa',type:1,unit:'人数',ptId:3}") @RequestBody PlanParam planParam) {
 		planTypeService.insertParam(planParam);
 		return "success";
 	}
@@ -107,7 +107,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 10)
 	@ApiComment("修改预案参数，参数类型参见列出预案参数")
 	@RequestMapping(name="修改预案参数",value="/updateParam",method=RequestMethod.POST)
-	public String updateParam(@ApiComment(value="修改预案参数",sample="{id:1,name:'aaa',type:1,unit:'人数',ptId:3}") PlanParam planParam) {
+	public String updateParam(@ApiComment(value="修改预案参数",sample="{id:1,name:'aaa',type:1,unit:'人数',ptId:3}") @RequestBody PlanParam planParam) {
 		planTypeService.updateParam(planParam);
 		return "success";
 	}
@@ -123,9 +123,9 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 12)
 	@ApiComment("列出预案组")
 	@RequestMapping(name="列出预案组",value="/listGroups",method=RequestMethod.POST)
-	public PlanGroupResult listGroups(@ApiComment(value="查询参数",sample="{name:'aaa',ptId:3}") PlanGroup planGroup,@ApiComment("第几页") Integer page,@ApiComment("每页显示条数") Integer pageSize) {
+	public PlanGroupResult listGroups(@ApiComment(value="查询参数",sample="{name:'aaa',ptId:3,page:1,pageSize:10}") @RequestBody PlanGroup planGroup) {
 		PlanGroupResult result = new PlanGroupResult();
-		List<PlanGroup> list = planTypeService.listGroups(planGroup, page, pageSize);
+		List<PlanGroup> list = planTypeService.listGroups(planGroup);
 		for (PlanGroup pg : list) {
 			String userIds = pg.getUserIds();
 			List<DutyExtent> userList = dutyService.queryForIds(Arrays.asList(userIds.split(",")));
@@ -147,7 +147,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 13)
 	@ApiComment("插入预案组，参数类型参见列出预案组")
 	@RequestMapping(name="插入预案组",value="/insertGroup",method=RequestMethod.POST)
-	public String insertGroup(@ApiComment(value="插入预案组",sample="{id:1,name:'aaa',leader:'aaa',userIds:'1,2,3',duty:'aaa',ptId:3}") PlanGroup planGroup) {
+	public String insertGroup(@ApiComment(value="插入预案组",sample="{id:1,name:'aaa',leader:'aaa',userIds:'1,2,3',duty:'aaa',ptId:3}") @RequestBody PlanGroup planGroup) {
 		planTypeService.insertGroup(planGroup);
 		return "success";
 	}
@@ -155,7 +155,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 14)
 	@ApiComment("修改预案组，参数类型参见列出预案组")
 	@RequestMapping(name="修改预案组",value="/updateGroup",method=RequestMethod.POST)
-	public String updateGroup(@ApiComment(value="修改预案组",sample="{id:1,name:'aaa',leader:'aaa',userIds:'1,2,3',duty:'aaa',ptId:3}") PlanGroup planGroup) {
+	public String updateGroup(@ApiComment(value="修改预案组",sample="{id:1,name:'aaa',leader:'aaa',userIds:'1,2,3',duty:'aaa',ptId:3}") @RequestBody PlanGroup planGroup) {
 		planTypeService.updateGroup(planGroup);
 		return "success";
 	}

@@ -56,8 +56,8 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	private DataTypeService dataTypeService;
 
 	@Override
-	public List<PlanVersion> listVersions(PlanVersion planVersion, Integer page, Integer pageSize) {
-		Map<String,Object> paramMap = PojoUtil.pojoToMap(planVersion, page, pageSize);
+	public List<PlanVersion> listVersions(PlanVersion planVersion) {
+		Map<String,Object> paramMap = PojoUtil.pojoToMap(planVersion, planVersion.getPage(), planVersion.getPageSize());
 		return planVersionMapper.queryForPage(paramMap);
 	}
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
-public class PlanVersion {
+public class PlanVersion extends BaseObject {
 	
 	@ApiComment(value = "id", sample = "1")
 	private Integer id;

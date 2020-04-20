@@ -36,9 +36,9 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     private PlanGroupMapper planGroupMapper;
 
     @Override
-    public List<Node> listTypeTree(String name) {
+    public List<Node> listTypeTree(Node node) {
         PlanType param = new PlanType();
-        param.setName(name);
+        param.setName(node.getName());
         List<PlanType> list = planTypeMapper.queryForAll(param);
         List<Node> newList = new ArrayList<>();
         for (PlanType planType : list) {
@@ -123,8 +123,8 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
-    public List<PlanGroup> listGroups(PlanGroup planGroup, Integer page, Integer pageSize) {
-        Map<String, Object> paramMap = PojoUtil.pojoToMap(planGroup, page, pageSize);
+    public List<PlanGroup> listGroups(PlanGroup planGroup) {
+        Map<String, Object> paramMap = PojoUtil.pojoToMap(planGroup,planGroup.getPage(),planGroup.getPageSize());
         return planGroupMapper.queryForPage(paramMap);
     }
 

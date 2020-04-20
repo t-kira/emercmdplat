@@ -10,7 +10,7 @@ import com.kira.emercmdplat.utils.Node;
 
 public interface PlanTypeService {
 
-    List<Node> listTypeTree(String name);
+    List<Node> listTypeTree(Node node);
 
     void insertType(PlanType planType);
 
@@ -36,7 +36,7 @@ public interface PlanTypeService {
 
     void deleteParam(Integer id);
 
-    List<PlanGroup> listGroups(PlanGroup planGroup, Integer page, Integer pageSize);
+    List<PlanGroup> listGroups(PlanGroup planGroup);
 
     Long countGroups(PlanGroup planGroup);
 
