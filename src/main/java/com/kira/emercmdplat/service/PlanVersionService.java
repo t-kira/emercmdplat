@@ -15,7 +15,7 @@ public interface PlanVersionService {
 
 	List<PlanVersion> listVersions(PlanVersion planVersion, Integer page, Integer pageSize);
 
-	List<PlanVersion> listVersions(PlanVersion planVersion);
+	List<PlanVersion> listAllVersions(PlanVersion planVersion);
 
 	Long countVersions(PlanVersion planVersion);
 
@@ -72,7 +72,7 @@ public interface PlanVersionService {
 	PlanResponseGuard getResponseGuardById(Integer id);
 
 	PlanCatalog getCatalogById(Integer id);
-	
+
 	PlanVersion getPlanVerionById(Integer id);
 
 }

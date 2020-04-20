@@ -62,8 +62,8 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public List<PlanVersion> listVersions(PlanVersion planVersion) {
-		return null;
+	public List<PlanVersion> listAllVersions(PlanVersion planVersion) {
+		return planVersionMapper.queryForAll(planVersion);
 	}
 
 	@Override

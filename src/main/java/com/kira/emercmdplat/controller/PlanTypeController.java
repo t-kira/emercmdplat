@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kira.emercmdplat.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,7 +71,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 6)
 	@ApiComment(value="插入预案标签，参数类型参见列出预案标签")
 	@RequestMapping(name="插入预案标签",value="/insertTag",method=RequestMethod.POST)
-	public String insertTag(@ApiComment(value="插入预案标签",sample="{id:1,name:'aaa',ptId:3}") PlanTag planTag) {
+	public String insertTag(@ApiComment(value="插入预案标签",sample="{id:1,name:'aaa',ptId:3}") @RequestBody PlanTag planTag) {
 		planTypeService.insertTag(planTag);
 		return "success";
 	}

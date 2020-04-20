@@ -231,7 +231,7 @@ public class EventController extends BaseController {
     public AlvesJSONResult listPlanVersion(@PathVariable int id) {
         PlanVersion planVersion = new PlanVersion();
         planVersion.setType(id);
-        List<PlanVersion> planVersionList = pvs.listVersions(planVersion);
+        List<PlanVersion> planVersionList = pvs.listAllVersions(planVersion);
         return AlvesJSONResult.ok(planVersionList);
     }
 

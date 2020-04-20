@@ -51,7 +51,7 @@
         select
         <include refid="Base_Column_List"/>
         from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_report vr
-        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and r.id = #{id,jdbcType=BIGINT}
+        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and r.e_id = #{id,jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
         select
