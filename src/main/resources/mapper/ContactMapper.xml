@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.ContactMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.ContactsResult">
+        <id column="c_id" property="id" jdbcType="INTEGER"/>
+        <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="INTEGER"/>
+        <result column="j_id" property="jId" jdbcType="INTEGER"/>
+        <result column="m_id" property="mId" jdbcType="INTEGER"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="backup_phone" property="backupPhone" jdbcType="VARCHAR"/>
+        <result column="terminal" property="terminal" jdbcType="VARCHAR"/>
+        <result column="work_phone" property="workPhone" jdbcType="VARCHAR"/>
+        <result column="home_phone" property="homePhone" jdbcType="VARCHAR"/>
+        <result column="other_phone" property="otherPhone" jdbcType="VARCHAR"/>
+        <result column="fax_number" property="faxNumber" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="importance_degree" property="importanceDegree" jdbcType="INTEGER"/>
+        <result column="photo" property="photo" jdbcType="VARCHAR"/>
+        <result column="notes" property="notes" jdbcType="VARCHAR"/>
+        <result column="g_id" property="gId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="j_name" property="jName" jdbcType="VARCHAR"/>
+        <result column="m_name" property="mName" jdbcType="VARCHAR"/>
+        <result column="g_name" property="gName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
+        c.photo, c.notes, c.g_id, c.create_time, c.update_time, j.j_name, m.m_name, g.g_name
+    </sql>
+  <sql id="Basic_Conditions" >
+<!--    <![CDATA[where 1=1 ]]>-->
+    <if test="id != null" >
+      and c.c_id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="contactName != null" >
+      and c.c_name = #{contactName,jdbcType=VARCHAR}
+    </if>
+    <if test="gender != null" >
+      and c.gender = #{gender,jdbcType=INTEGER}
+    </if>
+    <if test="jId != null" >
+      and c.j_id = #{jId,jdbcType=INTEGER}
+    </if>
+    <if test="mId != null" >
+      and c.m_id = #{mId,jdbcType=INTEGER}
+    </if>
+    <if test="telephone != null" >
+      and c.telephone = #{telephone,jdbcType=VARCHAR}
+    </if>
+    <if test="backupPhone != null" >
+      and c.backup_phone = #{backupPhone,jdbcType=VARCHAR}
+    </if>
+    <if test="terminal != null" >
+      and c.terminal = #{terminal,jdbcType=VARCHAR}
+    </if>
+    <if test="workPhone != null" >
+      and c.work_phone = #{workPhone,jdbcType=VARCHAR}
+    </if>
+    <if test="homePhone != null" >
+      and c.home_phone = #{homePhone,jdbcType=VARCHAR}
+    </if>
+    <if test="otherPhone != null" >
+      and c.other_phone = #{otherPhone,jdbcType=VARCHAR}
+    </if>
+    <if test="faxNumber != null" >
+      and c.fax_number = #{faxNumber,jdbcType=VARCHAR}
+    </if>
+    <if test="email != null">
+        and c.email = #{email, jdbcType=VARCHAR}
+    </if>
+    <if test="importanceDegree != null">
+        and c.importance_degree = #{importanceDegree, jdbcType=INTEGER}
+    </if>
+    <if test="photo != null">
+        and c.photo = #{photo, jdbcType=VARCHAR}
+    </if>
+    <if test="notes != null">
+        and c.notes = #{notes, jdbcType=VARCHAR}
+    </if>
+    <if test="gId != null">
+        and c.g_id = #{gId, jdbcType=INTEGER}
+    </if>
+    <if test="createTime != null">
+        and c.create_time = #{createTime, jdbcType=VARCHAR}
+    </if>
+    <if test="updateTime != null">
+        and c.update_time = #{updateTime, jdbcType=VARCHAR}
+    </if>
+  </sql>
+  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Contacts" >
+    insert into contacts (c_id, c_name, gender, j_id, m_id, telephone, backup_phone, terminal, work_phone, home_phone, other_phone, fax_number, email, importance_degree,
+        photo, notes, g_id, create_time, update_time )
+    values (#{id,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}
+     #{backupPhone,jdbcType=VARCHAR}, #{terminal,jdbcType=VARCHAR}, #{workPhone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{otherPhone,jdbcType=VARCHAR}, #{faxNumber,jdbcType=VARCHAR},
+     #{email, jdbcType=VARCHAR}, #{importanceDegree, jdbcType=INTEGER}, #{photo, jdbcType=VARCHAR}, #{notes, jdbcType=VARCHAR}, #{gId, jdbcType=INTEGER}, #{createTime, jdbcType=VARCHAR},
+     #{updateTime, jdbcType=VARCHAR})
+  </insert>
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.Contacts">
+    DELETE from contacts
+    where c_id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.Contacts">
+        update contacts
+        <set>
+            <if test="contactName != null" >
+                c_name = #{contactName,jdbcType=VARCHAR},
+            </if>
+            <if test="gender != null" >
+                gender = #{gender,jdbcType=INTEGER},
+            </if>
+            <if test="jId != null" >
+                j_id = #{jId,jdbcType=INTEGER},
+            </if>
+            <if test="mId != null" >
+                m_id = #{mId,jdbcType=INTEGER},
+            </if>
+            <if test="telephone != null" >
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="backupPhone != null" >
+                backup_phone = #{backupPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="terminal != null" >
+                terminal = #{terminal,jdbcType=VARCHAR},
+            </if>
+            <if test="workPhone != null" >
+                work_phone = #{workPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="homePhone != null" >
+                home_phone = #{homePhone,jdbcType=VARCHAR},
+            </if>
+            <if test="otherPhone != null" >
+                other_phone = #{otherPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="faxNumber != null" >
+                fax_number = #{faxNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email, jdbcType=VARCHAR},
+            </if>
+            <if test="importanceDegree != null">
+                importance_degree = #{importanceDegree, jdbcType=INTEGER},
+            </if>
+            <if test="photo != null">
+                photo = #{photo, jdbcType=VARCHAR},
+            </if>
+            <if test="notes != null">
+                notes = #{notes, jdbcType=VARCHAR},
+            </if>
+            <if test="gId != null">
+                g_id = #{gId, jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where c_id = #{id,jdbcType=INTEGER}
+    </update>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from contacts c, job b, mechanism m , contact_group g
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and c.c_id = #{id, jdbcType=BIGINT}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from contacts c, job b, mechanism m , contact_group g
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
+        <include refid="Basic_Conditions"/>
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from contacts c, job b, mechanism m , contact_group g
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
+        <include refid="Basic_Conditions"/>
+        limit ${page}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+        select count(c_id)
+        from contacts
+        <include refid="Basic_Conditions"/>
+    </select>
+
+</mapper>
