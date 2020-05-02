@@ -30,6 +30,9 @@ public class PlanParam {
 	@ApiComment(value = "参数值", sample = "aaa")
 	private String value;
 
+	@ApiComment(value = "包含通用", sample = "true")
+	private Boolean includeCommon;
+
 	public Integer getId() {
 		return id;
 	}
@@ -76,6 +79,14 @@ public class PlanParam {
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public Boolean isIncludeCommon() {
+		return includeCommon;
+	}
+
+	public void setIncludeCommon(Boolean includeCommon) {
+		this.includeCommon = includeCommon;
 	}
 
 }

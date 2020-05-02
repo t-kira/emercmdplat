@@ -70,10 +70,17 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
-    public List<PlanTag> listTags(int ptId) {
+    public List<PlanTag> listTags(int ptId,Boolean includeCommon) {
         PlanTag param = new PlanTag();
         param.setPtId(ptId);
-        return planTagMapper.queryForAll(param);
+        List list = planTagMapper.queryForAll(param);
+        if (Boolean.TRUE.equals(includeCommon)) {
+        	param = new PlanTag();
+            param.setPtId(1);//通用
+            List list2 = planTagMapper.queryForAll(param);
+            list.addAll(list2);
+        }
+        return list;
     }
 
     @Override
@@ -89,9 +96,10 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
-    public List<PlanParam> listParams(int ptId, Integer page, Integer pageSize) {
+    public List<PlanParam> listParams(int ptId, Boolean includeCommon, Integer page, Integer pageSize) {
         PlanParam param = new PlanParam();
         param.setPtId(ptId);
+        param.setIncludeCommon(includeCommon);
         Map<String, Object> paramMap = PojoUtil.pojoToMap(param, page, pageSize);
         return planParamMapper.queryForPage(paramMap);
     }
@@ -104,9 +112,10 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
-    public Long countParams(int ptId) {
+    public Long countParams(int ptId, Boolean includeCommon) {
         PlanParam param = new PlanParam();
         param.setPtId(ptId);
+        param.setIncludeCommon(includeCommon);
         return planParamMapper.queryForCounts(param);
     }
 

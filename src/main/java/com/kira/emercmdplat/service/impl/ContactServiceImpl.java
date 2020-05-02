@@ -5,9 +5,13 @@ import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsExtend;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.service.ContactService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kira
@@ -16,7 +20,8 @@ import java.util.List;
  */
 @Service
 public class ContactServiceImpl implements ContactService {
-
+	
+	@Autowired
     private ContactMapper cm;
 
     @Override
@@ -53,4 +58,11 @@ public class ContactServiceImpl implements ContactService {
     public Long queryForCounts(ContactsExtend contactsExtend) {
         return cm.queryForCounts(contactsExtend);
     }
+
+	@Override
+	public List<ContactsResult> queryForIds(List ids) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("ids", ids);
+		return cm.queryForIds(paramMap);
+	}
 }

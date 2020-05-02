@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.service.DutyService;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.PlanTypeService;
 import com.kira.emercmdplat.utils.Node;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -26,7 +26,7 @@ public class PlanTypeController extends BaseController {
 	private PlanTypeService planTypeService;
 
 	@Autowired
-	private DutyService dutyService;
+	private ContactService contactService;
 
 	@Api2Doc(order = 1)
     @ApiComment(value="列出预案分类树")
@@ -63,8 +63,8 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 5)
 	@ApiComment(value="列出预案标签")
 	@RequestMapping(name="列出预案标签",value="/listTags",method=RequestMethod.GET)
-	public List<PlanTag> listTags(@ApiComment("预案类型id") int ptId) {
-		List<PlanTag> list = planTypeService.listTags(ptId);
+	public List<PlanTag> listTags(@ApiComment("预案类型id") int ptId,@ApiComment("是否包含通用") Boolean includeCommon) {
+		List<PlanTag> list = planTypeService.listTags(ptId,includeCommon);
 		return list;
 	}
 
@@ -87,10 +87,10 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 8)
 	@ApiComment("列出预案参数")
 	@RequestMapping(name="列出预案参数",value="/listParams",method=RequestMethod.GET)
-	public PlanParamResult listParams(@ApiComment("预案类型id") int ptId,@ApiComment("第几页") Integer page,@ApiComment("每页显示条数") Integer pageSize) {
+	public PlanParamResult listParams(@ApiComment("预案类型id") int ptId,@ApiComment("第几页") Integer page,@ApiComment("每页显示条数") Integer pageSize,@ApiComment("是否包含通用") Boolean includeCommon) {
 		PlanParamResult result = new PlanParamResult();
-		List<PlanParam> list = planTypeService.listParams(ptId, page, pageSize);
-		Long count = planTypeService.countParams(ptId);
+		List<PlanParam> list = planTypeService.listParams(ptId, includeCommon, page, pageSize);
+		Long count = planTypeService.countParams(ptId, includeCommon);
 		result.setList(list);
     	result.setCount(count);
 		return result;
@@ -128,7 +128,7 @@ public class PlanTypeController extends BaseController {
 		List<PlanGroup> list = planTypeService.listGroups(planGroup);
 		for (PlanGroup pg : list) {
 			String userIds = pg.getUserIds();
-			List<DutyExtent> userList = dutyService.queryForIds(Arrays.asList(userIds.split(",")));
+			List<ContactsResult> userList = contactService.queryForIds(Arrays.asList(userIds.split(",")));
 			pg.setUserList(userList);
 		}
 		Long count = planTypeService.countGroups(planGroup);
@@ -140,8 +140,8 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 16)
 	@ApiComment("列出组员列表")
 	@RequestMapping(name="列出组员列表",value="/listUsers",method=RequestMethod.GET)
-	public List<DutyExtent> listUsers() {
-		return dutyService.queryForAll(null);
+	public List<ContactsResult> listUsers() {
+		return contactService.queryForAll(null);
 	}
 
 	@Api2Doc(order = 13)

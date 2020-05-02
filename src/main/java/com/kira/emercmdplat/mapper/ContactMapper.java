@@ -5,6 +5,7 @@ import com.kira.emercmdplat.pojo.ContactsExtend;
 import com.kira.emercmdplat.pojo.ContactsResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kira
@@ -26,4 +27,6 @@ public interface ContactMapper {
     List<ContactsResult> queryForPage(ContactsExtend contactsExtend);
 
     Long queryForCounts(ContactsExtend contactsExtend);
+    
+    List<ContactsResult> queryForIds(Map<String, Object> map);
 }
