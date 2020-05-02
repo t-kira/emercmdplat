@@ -56,4 +56,6 @@ public interface PlanTypeService {
 
 	PlanType getPlanTypeById(Integer id);
 
+	List<PlanParam> getParamByJson(String params);
+
 }

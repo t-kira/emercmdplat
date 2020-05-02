@@ -238,7 +238,7 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping("plan_response_list/{id}")
     public AlvesJSONResult listPlanResponse(@PathVariable int id) {
-        List<PlanResponse> responseList = pvs.listResponses(id);
+        List<PlanResponse> responseList = pvs.listResponses(id,1);
         return AlvesJSONResult.ok(responseList);
     }
 

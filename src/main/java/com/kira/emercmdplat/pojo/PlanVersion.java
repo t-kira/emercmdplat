@@ -44,6 +44,9 @@ public class PlanVersion extends BaseObject {
 	
 	@ApiComment(value = "编制人", sample = "aaa")
 	private String userName;
+	
+	@ApiComment(value = "编制时间", sample = "1")
+	private String createTime;
 	/**
 	 * 发布时间
 	 */
@@ -187,5 +190,11 @@ public class PlanVersion extends BaseObject {
 	public void setTagList(List<PlanTag> tagList) {
 		this.tagList = tagList;
 	}
-	
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
 }
