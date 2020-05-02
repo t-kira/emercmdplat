@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author: kira
@@ -54,6 +56,7 @@ public class EventController extends BaseController {
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
         Event event = eventDomain.getEvent();
         List<EventParam> eventParamList = eventDomain.getEventParamList();
+        event.setEventNumber(UUID.randomUUID().toString());
         event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
         int result = es.insert(event);
         if (result > 0) {
@@ -155,19 +158,34 @@ public class EventController extends BaseController {
 
     /**
      * 添加核实报告内容
-     * @param verifyQuickReport
+     * @param verifyReport
      * @return
      */
     @ResponseBody
     @PostMapping(value = "add_verify")
-    public AlvesJSONResult insertVerifyReport(@RequestBody VerifyQuickReport verifyQuickReport) {
-        VerifyReport verifyReport = verifyQuickReport.getVerify();
-        int result = vrs.insert(verifyQuickReport.getVerify());
+    public AlvesJSONResult insertVerifyReport(@RequestBody VerifyReport verifyReport) {
+//        VerifyReport verifyReport = verifyQuickReport.getVerify();
+        int result = vrs.insert(verifyReport);
         if (result > 0) {
-            QuickReport quickReport = verifyQuickReport.getQuick();
+            EventResult eventResult = es.selectById(verifyReport.getEid());
+            QuickReport quickReport = new QuickReport();
+            quickReport.setTitle(eventResult.getEventTitle());
+            quickReport.setContent(eventResult.getEventDesc());
             quickReport.setEid(verifyReport.getEid());
             quickReport.setOrigin(1);
-            qrs.insert(quickReport);
+            quickReport.setEditId(eventResult.getDid());
+            quickReport.setIssueTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            JSONObject json = JSONObject.fromObject(quickReport);
+            String pdfPath = "/Users/kira/Desktop/pdf/" + UUID.randomUUID().toString() + ".pdf";
+            String content = PDFTemplateUtil.freeMarkerRender(json, "/templates/pdf.ftl");
+            try {
+                PDFTemplateUtil.createPdf(content, pdfPath);
+                verifyReport.setAttachAddress(pdfPath);
+                vrs.update(verifyReport);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//            qrs.insert(quickReport);
             //生成PDF
             Event event = es.selectById(verifyReport.getEid());
             event.setId(verifyReport.getEid());
@@ -401,7 +419,11 @@ public class EventController extends BaseController {
     @GetMapping(value = "event/{id}")
     public AlvesJSONResult selectById(@PathVariable Long id) {
         EventResult event = es.selectById(id);
-        return AlvesJSONResult.ok(event);
+        List<EventParamResult> list = es.selectParamByEId(id);
+        JSONObject json = new JSONObject();
+        json.put("event", event);
+        json.put("list", list);
+        return AlvesJSONResult.ok(json);
     }
 
     @ResponseBody
@@ -413,5 +435,77 @@ public class EventController extends BaseController {
         map.put("list", list);
         map.put("count", count);
         return AlvesJSONResult.ok(map);
+    }
+
+    @ResponseBody
+    @GetMapping("test")
+    public AlvesJSONResult test() {
+        System.out.println(new File(PathUtil.getCurrentPath()));
+        JSONObject json = new JSONObject();
+        json.put("userName", "测试内容");
+        json.put("content", "测试内容");
+        json.put("issueTime", "2020-05-02 17:34:33");
+        String pdfPath = "/Users/kira/Desktop/pdf/" + UUID.randomUUID().toString() + ".pdf";
+        try {
+            String content = PDFTemplateUtil.freeMarkerRender(json, "/templates/pdf.ftl");
+            PDFTemplateUtil.createPdf(content, pdfPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return AlvesJSONResult.ok();
+    }
+    @ResponseBody
+    @PostMapping("verify_event")
+    public AlvesJSONResult verifyEvent(@RequestBody VerifyEventReq eventReq) {
+
+        EventResult coverEvent = es.selectById(eventReq.getCoverEId());
+        if (eventReq.getMainEId() != null) {
+            EventResult mainEvent = es.selectById(eventReq.getMainEId());
+            mainEvent.setVerifyMethod(eventReq.getVerifyMethod());
+            mainEvent.setVerifyStatus(eventReq.getVerifyStatus());
+            mainEvent.setEventType(eventReq.getEventType());
+            coverEvent.setMergeReason(eventReq.getMergeReason());
+            if (eventReq.getEventType() == 1) {
+                mainEvent.setProcess(EventProcess.RESERVE_PLAN.getNo());
+            }
+            es.update(mainEvent);
+            //被合并
+            coverEvent.setVerifyStatus(3);
+            es.update(coverEvent);
+            EventDevelopment development = new EventDevelopment();
+            development.setEId(mainEvent.getId());
+            development.setReportContent(coverEvent.getEventDesc());
+            development.setReporter(mainEvent.getReporter());
+            development.setReportTime(coverEvent.getReceiveTime());
+            es.insertDevelopment(development);
+        } else {
+            coverEvent.setVerifyMethod(eventReq.getVerifyMethod());
+            coverEvent.setVerifyStatus(eventReq.getVerifyStatus());
+            coverEvent.setEventType(eventReq.getEventType());
+            coverEvent.setMergeReason(eventReq.getMergeReason());
+            if (eventReq.getEventType() == 1) {
+                coverEvent.setProcess(EventProcess.RESERVE_PLAN.getNo());
+            }
+            es.update(coverEvent);
+        }
+        return AlvesJSONResult.ok();
+    }
+
+    @ResponseBody
+    @PostMapping("merge_event")
+    public AlvesJSONResult mergeEvent(@RequestBody VerifyEventReq eventReq) {
+        EventResult coverEvent = es.selectById(eventReq.getCoverEId());
+        EventResult mainEvent = es.selectById(eventReq.getMainEId());
+        coverEvent.setMergeReason(eventReq.getMergeReason());
+            //被合并
+        coverEvent.setVerifyStatus(3);
+        es.update(coverEvent);
+        EventDevelopment development = new EventDevelopment();
+        development.setEId(mainEvent.getId());
+        development.setReportContent(coverEvent.getEventDesc());
+        development.setReporter(mainEvent.getReporter());
+        development.setReportTime(coverEvent.getReceiveTime());
+        es.insertDevelopment(development);
+        return AlvesJSONResult.ok();
     }
 }
