@@ -81,4 +81,9 @@ public class EventServiceImpl implements EventService {
     public EventResult selectByEId(Long eId) {
         return em.selectByEId(eId);
     }
+
+    @Override
+    public List<EventParamResult> selectParamByEId(Long eId) {
+        return em.selectParamByEId(eId);
+    }
 }

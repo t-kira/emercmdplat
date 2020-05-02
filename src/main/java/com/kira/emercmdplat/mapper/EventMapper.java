@@ -34,4 +34,6 @@ public interface EventMapper{
     int updateDevelopment(EventDevelopment eventDevelopment);
 
     List<EventResult> queryForPage(EventExtend eventExtend);
+
+    List<EventParamResult> selectParamByEId(Long eId);
 }

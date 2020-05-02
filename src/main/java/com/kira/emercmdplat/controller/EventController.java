@@ -81,7 +81,7 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(value = "end")
     public AlvesJSONResult end(@RequestBody Event event) {
-        event.setProcess(EventProcess.EVENT_FINISH.getNo());
+//        event.setProcess(EventProcess.EVENT_FINISH.getNo());
         boolean result = es.update(event);
         if (result) {
             return AlvesJSONResult.ok("success close");

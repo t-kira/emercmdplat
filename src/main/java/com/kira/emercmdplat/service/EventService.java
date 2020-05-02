@@ -34,4 +34,6 @@ public interface EventService{
 
     List<EventResult> queryForPage(EventExtend eventExtend);
 
+    List<EventParamResult> selectParamByEId(Long eId);
+
 }

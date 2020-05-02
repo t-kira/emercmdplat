@@ -42,7 +42,7 @@ public class QuickReport {
     /**
      * 编辑
      */
-    private Integer editId;
+    private Long editId;
     /**
      * 联系电话
      */

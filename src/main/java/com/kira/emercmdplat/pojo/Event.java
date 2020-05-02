@@ -89,4 +89,21 @@ public class Event {
      * 合并原因
      */
     private String mergeReason;
+    /**
+     * 事件等级
+     */
+    private Integer eventLevel;
+    /**
+     * 核实方式：1：视频监控 2：电话 3：app
+     */
+    private Integer verifyMethod;
+    /**
+     * 事件类型：1：一般事件 2：应急事件
+     */
+    private Integer eventType;
+    /**
+     * 核实状态：1：属实 2：不属实 3:被合并
+     */
+    private Integer verifyStatus;
+
 }
