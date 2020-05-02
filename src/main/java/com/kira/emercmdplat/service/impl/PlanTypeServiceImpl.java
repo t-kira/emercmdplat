@@ -38,7 +38,9 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     @Override
     public List<Node> listTypeTree(Node node) {
         PlanType param = new PlanType();
-        param.setName(node.getName());
+        if(node != null) {
+            param.setName(node.getName());
+        }
         List<PlanType> list = planTypeMapper.queryForAll(param);
         List<Node> newList = new ArrayList<>();
         for (PlanType planType : list) {
