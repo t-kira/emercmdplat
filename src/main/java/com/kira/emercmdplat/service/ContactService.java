@@ -26,4 +26,6 @@ public interface ContactService {
     List<ContactsResult> queryForPage(ContactsExtend contactsExtend);
 
     Long queryForCounts(ContactsExtend contactsExtend);
+    
+    List<ContactsResult> queryForIds(List ids);
 }

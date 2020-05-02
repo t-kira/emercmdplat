@@ -18,17 +18,17 @@ public interface PlanTypeService {
 
     void deleteType(Integer id);
 
-    List<PlanTag> listTags(int ptId);
+    List<PlanTag> listTags(int ptId,Boolean includeCommon);
 
     void insertTag(PlanTag planTag);
 
     void deleteTag(Integer id);
 
-    List<PlanParam> listParams(int ptId, Integer page, Integer pageSize);
+    List<PlanParam> listParams(int ptId, Boolean includeCommon, Integer page, Integer pageSize);
 
     List<PlanParam> listParamsByPtId(int ptId);
 
-    Long countParams(int ptId);
+    Long countParams(int ptId, Boolean includeCommon);
 
     void insertParam(PlanParam planParam);
 

@@ -42,7 +42,7 @@ public class PlanOrg {
 	 * 成员集合
 	 */
 	@ApiComment(value = "成员集合", sample = "[]")
-	private List<DutyExtent> userList;
+	private List<ContactsResult> userList;
 
     public Integer getId() {
         return id;
@@ -100,11 +100,11 @@ public class PlanOrg {
         this.pvId = pvId;
     }
 
-	public List<DutyExtent> getUserList() {
+	public List<ContactsResult> getUserList() {
 		return userList;
 	}
 
-	public void setUserList(List<DutyExtent> userList) {
+	public void setUserList(List<ContactsResult> userList) {
 		this.userList = userList;
 	}
 

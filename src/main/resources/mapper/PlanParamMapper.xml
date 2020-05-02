@@ -26,8 +26,11 @@
         <if test="unit != null">
             and pp_unit = #{unit,jdbcType=VARCHAR}
         </if>
-        <if test="ptId != null">
+        <if test="includeCommon == null and ptId != null">
             and pt_id = #{ptId,jdbcType=INTEGER}
+        </if>
+        <if test="includeCommon == true and ptId != null">
+            and pt_id in (1,#{ptId,jdbcType=INTEGER})
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanParam">

@@ -1,16 +1,22 @@
 package com.kira.emercmdplat.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.Duty;
 import com.kira.emercmdplat.pojo.DutyExtent;
@@ -25,14 +31,22 @@ import com.kira.emercmdplat.pojo.PlanResponseGuard;
 import com.kira.emercmdplat.pojo.PlanTag;
 import com.kira.emercmdplat.pojo.PlanVersion;
 import com.kira.emercmdplat.pojo.PlanVersionResult;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.DataTypeService;
 import com.kira.emercmdplat.service.DutyService;
 import com.kira.emercmdplat.service.PlanTypeService;
 import com.kira.emercmdplat.service.PlanVersionService;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.Node;
+import com.kira.emercmdplat.utils.PropertiesUtils;
+import com.kira.emercmdplat.utils.file.FileResult;
+import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Api2Doc(id = "planVersion", name = "预案管理接口", order = 2)
 @RestController
@@ -46,7 +60,7 @@ public class PlanVersionController extends BaseController {
 	private PlanTypeService planTypeService;
 	
 	@Autowired
-	private DutyService dutyService;
+	private ContactService contactService;
 	
 	@Autowired
 	private DataTypeService dataTypeService;
@@ -61,7 +75,7 @@ public class PlanVersionController extends BaseController {
 			Integer type = pv.getType();
 			pv.setTypeName(planTypeService.getPlanTypeById(type).getName());
 			Integer userId = pv.getUserId();
-			pv.setUserName(dutyService.selectById(userId).getName());
+			pv.setUserName(contactService.selectById(new Long(userId)).getContactName());
 			String params = pv.getParams();
 			String tags = pv.getTags();
 			if (params != null) {
@@ -78,6 +92,21 @@ public class PlanVersionController extends BaseController {
     	result.setCount(count);
 		return result;
 	}
+
+	@Api2Doc(order = 34)
+    @ApiComment(value="上传预案文件")
+	@RequestMapping(name="上传预案文件",value="/fileUpload",method=RequestMethod.POST)
+    public String upload(@RequestParam(value = "file") MultipartFile file) {
+        try {
+            String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
+            String extension = PropertiesUtils.getInstance().getProperty("pdfExtension").toString();
+            FileResult fileResult = FileuploadUtil.saveFile(file, path, extension);
+            return JSONObject.fromObject(fileResult).toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "fail";
+    }
 	
 	@Api2Doc(order = 31)
     @ApiComment(value="根据id取得预案")
@@ -87,7 +116,7 @@ public class PlanVersionController extends BaseController {
 		Integer type = pv.getType();
 		pv.setTypeName(planTypeService.getPlanTypeById(type).getName());
 		Integer userId = pv.getUserId();
-		pv.setUserName(dutyService.selectById(userId).getName());
+		pv.setUserName(contactService.selectById(new Long(userId)).getContactName());
 		String params = pv.getParams();
 		String tags = pv.getTags();
 		if (params != null) {
@@ -145,7 +174,7 @@ public class PlanVersionController extends BaseController {
 	public PlanOrg getOrgById(@ApiComment("预案组织id") Integer id) {
 		PlanOrg planOrg = planVersionService.getOrgById(id);
 		String userIds = planOrg.getUserIds();
-		List<DutyExtent> userList = dutyService.queryForIds(Arrays.asList(userIds.split(",")));
+		List<ContactsResult> userList = contactService.queryForIds(Arrays.asList(userIds.split(",")));
 		planOrg.setUserList(userList);
 		return planOrg;
 	}

@@ -162,22 +162,33 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from contacts c, job b, mechanism m , contact_group g
+        from contacts c, job j, mechanism m , contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and c.c_id = #{id, jdbcType=BIGINT}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
         select
         <include refid="Base_Column_List"/>
-        from contacts c, job b, mechanism m , contact_group g
+        from contacts c, job j, mechanism m , contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
         <include refid="Basic_Conditions"/>
+    </select>
+    
+    <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from contacts c, job j, mechanism m , contact_group g
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
+        and c.c_id IN
+        <foreach collection="ids" separator="," item="item" close=")" open="(">
+			#{item}
+		</foreach>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
         select
         <include refid="Base_Column_List"/>
-        from contacts c, job b, mechanism m , contact_group g
+        from contacts c, job j, mechanism m , contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
         <include refid="Basic_Conditions"/>
         limit ${page}, ${pageSize}

@@ -37,7 +37,7 @@ public class PlanGroup extends BaseObject {
 	 * 预案组成员集合
 	 */
 	@ApiComment(value = "预案组成员集合", sample = "[]")
-	private List<DutyExtent> userList;
+	private List<ContactsResult> userList;
 
     public Integer getId() {
         return id;
@@ -87,11 +87,11 @@ public class PlanGroup extends BaseObject {
         this.ptId = ptId;
     }
 
-	public List<DutyExtent> getUserList() {
+	public List<ContactsResult> getUserList() {
 		return userList;
 	}
 
-	public void setUserList(List<DutyExtent> userList) {
+	public void setUserList(List<ContactsResult> userList) {
 		this.userList = userList;
 	}
 
