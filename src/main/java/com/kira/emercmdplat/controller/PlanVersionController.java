@@ -29,6 +29,7 @@ import com.kira.emercmdplat.service.DataTypeService;
 import com.kira.emercmdplat.service.DutyService;
 import com.kira.emercmdplat.service.PlanTypeService;
 import com.kira.emercmdplat.service.PlanVersionService;
+import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.Node;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
@@ -104,6 +105,8 @@ public class PlanVersionController extends BaseController {
 	@ApiComment("插入预案，参数类型参见列出预案列表")
 	@RequestMapping(name="插入预案",value="/insertVersion",method=RequestMethod.POST)
 	public int insertVersion(@ApiComment(value="插入预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
+		String nowStr = DateUtil.getNowStr("yyyy-MM-dd hh:mm:ss");
+		planVersion.setCreateTime(nowStr);
 		int id = planVersionService.insertVersion(planVersion);
 		return id;
 	}
@@ -112,6 +115,10 @@ public class PlanVersionController extends BaseController {
 	@ApiComment("修改预案，参数类型参见列出预案列表")
 	@RequestMapping(name="修改预案",value="/updateVersion",method=RequestMethod.POST)
 	public String updateVersion(@ApiComment(value="修改预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
+		if (planVersion.getStatus() == 1) {
+			String nowStr = DateUtil.getNowStr("yyyy-MM-dd hh:mm:ss");
+			planVersion.setPubTime(nowStr);
+		}
 		planVersionService.updateVersion(planVersion);
 		return "success";
 	}
@@ -170,16 +177,44 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 9)
     @ApiComment(value="列出预案响应")
 	@RequestMapping(name="列出预案响应",value="/listResponses",method=RequestMethod.GET)
-	public List<PlanResponse> listResponses(@ApiComment("预案id") int pvId) {
-		List<PlanResponse> list = planVersionService.listResponses(pvId);
+	public List<PlanResponse> listResponses(@ApiComment("预案id") int pvId,@ApiComment("预警/应急响应") int form) {
+		List<PlanResponse> list = planVersionService.listResponses(pvId,form);
+		for (PlanResponse pr : list) {
+			String params = pr.getParams();
+			if (!StringUtils.isEmpty(params)) {
+				List<PlanParam> paramList = planTypeService.getParamByJson(params);
+				pr.setParamList(paramList);
+			}
+		}
 		return list;
+	}
+	
+	@Api2Doc(order = 32)
+    @ApiComment(value="根据id取得预案响应")
+	@RequestMapping(name="根据id取得预案响应",value="/getResponseById",method=RequestMethod.GET)
+	public PlanResponse getResponseById(@ApiComment("预案响应id") Integer id) {
+		PlanResponse planResponse = planVersionService.getResponseById(id);
+		String params = planResponse.getParams();
+		if (!StringUtils.isEmpty(params)) {
+			List<PlanParam> paramList = planTypeService.getParamByJson(params);
+			planResponse.setParamList(paramList);
+		}
+		return planResponse;
 	}
 	
 	@Api2Doc(order = 10)
     @ApiComment(value="插入预案响应")
 	@RequestMapping(name="插入预案响应",value="/insertResponse",method=RequestMethod.POST)
-	public String insertResponse(@ApiComment(value="插入预案响应",sample="{id:1,level:'一级响应',color:1,type:1,desc:'aaa',pvId:1}") @RequestBody PlanResponse planResponse) {
+	public String insertResponse(@ApiComment(value="插入预案响应",sample="{id:1,form:0,level:'一级响应',color:1,type:1,desc:'aaa',params:'[{id:1,value:\'aaa\'}]',pvId:1}") @RequestBody PlanResponse planResponse) {
 		planVersionService.insertResponse(planResponse);
+		return "success";
+	}
+	
+	@Api2Doc(order = 33)
+    @ApiComment(value="修改预案响应")
+	@RequestMapping(name="修改预案响应",value="/updateResponse",method=RequestMethod.POST)
+	public String updateResponse(@ApiComment(value="修改预案响应",sample="{id:1,form:0,level:'一级响应',color:1,type:1,desc:'aaa',params:'[{id:1,value:\'aaa\'}]',pvId:1}") @RequestBody PlanResponse planResponse) {
+		planVersionService.updateReponse(planResponse);
 		return "success";
 	}
 	
@@ -198,8 +233,10 @@ public class PlanVersionController extends BaseController {
 		List<PlanResponseFlow> list = planVersionService.listResponseFlows(prId);
 		for (PlanResponseFlow prf : list) {
 			String groupIds = prf.getGroupIds();
-			List<PlanGroup> groupList = planTypeService.queryForGroupIds(Arrays.asList(groupIds.split(",")));
-			prf.setGroupList(groupList);
+			if (groupIds != null) {
+				List<PlanGroup> groupList = planTypeService.queryForGroupIds(Arrays.asList(groupIds.split(",")));
+				prf.setGroupList(groupList);
+			}
 		}
 		return list;
 	}

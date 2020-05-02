@@ -9,6 +9,7 @@
     <result column="pv_code" property="code" jdbcType="VARCHAR"/>
     <result column="pv_org" property="org" jdbcType="VARCHAR"/>
     <result column="pv_d_id" property="userId" jdbcType="INTEGER"/>
+    <result column="pv_create_time" property="createTime" jdbcType="VARCHAR"/>
     <result column="pv_pub_time" property="pubTime" jdbcType="VARCHAR"/>
     <result column="pv_scope" property="scope" jdbcType="VARCHAR"/>
     <result column="pv_file" property="file" jdbcType="VARCHAR"/>
@@ -18,7 +19,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids, pv_pta_ids, pv_status
+    pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_create_time, pv_pub_time, pv_scope, pv_file, pv_pp_ids, pv_pta_ids, pv_status
   </sql>
   <sql id="Basic_Conditions" >
     <![CDATA[where 1=1 ]]>
@@ -43,6 +44,9 @@
     <if test="userId != null" >
       and pv_d_id = #{userId,jdbcType=INTEGER}
     </if>
+    <if test="createTime != null" >
+      and pv_create_time = #{createTime,jdbcType=VARCHAR}
+    </if>
     <if test="pubTime != null" >
       and pv_pub_time = #{pubTime,jdbcType=VARCHAR}
     </if>
@@ -63,11 +67,11 @@
     </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanVersion" keyColumn="pv_id" keyProperty="id" useGeneratedKeys="true">
-    insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_pub_time, pv_scope, pv_file, pv_pp_ids,
-    pv_pta_ids, pv_status)
+    insert into plan_version (pv_id, pv_name, pv_version, pv_pt_id, pv_code, pv_org, pv_d_id, pv_create_time, pv_pub_time, pv_scope, pv_file,
+    pv_pp_ids, pv_pta_ids, pv_status)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR},
-    #{org,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{pubTime,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR}, #{file,jdbcType=VARCHAR},
-    #{params,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+    #{org,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{pubTime,jdbcType=VARCHAR}, #{scope,jdbcType=VARCHAR},
+    #{file,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersion">
     DELETE from plan_version
@@ -93,6 +97,9 @@
       </if>
       <if test="userId != null" >
         pv_d_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        pv_create_time = #{createTime,jdbcType=VARCHAR},
       </if>
       <if test="pubTime != null" >
         pv_pub_time = #{pubTime,jdbcType=VARCHAR},

@@ -117,9 +117,10 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public List<PlanResponse> listResponses(int pvId) {
+	public List<PlanResponse> listResponses(int pvId,int form) {
 		PlanResponse param = new PlanResponse();
 		param.setPvId(pvId);
+		param.setForm(form);
 		return planResponseMapper.queryForAll(param);
 	}
 
@@ -254,6 +255,16 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	@Override
 	public PlanVersion getPlanVerionById(Integer id) {
 		return planVersionMapper.selectById(id);
+	}
+
+	@Override
+	public PlanResponse getResponseById(Integer id) {
+		return planResponseMapper.selectById(id);
+	}
+
+	@Override
+	public void updateReponse(PlanResponse planResponse) {
+		planResponseMapper.update(planResponse);
 	}
 
 }

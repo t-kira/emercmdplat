@@ -20,6 +20,9 @@ import com.kira.emercmdplat.service.PlanTypeService;
 import com.kira.emercmdplat.utils.Node;
 import com.kira.emercmdplat.utils.PojoUtil;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 @Service
 public class PlanTypeServiceImpl implements PlanTypeService {
 
@@ -38,7 +41,7 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     @Override
     public List<Node> listTypeTree(Node node) {
         PlanType param = new PlanType();
-        if(node != null) {
+        if (node != null) {
             param.setName(node.getName());
         }
         List<PlanType> list = planTypeMapper.queryForAll(param);
@@ -181,6 +184,21 @@ public class PlanTypeServiceImpl implements PlanTypeService {
 	@Override
 	public PlanType getPlanTypeById(Integer id) {
 		return planTypeMapper.selectById(id);
+	}
+
+	@Override
+	public List<PlanParam> getParamByJson(String params) {
+		JSONArray arr = JSONArray.fromObject(params);
+		List<PlanParam> paramList = new ArrayList<>();
+		for (Object obj : arr) {
+			JSONObject js = (JSONObject) obj;
+			int id = js.getInt("id");
+			String value = js.getString("value");
+			PlanParam param = planParamMapper.selectById(id);
+			param.setValue(value);
+			paramList.add(param);
+		}
+		return paramList;
 	}
 
 }

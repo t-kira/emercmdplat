@@ -33,7 +33,7 @@ public interface PlanVersionService {
 
 	void deleteOrg(Integer id);
 
-	List<PlanResponse> listResponses(int pvId);
+	List<PlanResponse> listResponses(int pvId,int form);
 
 	void insertResponse(PlanResponse planResponse);
 
@@ -74,5 +74,9 @@ public interface PlanVersionService {
 	PlanCatalog getCatalogById(Integer id);
 
 	PlanVersion getPlanVerionById(Integer id);
+
+	PlanResponse getResponseById(Integer id);
+
+	void updateReponse(PlanResponse planResponse);
 
 }
