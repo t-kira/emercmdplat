@@ -148,6 +148,12 @@ public class PlanTypeController extends BaseController {
 	@ApiComment("插入预案组，参数类型参见列出预案组")
 	@RequestMapping(name="插入预案组",value="/insertGroup",method=RequestMethod.POST)
 	public String insertGroup(@ApiComment(value="插入预案组",sample="{id:1,name:'aaa',leader:'aaa',userIds:'1,2,3',duty:'aaa',ptId:3}") @RequestBody PlanGroup planGroup) {
+		PlanGroup sgroup = new PlanGroup();
+		sgroup.setName(planGroup.getName());
+		Long count = planTypeService.countGroups(sgroup);
+		if (count >= 1) {
+			return "fail";
+		}
 		planTypeService.insertGroup(planGroup);
 		return "success";
 	}

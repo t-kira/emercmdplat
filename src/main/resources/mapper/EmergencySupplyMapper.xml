@@ -14,14 +14,16 @@
         <result column="es_unit_price" property="unitPrice" jdbcType="VARCHAR"/>
         <result column="es_maintenance_company" property="maintenanceCompany" jdbcType="VARCHAR"/>
         <result column="es_remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="d_name" property="sourceName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     es_id, es_name, es_type, es_measurement_unit, es_supply_num, es_supply_source, es_storage_point, es_contact_name, es_contact_num,
-    es_unit_price, es_maintenance_company, es_remark
-  </sql>
+    es_unit_price, es_maintenance_company, es_remark, t_name, d_name
+  	</sql>
     <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
+        <!--![CDATA[where 1=1 ]]-->
         <if test="id != null">
             and es_id = #{id,jdbcType=INTEGER}
         </if>
@@ -65,11 +67,11 @@
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{measurementUnit,jdbcType=VARCHAR},
     #{supplyNum,jdbcType=INTEGER}, #{supplySource,jdbcType=INTEGER}, #{storagePoint,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR},
     #{contactNum,jdbcType=VARCHAR}, #{unitPrice,jdbcType=VARCHAR}, #{maintenanceCompany,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
-  </insert>
+  	</insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencySupply">
-    DELETE emergency_supply
-    where r_id = #{id,jdbcType=INTEGER}
-  </update>
+    DELETE from emergency_supply
+    where es_id = #{id,jdbcType=INTEGER}
+  	</update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencySupply">
         update emergency_supply
         <set>
@@ -113,21 +115,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from emergency_supply
-        where es_id = #{id,jdbcType=INTEGER}
+        from emergency_supply es,e_type t,data_type d
+        where es.es_type=t.t_id and es.es_supply_source=d.d_id
+        and es_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencySupply">
         select
         <include refid="Base_Column_List"/>
-        from emergency_supply
+        from emergency_supply es,e_type t,data_type d
+        where es.es_type=t.t_id and es.es_supply_source=d.d_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from emergency_supply
+        from emergency_supply es,e_type t,data_type d
+        where es.es_type=t.t_id and es.es_supply_source=d.d_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>

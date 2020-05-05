@@ -144,7 +144,7 @@ public class PlanVersionController extends BaseController {
 	@ApiComment("修改预案，参数类型参见列出预案列表")
 	@RequestMapping(name="修改预案",value="/updateVersion",method=RequestMethod.POST)
 	public String updateVersion(@ApiComment(value="修改预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
-		if (planVersion.getStatus() == 1) {
+		if (planVersion.getStatus() != null && planVersion.getStatus() == 1) {
 			String nowStr = DateUtil.getNowStr("yyyy-MM-dd hh:mm:ss");
 			planVersion.setPubTime(nowStr);
 		}

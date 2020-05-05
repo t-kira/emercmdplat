@@ -111,7 +111,7 @@
       #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution">
-    DELETE medical_institution
+    DELETE from medical_institution
     where m_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution">
@@ -194,7 +194,7 @@
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution">
         select
         <include refid="Base_Column_List"/>
-        from protection_target
+        from medical_institution
         <include refid="Basic_Conditions"/>
     </select>
 
