@@ -22,15 +22,16 @@
         <result column="et_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR"/>
         <result column="et_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="et_update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     et_id, et_name, et_type, et_maintenance_company, et_district, et_level, et_number, et_addr, et_lng, et_lat, et_PIC,
     et_contact_num, et_cell_num, et_home_num, et_fax_num, et_email, et_contact_name, et_contact_work_num, et_contact_cell_num,
-    et_update_time
+    et_update_time, t_name
   </sql>
     <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
+        <!--[CDATA[where 1=1 ]]-->
         <if test="id != null">
             and et_id = #{id,jdbcType=INTEGER}
         </if>
@@ -103,7 +104,7 @@
       #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyTeam">
-    DELETE emergency_team
+    DELETE from emergency_team
     where et_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyTeam">
@@ -173,21 +174,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from emergency_team
-        where et_id = #{id,jdbcType=INTEGER}
+        from emergency_team et,e_type t
+        where et.et_type = t.t_id
+        and et_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyTeam">
         select
         <include refid="Base_Column_List"/>
-        from emergency_team
+        from emergency_team et,e_type t
+        where et.et_type = t.t_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from emergency_team
+        from emergency_team et,e_type t
+        where et.et_type = t.t_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
@@ -195,6 +199,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyTeam">
         select count(et_id)
         from emergency_team
+        where 1=1
         <include refid="Basic_Conditions"/>
     </select>
 

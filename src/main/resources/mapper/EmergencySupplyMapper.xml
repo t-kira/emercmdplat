@@ -140,6 +140,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencySupply">
         select count(es_id)
         from emergency_supply
+        where 1=1
         <include refid="Basic_Conditions"/>
     </select>
 

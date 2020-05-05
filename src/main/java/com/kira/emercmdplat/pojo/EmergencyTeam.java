@@ -2,246 +2,257 @@ package com.kira.emercmdplat.pojo;
 
 /**
  * 应急队伍
+ * 
  * @author richard.yuq
  *
  */
 public class EmergencyTeam extends BaseObject {
-    private Long id;
-    /**
-     * 名称
-     */
-    private String name;
-    /**
-     * 类型
-     */
-    private Integer type;
-    /**
-     * 行政区划
-     */
-    private String district;
-    /**
-     * 维护单位
-     */
-    private String maintenanceCompany;
-    /**
-     * 级别
-     */
-    private Integer level;
-    /**
-     * 人数
-     */
-    private Integer number;
-    /**
-     * 地址
-     */
-    private String addr;
-    /**
-     * 经度
-     */
-    private Double lng;
-    /**
-     * 纬度
-     */
-    private Double lat;
-    /**
-     * 负责人
-     */
-    private String PIC;
-    /**
-     * 联系电话
-     */
-    private String contactNum;
-    /**
-     * 手机
-     */
-    private String cellNum;
-    /**
-     * 住宅电话
-     */
-    private String homeNum;
-    /**
-     * 传真号码
-     */
-    private String faxNum;
-    /**
-     * 电子邮箱
-     */
-    private String email;
-    /**
-     * 联系人名字
-     */
-    private String contactName;
-    /**
-     * 联系人办公电话
-     */
-    private String contactWorkNum;
-    /**
-     * 联系人手机号码
-     */
-    private String contactCellNum;
-    /**
-     * 更新时间
-     */
-    private String updateTime;
+	private Long id;
+	/**
+	 * 名称
+	 */
+	private String name;
+	/**
+	 * 类型
+	 */
+	private Integer type;
+	/**
+	 * 行政区划
+	 */
+	private String district;
+	/**
+	 * 维护单位
+	 */
+	private String maintenanceCompany;
+	/**
+	 * 级别
+	 */
+	private Integer level;
+	/**
+	 * 人数
+	 */
+	private Integer number;
+	/**
+	 * 地址
+	 */
+	private String addr;
+	/**
+	 * 经度
+	 */
+	private Double lng;
+	/**
+	 * 纬度
+	 */
+	private Double lat;
+	/**
+	 * 负责人
+	 */
+	private String PIC;
+	/**
+	 * 联系电话
+	 */
+	private String contactNum;
+	/**
+	 * 手机
+	 */
+	private String cellNum;
+	/**
+	 * 住宅电话
+	 */
+	private String homeNum;
+	/**
+	 * 传真号码
+	 */
+	private String faxNum;
+	/**
+	 * 电子邮箱
+	 */
+	private String email;
+	/**
+	 * 联系人名字
+	 */
+	private String contactName;
+	/**
+	 * 联系人办公电话
+	 */
+	private String contactWorkNum;
+	/**
+	 * 联系人手机号码
+	 */
+	private String contactCellNum;
+	/**
+	 * 更新时间
+	 */
+	private String updateTime;
 
-    public Long getId() {
-        return id;
-    }
+	private String typeName;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Integer getType() {
-        return type;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
+	public Integer getType() {
+		return type;
+	}
 
-    public String getDistrict() {
-        return district;
-    }
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
-    public void setDistrict(String district) {
-        this.district = district;
-    }
+	public String getDistrict() {
+		return district;
+	}
 
-    public String getMaintenanceCompany() {
-        return maintenanceCompany;
-    }
+	public void setDistrict(String district) {
+		this.district = district;
+	}
 
-    public void setMaintenanceCompany(String maintenanceCompany) {
-        this.maintenanceCompany = maintenanceCompany;
-    }
+	public String getMaintenanceCompany() {
+		return maintenanceCompany;
+	}
 
-    public Integer getLevel() {
-        return level;
-    }
+	public void setMaintenanceCompany(String maintenanceCompany) {
+		this.maintenanceCompany = maintenanceCompany;
+	}
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
+	public Integer getLevel() {
+		return level;
+	}
 
-    public Integer getNumber() {
-        return number;
-    }
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public String getAddr() {
-        return addr;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public void setAddr(String addr) {
-        this.addr = addr;
-    }
+	public String getAddr() {
+		return addr;
+	}
 
-    public Double getLng() {
-        return lng;
-    }
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
 
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
+	public Double getLng() {
+		return lng;
+	}
 
-    public Double getLat() {
-        return lat;
-    }
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
 
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
+	public Double getLat() {
+		return lat;
+	}
 
-    public String getPIC() {
-        return PIC;
-    }
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
 
-    public void setPIC(String pIC) {
-        PIC = pIC;
-    }
+	public String getPIC() {
+		return PIC;
+	}
 
-    public String getContactNum() {
-        return contactNum;
-    }
+	public void setPIC(String pIC) {
+		PIC = pIC;
+	}
 
-    public void setContactNum(String contactNum) {
-        this.contactNum = contactNum;
-    }
+	public String getContactNum() {
+		return contactNum;
+	}
 
-    public String getCellNum() {
-        return cellNum;
-    }
+	public void setContactNum(String contactNum) {
+		this.contactNum = contactNum;
+	}
 
-    public void setCellNum(String cellNum) {
-        this.cellNum = cellNum;
-    }
+	public String getCellNum() {
+		return cellNum;
+	}
 
-    public String getHomeNum() {
-        return homeNum;
-    }
+	public void setCellNum(String cellNum) {
+		this.cellNum = cellNum;
+	}
 
-    public void setHomeNum(String homeNum) {
-        this.homeNum = homeNum;
-    }
+	public String getHomeNum() {
+		return homeNum;
+	}
 
-    public String getFaxNum() {
-        return faxNum;
-    }
+	public void setHomeNum(String homeNum) {
+		this.homeNum = homeNum;
+	}
 
-    public void setFaxNum(String faxNum) {
-        this.faxNum = faxNum;
-    }
+	public String getFaxNum() {
+		return faxNum;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setFaxNum(String faxNum) {
+		this.faxNum = faxNum;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getContactName() {
-        return contactName;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
+	public String getContactName() {
+		return contactName;
+	}
 
-    public String getContactWorkNum() {
-        return contactWorkNum;
-    }
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
 
-    public void setContactWorkNum(String contactWorkNum) {
-        this.contactWorkNum = contactWorkNum;
-    }
+	public String getContactWorkNum() {
+		return contactWorkNum;
+	}
 
-    public String getContactCellNum() {
-        return contactCellNum;
-    }
+	public void setContactWorkNum(String contactWorkNum) {
+		this.contactWorkNum = contactWorkNum;
+	}
 
-    public void setContactCellNum(String contactCellNum) {
-        this.contactCellNum = contactCellNum;
-    }
+	public String getContactCellNum() {
+		return contactCellNum;
+	}
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
+	public void setContactCellNum(String contactCellNum) {
+		this.contactCellNum = contactCellNum;
+	}
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 
 }
