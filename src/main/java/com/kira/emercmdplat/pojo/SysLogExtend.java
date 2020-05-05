@@ -4,11 +4,11 @@ import lombok.Data;
 
 /**
  * @Author: kira
- * @Date: 2020/4/18 22:33
+ * @Date: 2020/5/4 22:58
  * @Description:
  */
 @Data
-public class MessageExtend extends Message{
+public class SysLogExtend extends SysLog{
 
     private Integer page;
 

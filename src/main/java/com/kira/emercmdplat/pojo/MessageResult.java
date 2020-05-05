@@ -53,4 +53,8 @@ public class MessageResult extends Message{
      * 附件地址
      */
     private String enclosureAddr;
+    /**
+     * 事件等级
+     */
+    private Integer eventLevel;
 }

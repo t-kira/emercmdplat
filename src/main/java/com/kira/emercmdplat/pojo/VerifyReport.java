@@ -39,4 +39,6 @@ public class VerifyReport {
      * 创建时间
      */
     private String createTime;
+
+    private String quickReportAddr;
 }
