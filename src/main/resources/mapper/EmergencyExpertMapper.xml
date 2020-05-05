@@ -18,14 +18,16 @@
         <result column="e_home_addr" property="homeAddr" jdbcType="VARCHAR"/>
         <result column="e_information" property="information" jdbcType="VARCHAR"/>
         <result column="e_update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="m_name" property="unitName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-    e_id, e_name, e_type, e_unit, e_position, e_gender, e_level, e_expertise, e_contact_num, e_cell_num,
-    e_fax_num, e_email, e_home_num, e_home_addr, e_information, e_update_time
-  </sql>
+    e.e_id, e.e_name, e.e_type, e.e_unit, e.e_position, e.e_gender, e.e_level, e.e_expertise, e.e_contact_num, e.e_cell_num,
+    e.e_fax_num, e.e_email, e.e_home_num, e.e_home_addr, e.e_information, e.e_update_time, t.t_name, m.m_name  
+  	</sql>
     <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
+        <!-- [CDATA[where 1=1 ]]-->
         <if test="id != null">
             and e_id = #{id,jdbcType=INTEGER}
         </if>
@@ -82,11 +84,11 @@
     #{gender,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{expertise,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR},
     #{cellNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{homeAddr,jdbcType=VARCHAR},
     #{information,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
-  </insert>
+  	</insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert">
-    DELETE emergency_expert
+    DELETE from emergency_expert
     where e_id = #{id,jdbcType=INTEGER}
-  </update>
+  	</update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert">
         update emergency_expert
         <set>
@@ -142,21 +144,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from emergency_expert
-        where e_id = #{id,jdbcType=INTEGER}
+        from emergency_expert e,e_type t,mechanism m
+        where e.e_type=t.t_id and e.e_unit=m.id
+        and e_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert">
         select
         <include refid="Base_Column_List"/>
-        from emergency_expert
+        from emergency_expert e,e_type t,mechanism m
+        where e.e_type=t.t_id and e.e_unit=m.id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from emergency_expert
+        from emergency_expert e,e_type t,mechanism m
+        where e.e_type=t.t_id and e.e_unit=m.id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
@@ -164,6 +169,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert">
         select count(e_id)
         from emergency_expert
+        where 1=1
         <include refid="Basic_Conditions"/>
     </select>
 

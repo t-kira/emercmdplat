@@ -1,56 +1,77 @@
 package com.kira.emercmdplat.pojo;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 /**
  * 应急物资
  * @author richard.yuq
  *
  */
-public class EmergencySupply {
+public class EmergencySupply extends BaseObject {
+	
+	@ApiComment(value = "id", sample = "1")
     private Integer id;
     /**
      * 名称
      */
+	@ApiComment(value = "名称", sample = "aaa")
     private String name;
     /**
      * 类型
      */
+	@ApiComment(value = "类型", sample = "1")
     private Integer type;
     /**
      * 计量单位
      */
+	@ApiComment(value = "计量单位", sample = "aaa")
     private String measurementUnit;
     /**
      * 数量
      */
+	@ApiComment(value = "数量", sample = "1")
     private Integer supplyNum;
     /**
      * 来源
      */
+	@ApiComment(value = "来源", sample = "1")
     private Integer supplySource;
     /**
      * 存储点
      */
+	@ApiComment(value = "存储点", sample = "1")
     private Integer storagePoint;
     /**
      * 联系人
      */
+	@ApiComment(value = "联系人", sample = "aaa")
     private String contactName;
     /**
      * 联系电话
      */
+	@ApiComment(value = "联系电话", sample = "aaa")
     private String contactNum;
     /**
      * 单价
      */
+	@ApiComment(value = "单价", sample = "100.00")
     private Double unitPrice;
     /**
      * 维护单位
      */
+	@ApiComment(value = "维护单位", sample = "aaa")
     private String maintenanceCompany;
     /**
      * 备注
      */
+	@ApiComment(value = "备注", sample = "aaa")
     private String remark;
+	
+	@ApiComment(value = "类型名称", sample = "aaa")
+	private String typeName;
+	
+	@ApiComment(value = "来源名称", sample = "aaa")
+	private String sourceName;
 
     public Integer getId() {
         return id;

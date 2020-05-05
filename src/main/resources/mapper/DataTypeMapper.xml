@@ -22,15 +22,15 @@
             and d_type = #{type,jdbcType=INTEGER}
         </if>
     </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.DataType">
     insert into data_type (d_id, d_name, d_type)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
   	</insert>
-    <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.DataType">
     DELETE from data_type
     where d_id = #{id,jdbcType=INTEGER}
   	</update>
-    <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.DataType">
         update data_type
         <set>
             <if test="name != null">
@@ -50,7 +50,7 @@
         where d_id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.DataType">
         select
         <include refid="Base_Column_List"/>
         from data_type
@@ -65,10 +65,15 @@
         limit ${index}, ${pageSize}
     </select>
 
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.DataType">
         select count(d_id)
         from data_type
         <include refid="Basic_Conditions"/>
+    </select>
+    
+    <select id="queryTypeListByDataId" resultType="com.kira.emercmdplat.pojo.EType" parameterType="java.lang.Integer">
+    	select t_id id,t_name name,d_id dataId
+    	from e_type where d_id=#{dataId}
     </select>
 
 </mapper>

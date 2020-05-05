@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 import com.kira.emercmdplat.mapper.DataTypeMapper;
 import com.kira.emercmdplat.mapper.EmergencyTeamMapper;
 import com.kira.emercmdplat.mapper.MedicalInstitutionMapper;
+import com.kira.emercmdplat.mapper.ReserveLibraryMapper;
 import com.kira.emercmdplat.mapper.ShelterMapper;
 import com.kira.emercmdplat.pojo.DataType;
+import com.kira.emercmdplat.pojo.EType;
 import com.kira.emercmdplat.pojo.EmergencyTeam;
 import com.kira.emercmdplat.pojo.MedicalInstitution;
+import com.kira.emercmdplat.pojo.ReserveLibrary;
 import com.kira.emercmdplat.pojo.Shelter;
 import com.kira.emercmdplat.service.DataTypeService;
 import com.kira.emercmdplat.utils.PojoUtil;
@@ -40,6 +43,9 @@ public class DataTypeServiceImpl implements DataTypeService {
 	
 	@Autowired
 	private ShelterMapper sm;
+	
+	@Autowired
+	private ReserveLibraryMapper rlm;
 
 	@Override
 	public int insert(DataType pojo) {
@@ -104,6 +110,14 @@ public class DataTypeServiceImpl implements DataTypeService {
 				d.setName(s.getName());
 				result.add(d);
 			}
+		} else if (id == 13) {
+			List<ReserveLibrary> list = rlm.queryForAll(null);
+			for (ReserveLibrary rl : list) {
+				DataType d = new DataType();
+				d.setId(rl.getId());
+				d.setName(rl.getName());
+				result.add(d);
+			}
 		} else {
 			
 		}
@@ -133,10 +147,21 @@ public class DataTypeServiceImpl implements DataTypeService {
 				Shelter s = sm.selectById(id);
 				d.setId(s.getId());
 				d.setName(s.getName());
+			} else if (type == 13) {
+				ReserveLibrary rl = rlm.selectById(id);
+				d.setId(rl.getId());
+				d.setName(rl.getName());
+			} else {
+				
 			}
 			result.add(d);
 		}
 		return result;
+	}
+
+	@Override
+	public List<EType> queryTypeListByDataId(Integer dataId) {
+		return dm.queryTypeListByDataId(dataId);
 	}
 
 }
