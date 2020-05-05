@@ -115,10 +115,9 @@
         reporter, report_tel, d_id, status, process, summary, merge_reason, event_level)
         values (#{id,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{eventDesc,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, #{receiveTime,jdbcType=VARCHAR},
           #{incidentTime,jdbcType=VARCHAR}, #{incidentLocation,jdbcType=VARCHAR}, #{lng,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE},
-          #{influenceSphere,jdbcType=VARCHAR}, #{incidentAreaId,jdbcType=INTEGER}, #{ptId,jdbcType=INTEGER}, #{reportMechanismId,jdbcType=INTEGER},
-          #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
-          #{summary,jdbcType=VARCHAR}, #{mergeReason,jdbcType=VARCHAR}, #{eventLevel,jdbcType=INTEGER}, #{verifyMethod,jdbcType=INTEGER},
-          #{eventType,jdbcType=INTEGER}, #{verifyStatus,jdbcType=INTEGER})
+          #{influenceSphere,jdbcType=VARCHAR}, #{incidentAreaId,jdbcType=BIGINT}, #{ptId,jdbcType=BIGINT}, #{reportMechanismId,jdbcType=BIGINT},
+          #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{did,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
+          #{summary,jdbcType=VARCHAR}, #{mergeReason,jdbcType=VARCHAR}, #{eventLevel,jdbcType=INTEGER})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Event">
       DELETE event_receive

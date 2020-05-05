@@ -77,6 +77,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public List<MessageResult> queryForPage(MessageExtend messageExtend) {
+        messageExtend.setPage((messageExtend.getPage() - 1) * messageExtend.getPageSize());
         return mm.queryForPage(messageExtend);
     }
 

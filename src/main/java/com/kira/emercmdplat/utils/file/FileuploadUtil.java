@@ -181,7 +181,7 @@ public class FileuploadUtil {
             // 源文件=源文件名.压缩后的后缀名
             String extFileName = FilenameUtils.getBaseName(fileName) + "." + FilenameUtils.getExtension(toFilePath);
             result.setFileSize(file.length());
-            result.setServerPath(toFilePath);
+            result.setServerPath(destPath);
             result.setFileName(extFileName);
             result.setExtName(extExtName);
         } else {

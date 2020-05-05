@@ -21,11 +21,12 @@
         <result column="report_tel" property="reportTel" jdbcType="VARCHAR"/>
         <result column="quick_report_addr" property="quickReportAddr" jdbcType="VARCHAR"/>
         <result column="attach_address" property="enclosureAddr" jdbcType="VARCHAR"/>
+        <result column="event_level" property="eventLevel" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    m.id, m.e_id, m.d_id, m.to_d_id, m.v_id, m.type, m.status, m.reason, m.v_id,
+    m.id, m.e_id, m.d_id, m.to_d_id, m.v_id, m.m_type, m.status, m.reason, m.v_id,
     e.event_number, e.event_title, e.event_desc, e.receive_time, e.incident_time,pt.pt_name,
-    d.d_name, e.reporter, e.report_tel, v.attach_address, v.quick_report_addr
+    d.d_name, e.reporter, e.report_tel, v.attach_address, v.quick_report_addr,e.event_level
   </sql>
     <sql id="Basic_Conditions">
         <!--    <![CDATA[where 1=1 ]]>-->
@@ -93,7 +94,7 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from message m, event e, plan_type pt, duty d, verify_report v
+        from message m, event_receive e, plan_type pt, duty d, verify_report v
         where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.id = e.e_id
         and m.id = #{id,jdbcType=INTEGER}
     </select>
@@ -101,7 +102,7 @@
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Duty">
         select
         <include refid="Base_Column_List"/>
-        from message m, event e, plan_type pt, duty d, verify_report v
+        from message m, event_receive e, plan_type pt, duty d, verify_report v
         where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.id = e.e_id
         <include refid="Basic_Conditions"/>
     </select>
@@ -109,7 +110,7 @@
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from message m, event e, plan_type pt, duty d, verify_report v
+        from message m, event_receive e, plan_type pt, duty d, verify_report v
         where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.id = e.e_id
         <include refid="Basic_Conditions"/>
         limit ${page}, ${pageSize}

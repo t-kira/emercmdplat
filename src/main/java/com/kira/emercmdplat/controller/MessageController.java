@@ -91,4 +91,15 @@ public class MessageController extends BaseController {
         map.put("count", count);
         return AlvesJSONResult.ok(map);
     }
+
+    @ResponseBody
+    @GetMapping("message/{id}")
+    public AlvesJSONResult selectById(@PathVariable Long id) {
+         MessageResult messageResult = ms.selectById(id);
+         if (messageResult != null) {
+             return AlvesJSONResult.ok(messageResult);
+         } else {
+             return AlvesJSONResult.errorMsg("message is not exist...");
+         }
+    }
 }
