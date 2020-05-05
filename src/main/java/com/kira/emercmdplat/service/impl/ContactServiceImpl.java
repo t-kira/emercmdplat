@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Service
 public class ContactServiceImpl implements ContactService {
-	
+
 	@Autowired
     private ContactMapper cm;
 
@@ -51,6 +51,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<ContactsResult> queryForPage(ContactsExtend contactsExtend) {
+        contactsExtend.setPage((contactsExtend.getPage() - 1) * contactsExtend.getPageSize());
         return cm.queryForPage(contactsExtend);
     }
 

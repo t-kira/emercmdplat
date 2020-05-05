@@ -52,6 +52,8 @@ public class EventController extends BaseController {
     private QuickReportService qrs;
     @Autowired
     private MessageService mas;
+    @Autowired
+    private SysLogService sls;
 
 //    @MyLog("事件接报")
     @ResponseBody
@@ -505,5 +507,12 @@ public class EventController extends BaseController {
         development.setReportTime(coverEvent.getReceiveTime());
         es.insertDevelopment(development);
         return AlvesJSONResult.ok();
+    }
+
+    @ResponseBody
+    @GetMapping("sys_log_list/{eid}")
+    public AlvesJSONResult sysLogList(@PathVariable Long eid) {
+        List<SysLog> list = sls.selectByEid(eid);
+        return AlvesJSONResult.ok(list);
     }
 }

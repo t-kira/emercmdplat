@@ -24,4 +24,6 @@ public interface SysLogMapper {
     Long queryForCounts(SysLogExtend sysLogExtend);
 
     List<SysLog> queryForPage(SysLogExtend sysLogExtend);
+
+    List<SysLog> selectByEid(Long eid);
 }

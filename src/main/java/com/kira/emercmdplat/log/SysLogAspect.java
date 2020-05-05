@@ -75,6 +75,8 @@ public class SysLogAspect {
             } else {
                 eid = coverEId;
             }
+        } else {
+            eid = StringUtil.toLongDefValue(json.get("eid").toString(), 0l);
         }
         sysLog.setEid(eid);
         //将参数所在的数组转换成json

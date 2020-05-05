@@ -3,7 +3,7 @@
 <mapper namespace="com.kira.emercmdplat.mapper.SysLogMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.SysLog">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="e_id" property="eid" javaType="INTEGER"/>
+        <result column="e_id" property="eid" jdbcType="INTEGER"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="operation" property="operation" jdbcType="VARCHAR"/>
         <result column="method" property="method" jdbcType="VARCHAR"/>
@@ -75,6 +75,12 @@
         <include refid="Base_Column_List"/>
         from sys_log
         <include refid="Basic_Conditions"/>
+    </select>
+    <select id="selectByEid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log
+        where e_id = #{eid, jdbcType=INTEGER}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.SysLogExtend">
         select

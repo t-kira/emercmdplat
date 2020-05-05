@@ -54,4 +54,9 @@ public class SysLogServiceImpl implements SysLogService {
     public List<SysLog> queryForPage(SysLogExtend sysLogExtend) {
         return slm.queryForPage(sysLogExtend);
     }
+
+    @Override
+    public List<SysLog> selectByEid(Long eid) {
+        return slm.selectByEid(eid);
+    }
 }
