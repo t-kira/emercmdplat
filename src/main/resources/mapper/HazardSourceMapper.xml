@@ -22,15 +22,16 @@
         <result column="h_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR"/>
         <result column="h_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="h_update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     h_id, h_name, h_type, h_district, h_number, h_PIC, h_addr, h_maintenance_company, h_warning_level, h_lng, h_lat,
     h_contact_num, h_cell_num, h_home_num, h_fax_num, h_email, h_contact_name, h_contact_work_num, h_contact_cell_num,
-    h_update_time
-  </sql>
+    h_update_time, t_name
+  	</sql>
     <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
+        <!-- [CDATA[where 1=1 ]] -->
         <if test="id != null">
             and h_id = #{id,jdbcType=INTEGER}
         </if>
@@ -103,7 +104,7 @@
       #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.HazardSouce">
-    DELETE hazard_source
+    DELETE from hazard_source
     where h_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.HazardSouce">
@@ -173,21 +174,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from hazard_source
-        where h_id = #{id,jdbcType=INTEGER}
+        from hazard_source h,e_type t
+        where h.h_type = t.t_id
+        and h_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.HazardSouce">
         select
         <include refid="Base_Column_List"/>
-        from hazard_source
+        from hazard_source h,e_type t
+        where h.h_type = t.t_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from hazard_source
+        from hazard_source h,e_type t
+        where h.h_type = t.t_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
@@ -195,6 +199,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.HazardSouce">
         select count(h_id)
         from hazard_source
+        where 1=1
         <include refid="Basic_Conditions"/>
     </select>
 

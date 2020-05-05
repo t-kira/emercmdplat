@@ -293,6 +293,9 @@ public class PlanVersionController extends BaseController {
 		List<PlanResponseFlowTask> list = planVersionService.listResponseFlowTasks(prfId);
 		for (PlanResponseFlowTask prft : list) {
 			PlanGroup group = planTypeService.getGroupById(prft.getGroupId());
+			String userIds = group.getUserIds();
+			List<ContactsResult> userList = contactService.queryForIds(Arrays.asList(userIds.split(",")));
+			group.setUserList(userList);
 			prft.setGroup(group);
 		}
 		return list;

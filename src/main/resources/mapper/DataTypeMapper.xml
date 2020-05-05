@@ -75,5 +75,86 @@
     	select t_id id,t_name name,d_id dataId
     	from e_type where d_id=#{dataId}
     </select>
+    
+    <select id="queryResources" resultType="com.kira.emercmdplat.pojo.DataType" parameterType="java.util.Map">
+    	select id,name,type,t_name typeName from 
+		(
+		<if test="dId == 1">
+			(select h_id id,h_name name,h_type type
+			from hazard_source)
+		</if>
+		<if test="dId == 3">
+			(select p_id id,p_name name,p_type type
+			from protection_target)
+		</if>
+		<if test="dId == 5">
+			(select et_id id,et_name name,et_type type
+			from emergency_team)
+		</if>
+		<if test="dId == 7">
+			(select m_id id,m_name name,m_type type
+			from medical_institution)
+		</if>
+		<if test="dId == 9">
+			(select s_id id,s_name name,s_type type
+			from shelter)
+		</if>
+		<if test="dId == 13">
+			(select r_id id,r_name name,r_type type
+			from reserve_library)
+		</if>
+		<if test="dId == 15">
+			(select es_id id,es_name name,es_type type
+			from emergency_supply)
+		</if>
+		<if test="dId == 11">
+			(select e_id id,e_name name,e_type type
+			from emergency_expert)
+		</if>
+		<if test="dId == 17">
+			(select ef_id id,ef_name name,ef_type type
+			from emergency_fund)
+		</if>
+		<if test="dId == 19">
+			(select t_id id,t_name name,t_type type
+			from transport_unit)
+		</if>
+		<if test="dId == null">
+			(select h_id id,h_name name,h_type type
+			from hazard_source)
+			UNION ALL
+			(select p_id id,p_name name,p_type type
+			from protection_target)
+			UNION ALL
+			(select et_id id,et_name name,et_type type
+			from emergency_team)
+			UNION ALL
+			(select m_id id,m_name name,m_type type
+			from medical_institution)
+			UNION ALL
+			(select s_id id,s_name name,s_type type
+			from shelter)
+			UNION ALL
+			(select r_id id,r_name name,r_type type
+			from reserve_library)
+			UNION ALL
+			(select es_id id,es_name name,es_type type
+			from emergency_supply)
+			UNION ALL
+			(select e_id id,e_name name,e_type type
+			from emergency_expert)
+			UNION ALL
+			(select ef_id id,ef_name name,ef_type type
+			from emergency_fund)
+			UNION ALL
+			(select t_id id,t_name name,t_type type
+			from transport_unit)
+		</if>
+		) t,e_type t
+		where t.type = t.t_id
+		<if test="name != null">
+			and name like concat('%',#{name},'%')
+		</if>
+    </select>
 
 </mapper>
