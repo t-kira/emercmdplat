@@ -11,6 +11,7 @@ import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -178,11 +179,15 @@ public class EventController extends BaseController {
             quickReport.setEditId(eventResult.getDid());
             quickReport.setIssueTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
             JSONObject json = JSONObject.fromObject(quickReport);
-            String pdfPath = "/Users/kira/Desktop/pdf/" + UUID.randomUUID().toString() + ".pdf";
-            String content = PDFTemplateUtil.freeMarkerRender(json, "/templates/pdf.ftl");
+
+            // 文件的实际路径
+            String destPath = PropertiesUtils.getInstance().getProperty("ftlPath").toString() + UUID.randomUUID().toString() + ".pdf";
+            String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
+            String toPath = FilenameUtils.separatorsToSystem(attachmentGainPath + destPath);
+            String content = PDFTemplateUtil.freeMarkerRender(json, "/ftlFile/pdf.ftl");
             try {
-                PDFTemplateUtil.createPdf(content, pdfPath);
-                verifyReport.setQuickReportAddr(pdfPath);
+                PDFTemplateUtil.createPdf(content, toPath);
+                verifyReport.setQuickReportAddr(destPath);
                 vrs.update(verifyReport);
             } catch (Exception e) {
                 e.printStackTrace();

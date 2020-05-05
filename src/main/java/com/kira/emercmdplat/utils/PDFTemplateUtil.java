@@ -34,7 +34,7 @@ public class PDFTemplateUtil {
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
         document.open();
         XMLWorkerFontProvider fontImp = new XMLWorkerFontProvider();
-        fontImp.register("/templates/font/simsun.ttc");
+        fontImp.register("/ftlFile/font/simsun.ttc");
         InputStream is = new ByteArrayInputStream(content.getBytes("utf-8"));
         XMLWorkerHelper.getInstance().parseXHtml(writer, document, is, null, Charset.forName("UTF-8"), (FontProvider)fontImp);
         document.close();
