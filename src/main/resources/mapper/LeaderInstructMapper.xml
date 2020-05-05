@@ -3,7 +3,7 @@
 <mapper namespace="com.kira.emercmdplat.mapper.LeaderInstructMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.LeaderInstruct">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="e_id" property="eId" jdbcType="INTEGER"/>
+        <id column="e_id" property="eid" jdbcType="INTEGER"/>
         <result column="d_id" property="did" jdbcType="INTEGER"/>
         <result column="instruct_content" property="instructContent" jdbcType="VARCHAR"/>
         <result column="instruct_status" property="instructStatus" jdbcType="INTEGER"/>
@@ -24,8 +24,8 @@
     <if test="id != null" >
       and id = #{id,jdbcType=INTEGER}
     </if>
-    <if test="eId != null">
-        and e_id = #{eId, jdbcType=INTEGER}
+    <if test="eid != null">
+        and e_id = #{eid, jdbcType=INTEGER}
     </if>
     <if test="did != null" >
       and d_id = #{did,jdbcType=INTEGER}
@@ -42,7 +42,7 @@
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct" >
     insert into leader_instruct (id, e_id, d_id, instruct_content, instruct_status, instruct_time)
-    values (#{id,jdbcType=INTEGER}, #{eId, jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{instructContent,jdbcType=VARCHAR}, #{instructStatus,jdbcType=INTEGER},
+    values (#{id,jdbcType=INTEGER}, #{eid, jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{instructContent,jdbcType=VARCHAR}, #{instructStatus,jdbcType=INTEGER},
       #{instructTime,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
@@ -52,8 +52,8 @@
     <update id="update" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
         update leader_instruct
         <set>
-            <if test="eId != null">
-                e_id = #{eId, jdbcType=INTEGER}
+            <if test="eid != null">
+                e_id = #{eid, jdbcType=INTEGER}
             </if>
             <if test="did != null" >
                 d_id = #{did,jdbcType=INTEGER}

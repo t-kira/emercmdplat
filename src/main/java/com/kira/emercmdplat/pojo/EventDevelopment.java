@@ -14,7 +14,7 @@ public class EventDevelopment {
     /**
      * 事件ID
      */
-    private Long eId;
+    private Long eid;
     /**
      * 报告时间
      */

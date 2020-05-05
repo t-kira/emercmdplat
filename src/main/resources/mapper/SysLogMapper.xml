@@ -3,6 +3,7 @@
 <mapper namespace="com.kira.emercmdplat.mapper.SysLogMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.SysLog">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="e_id" property="eid" javaType="INTEGER"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="operation" property="operation" jdbcType="VARCHAR"/>
         <result column="method" property="method" jdbcType="VARCHAR"/>
@@ -10,12 +11,15 @@
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_name, operation, method, params, create_time
+    id, e_id, user_name, operation, method, params, create_time
   </sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
         <if test="id != null">
             and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="eid != null">
+            and e_id = #{eid, jdbcType=BIGINT}
         </if>
         <if test="user_name != null">
             and user_name = #{userName,jdbcType=VARCHAR}
@@ -34,8 +38,8 @@
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Duty">
-        insert into sys_log (id, user_name, operation, method, params, create_time)
-        values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR},
+        insert into sys_log (id, e_id, user_name, operation, method, params, create_time)
+        values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR},
                 #{params,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
     </insert>
     <update id="delete" parameterType="java.lang.Long">
@@ -45,6 +49,9 @@
     <update id="update" parameterType="com.kira.emercmdplat.pojo.SysLog">
         update sys_log
         <set>
+            <if test="eid != null">
+                e_id = #{eid, jdbcType=BIGINT},
+            </if>
             <if test="user_name != null">
                 user_name = #{userName,jdbcType=VARCHAR},
             </if>

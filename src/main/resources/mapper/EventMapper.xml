@@ -237,7 +237,7 @@
     </select>
     <insert id="insertDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">
         insert into event_development(id, e_id, report_time, report_content, reporter)
-        values (#{id, jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR},
+        values (#{id, jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR},
         #{reportContent,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR})
     </insert>
     <update id="updateDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">

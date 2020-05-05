@@ -14,7 +14,7 @@ public class LeaderInstruct{
     /**
      * 事件ID
      */
-    private Long eId;
+    private Long eid;
     /**
      *领导ID
      */

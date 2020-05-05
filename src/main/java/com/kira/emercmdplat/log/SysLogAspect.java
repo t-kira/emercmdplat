@@ -1,9 +1,12 @@
 package com.kira.emercmdplat.log;
 
 import com.kira.emercmdplat.annotation.MyLog;
+import com.kira.emercmdplat.pojo.Event;
 import com.kira.emercmdplat.pojo.SysLog;
+import com.kira.emercmdplat.pojo.VerifyEventReq;
 import com.kira.emercmdplat.service.SysLogService;
 import com.kira.emercmdplat.utils.DateUtil;
+import com.kira.emercmdplat.utils.StringUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.aspectj.lang.JoinPoint;
@@ -59,8 +62,23 @@ public class SysLogAspect {
 
         //请求的参数
         Object[] args = joinPoint.getArgs();
+        Object arg = args[0];
+        JSONObject json = JSONObject.fromObject(arg);
+        Long eid = 0l;
+        if (arg instanceof Event) {
+            eid = StringUtil.toLongDefValue(json.get("id").toString(), 0l);
+        } else if(arg instanceof VerifyEventReq) {
+            Long coverEId = StringUtil.toLongDefValue(json.get("coverEId").toString(), 0l);
+            Long mainEId = StringUtil.toLongDefValue(json.get("mainEId").toString(), 0l);
+            if (mainEId > 0) {
+                eid = mainEId;
+            } else {
+                eid = coverEId;
+            }
+        }
+        sysLog.setEid(eid);
         //将参数所在的数组转换成json
-        String params = JSONArray.fromObject(args).toString();
+        String params = json.toString();
         sysLog.setParams(params);
 
         sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));

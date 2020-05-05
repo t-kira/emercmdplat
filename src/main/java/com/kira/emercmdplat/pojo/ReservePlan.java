@@ -12,7 +12,7 @@ public class ReservePlan {
 
     private Long id;
 
-    private Long eId;
+    private Long eid;
 
     private Integer status;
 }

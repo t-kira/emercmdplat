@@ -53,7 +53,7 @@ public class EventController extends BaseController {
     @Autowired
     private MessageService mas;
 
-    @MyLog("事件接报")
+//    @MyLog("事件接报")
     @ResponseBody
     @PostMapping(value = "add")
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
@@ -93,19 +93,10 @@ public class EventController extends BaseController {
         }
     }
     /**
-     * 事件合并
-     * @return
-     */
-    @MyLog("事件合并")
-    @ResponseBody
-    public AlvesJSONResult eventMerge() {
-        return AlvesJSONResult.ok();
-    }
-    /**
      * 获取事件类型列表
      * @return 事件类型集合
      */
-    @MyLog("获取事件类型列表")
+//    @MyLog("获取事件类型列表")
     @ResponseBody
     @GetMapping(value = "type_list")
     public AlvesJSONResult listPlanType() {
@@ -117,7 +108,7 @@ public class EventController extends BaseController {
      * @param id 事件类型ID
      * @return
      */
-    @MyLog("查询事件参数")
+//    @MyLog("查询事件参数")
     @ResponseBody
     @GetMapping(value = "event_param/{id}")
     public AlvesJSONResult listParam(@PathVariable int id) {
@@ -128,7 +119,7 @@ public class EventController extends BaseController {
      * 获取值班人员集合
      * @return
      */
-    @MyLog("查询值班人员集合")
+//    @MyLog("查询值班人员集合")
     @ResponseBody
     @GetMapping(value = "duty_list")
     public AlvesJSONResult listDuty(){
@@ -140,7 +131,7 @@ public class EventController extends BaseController {
      * @param id
      * @return
      */
-    @MyLog("查询值班人员信息")
+//    @MyLog("查询值班人员信息")
     @ResponseBody
     @GetMapping(value = "duty/{id}")
     public AlvesJSONResult selectDuty(@PathVariable int id){
@@ -151,7 +142,7 @@ public class EventController extends BaseController {
      * 获取机构集合
      * @return
      */
-    @MyLog("查询机构列表")
+//    @MyLog("查询机构列表")
     @ResponseBody
     @GetMapping(value = "mechanism_list")
     public AlvesJSONResult listMechanism() {
@@ -208,7 +199,7 @@ public class EventController extends BaseController {
 
             es.update(event);
             ReservePlan reservePlan = new ReservePlan();
-            reservePlan.setEId(verifyReport.getEid());
+            reservePlan.setEid(verifyReport.getEid());
             reservePlan.setStatus(ReservePlanStatus.UNEDIT.getNo());
             rps.insert(reservePlan);
             return AlvesJSONResult.ok(EventProcess.VERIFY_REPORT.getNo());
@@ -216,7 +207,7 @@ public class EventController extends BaseController {
             return AlvesJSONResult.errorMsg("fail insert verifyReport...");
         }
     }
-    @MyLog("查询核实报告")
+//    @MyLog("查询核实报告")
     @ResponseBody
     @GetMapping(value = "verify/{eId}")
     public AlvesJSONResult selectVerifyReportByEid(@PathVariable long eId) {
@@ -248,7 +239,7 @@ public class EventController extends BaseController {
         }
         return AlvesJSONResult.errorMsg("fail upload...");
     }
-    @MyLog("查询预案列表")
+//    @MyLog("查询预案列表")
     @ResponseBody
     @GetMapping("plan_version_list/{id}")
     public AlvesJSONResult listPlanVersion(@PathVariable int id) {
@@ -257,7 +248,7 @@ public class EventController extends BaseController {
         List<PlanVersion> planVersionList = pvs.listAllVersions(planVersion);
         return AlvesJSONResult.ok(planVersionList);
     }
-    @MyLog("查询预案等级")
+//    @MyLog("查询预案等级")
     @ResponseBody
     @GetMapping("plan_response_list/{id}")
     public AlvesJSONResult listPlanResponse(@PathVariable int id) {
@@ -277,7 +268,7 @@ public class EventController extends BaseController {
         int result = lis.insert(leaderInstruct);
         if (result > 0) {
             Event event = new Event();
-            event.setId(leaderInstruct.getEId());
+            event.setId(leaderInstruct.getEid());
             event.setProcess(EventProcess.RESERVE_PLAN.getNo());
             es.update(event);
             return AlvesJSONResult.ok(EventProcess.LEADER_INSTRUCT.getNo());
@@ -290,21 +281,21 @@ public class EventController extends BaseController {
      * @param eId
      * @return
      */
-    @MyLog("查询领导批示")
+//    @MyLog("查询领导批示")
     @ResponseBody
     @GetMapping(value = "leader_instruct_list/{eId}")
     public AlvesJSONResult listLeaderInstruct(@PathVariable Long eId) {
         LeaderInstruct leaderInstruct = new LeaderInstruct();
-        leaderInstruct.setEId(eId);
+        leaderInstruct.setEid(eId);
         List<LeaderInstruct> list = lis.queryForAll(leaderInstruct);
         return AlvesJSONResult.ok(list);
     }
-    @MyLog("查询领导批示")
+//    @MyLog("查询领导批示")
     @ResponseBody
     @GetMapping(value = "leader_instruct/{eId}")
     public AlvesJSONResult selectLeaderInstructByEid(@PathVariable long eId) {
         LeaderInstruct leaderInstruct = new LeaderInstruct();
-        leaderInstruct.setEId(eId);
+        leaderInstruct.setEid(eId);
         List<LeaderInstruct> list = lis.queryForAll(leaderInstruct);
         if (list != null && list.size() > 0) {
             return AlvesJSONResult.ok(list.get(0));
@@ -344,7 +335,7 @@ public class EventController extends BaseController {
      * @param eId
      * @return
      */
-    @MyLog("查询预案")
+//    @MyLog("查询预案")
     @ResponseBody
     @GetMapping(value = "reserve_plan_list/{eId}")
     public AlvesJSONResult selectReservePlanByEId(@PathVariable Long eId) {
@@ -356,7 +347,7 @@ public class EventController extends BaseController {
      * @param id
      * @return
      */
-    @MyLog("查询预案")
+//    @MyLog("查询预案")
     @ResponseBody
     @GetMapping(value = "reserve_plan/{id}")
     public AlvesJSONResult selectReservePlan(@PathVariable Long id) {
@@ -380,7 +371,7 @@ public class EventController extends BaseController {
             if (reservePlanResult.getStatus() < 0) {
                 reservePlanResult.setStatus(ReservePlanStatus.STOP.getNo());
                 Event event = new Event();
-                event.setId(reservePlanResult.getEId());
+                event.setId(reservePlanResult.getEid());
                 event.setProcess(EventProcess.EVENT_FINISH.getNo());
                 es.update(event);
             } else {
@@ -419,7 +410,7 @@ public class EventController extends BaseController {
             return AlvesJSONResult.errorMsg("fail update...");
         }
     }
-    @MyLog("查询事件")
+//    @MyLog("查询事件")
     @ResponseBody
     @GetMapping(value = "event/{id}")
     public AlvesJSONResult selectById(@PathVariable Long id) {
@@ -430,7 +421,7 @@ public class EventController extends BaseController {
         json.put("list", list);
         return AlvesJSONResult.ok(json);
     }
-    @MyLog("查询事件列表")
+//    @MyLog("查询事件列表")
     @ResponseBody
     @PostMapping("list")
     public AlvesJSONResult list(@RequestBody EventExtend eventExtend) {
@@ -479,7 +470,7 @@ public class EventController extends BaseController {
             coverEvent.setVerifyStatus(3);
             es.update(coverEvent);
             EventDevelopment development = new EventDevelopment();
-            development.setEId(mainEvent.getId());
+            development.setEid(mainEvent.getId());
             development.setReportContent(coverEvent.getEventDesc());
             development.setReporter(mainEvent.getReporter());
             development.setReportTime(coverEvent.getReceiveTime());
@@ -508,7 +499,7 @@ public class EventController extends BaseController {
         coverEvent.setVerifyStatus(3);
         es.update(coverEvent);
         EventDevelopment development = new EventDevelopment();
-        development.setEId(mainEvent.getId());
+        development.setEid(mainEvent.getId());
         development.setReportContent(coverEvent.getEventDesc());
         development.setReporter(mainEvent.getReporter());
         development.setReportTime(coverEvent.getReceiveTime());
