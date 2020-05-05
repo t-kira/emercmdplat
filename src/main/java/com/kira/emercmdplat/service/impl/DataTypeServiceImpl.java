@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -162,6 +163,14 @@ public class DataTypeServiceImpl implements DataTypeService {
 	@Override
 	public List<EType> queryTypeListByDataId(Integer dataId) {
 		return dm.queryTypeListByDataId(dataId);
+	}
+
+	@Override
+	public List<DataType> queryResources(DataType dataType) {
+		Map param = new HashMap();
+		param.put("dId", dataType.getId());
+		param.put("name", dataType.getName());
+		return dm.queryResources(param);
 	}
 
 }

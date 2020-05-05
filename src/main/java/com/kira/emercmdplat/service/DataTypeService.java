@@ -14,4 +14,6 @@ public interface DataTypeService extends BaseService<DataType> {
 
 	List<EType> queryTypeListByDataId(Integer dataId);
 
+	List<DataType> queryResources(DataType dataType);
+
 }

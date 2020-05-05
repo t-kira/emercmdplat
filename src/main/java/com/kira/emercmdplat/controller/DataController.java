@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,5 +61,13 @@ public class DataController {
 	@RequestMapping(name="获取存储点列表",value="/getResourcesByType",method=RequestMethod.GET)
 	public List<DataType> getResourcesByType(@ApiComment("物资来源类型id") int id) {
 		return dataTypeService.getResourcesByType(id);
+	}
+	
+	@Api2Doc(order = 5)
+    @ApiComment(value="查询应急资源")
+	@RequestMapping(name="查询应急资源",value="/queryResources",method=RequestMethod.POST)
+	public List<DataType> queryResources(@RequestBody DataType dataType) {
+		List<DataType> list = dataTypeService.queryResources(dataType);
+		return list;
 	}
 }

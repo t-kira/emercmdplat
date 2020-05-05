@@ -23,15 +23,16 @@
         <result column="p_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR"/>
         <result column="p_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="p_update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     p_id, p_name, p_type, p_district, p_maintenance_company, p_protection_level, p_level, p_number, p_addr, p_lng, p_lat, p_PIC,
     p_contact_num, p_cell_num, p_home_num, p_fax_num, p_email, p_contact_name, p_contact_work_num, p_contact_cell_num,
-    p_update_time
+    p_update_time, t_name
   </sql>
     <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
+        <!--[CDATA[where 1=1 ]]-->
         <if test="id != null">
             and p_id = #{id,jdbcType=INTEGER}
         </if>
@@ -180,21 +181,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from protection_target
-        where p_id = #{id,jdbcType=INTEGER}
+        from protection_target p,e_type t
+        where p.p_type = t.t_id
+        and p_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ProtectionTarget">
         select
         <include refid="Base_Column_List"/>
-        from protection_target
+        from protection_target p,e_type t
+        where p.p_type = t.t_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from protection_target
+        from protection_target p,e_type t
+        where p.p_type = t.t_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
@@ -202,6 +206,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ProtectionTarget">
         select count(p_id)
         from protection_target
+        where 1=1
         <include refid="Basic_Conditions"/>
     </select>
 
