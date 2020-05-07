@@ -25,6 +25,11 @@
         <result column="m_name" property="mName" jdbcType="VARCHAR"/>
         <result column="g_name" property="gName" jdbcType="VARCHAR"/>
     </resultMap>
+    <resultMap id="GroupResultMap" type="com.kira.emercmdplat.pojo.Group">
+        <id column="g_id" property="id" jdbcType="BIGINT"/>
+        <result column="g_name" property="gName" jdbcType="VARCHAR"/>
+        <result column="super_g_id" property="superGid" jdbcType="BIGINT"/>
+    </resultMap>
 
     <sql id="Base_Column_List">
         c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
@@ -173,7 +178,7 @@
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
         <include refid="Basic_Conditions"/>
     </select>
-    
+
     <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
@@ -199,5 +204,13 @@
         from contacts
         <include refid="Basic_Conditions"/>
     </select>
-
+    <select id="selectByGid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from contacts c, job j, mechanism m , contact_group g
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and c.g_id = #{gid, jdbcType=BIGINT}
+    </select>
+    <select id="selectGroup" resultMap="GroupResultMap" parameterType="com.kira.emercmdplat.pojo.Group">
+        select g_id, g_name, super_g_id from contact_group
+    </select>
 </mapper>

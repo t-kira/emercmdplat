@@ -3,6 +3,7 @@ package com.kira.emercmdplat.service;
 import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsExtend;
 import com.kira.emercmdplat.pojo.ContactsResult;
+import com.kira.emercmdplat.pojo.Group;
 
 import java.util.List;
 
@@ -26,6 +27,10 @@ public interface ContactService {
     List<ContactsResult> queryForPage(ContactsExtend contactsExtend);
 
     Long queryForCounts(ContactsExtend contactsExtend);
-    
+
     List<ContactsResult> queryForIds(List ids);
+
+    List<ContactsResult> selectByGid(Long gid);
+
+    List<Group> selectGroup(Group group);
 }

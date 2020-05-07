@@ -10,6 +10,8 @@ import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Author: kira
@@ -54,6 +53,8 @@ public class EventController extends BaseController {
     private MessageService mas;
     @Autowired
     private SysLogService sls;
+    @Autowired
+    private ContactService cs;
 
 //    @MyLog("事件接报")
     @ResponseBody
@@ -514,5 +515,19 @@ public class EventController extends BaseController {
     public AlvesJSONResult sysLogList(@PathVariable Long eid) {
         List<SysLog> list = sls.selectByEid(eid);
         return AlvesJSONResult.ok(list);
+    }
+
+    @ResponseBody
+    @GetMapping("list_group")
+    public AlvesJSONResult groupList() {
+        List<Group> groups = cs.selectGroup(new Group());
+        for (Group group : groups) {
+            List<ContactsResult> contactsResultList = cs.selectByGid(group.getId());
+            if (contactsResultList != null && contactsResultList.size() > 0) {
+                group.setContactsList(contactsResultList);
+            }
+        }
+        List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
+        return AlvesJSONResult.ok(groupList);
     }
 }

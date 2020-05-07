@@ -4,6 +4,7 @@ import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsExtend;
 import com.kira.emercmdplat.pojo.ContactsResult;
+import com.kira.emercmdplat.pojo.Group;
 import com.kira.emercmdplat.service.ContactService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +67,14 @@ public class ContactServiceImpl implements ContactService {
 		paramMap.put("ids", ids);
 		return cm.queryForIds(paramMap);
 	}
+
+    @Override
+    public List<ContactsResult> selectByGid(Long gid) {
+        return cm.selectByGid(gid);
+    }
+
+    @Override
+    public List<Group> selectGroup(Group group) {
+        return cm.selectGroup(group);
+    }
 }
