@@ -4,9 +4,9 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 public class BaseObject {
 	
-	private String commonIcon = "http://116.62.229.247:8989/img/active.png";
+	private String commonIcon = "http://47.93.126.142:8989/img/active.png";
 	
-	private String activeIcon = "http://116.62.229.247:8989/img/common.png";
+	private String activeIcon = "http://47.93.126.142:8989/img/common.png";
 	
 	@ApiComment("第几页")
 	private Integer page;
