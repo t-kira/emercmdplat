@@ -77,4 +77,9 @@ public class ContactServiceImpl implements ContactService {
     public List<Group> selectGroup(Group group) {
         return cm.selectGroup(group);
     }
+
+    @Override
+    public List<ContactsResult> selectGeoContacts() {
+        return cm.selectGeoContacts();
+    }
 }

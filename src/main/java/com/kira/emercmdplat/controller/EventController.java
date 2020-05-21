@@ -532,4 +532,10 @@ public class EventController extends BaseController {
         return AlvesJSONResult.ok(groupList);
     }
 
+    @ResponseBody
+    @GetMapping("list_geo_contact")
+    public AlvesJSONResult geoContacts() {
+        List<ContactsResult> contactsResultList = cs.selectGeoContacts();
+        return AlvesJSONResult.ok(contactsResultList);
+    }
 }
