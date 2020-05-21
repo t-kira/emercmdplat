@@ -1,88 +1,110 @@
 package com.kira.emercmdplat.pojo;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 /**
  * @Author: kira
  * @Date: 2020/2/1 11:01
  * @Description:
  */
-public class HazardSouce {
-
+public class HazardSouce extends BaseObject {
+	
+	@ApiComment(value = "id", sample = "1")
 	private Long id;
 	/**
 	 * 名称
 	 */
+	@ApiComment(value = "名称", sample = "aaa")
 	private String name;
 	/**
 	 * 类型
 	 */
+	@ApiComment(value = "类型", sample = "1")
 	private Integer type;
 	/**
 	 * 行政区划
 	 */
+	@ApiComment(value = "行政区划", sample = "aaa")
 	private String district;
 	/**
 	 * 威胁人数
 	 */
+	@ApiComment(value = "威胁人数", sample = "1")
 	private Integer number;
 	/**
 	 * 负责人
 	 */
+	@ApiComment(value = "负责人", sample = "aaa")
 	private String PIC;
 	/**
 	 * 地址
 	 */
+	@ApiComment(value = "地址", sample = "aaa")
 	private String addr;
 	/**
 	 * 维护单位
 	 */
+	@ApiComment(value = "维护单位", sample = "aaa")
 	private String maintenanceCompany;
 	/**
 	 * 危险等级
 	 */
+	@ApiComment(value = "危险等级", sample = "1")
 	private Integer warningLevel;
 	/**
 	 * 经度
 	 */
+	@ApiComment(value = "经度", sample = "1")
 	private Double lng;
 	/**
 	 * 纬度
 	 */
+	@ApiComment(value = "纬度", sample = "1")
 	private Double lat;
 	/**
 	 * 联系电话
 	 */
+	@ApiComment(value = "联系电话", sample = "123")
 	private String contactNum;
 	/**
 	 * 手机
 	 */
+	@ApiComment(value = "手机", sample = "123")
 	private String cellNum;
 	/**
 	 * 住宅电话
 	 */
+	@ApiComment(value = "住宅电话", sample = "123")
 	private String homeNum;
 	/**
 	 * 传真号码
 	 */
+	@ApiComment(value = "传真号码", sample = "aaa")
 	private String faxNum;
 	/**
 	 * 电子邮箱
 	 */
+	@ApiComment(value = "电子邮箱", sample = "aaa")
 	private String email;
 	/**
 	 * 联系人名字
 	 */
+	@ApiComment(value = "联系人名字", sample = "aaa")
 	private String contactName;
 	/**
 	 * 联系人办公电话
 	 */
+	@ApiComment(value = "联系人名字", sample = "aaa")
 	private String contactWorkNum;
 	/**
 	 * 联系人手机号码
 	 */
+	@ApiComment(value = "联系人手机号码", sample = "123")
 	private String contactCellNum;
 	/**
 	 * 更新时间
 	 */
+	@ApiComment(value = "更新时间", sample = "2020-05-01")
 	private String updateTime;
 
 	private String typeName;

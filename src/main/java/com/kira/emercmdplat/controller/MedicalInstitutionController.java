@@ -1,16 +1,22 @@
 package com.kira.emercmdplat.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.MedicalInstitution;
+import com.kira.emercmdplat.pojo.MedicalInstitutionResult;
 import com.kira.emercmdplat.service.MedicalInstitutionService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
+import com.terran4j.commons.api2doc.annotations.Api2Doc;
+import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2020/2/4 23:03
  * @Description:
  */
+@Api2Doc(id = "medicalInstitution", name = "医疗机构接口", order = 11)
 @RestController
 @RequestMapping("/medicalInstitution")
 public class MedicalInstitutionController extends BaseController {
@@ -25,37 +32,54 @@ public class MedicalInstitutionController extends BaseController {
     @Autowired
     private MedicalInstitutionService medicalInstitutionService;
 
-    @RequestMapping("/add")
-    public AlvesJSONResult insert(MedicalInstitution medicalInstitution) {
+    @Api2Doc(order = 1)
+    @ApiComment(value="添加医疗机构")
+    @RequestMapping(name="添加医疗机构",value="/add",method=RequestMethod.POST)
+    public String insert(@ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
         medicalInstitutionService.insert(medicalInstitution);
-        return AlvesJSONResult.ok();
+        return "success";
     }
-
-    @RequestMapping("/update")
-    public AlvesJSONResult update(MedicalInstitution medicalInstitution) {
+    
+    @Api2Doc(order = 2)
+    @ApiComment(value="修改医疗机构")
+    @RequestMapping(name="修改医疗机构",value="/update",method=RequestMethod.POST)
+    public String update(@ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
         medicalInstitutionService.update(medicalInstitution);
-        return AlvesJSONResult.ok();
+        return "success";
     }
-
-    @RequestMapping("/delete")
-    public AlvesJSONResult delete(MedicalInstitution medicalInstitution) {
-        medicalInstitutionService.delete(medicalInstitution);
-        return AlvesJSONResult.ok();
+    
+    @Api2Doc(order = 3)
+    @ApiComment(value="删除医疗机构")
+    @RequestMapping(name="删除医疗机构",value="/delete",method=RequestMethod.GET)
+    public String delete(@ApiComment(value="医疗机构id",sample="1") String ids) {
+    	if (StringUtils.isEmpty(ids)) {
+    		return "fail";
+    	}
+    	String[] idList = ids.split(",");
+    	for (String id : idList) {
+    		MedicalInstitution medicalInstitution = medicalInstitutionService.selectById(Integer.valueOf(id));
+    		medicalInstitutionService.delete(medicalInstitution);
+    	}
+        return "success";
     }
-
-    @RequestMapping("/selectById")
-    public AlvesJSONResult selectById(Integer id) {
+    
+    @Api2Doc(order = 4)
+    @ApiComment(value="根据id查询医疗机构")
+    @RequestMapping(name="根据id查询医疗机构",value="/selectById",method=RequestMethod.GET)
+    public MedicalInstitution selectById(@ApiComment(value="医疗机构id",sample="1") Integer id) {
         MedicalInstitution medicalInstitution = medicalInstitutionService.selectById(id);
-        return AlvesJSONResult.ok(medicalInstitution);
+        return medicalInstitution;
     }
-
-    @RequestMapping("/list")
-    public AlvesJSONResult list(MedicalInstitution medicalInstitution, Integer page, Integer pageSize) {
-        Map<String, Object> map = new HashMap<>();
-        List<MedicalInstitution> list = medicalInstitutionService.queryForPage(medicalInstitution, page, pageSize);
+    
+    @Api2Doc(order = 5)
+    @ApiComment(value="列出医疗机构")
+    @RequestMapping(name="列出医疗机构",value="/list",method=RequestMethod.POST)
+    public MedicalInstitutionResult list(@ApiComment(value="医疗机构参数",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
+    	MedicalInstitutionResult result = new MedicalInstitutionResult();
+        List<MedicalInstitution> list = medicalInstitutionService.queryForPage(medicalInstitution, medicalInstitution.getPage(), medicalInstitution.getPageSize());
         Long count = medicalInstitutionService.queryForCounts(medicalInstitution);
-        map.put("list", list);
-        map.put("count", count);
-        return AlvesJSONResult.ok(map);
+        result.setList(list);
+        result.setCount(count);
+        return result;
     }
 }

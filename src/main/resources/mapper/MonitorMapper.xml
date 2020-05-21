@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.MonitorMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Monitor">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="INTEGER"/>
+        <result column="lng" property="lng" jdbcType="VARCHAR"/>
+        <result column="lat" property="lat" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, name, address, code, lng, lat
+  	</sql>
+    <sql id="Basic_Conditions">
+        <![CDATA[where 1=1 ]]>
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="name != null and name != ''">
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="address != null">
+            and address = #{address,jdbcType=VARCHAR}
+        </if>
+        <if test="code != null">
+            and code = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="lng != null">
+            and lng = #{lng,jdbcType=VARCHAR}
+        </if>
+        <if test="lat != null">
+            and lat = #{lat,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Monitor">
+    insert into monitor (id, name, address, code, lng, lat)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+    #{lng,jdbcType=VARCHAR},#{lat,jdbcType=VARCHAR})
+  </insert>
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.Monitor">
+    DELETE from monitor
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.Monitor">
+        update monitor
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="lng != null">
+                lng = #{lng,jdbcType=VARCHAR},
+            </if>
+            <if test="lat != null">
+                lat = #{lat,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from monitor
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Monitor">
+        select
+        <include refid="Base_Column_List"/>
+        from monitor
+        <include refid="Basic_Conditions"/>
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from monitor
+        <include refid="Basic_Conditions"/>
+        limit ${index}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Monitor">
+        select count(id)
+        from monitor
+        <include refid="Basic_Conditions"/>
+    </select>
+
+</mapper>

@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 /**
  * 医疗机构
  * 
@@ -7,92 +9,116 @@ package com.kira.emercmdplat.pojo;
  *
  */
 public class MedicalInstitution extends BaseObject {
+	
+	@ApiComment(value = "id", sample = "1")
 	private Long id;
 	/**
 	 * 名称
 	 */
+	@ApiComment(value = "名称", sample = "aaa")
 	private String name;
 	/**
 	 * 类型
 	 */
+	@ApiComment(value = "类型", sample = "1")
 	private Integer type;
 	/**
 	 * 行政区划
 	 */
+	@ApiComment(value = "行政区划", sample = "aaa")
 	private String district;
 	/**
 	 * 维护单位
 	 */
+	@ApiComment(value = "维护单位", sample = "aaa")
 	private String maintenanceCompany;
 	/**
 	 * 机构等级
 	 */
+	@ApiComment(value = "机构等级", sample = "1")
 	private Integer institutionLevel;
 	/**
 	 * 唯一识别码
 	 */
+	@ApiComment(value = "唯一识别码", sample = "aaa")
 	private String UID;
 	/**
 	 * 病床数
 	 */
+	@ApiComment(value = "病床数", sample = "1")
 	private Integer sickbedNum;
 	/**
 	 * 诊疗科目
 	 */
+	@ApiComment(value = "诊疗科目", sample = "aaa")
 	private String medicalSubjects;
 	/**
 	 * 地址
 	 */
+	@ApiComment(value = "地址", sample = "aaa")
 	private String addr;
 	/**
 	 * 经度
 	 */
+	@ApiComment(value = "经度", sample = "1")
 	private Double lng;
 	/**
 	 * 纬度
 	 */
+	@ApiComment(value = "纬度", sample = "1")
 	private Double lat;
 	/**
 	 * 负责人
 	 */
+	@ApiComment(value = "负责人", sample = "aaa")
 	private String PIC;
 	/**
 	 * 联系电话
 	 */
+	@ApiComment(value = "联系电话", sample = "123")
 	private String contactNum;
 	/**
 	 * 手机
 	 */
+	@ApiComment(value = "手机", sample = "123")
 	private String cellNum;
 	/**
 	 * 住宅电话
 	 */
+	@ApiComment(value = "手机", sample = "123")
 	private String homeNum;
 	/**
 	 * 传真号码
 	 */
+	@ApiComment(value = "传真号码", sample = "123")
 	private String faxNum;
 	/**
 	 * 电子邮箱
 	 */
+	@ApiComment(value = "电子邮箱", sample = "aaa")
 	private String email;
 	/**
 	 * 联系人名字
 	 */
+	@ApiComment(value = "联系人名字", sample = "aaa")
 	private String contactName;
 	/**
 	 * 联系人办公电话
 	 */
+	@ApiComment(value = "联系人办公电话", sample = "123")
 	private String contactWorkNum;
 	/**
 	 * 联系人手机号码
 	 */
+	@ApiComment(value = "联系人手机号码", sample = "123")
 	private String contactCellNum;
 	/**
 	 * 更新时间
 	 */
+	@ApiComment(value = "更新时间", sample = "2020-05-01")
 	private String updateTime;
-
+	
+	@ApiComment(value = "类型名称", sample = "aaa")
 	private String typeName;
 
 	public Long getId() {
