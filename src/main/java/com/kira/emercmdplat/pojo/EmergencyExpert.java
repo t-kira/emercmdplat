@@ -81,6 +81,16 @@ public class EmergencyExpert extends BaseObject {
 	 */
 	@ApiComment(value = "更新时间", sample = "123")
 	private String updateTime;
+	/**
+	 * 经度
+	 */
+	@ApiComment(value = "经度", sample = "1")
+	private Double lng;
+	/**
+	 * 纬度
+	 */
+	@ApiComment(value = "纬度", sample = "1")
+	private Double lat;
 
 	@ApiComment(value = "类型名称", sample = "123")
 	private String typeName;
@@ -214,6 +224,22 @@ public class EmergencyExpert extends BaseObject {
 
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
 	}
 
 	public String getTypeName() {
