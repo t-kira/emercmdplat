@@ -50,6 +50,10 @@ public class Contacts {
     private String notes;
     @ApiComment(value = "分组ID", sample = "1")
     private Long gId;
+    @ApiComment(value = "纬度", sample = "23.0001")
+    private Double lat;
+    @ApiComment(value = "经度", sample = "23.0001")
+    private Double lng;
     @ApiComment(value = "添加时间", sample = "2020-04-21 22:44:40")
     private String createTime;
     @ApiComment(value = "添加时间", sample = "2020-04-22 22:44:40")
