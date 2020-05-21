@@ -181,6 +181,14 @@
         <include refid="Basic_Conditions"/>
     </select>
 
+    <select id="selectGeoContacts" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from contacts c, job j, mechanism m , contact_group g
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
+        and c.lat &gt; 0 and c.lng &gt; 0
+    </select>
+
     <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>

@@ -34,4 +34,6 @@ public interface ContactMapper {
     List<ContactsResult> selectByGid(Long gid);
 
     List<Group> selectGroup(Group group);
+
+    List<ContactsResult> selectGeoContacts();
 }
