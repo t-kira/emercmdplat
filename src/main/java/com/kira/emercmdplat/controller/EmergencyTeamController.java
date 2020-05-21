@@ -1,16 +1,22 @@
 package com.kira.emercmdplat.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.EmergencyTeam;
+import com.kira.emercmdplat.pojo.EmergencyTeamResult;
 import com.kira.emercmdplat.service.EmergencyTeamService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
+import com.terran4j.commons.api2doc.annotations.Api2Doc;
+import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,44 +24,62 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2020/2/4 23:03
  * @Description:
  */
+@Api2Doc(id = "emergencyTeam", name = "应急队伍接口", order = 10)
 @RestController
 @RequestMapping("/emergencyTeam")
 public class EmergencyTeamController extends BaseController {
 
     @Autowired
     private EmergencyTeamService emergencyTeamService;
-
-    @RequestMapping("/add")
-    public AlvesJSONResult insert(EmergencyTeam emergencyTeam) {
+    
+    @Api2Doc(order = 1)
+    @ApiComment(value="添加应急队伍")
+    @RequestMapping(name="添加应急队伍",value="/add",method=RequestMethod.POST)
+    public String insert(@ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
         emergencyTeamService.insert(emergencyTeam);
-        return AlvesJSONResult.ok();
+        return "success";
     }
-
-    @RequestMapping("/update")
-    public AlvesJSONResult update(EmergencyTeam emergencyTeam) {
+    
+    @Api2Doc(order = 2)
+    @ApiComment(value="修改应急队伍")
+    @RequestMapping(name="修改应急队伍",value="/update",method=RequestMethod.POST)
+    public String update(@ApiComment(value="修改应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
         emergencyTeamService.update(emergencyTeam);
-        return AlvesJSONResult.ok();
+        return "success";
     }
-
-    @RequestMapping("/delete")
-    public AlvesJSONResult delete(EmergencyTeam emergencyTeam) {
-        emergencyTeamService.delete(emergencyTeam);
-        return AlvesJSONResult.ok();
+    
+    @Api2Doc(order = 3)
+    @ApiComment(value="删除应急队伍")
+    @RequestMapping(name="删除应急队伍",value="/delete",method=RequestMethod.GET)
+    public String delete(@ApiComment(value="应急队伍id",sample="1") String ids) {
+    	if (StringUtils.isEmpty(ids)) {
+    		return "fail";
+    	}
+    	String[] idList = ids.split(",");
+    	for (String id : idList) {
+    		EmergencyTeam emergencyTeam = emergencyTeamService.selectById(Integer.valueOf(id));
+    		emergencyTeamService.delete(emergencyTeam);
+    	}
+        return "success";
     }
-
-    @RequestMapping("/selectById")
-    public AlvesJSONResult selectById(Integer id) {
+    
+    @Api2Doc(order = 4)
+    @ApiComment(value="根据id查询应急队伍")
+    @RequestMapping(name="根据id查询应急队伍",value="/selectById",method=RequestMethod.GET)
+    public EmergencyTeam selectById(@ApiComment(value="应急队伍id",sample="1") Integer id) {
         EmergencyTeam emergencyTeam = emergencyTeamService.selectById(id);
-        return AlvesJSONResult.ok(emergencyTeam);
+        return emergencyTeam;
     }
-
-    @RequestMapping("/list")
-    public AlvesJSONResult list(EmergencyTeam emergencyTeam, Integer page, Integer pageSize) {
-        Map<String, Object> map = new HashMap<>();
-        List<EmergencyTeam> list = emergencyTeamService.queryForPage(emergencyTeam, page, pageSize);
+    
+    @Api2Doc(order = 5)
+    @ApiComment(value="列出应急队伍")
+    @RequestMapping(name="列出应急队伍",value="/list",method=RequestMethod.POST)
+    public EmergencyTeamResult list(@ApiComment(value="应急队伍参数",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
+    	EmergencyTeamResult result = new EmergencyTeamResult();
+        List<EmergencyTeam> list = emergencyTeamService.queryForPage(emergencyTeam, emergencyTeam.getPage(), emergencyTeam.getPageSize());
         Long count = emergencyTeamService.queryForCounts(emergencyTeam);
-        map.put("list", list);
-        map.put("count", count);
-        return AlvesJSONResult.ok(map);
+        result.setList(list);
+        result.setCount(count);
+        return result;
     }
 }
