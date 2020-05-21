@@ -18,6 +18,8 @@
         <result column="importance_degree" property="importanceDegree" jdbcType="INTEGER"/>
         <result column="photo" property="photo" jdbcType="VARCHAR"/>
         <result column="notes" property="notes" jdbcType="VARCHAR"/>
+        <result column="lng" property="lng" jdbcType="DOUBLE"/>
+        <result column="lat" property="lat" jdbcType="DOUBLE"/>
         <result column="g_id" property="gId" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
         <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
@@ -33,7 +35,7 @@
 
     <sql id="Base_Column_List">
         c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
-        c.photo, c.notes, c.g_id, c.create_time, c.update_time, j.j_name, m.m_name, g.g_name
+        c.photo, c.notes, c.g_id, c.lng, c.lat, c.create_time, c.update_time, j.j_name, m.m_name, g.g_name
     </sql>
   <sql id="Basic_Conditions" >
 <!--    <![CDATA[where 1=1 ]]>-->

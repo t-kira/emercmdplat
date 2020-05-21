@@ -64,6 +64,7 @@ public class EventController extends BaseController {
         List<EventParam> eventParamList = eventDomain.getEventParamList();
         event.setEventNumber(UUID.randomUUID().toString());
         event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
+        event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
         int result = es.insert(event);
         if (result > 0) {
             if (eventParamList.size() > 0) {
@@ -530,4 +531,5 @@ public class EventController extends BaseController {
         List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
         return AlvesJSONResult.ok(groupList);
     }
+
 }
