@@ -72,7 +72,7 @@
     </select>
     
     <select id="queryTypeListByDataId" resultType="com.kira.emercmdplat.pojo.EType" parameterType="java.lang.Integer">
-    	select t_id id,t_name name,d_id dataId
+    	select t_id id,t_name name,d_id dataId,icon
     	from e_type where d_id=#{dataId}
     </select>
     

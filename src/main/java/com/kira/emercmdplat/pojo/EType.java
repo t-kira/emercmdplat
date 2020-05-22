@@ -15,4 +15,7 @@ public class EType {
 	
 	@ApiComment(value = "数据类型id", sample = "1")
 	private Integer dataId;
+	
+	@ApiComment(value = "小图标", sample = "aaa.png")
+	private String icon;
 }

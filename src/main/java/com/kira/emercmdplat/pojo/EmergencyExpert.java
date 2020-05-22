@@ -98,6 +98,10 @@ public class EmergencyExpert extends BaseObject {
 	@ApiComment(value = "单位名称", sample = "123")
 	private String unitName;
 
+	protected String commonIcon = host + "/img/expert-common.png";
+
+	protected String activeIcon = host + "/img/expert-active.png";
+
 	public Integer getId() {
 		return id;
 	}
@@ -256,6 +260,22 @@ public class EmergencyExpert extends BaseObject {
 
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
+	}
+
+	public String getCommonIcon() {
+		return commonIcon;
+	}
+
+	public void setCommonIcon(String commonIcon) {
+		this.commonIcon = commonIcon;
+	}
+
+	public String getActiveIcon() {
+		return activeIcon;
+	}
+
+	public void setActiveIcon(String activeIcon) {
+		this.activeIcon = activeIcon;
 	}
 
 }

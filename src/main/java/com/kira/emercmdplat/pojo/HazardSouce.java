@@ -8,7 +8,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
  * @Description:
  */
 public class HazardSouce extends BaseObject {
-	
+
 	@ApiComment(value = "id", sample = "1")
 	private Long id;
 	/**
@@ -108,6 +108,13 @@ public class HazardSouce extends BaseObject {
 	private String updateTime;
 
 	private String typeName;
+
+	@ApiComment(value = "图标", sample = "aaa")
+	private String icon;
+
+	protected String commonIcon = host + "/img/active.png";
+
+	protected String activeIcon = host + "/img/common.png";
 
 	public Long getId() {
 		return id;
@@ -275,6 +282,30 @@ public class HazardSouce extends BaseObject {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getCommonIcon() {
+		return commonIcon;
+	}
+
+	public void setCommonIcon(String commonIcon) {
+		this.commonIcon = commonIcon;
+	}
+
+	public String getActiveIcon() {
+		return activeIcon;
+	}
+
+	public void setActiveIcon(String activeIcon) {
+		this.activeIcon = activeIcon;
 	}
 
 }

@@ -9,7 +9,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
  *
  */
 public class ProtectionTarget extends BaseObject {
-	
+
 	@ApiComment(value = "id", sample = "1")
 	private Long id;
 	/**
@@ -112,9 +112,16 @@ public class ProtectionTarget extends BaseObject {
 	 */
 	@ApiComment(value = "更新时间", sample = "123")
 	private String updateTime;
-	
+
 	@ApiComment(value = "类型名称", sample = "aaa")
 	private String typeName;
+
+	@ApiComment(value = "图标", sample = "aaa")
+	private String icon;
+
+	protected String commonIcon = host + "/img/active.png";
+
+	protected String activeIcon = host + "/img/common.png";
 
 	public Long getId() {
 		return id;
@@ -290,6 +297,30 @@ public class ProtectionTarget extends BaseObject {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getCommonIcon() {
+		return commonIcon;
+	}
+
+	public void setCommonIcon(String commonIcon) {
+		this.commonIcon = commonIcon;
+	}
+
+	public String getActiveIcon() {
+		return activeIcon;
+	}
+
+	public void setActiveIcon(String activeIcon) {
+		this.activeIcon = activeIcon;
 	}
 
 }

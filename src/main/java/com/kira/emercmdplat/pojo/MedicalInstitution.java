@@ -9,7 +9,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
  *
  */
 public class MedicalInstitution extends BaseObject {
-	
+
 	@ApiComment(value = "id", sample = "1")
 	private Long id;
 	/**
@@ -117,9 +117,13 @@ public class MedicalInstitution extends BaseObject {
 	 */
 	@ApiComment(value = "更新时间", sample = "2020-05-01")
 	private String updateTime;
-	
+
 	@ApiComment(value = "类型名称", sample = "aaa")
 	private String typeName;
+
+	protected String commonIcon = host + "/img/medical-common.png";
+
+	protected String activeIcon = host + "/img/medical-active.png";
 
 	public Long getId() {
 		return id;
@@ -303,6 +307,22 @@ public class MedicalInstitution extends BaseObject {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public String getCommonIcon() {
+		return commonIcon;
+	}
+
+	public void setCommonIcon(String commonIcon) {
+		this.commonIcon = commonIcon;
+	}
+
+	public String getActiveIcon() {
+		return activeIcon;
+	}
+
+	public void setActiveIcon(String activeIcon) {
+		this.activeIcon = activeIcon;
 	}
 
 }

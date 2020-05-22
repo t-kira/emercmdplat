@@ -4,280 +4,301 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
  * 避难场所
+ * 
  * @author richard.yuq
  *
  */
 public class Shelter extends BaseObject {
-	
+
 	@ApiComment(value = "id", sample = "1")
-    private Long id;
-    /**
-     * 名称
-     */
+	private Long id;
+	/**
+	 * 名称
+	 */
 	@ApiComment(value = "名称", sample = "aaa")
-    private String name;
-    /**
-     * 类型
-     */
+	private String name;
+	/**
+	 * 类型
+	 */
 	@ApiComment(value = "类型", sample = "1")
-    private Integer type;
-    /**
-     * 行政区划
-     */
+	private Integer type;
+	/**
+	 * 行政区划
+	 */
 	@ApiComment(value = "行政区划", sample = "aaa")
-    private String district;
-    /**
-     * 维护单位
-     */
+	private String district;
+	/**
+	 * 维护单位
+	 */
 	@ApiComment(value = "维护单位", sample = "aaa")
-    private String maintenanceCompany;
-    /**
-     * 级别
-     */
+	private String maintenanceCompany;
+	/**
+	 * 级别
+	 */
 	@ApiComment(value = "级别", sample = "1")
-    private Integer level;
-    /**
-     * 面积
-     */
+	private Integer level;
+	/**
+	 * 面积
+	 */
 	@ApiComment(value = "面积", sample = "1")
-    private Double area;
-    /**
-     * 容纳人数
-     */
+	private Double area;
+	/**
+	 * 容纳人数
+	 */
 	@ApiComment(value = "容纳人数", sample = "1")
-    private Integer capacity;
-    /**
-     * 地址
-     */
+	private Integer capacity;
+	/**
+	 * 地址
+	 */
 	@ApiComment(value = "地址", sample = "aaa")
-    private String addr;
-    /**
-     * 经度
-     */
+	private String addr;
+	/**
+	 * 经度
+	 */
 	@ApiComment(value = "经度", sample = "1")
-    private Double lng;
-    /**
-     * 纬度
-     */
+	private Double lng;
+	/**
+	 * 纬度
+	 */
 	@ApiComment(value = "纬度", sample = "1")
-    private Double lat;
-    /**
-     * 负责人
-     */
+	private Double lat;
+	/**
+	 * 负责人
+	 */
 	@ApiComment(value = "负责人", sample = "aaa")
-    private String PIC;
-    /**
-     * 联系电话
-     */
+	private String PIC;
+	/**
+	 * 联系电话
+	 */
 	@ApiComment(value = "联系电话", sample = "123")
-    private String contactNum;
-    /**
-     * 手机
-     */
+	private String contactNum;
+	/**
+	 * 手机
+	 */
 	@ApiComment(value = "手机", sample = "123")
-    private String cellNum;
-    /**
-     * 住宅电话
-     */
+	private String cellNum;
+	/**
+	 * 住宅电话
+	 */
 	@ApiComment(value = "住宅电话", sample = "123")
-    private String homeNum;
-    /**
-     * 传真号码
-     */
+	private String homeNum;
+	/**
+	 * 传真号码
+	 */
 	@ApiComment(value = "传真号码", sample = "123")
-    private String faxNum;
-    /**
-     * 电子邮箱
-     */
+	private String faxNum;
+	/**
+	 * 电子邮箱
+	 */
 	@ApiComment(value = "电子邮箱", sample = "123")
-    private String email;
-    /**
-     * 联系人名字
-     */
+	private String email;
+	/**
+	 * 联系人名字
+	 */
 	@ApiComment(value = "联系人名字", sample = "aaa")
-    private String contactName;
-    /**
-     * 联系人办公电话
-     */
+	private String contactName;
+	/**
+	 * 联系人办公电话
+	 */
 	@ApiComment(value = "联系人办公电话", sample = "123")
-    private String contactWorkNum;
-    /**
-     * 联系人手机号码
-     */
+	private String contactWorkNum;
+	/**
+	 * 联系人手机号码
+	 */
 	@ApiComment(value = "联系人手机号码", sample = "123")
-    private String contactCellNum;
-    /**
-     * 更新时间
-     */
+	private String contactCellNum;
+	/**
+	 * 更新时间
+	 */
 	@ApiComment(value = "更新时间", sample = "2020-05-01")
-    private String updateTime;
+	private String updateTime;
 
-    public Long getId() {
-        return id;
-    }
+	protected String commonIcon = host + "/img/shelter-common.png";
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	protected String activeIcon = host + "/img/shelter-active.png";
 
-    public String getName() {
-        return name;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Integer getType() {
-        return type;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setType(Integer type) {
-        this.type = type;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getDistrict() {
-        return district;
-    }
+	public Integer getType() {
+		return type;
+	}
 
-    public void setDistrict(String district) {
-        this.district = district;
-    }
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
-    public String getMaintenanceCompany() {
-        return maintenanceCompany;
-    }
+	public String getDistrict() {
+		return district;
+	}
 
-    public void setMaintenanceCompany(String maintenanceCompany) {
-        this.maintenanceCompany = maintenanceCompany;
-    }
+	public void setDistrict(String district) {
+		this.district = district;
+	}
 
-    public Integer getLevel() {
-        return level;
-    }
+	public String getMaintenanceCompany() {
+		return maintenanceCompany;
+	}
 
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
+	public void setMaintenanceCompany(String maintenanceCompany) {
+		this.maintenanceCompany = maintenanceCompany;
+	}
 
-    public Double getArea() {
-        return area;
-    }
+	public Integer getLevel() {
+		return level;
+	}
 
-    public void setArea(Double area) {
-        this.area = area;
-    }
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
 
-    public Integer getCapacity() {
-        return capacity;
-    }
+	public Double getArea() {
+		return area;
+	}
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
+	public void setArea(Double area) {
+		this.area = area;
+	}
 
-    public String getAddr() {
-        return addr;
-    }
+	public Integer getCapacity() {
+		return capacity;
+	}
 
-    public void setAddr(String addr) {
-        this.addr = addr;
-    }
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
 
-    public Double getLng() {
-        return lng;
-    }
+	public String getAddr() {
+		return addr;
+	}
 
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
 
-    public Double getLat() {
-        return lat;
-    }
+	public Double getLng() {
+		return lng;
+	}
 
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
 
-    public String getPIC() {
-        return PIC;
-    }
+	public Double getLat() {
+		return lat;
+	}
 
-    public void setPIC(String pIC) {
-        PIC = pIC;
-    }
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
 
-    public String getContactNum() {
-        return contactNum;
-    }
+	public String getPIC() {
+		return PIC;
+	}
 
-    public void setContactNum(String contactNum) {
-        this.contactNum = contactNum;
-    }
+	public void setPIC(String pIC) {
+		PIC = pIC;
+	}
 
-    public String getCellNum() {
-        return cellNum;
-    }
+	public String getContactNum() {
+		return contactNum;
+	}
 
-    public void setCellNum(String cellNum) {
-        this.cellNum = cellNum;
-    }
+	public void setContactNum(String contactNum) {
+		this.contactNum = contactNum;
+	}
 
-    public String getHomeNum() {
-        return homeNum;
-    }
+	public String getCellNum() {
+		return cellNum;
+	}
 
-    public void setHomeNum(String homeNum) {
-        this.homeNum = homeNum;
-    }
+	public void setCellNum(String cellNum) {
+		this.cellNum = cellNum;
+	}
 
-    public String getFaxNum() {
-        return faxNum;
-    }
+	public String getHomeNum() {
+		return homeNum;
+	}
 
-    public void setFaxNum(String faxNum) {
-        this.faxNum = faxNum;
-    }
+	public void setHomeNum(String homeNum) {
+		this.homeNum = homeNum;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getFaxNum() {
+		return faxNum;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setFaxNum(String faxNum) {
+		this.faxNum = faxNum;
+	}
 
-    public String getContactName() {
-        return contactName;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getContactWorkNum() {
-        return contactWorkNum;
-    }
+	public String getContactName() {
+		return contactName;
+	}
 
-    public void setContactWorkNum(String contactWorkNum) {
-        this.contactWorkNum = contactWorkNum;
-    }
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
 
-    public String getContactCellNum() {
-        return contactCellNum;
-    }
+	public String getContactWorkNum() {
+		return contactWorkNum;
+	}
 
-    public void setContactCellNum(String contactCellNum) {
-        this.contactCellNum = contactCellNum;
-    }
+	public void setContactWorkNum(String contactWorkNum) {
+		this.contactWorkNum = contactWorkNum;
+	}
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
+	public String getContactCellNum() {
+		return contactCellNum;
+	}
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
+	public void setContactCellNum(String contactCellNum) {
+		this.contactCellNum = contactCellNum;
+	}
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public String getCommonIcon() {
+		return commonIcon;
+	}
+
+	public void setCommonIcon(String commonIcon) {
+		this.commonIcon = commonIcon;
+	}
+
+	public String getActiveIcon() {
+		return activeIcon;
+	}
+
+	public void setActiveIcon(String activeIcon) {
+		this.activeIcon = activeIcon;
+	}
 
 }
