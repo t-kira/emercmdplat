@@ -35,4 +35,6 @@ public interface ContactService {
     List<Group> selectGroup(Group group);
 
     List<ContactsResult> selectGeoContacts();
+    
+    ContactsResult selectByUserName(String username);
 }

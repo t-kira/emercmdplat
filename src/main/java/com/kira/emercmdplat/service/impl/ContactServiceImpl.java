@@ -82,4 +82,9 @@ public class ContactServiceImpl implements ContactService {
     public List<ContactsResult> selectGeoContacts() {
         return cm.selectGeoContacts();
     }
+
+	@Override
+	public ContactsResult selectByUserName(String username) {
+		return cm.selectByUserName(username);
+	}
 }

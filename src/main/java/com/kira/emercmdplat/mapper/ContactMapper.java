@@ -36,4 +36,6 @@ public interface ContactMapper {
     List<Group> selectGroup(Group group);
 
     List<ContactsResult> selectGeoContacts();
+    
+    ContactsResult selectByUserName(String username);
 }

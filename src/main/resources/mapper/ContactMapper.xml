@@ -26,6 +26,8 @@
         <result column="j_name" property="jName" jdbcType="VARCHAR"/>
         <result column="m_name" property="mName" jdbcType="VARCHAR"/>
         <result column="g_name" property="gName" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="GroupResultMap" type="com.kira.emercmdplat.pojo.Group">
         <id column="g_id" property="id" jdbcType="BIGINT"/>
@@ -35,7 +37,7 @@
 
     <sql id="Base_Column_List">
         c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
-        c.photo, c.notes, c.g_id, c.lng, c.lat, c.create_time, c.update_time, j.j_name, m.m_name, g.g_name
+        c.photo, c.notes, c.g_id, c.lng, c.lat, c.create_time, c.update_time, c.username, c.password, j.j_name, m.m_name, g.g_name
     </sql>
   <sql id="Basic_Conditions" >
 <!--    <![CDATA[where 1=1 ]]>-->
@@ -222,5 +224,11 @@
     </select>
     <select id="selectGroup" resultMap="GroupResultMap" parameterType="com.kira.emercmdplat.pojo.Group">
         select g_id, g_name, super_g_id from contact_group
+    </select>
+    <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    	select
+        <include refid="Base_Column_List"/>
+        from contacts c, job j, mechanism m , contact_group g
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and c.username=#{username}
     </select>
 </mapper>
