@@ -81,12 +81,26 @@ public class EmergencyExpert extends BaseObject {
 	 */
 	@ApiComment(value = "更新时间", sample = "123")
 	private String updateTime;
+	/**
+	 * 经度
+	 */
+	@ApiComment(value = "经度", sample = "1")
+	private Double lng;
+	/**
+	 * 纬度
+	 */
+	@ApiComment(value = "纬度", sample = "1")
+	private Double lat;
 
 	@ApiComment(value = "类型名称", sample = "123")
 	private String typeName;
 
 	@ApiComment(value = "单位名称", sample = "123")
 	private String unitName;
+
+	protected String commonIcon = host + "/img/expert-common.png";
+
+	protected String activeIcon = host + "/img/expert-active.png";
 
 	public Integer getId() {
 		return id;
@@ -216,6 +230,22 @@ public class EmergencyExpert extends BaseObject {
 		this.updateTime = updateTime;
 	}
 
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
+	}
+
 	public String getTypeName() {
 		return typeName;
 	}
@@ -230,6 +260,22 @@ public class EmergencyExpert extends BaseObject {
 
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;
+	}
+
+	public String getCommonIcon() {
+		return commonIcon;
+	}
+
+	public void setCommonIcon(String commonIcon) {
+		this.commonIcon = commonIcon;
+	}
+
+	public String getActiveIcon() {
+		return activeIcon;
+	}
+
+	public void setActiveIcon(String activeIcon) {
+		this.activeIcon = activeIcon;
 	}
 
 }

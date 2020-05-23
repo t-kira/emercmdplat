@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.pojo.BaseObject;
 import com.kira.emercmdplat.pojo.ProtectionTarget;
 import com.kira.emercmdplat.pojo.ProtectionTargetResult;
 import com.kira.emercmdplat.service.ProtectionTargetService;
@@ -8,9 +9,7 @@ import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,6 +60,12 @@ public class ProtectionTargetController extends BaseController {
     public ProtectionTargetResult list(@ApiComment(value="防护目标参数",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
     	ProtectionTargetResult result = new ProtectionTargetResult();
         List<ProtectionTarget> list = protectionTargetService.queryForPage(protectionTarget, protectionTarget.getPage(), protectionTarget.getPageSize());
+        for (ProtectionTarget pt : list) {
+        	if (pt.getIcon() != null) {
+        		pt.setCommonIcon(BaseObject.host + "/img/" + pt.getIcon() + "-common.png");
+        		pt.setActiveIcon(BaseObject.host + "/img/" + pt.getIcon() + "-active.png");
+        	}
+        }
         Long count = protectionTargetService.queryForCounts(protectionTarget);
         result.setList(list);
         result.setCount(count);

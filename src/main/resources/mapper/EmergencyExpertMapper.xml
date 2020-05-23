@@ -20,11 +20,13 @@
         <result column="e_update_time" property="updateTime" jdbcType="VARCHAR"/>
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="m_name" property="unitName" jdbcType="VARCHAR"/>
+        <result column="e_lng" property="lng" jdbcType="VARCHAR"/>
+        <result column="e_lat" property="lat" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     e.e_id, e.e_name, e.e_type, e.e_unit, e.e_position, e.e_gender, e.e_level, e.e_expertise, e.e_contact_num, e.e_cell_num,
-    e.e_fax_num, e.e_email, e.e_home_num, e.e_home_addr, e.e_information, e.e_update_time, t.t_name, m.m_name  
+    e.e_fax_num, e.e_email, e.e_home_num, e.e_home_addr, e.e_information, e.e_update_time, e.e_lng, e.e_lat, t.t_name, m.m_name  
   	</sql>
     <sql id="Basic_Conditions">
         <!-- [CDATA[where 1=1 ]]-->
@@ -79,11 +81,11 @@
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert">
     insert into emergency_expert (e_id, e_name, e_type, e_unit, e_position, e_gender, e_level, e_expertise, e_contact_num, e_cell_num,
-    e_fax_num, e_email, e_home_num, e_home_addr, e_information, e_update_time)
+    e_fax_num, e_email, e_home_num, e_home_addr, e_information, e_update_time, e.e_lng, e.e_lat)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{unit,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR},
     #{gender,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{expertise,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR},
     #{cellNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{homeAddr,jdbcType=VARCHAR},
-    #{information,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+    #{information,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR})
   	</insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert">
     DELETE from emergency_expert
@@ -136,6 +138,12 @@
             </if>
             <if test="updateTime != null">
                 e_update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="lng != null">
+                e_lng = #{lng,jdbcType=VARCHAR},
+            </if>
+            <if test="lat != null">
+                e_lat = #{lat,jdbcType=VARCHAR},
             </if>
         </set>
         where e_id = #{id,jdbcType=INTEGER}

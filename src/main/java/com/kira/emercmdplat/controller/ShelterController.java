@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date: 2020/2/4 23:03
  * @Description:
  */
-@Api2Doc(id = "protectionTarget", name = "避难场所接口", order = 13)
+@Api2Doc(id = "shelter", name = "避难场所接口", order = 13)
 @RestController
 @RequestMapping("/shelter")
 public class ShelterController extends BaseController {

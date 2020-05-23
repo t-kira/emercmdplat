@@ -2,8 +2,10 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.pojo.BaseObject;
 import com.kira.emercmdplat.pojo.HazardSouce;
 import com.kira.emercmdplat.pojo.HazardSouceResult;
+import com.kira.emercmdplat.pojo.ProtectionTarget;
 import com.kira.emercmdplat.service.HazardSourceService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -77,6 +79,12 @@ public class HazardSourceController extends BaseController {
     public HazardSouceResult list(@ApiComment(value="风险隐患参数",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
     	HazardSouceResult result = new HazardSouceResult();
         List<HazardSouce> list = hazardSourceService.queryForPage(hazardSouce, hazardSouce.getPage(), hazardSouce.getPageSize());
+        for (HazardSouce hs : list) {
+        	if (hs.getIcon() != null) {
+        		hs.setCommonIcon(BaseObject.host + "/img/" + hs.getIcon() + "-common.png");
+        		hs.setActiveIcon(BaseObject.host + "/img/" + hs.getIcon() + "-active.png");
+        	}
+        }
         Long count = hazardSourceService.queryForCounts(hazardSouce);
         result.setList(list);
         result.setCount(count);

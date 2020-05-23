@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kira.emercmdplat.pojo.BaseObject;
 import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.EType;
 import com.kira.emercmdplat.pojo.Mechanism;
@@ -37,6 +38,11 @@ public class DataController {
 	@RequestMapping(name="获取类型",value="/getType",method=RequestMethod.GET)
 	public List<EType> getType(@ApiComment(value="数据类型id",sample="1") Integer dataId) {
 		List<EType> list = dataTypeService.queryTypeListByDataId(dataId);
+		for (EType type : list) {
+			if (type.getIcon() != null) {
+				type.setIcon(BaseObject.host + "/img/" + type.getIcon() + "-small.png");
+			}
+		}
 		return list;
 	}
 	
