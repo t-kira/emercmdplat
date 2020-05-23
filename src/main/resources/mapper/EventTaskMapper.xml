@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.EventTaskMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EventTaskResult">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="task_title" property="taskTitle" jdbcType="VARCHAR"/>
+        <result column="prf_id" property="prfId" jdbcType="BIGINT"/>
+        <result column="prf_name" property="prfName" jdbcType="VARCHAR"/>
+        <result column="contact_id" property="contactId" jdbcType="BIGINT"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="backup_phone" property="backupPhone" jdbcType="VARCHAR"/>
+        <result column="work_phone" property="workPhone" jdbcType="VARCHAR"/>
+        <result column="home_phone" property="homePhone" jdbcType="VARCHAR"/>
+        <result column="other_phone" property="otherPhone" jdbcType="VARCHAR"/>
+        <result column="fax_number" property="faxNumber" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="VARCHAR"/>
+        <result column="end_time" property="endTime" jdbcType="VARCHAR"/>
+        <result column="lng" property="lng" jdbcType="DOUBLE"/>
+        <result column="lat" property="lat" jdbcType="DOUBLE"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="task_content" property="taskContent" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="is_arrive" property="isArrive" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="BaseFeedbackResultMap" type="com.kira.emercmdplat.pojo.Feedback">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="task_id" property="taskId" jdbcType="BIGINT"/>
+        <result column="lng" property="lng" jdbcType="DOUBLE"/>
+        <result column="lat" property="lat" jdbcType="DOUBLE"/>
+        <result column="feedback_content" property="feedbackContent" jdbcType="VARCHAR"/>
+        <result column="attach_path" property="attachPath" jdbcType="VARCHAR"/>
+        <result column="feedback_time" property="feedbackTime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        et.id, et.task_title, et.prf_id, prf.prf_name, et.contact_id, c.c_name as contact_name, c.telephone, c.backup_phone, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email,
+        et.start_time, et.end_time, et.lng, et.lat, et.address, et.task_content, et.status, et.is_arrive
+    </sql>
+    <sql id="Basic_Conditions" >
+        <if test="id != null" >
+          and et.id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="taskTitle != null" >
+          and et.task_title = #{taskTitle,jdbcType=VARCHAR}
+        </if>
+        <if test="prfId != null" >
+          and et.prf_id = #{prfId,jdbcType=BIGINT}
+        </if>
+        <if test="status != null" >
+            and et.status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="isArrive != null" >
+            and et.is_arrive = #{isArrive,jdbcType=INTEGER}
+        </if>
+      </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EventTask" >
+        insert into event_task (id, task_title, prf_id, contact_id, start_time, end_time, lng, lat, address, task_content, status, is_arrive)
+        values (#{id,jdbcType=BIGINT}, #{taskTitle,jdbcType=VARCHAR}, #{prfId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
+         #{lng, jdbcType=DOUBLE}, #{lat, jdbcType=DOUBLE}, #{address, jdbcType=VARCHAR}, #{taskContent, jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isArrive, jdbcType=INTEGER})
+    </insert>
+    <insert id="insertFeedback" parameterType="com.kira.emercmdplat.pojo.Feedback" >
+        insert into feedback (id, task_id, lng, lat, feedback_content, attach_path, feedback_time)
+        values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{lng, jdbcType=DOUBLE}, #{lat, jdbcType=DOUBLE}, #{feedbackContent, jdbcType=VARCHAR}, #{attachPath, jdbcType=VARCHAR}, #{feedbackTime, jdbcType=VARCHAR})
+    </insert>
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.EventTask">
+        DELETE from event_task
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.EventTask">
+        update event_task
+        <set>
+            <if test="taskTitle != null" >
+                task_title = #{taskTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="prfId != null" >
+                prf_id = #{prfId,jdbcType=BIGINT},
+            </if>
+            <if test="contactId != null">
+                contact_id = #{contactId,jdbcType=BIGINT},
+            </if>
+            <if test="startTime != null" >
+                start_time = #{startTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null" >
+                end_time = #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="lng != null" >
+                lng = #{lng,jdbcType=DOUBLE},
+            </if>
+            <if test="lat != null" >
+                lat = #{lat,jdbcType=DOUBLE},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="taskContent != null" >
+                task_content = #{taskContent,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="isArrive != null" >
+                is_arrive = #{isArrive,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from event_task et, plan_response_flow prf, contacts c
+        where et.prf_id = prf.prf_id and et.contact_id = c.c_id and et.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventTaskExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from event_task et, plan_response_flow prf, contacts c
+        where et.prf_id = prf.prf_id and et.contact_id = c.c_id
+        <include refid="Basic_Conditions"/>
+    </select>
+
+    <select id="selectFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
+        select * from feedback where task_id = #{taskId, jdbcType=BIGINT}
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventTaskExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from event_task et, plan_response_flow prf, contacts c
+        where et.prf_id = prf.prf_id and et.contact_id = c.c_id
+        <include refid="Basic_Conditions"/>
+        limit ${page}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.EventTaskExtend">
+        select count(id)
+        from event_task
+        <include refid="Basic_Conditions"/>
+    </select>
+</mapper>
