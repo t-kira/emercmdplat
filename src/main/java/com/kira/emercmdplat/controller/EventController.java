@@ -3,24 +3,19 @@ package com.kira.emercmdplat.controller;
 import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.EventProcess;
-import com.kira.emercmdplat.enums.EventTaskStatus;
 import com.kira.emercmdplat.enums.MessageStatus;
 import com.kira.emercmdplat.enums.ReservePlanStatus;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
-import com.kira.emercmdplat.service.impl.EventTaskServiceImpl;
 import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -50,15 +45,9 @@ public class EventController extends BaseController {
     @Autowired
     private ReservePlanService rps;
     @Autowired
-    private QuickReportService qrs;
-    @Autowired
     private MessageService mas;
     @Autowired
     private SysLogService sls;
-    @Autowired
-    private ContactService cs;
-    @Autowired
-    private EventTaskServiceImpl ets;
 
 //    @MyLog("事件接报")
     @ResponseBody

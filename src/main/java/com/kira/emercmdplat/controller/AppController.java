@@ -1,7 +1,7 @@
 package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.enums.EventTaskStatus;
+import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.impl.TaskServiceImpl;
@@ -49,10 +49,10 @@ public class AppController extends BaseController {
     @PostMapping("update_task")
     public AlvesJSONResult updateTask(@RequestBody TaskExtend taskExtend) {
             //开始处理事件任务,添加事件任务的响应时间
-        if (taskExtend.getStatus().equals(EventTaskStatus.TASK_PROCESSING.getNo())) {
+        if (taskExtend.getStatus().equals(TaskStatus.TASK_PROCESSING.getNo())) {
             taskExtend.setResponseTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
             //事件任务完成按钮，添加事件任务的完成时间
-        } else if(taskExtend.getStatus().equals(EventTaskStatus.TASK_PROCESSED.getNo())) {
+        } else if(taskExtend.getStatus().equals(TaskStatus.TASK_PROCESSED.getNo())) {
             taskExtend.setEndTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         }
         boolean result = ts.update(taskExtend);
