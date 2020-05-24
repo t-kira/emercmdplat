@@ -105,5 +105,16 @@ public class Event {
      * 核实状态：1：属实 2：不属实 3:被合并
      */
     private Integer verifyStatus;
-
+    /**
+     * 1:系统报送、2:电话、3:传真、4:其他；
+     */
+    private Integer reportType;
+    /**
+     * 本级单位
+     */
+    private Long mechanismId;
+    /**
+     * 附件地址
+     */
+    private String attachAddr;
 }

@@ -36,4 +36,6 @@ public interface EventMapper{
     List<EventResult> queryForPage(EventExtend eventExtend);
 
     List<EventParamResult> selectParamByEId(Long eId);
+    //app事件标题模糊查询
+    List<EventResult> queryByTitle(Event event);
 }
