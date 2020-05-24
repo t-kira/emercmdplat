@@ -1,6 +1,5 @@
 package com.kira.emercmdplat.controller;
 
-import com.kira.emercmdplat.enums.EventLevel;
 import com.kira.emercmdplat.enums.SourceType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
@@ -25,7 +24,7 @@ public class WarMapController {
     @Autowired
     private ContactService cs;
     @Autowired
-    private EventTaskService ets;
+    private TaskService ts;
     @Autowired
     private EventService es;
     @Autowired
@@ -61,13 +60,13 @@ public class WarMapController {
     }
     /**
      * 指派事件任务
-     * @param eventTask
+     * @param taskExtend
      * @return
      */
     @ResponseBody
     @PostMapping("add_task")
-    public AlvesJSONResult insertTask(@RequestBody EventTask eventTask) {
-        int result = ets.insert(eventTask);
+    public AlvesJSONResult insertTask(@RequestBody TaskExtend taskExtend) {
+        int result = ts.insert(taskExtend);
         if (result > 0) {
             return AlvesJSONResult.ok("success insert...");
         } else {

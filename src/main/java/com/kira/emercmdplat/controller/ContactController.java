@@ -2,7 +2,6 @@ package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
-import com.kira.emercmdplat.pojo.EventTask;
 import com.kira.emercmdplat.pojo.Group;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;

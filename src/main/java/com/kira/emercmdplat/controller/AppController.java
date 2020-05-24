@@ -4,7 +4,7 @@ import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.EventTaskStatus;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.EventService;
-import com.kira.emercmdplat.service.impl.EventTaskServiceImpl;
+import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class AppController extends BaseController {
     private EventService es;
 
     @Autowired
-    private EventTaskServiceImpl ets;
+    private TaskServiceImpl ts;
 
     /**
      * 事件查询接口，查询app登录用户所上报的事件列表
@@ -42,20 +42,20 @@ public class AppController extends BaseController {
 
     /**
      * 开始处理 处理完成事件任务
-     * @param eventTask
+     * @param taskExtend
      * @return
      */
     @ResponseBody
     @PostMapping("update_task")
-    public AlvesJSONResult updateTask(@RequestBody EventTask eventTask) {
+    public AlvesJSONResult updateTask(@RequestBody TaskExtend taskExtend) {
             //开始处理事件任务,添加事件任务的响应时间
-        if (eventTask.getStatus().equals(EventTaskStatus.TASK_PROCESSING.getNo())) {
-            eventTask.setResponseTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        if (taskExtend.getStatus().equals(EventTaskStatus.TASK_PROCESSING.getNo())) {
+            taskExtend.setResponseTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
             //事件任务完成按钮，添加事件任务的完成时间
-        } else if(eventTask.getStatus().equals(EventTaskStatus.TASK_PROCESSED.getNo())) {
-            eventTask.setEndTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        } else if(taskExtend.getStatus().equals(EventTaskStatus.TASK_PROCESSED.getNo())) {
+            taskExtend.setEndTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         }
-        boolean result = ets.update(eventTask);
+        boolean result = ts.update(taskExtend);
         if (result) {
             return AlvesJSONResult.ok("success update...");
         } else {
@@ -65,14 +65,14 @@ public class AppController extends BaseController {
 
     /**
      * 查询事件任务
-     * @param eventTaskExtend
+     * @param taskExtend
      * @return
      */
     @ResponseBody
-    @PostMapping("list_event_task")
-    public AlvesJSONResult eventTaskList(@RequestBody EventTaskExtend eventTaskExtend) {
-        List<EventTaskResult> eventTaskResultList = ets.queryForAll(eventTaskExtend);
-        return AlvesJSONResult.ok(eventTaskResultList);
+    @PostMapping("list_task")
+    public AlvesJSONResult eventTaskList(@RequestBody TaskExtend taskExtend) {
+        List<Task> taskList = ts.queryForAll(taskExtend);
+        return AlvesJSONResult.ok(taskList);
     }
 
     /**
@@ -81,10 +81,10 @@ public class AppController extends BaseController {
      * @return
      */
     @ResponseBody
-    @GetMapping("event_task/{id}")
+    @GetMapping("task/{id}")
     public AlvesJSONResult eventTask(@PathVariable Long id) {
-        EventTaskResult eventTaskResult = ets.selectById(id);
-        return AlvesJSONResult.ok(eventTaskResult);
+        Task task = ts.selectById(id);
+        return AlvesJSONResult.ok(task);
     }
 
     /**
@@ -95,7 +95,7 @@ public class AppController extends BaseController {
     @ResponseBody
     @GetMapping("list_feedback/{taskId}")
     public AlvesJSONResult feedbackList(@PathVariable Long taskId) {
-        List<Feedback> feedbackList = ets.selectFeedbackByTaskId(taskId);
+        List<Feedback> feedbackList = ts.selectFeedbackByTaskId(taskId);
         return AlvesJSONResult.ok(feedbackList);
     }
 
@@ -107,13 +107,13 @@ public class AppController extends BaseController {
     @ResponseBody
     @PostMapping("add_feedback")
     public AlvesJSONResult insertFeedback(@RequestBody Feedback feedback) {
-        int result = ets.insertFeedback(feedback);
+        int result = ts.insertFeedback(feedback);
         if (result > 0) {
-            EventTask eventTask = new EventTask();
-            eventTask.setId(feedback.getTaskId());
-            eventTask.setArriveTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-            eventTask.setIsArrive(1);
-            ets.update(eventTask);
+            TaskExtend taskExtend = new TaskExtend();
+            taskExtend.setId(feedback.getTaskId());
+            taskExtend.setArriveTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            taskExtend.setIsArrive(1);
+            ts.update(taskExtend);
             return AlvesJSONResult.ok("success insert...");
         } else {
             return AlvesJSONResult.errorMsg("fail insert...");
