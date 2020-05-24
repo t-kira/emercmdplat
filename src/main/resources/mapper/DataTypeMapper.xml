@@ -5,10 +5,12 @@
         <id column="d_id" property="id" jdbcType="INTEGER"/>
         <result column="d_name" property="name" jdbcType="VARCHAR"/>
         <result column="d_type" property="type" jdbcType="INTEGER"/>
+        <result column="d_task_type" property="taskType" jdbcType="INTEGER"/>
+        <result column="d_content" property="content" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-    d_id, d_name, d_type
+    d_id, d_name, d_type, d_task_type, d_content 
   	</sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
@@ -21,10 +23,13 @@
         <if test="type != null">
             and d_type = #{type,jdbcType=INTEGER}
         </if>
+        <if test="taskType != null">
+            and d_task_type = #{taskType,jdbcType=INTEGER}
+        </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.DataType">
-    insert into data_type (d_id, d_name, d_type)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
+    insert into data_type (d_id, d_name, d_type, d_task_type, d_content)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{taskType,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
   	</insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.DataType">
     DELETE from data_type
@@ -38,6 +43,12 @@
             </if>
             <if test="type != null">
                 d_type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="taskType != null">
+                d_task_type = #{taskType,jdbcType=INTEGER},
+            </if>
+            <if test="content != null">
+                d_content = #{content,jdbcType=INTEGER},
             </if>
         </set>
         where d_id = #{id,jdbcType=INTEGER}
