@@ -7,7 +7,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  * @Date: 2020/4/13 02:33
  * @Description:事件任务状态
  */
-public enum EventTaskStatus implements BaseEnum<EventTaskStatus> {
+public enum TaskStatus implements BaseEnum<TaskStatus> {
 
     TASK_PENDING(1, "待处理"), TASK_PROCESSING(2, "处理中"),
     TASK_PROCESSED(3, "已处理");
@@ -16,7 +16,7 @@ public enum EventTaskStatus implements BaseEnum<EventTaskStatus> {
 
     private String TASK_NAME;
 
-    EventTaskStatus(Integer code, String name) {
+    TaskStatus(Integer code, String name) {
         this.TASK_CODE = code;
         this.TASK_NAME = name;
     }
@@ -47,7 +47,7 @@ public enum EventTaskStatus implements BaseEnum<EventTaskStatus> {
      * @return
      */
     @Override
-    public EventTaskStatus getProperty(Integer key) {
+    public TaskStatus getProperty(Integer key) {
         switch (key) {
             case 1:
                 return TASK_PENDING;

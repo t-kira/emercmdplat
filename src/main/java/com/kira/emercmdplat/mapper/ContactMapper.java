@@ -17,7 +17,7 @@ public interface ContactMapper {
 
     int insert(Contacts contacts);
 
-    boolean delete(Contacts contacts);
+    boolean delete(Long id);
 
     boolean update(Contacts contacts);
 
@@ -36,6 +36,14 @@ public interface ContactMapper {
     List<Group> selectGroup(Group group);
 
     List<ContactsResult> selectGeoContacts();
+
+    int insertGroup(Group group);
+
+    boolean deleteGroup(Long id);
+
+    boolean updateGroup(Group group);
+
+    Group selectGroupById(Long id);
     
     ContactsResult selectByUserName(String username);
 }

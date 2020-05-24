@@ -58,6 +58,11 @@ public class Contacts {
     private String createTime;
     @ApiComment(value = "添加时间", sample = "2020-04-22 22:44:40")
     private String updateTime;
+    /**
+     * 0：非值班人员 1：值班人员
+     */
+    @ApiComment(value = "人物属性", sample = "0")
+    private Integer personAttribute;
     @ApiComment(value = "登录用户名", sample = "aaa")
     private String username;
     @ApiComment(value = "登录密码", sample = "123")

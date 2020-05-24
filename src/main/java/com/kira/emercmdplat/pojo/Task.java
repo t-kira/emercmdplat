@@ -8,9 +8,13 @@ import lombok.Data;
  * @Description:事件任务
  */
 @Data
-public class EventTask {
+public class Task {
 
     private Long id;
+    /**
+     * 事件ID
+     */
+    private Long eventId;
     /**
      * 任务标题
      */
@@ -31,6 +35,14 @@ public class EventTask {
      * 联系人信息
      */
     private Long contactId;
+    /**
+     * 联系人电话
+     */
+    private String telephone;
+    /**
+     * 联系人姓名
+     */
+    private String contactName;
     /**
      * 经度
      */
@@ -63,4 +75,12 @@ public class EventTask {
      * 是否到场 0：到场 非0：未到场
      */
     private Integer isArrive;
+    /**
+     * 任务类型 1:事件任务 2：预案任务
+     */
+    private Integer taskType;
+    /**
+     * 预案任务中任务具体所属的分组
+     */
+    private Long dataTypeId;
 }

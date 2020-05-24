@@ -22,7 +22,12 @@ public class EventResult extends Event{
      */
     private String incidentAreaName;
     /**
-     * 报送单位名称
+     * 本级报送单位名称
      */
     private String mechanismName;
+
+    /**
+     * 报送单位名称
+     */
+    private String reportMechanismName;
 }

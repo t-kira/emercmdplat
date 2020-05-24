@@ -3,24 +3,19 @@ package com.kira.emercmdplat.controller;
 import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.EventProcess;
-import com.kira.emercmdplat.enums.EventTaskStatus;
 import com.kira.emercmdplat.enums.MessageStatus;
 import com.kira.emercmdplat.enums.ReservePlanStatus;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
-import com.kira.emercmdplat.service.impl.EventTaskServiceImpl;
 import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -50,15 +45,9 @@ public class EventController extends BaseController {
     @Autowired
     private ReservePlanService rps;
     @Autowired
-    private QuickReportService qrs;
-    @Autowired
     private MessageService mas;
     @Autowired
     private SysLogService sls;
-    @Autowired
-    private ContactService cs;
-    @Autowired
-    private EventTaskServiceImpl ets;
 
 //    @MyLog("事件接报")
     @ResponseBody
@@ -520,88 +509,5 @@ public class EventController extends BaseController {
     public AlvesJSONResult sysLogList(@PathVariable Long eid) {
         List<SysLog> list = sls.selectByEid(eid);
         return AlvesJSONResult.ok(list);
-    }
-
-    @ResponseBody
-    @GetMapping("list_group")
-    public AlvesJSONResult groupList() {
-        List<Group> groups = cs.selectGroup(new Group());
-        for (Group group : groups) {
-            List<ContactsResult> contactsResultList = cs.selectByGid(group.getId());
-            if (contactsResultList != null && contactsResultList.size() > 0) {
-                group.setContactsList(contactsResultList);
-            }
-        }
-        List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
-        return AlvesJSONResult.ok(groupList);
-    }
-
-    @ResponseBody
-    @GetMapping("list_geo_contact")
-    public AlvesJSONResult geoContacts() {
-        List<ContactsResult> contactsResultList = cs.selectGeoContacts();
-        return AlvesJSONResult.ok(contactsResultList);
-    }
-    @ResponseBody
-    @PostMapping("add_task")
-    public AlvesJSONResult insertTask(@RequestBody EventTask eventTask) {
-        int result = ets.insert(eventTask);
-        if (result > 0) {
-            return AlvesJSONResult.ok("success insert...");
-        } else {
-            return AlvesJSONResult.errorMsg("fail insert...");
-        }
-    }
-    @ResponseBody
-    @PostMapping("update_task")
-    public AlvesJSONResult updateTask(@RequestBody EventTask eventTask) {
-        if (eventTask.getStatus().equals(EventTaskStatus.TASK_PROCESSING.getNo())) {
-            eventTask.setResponseTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-        } else if(eventTask.getStatus().equals(EventTaskStatus.TASK_PROCESSED.getNo())) {
-            eventTask.setEndTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-        }
-        boolean result = ets.update(eventTask);
-        if (result) {
-            return AlvesJSONResult.ok("success update...");
-        } else {
-            return AlvesJSONResult.errorMsg("fail update...");
-        }
-    }
-
-    @ResponseBody
-    @PostMapping("list_event_task")
-    public AlvesJSONResult eventTaskList(@RequestBody EventTaskExtend eventTaskExtend) {
-        List<EventTaskResult> eventTaskResultList = ets.queryForAll(eventTaskExtend);
-        return AlvesJSONResult.ok(eventTaskResultList);
-    }
-
-    @ResponseBody
-    @GetMapping("event_task/{id}")
-    public AlvesJSONResult eventTask(@PathVariable Long id) {
-        EventTaskResult eventTaskResult = ets.selectById(id);
-        return AlvesJSONResult.ok(eventTaskResult);
-    }
-
-    @ResponseBody
-    @GetMapping("list_feedback/{taskId}")
-    public AlvesJSONResult feedbackList(@PathVariable Long taskId) {
-        List<Feedback> feedbackList = ets.selectFeedbackByTaskId(taskId);
-        return AlvesJSONResult.ok(feedbackList);
-    }
-
-    @ResponseBody
-    @PostMapping("add_feedback")
-    public AlvesJSONResult insertFeedback(@RequestBody Feedback feedback) {
-        int result = ets.insertFeedback(feedback);
-        if (result > 0) {
-            EventTask eventTask = new EventTask();
-            eventTask.setId(feedback.getTaskId());
-            eventTask.setArriveTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-            eventTask.setIsArrive(1);
-            ets.update(eventTask);
-            return AlvesJSONResult.ok("success insert...");
-        } else {
-            return AlvesJSONResult.errorMsg("fail insert...");
-        }
     }
 }
