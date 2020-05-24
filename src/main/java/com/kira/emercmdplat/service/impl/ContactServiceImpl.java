@@ -31,8 +31,8 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public boolean delete(Contacts contacts) {
-        return cm.delete(contacts);
+    public boolean delete(Long id) {
+        return cm.delete(id);
     }
 
     @Override
@@ -81,5 +81,25 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<ContactsResult> selectGeoContacts() {
         return cm.selectGeoContacts();
+    }
+
+    @Override
+    public int insertGroup(Group group) {
+        return cm.insertGroup(group);
+    }
+
+    @Override
+    public boolean deleteGroup(Long id) {
+        return cm.deleteGroup(id);
+    }
+
+    @Override
+    public boolean updateGroup(Group group) {
+        return cm.updateGroup(group);
+    }
+
+    @Override
+    public Group selectGroupById(Long id) {
+        return cm.selectGroupById(id);
     }
 }

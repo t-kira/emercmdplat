@@ -16,7 +16,7 @@ public interface ContactService {
 
     int insert(Contacts contacts);
 
-    boolean delete(Contacts contacts);
+    boolean delete(Long id);
 
     boolean update(Contacts contacts);
 
@@ -35,4 +35,12 @@ public interface ContactService {
     List<Group> selectGroup(Group group);
 
     List<ContactsResult> selectGeoContacts();
+
+    int insertGroup(Group group);
+
+    boolean deleteGroup(Long id);
+
+    boolean updateGroup(Group group);
+
+    Group selectGroupById(Long id);
 }
