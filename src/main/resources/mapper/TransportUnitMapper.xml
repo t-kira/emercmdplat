@@ -22,12 +22,13 @@
         <result column="t_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR"/>
         <result column="t_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="t_update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="t_contactsId" property="contactsId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     t_id, t_name, t_type, t_district, t_maintenance_company, t_transport_capacity, t_total_vehicle, t_addr, t_lng, t_lat, t_PIC,
     t_contact_num, t_cell_num, t_home_num, t_fax_num, t_email, t_contact_name, t_contact_work_num, t_contact_cell_num,
-    t_update_time
+    t_update_time, t_contactsId
   </sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
@@ -95,15 +96,16 @@
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.TransportUnit">
     insert into transport_unit (t_id, t_name, t_type, t_district, t_maintenance_company, t_transport_capacity, t_total_vehicle, t_addr, t_lng, t_lat,
     t_PIC, t_contact_num, t_cell_num, t_home_num, t_fax_num, t_email, t_contact_name, t_contact_work_num, t_contact_cell_num,
-    t_update_time)
+    t_update_time, t_contactsId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{district,jdbcType=VARCHAR},
       #{maintenanceCompany,jdbcType=VARCHAR}, #{transportCapacity,jdbcType=VARCHAR}, #{totalVehicle,jdbcType=INTEGER},
       #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{PIC,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR},
       #{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR},
+      #{contactsId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.TransportUnit">
-    DELETE transport_unit
+    DELETE from transport_unit
     where t_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.TransportUnit">
@@ -165,6 +167,9 @@
             </if>
             <if test="updateTime != null">
                 t_update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="contactsId != null">
+                t_contactsId = #{contactsId,jdbcType=INTEGER},
             </if>
         </set>
         where t_id = #{id,jdbcType=INTEGER}

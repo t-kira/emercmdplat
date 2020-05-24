@@ -23,12 +23,13 @@
         <result column="et_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="et_update_time" property="updateTime" jdbcType="VARCHAR"/>
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="et_contactsId" property="contactsId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     et_id, et_name, et_type, et_maintenance_company, et_district, et_level, et_number, et_addr, et_lng, et_lat, et_PIC,
     et_contact_num, et_cell_num, et_home_num, et_fax_num, et_email, et_contact_name, et_contact_work_num, et_contact_cell_num,
-    et_update_time, t_name
+    et_update_time, et_contactsId, t_name
   </sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->
@@ -96,12 +97,13 @@
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EmergencyTeam">
     insert into emergency_team (et_id, et_name, et_type, et_maintenance_company, et_district, et_level, et_number, et_addr, et_lng,
     et_lat, et_PIC, et_contact_num, et_cell_num, et_home_num, et_fax_num, et_email, et_contact_name, et_contact_work_num, et_contact_cell_num,
-    et_update_time)
+    et_update_time, et_contactsId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{maintenanceCompany,jdbcType=VARCHAR},
       #{district,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{number,jdbcType=INTEGER},
       #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{PIC,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR},
       #{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR},
+      #{contactsId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyTeam">
     DELETE from emergency_team
@@ -166,6 +168,9 @@
             </if>
             <if test="updateTime != null">
                 et_update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="contactsId != null">
+                et_contactsId = #{contactsId,jdbcType=INTEGER},
             </if>
         </set>
         where et_id = #{id,jdbcType=INTEGER}

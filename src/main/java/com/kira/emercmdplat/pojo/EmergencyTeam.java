@@ -60,8 +60,13 @@ public class EmergencyTeam extends BaseObject {
 	/**
 	 * 负责人
 	 */
-	@ApiComment(value = "纬度", sample = "aaa")
+	@ApiComment(value = "负责人", sample = "aaa")
 	private String PIC;
+	/**
+	 * 负责人id，与通讯录关联
+	 */
+	@ApiComment(value = "负责人id", sample = "aaa")
+	private Long contactsId;
 	/**
 	 * 联系电话
 	 */
@@ -297,6 +302,14 @@ public class EmergencyTeam extends BaseObject {
 
 	public void setActiveIcon(String activeIcon) {
 		this.activeIcon = activeIcon;
+	}
+
+	public Long getContactsId() {
+		return contactsId;
+	}
+
+	public void setContactsId(Long contactsId) {
+		this.contactsId = contactsId;
 	}
 
 }

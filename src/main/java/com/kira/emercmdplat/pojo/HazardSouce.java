@@ -37,6 +37,11 @@ public class HazardSouce extends BaseObject {
 	@ApiComment(value = "负责人", sample = "aaa")
 	private String PIC;
 	/**
+	 * 负责人id，与通讯录关联
+	 */
+	@ApiComment(value = "负责人id", sample = "aaa")
+	private Long contactsId;
+	/**
 	 * 地址
 	 */
 	@ApiComment(value = "地址", sample = "aaa")
@@ -306,6 +311,14 @@ public class HazardSouce extends BaseObject {
 
 	public void setActiveIcon(String activeIcon) {
 		this.activeIcon = activeIcon;
+	}
+
+	public Long getContactsId() {
+		return contactsId;
+	}
+
+	public void setContactsId(Long contactsId) {
+		this.contactsId = contactsId;
 	}
 
 }

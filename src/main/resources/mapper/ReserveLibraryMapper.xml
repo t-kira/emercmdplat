@@ -20,11 +20,12 @@
         <result column="r_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR"/>
         <result column="r_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="r_update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="r_contactsId" property="contactsId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     r_id, r_name, r_type, r_district, r_PIC_company, r_addr, r_lng, r_lat, r_PIC, r_contact_num, r_cell_num,
-    r_home_num, r_fax_num, r_email, r_contact_name, r_contact_work_num, r_contact_cell_num,r_update_time
+    r_home_num, r_fax_num, r_email, r_contact_name, r_contact_work_num, r_contact_cell_num, r_update_time, r_contactsId
   </sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
@@ -85,15 +86,15 @@
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.ReserveLibrary">
     insert into reserve_library (r_id, r_name, r_type, r_district, r_PIC_company, r_addr, r_lng, r_lat, r_PIC, r_contact_num, r_cell_num,
-    r_home_num, r_fax_num, r_email, r_contact_name, r_contact_work_num, r_contact_cell_num, r_update_time)
+    r_home_num, r_fax_num, r_email, r_contact_name, r_contact_work_num, r_contact_cell_num, r_update_time, r_contactsId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{district,jdbcType=VARCHAR},
       #{PICCompany,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR},
       #{PIC,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR}, #{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR},
       #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR},
-      #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+      #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{contactsId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.ReserveLibrary">
-    DELETE reserve_library
+    DELETE from reserve_library
     where r_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.ReserveLibrary">
@@ -149,6 +150,9 @@
             </if>
             <if test="updateTime != null">
                 r_update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="contactsId != null">
+                r_contactsId = #{contactsId,jdbcType=INTEGER},
             </if>
         </set>
         where r_id = #{id,jdbcType=INTEGER}

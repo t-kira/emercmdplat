@@ -23,12 +23,13 @@
         <result column="s_contact_work_num" property="contactWorkNum" jdbcType="VARCHAR"/>
         <result column="s_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="s_update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="s_contactsId" property="contactsId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     s_id, s_name, s_type, s_district, s_maintenance_company, s_level, s_area, s_capacity, s_addr, s_lng, s_lat, s_PIC,
     s_contact_num, s_cell_num, s_home_num, s_fax_num, s_email, s_contact_name, s_contact_work_num, s_contact_cell_num,
-    s_update_time
+    s_update_time, s_contactsId 
   </sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
@@ -99,15 +100,16 @@
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Shelter">
     insert into shelter (s_id, s_name, s_type, s_district, s_maintenance_company, s_level, s_area, s_capacity, s_addr, s_lng,
     s_lat, s_PIC, s_contact_num, s_cell_num, s_home_num, s_fax_num, s_email, s_contact_name, s_contact_work_num, s_contact_cell_num,
-    s_update_time)
+    s_update_time, s_contactsId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{district,jdbcType=VARCHAR},
       #{maintenanceCompany,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{area,jdbcType=VARCHAR}, #{capacity,jdbcType=INTEGER},
       #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{PIC,jdbcType=VARCHAR}, #{contactNum,jdbcType=VARCHAR},
       #{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR},
+      #{contactsId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.Shelter">
-    DELETE shelter
+    DELETE from shelter
     where s_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.Shelter">
@@ -172,6 +174,9 @@
             </if>
             <if test="updateTime != null">
                 s_update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="contactsId != null">
+                s_contactsId = #{contactsId,jdbcType=INTEGER},
             </if>
         </set>
         where s_id = #{id,jdbcType=INTEGER}

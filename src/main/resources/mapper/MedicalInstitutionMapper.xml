@@ -25,12 +25,13 @@
         <result column="m_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="m_update_time" property="updateTime" jdbcType="VARCHAR"/>
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="m_contactsId" property="contactsId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     m_id, m_name, m_type, m_district, m_maintenance_company, m_institution_level, m_UID, m_sickbed_num, m_medical_subjects, m_addr, m_lng, m_lat,
     m_PIC, m_contact_num, m_cell_num, m_home_num, m_fax_num, m_email, m_contact_name, m_contact_work_num, m_contact_cell_num,
-    m_update_time, t_name
+    m_update_time, m_contactsId, t_name
   </sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->
@@ -104,12 +105,13 @@
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution">
     insert into medical_institution (m_id, m_name, m_type, m_district, m_maintenance_company, m_institution_level, m_UID, m_sickbed_num,
     m_medical_subjects, m_addr, m_lng, m_lat, m_PIC, m_contact_num, m_cell_num, m_home_num, m_fax_num, m_email, m_contact_name,
-    m_contact_work_num, m_contact_cell_num, m_update_time)
+    m_contact_work_num, m_contact_cell_num, m_update_time, m_contactsId)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{district,jdbcType=VARCHAR},
       #{maintenanceCompany,jdbcType=VARCHAR}, #{institutionLevel,jdbcType=INTEGER}, #{UID,jdbcType=VARCHAR}, #{sickbedNum,jdbcType=INTEGER},
       #{medicalSubjects,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{PIC,jdbcType=VARCHAR},
       #{contactNum,jdbcType=VARCHAR},#{cellNum,jdbcType=VARCHAR}, #{homeNum,jdbcType=VARCHAR}, #{faxNum,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+      #{contactName,jdbcType=VARCHAR}, #{contactWorkNum,jdbcType=VARCHAR}, #{contactCellNum,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR},
+      #{contactsId,jdbcType=INTEGER})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution">
     DELETE from medical_institution
@@ -180,6 +182,9 @@
             </if>
             <if test="updateTime != null">
                 m_update_time = #{updateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="contactsId != null">
+                m_contactsId = #{contactsId,jdbcType=INTEGER},
             </if>
         </set>
         where m_id = #{id,jdbcType=INTEGER}
