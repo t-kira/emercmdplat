@@ -102,4 +102,8 @@ public class ContactServiceImpl implements ContactService {
     public Group selectGroupById(Long id) {
         return cm.selectGroupById(id);
     }
+	@Override
+	public ContactsResult selectByUserName(String username) {
+		return cm.selectByUserName(username);
+	}
 }

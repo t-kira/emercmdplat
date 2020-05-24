@@ -63,4 +63,9 @@ public class Contacts {
      */
     @ApiComment(value = "人物属性", sample = "0")
     private Integer personAttribute;
+    @ApiComment(value = "登录用户名", sample = "aaa")
+    private String username;
+    @ApiComment(value = "登录密码", sample = "123")
+    private String password;
+
 }

@@ -44,4 +44,6 @@ public interface ContactMapper {
     boolean updateGroup(Group group);
 
     Group selectGroupById(Long id);
+    
+    ContactsResult selectByUserName(String username);
 }
