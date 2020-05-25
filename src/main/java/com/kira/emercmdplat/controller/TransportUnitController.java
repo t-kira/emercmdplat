@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.TransportUnit;
 import com.kira.emercmdplat.pojo.TransportUnitResult;
@@ -50,16 +51,22 @@ public class TransportUnitController extends BaseController{
     @Api2Doc(order = 3)
     @ApiComment(value="删除运输单位")
     @RequestMapping(name="删除运输单位",value="/delete",method=RequestMethod.GET)
-    public String delete(@ApiComment(value="运输单位id",sample="1") Integer id) {
-    	TransportUnit transportUnit = transportUnitService.selectById(id);
-        transportUnitService.delete(transportUnit);
+    public String delete(@ApiComment(value="储备库id",sample="1") String ids) {
+    	if (StringUtils.isEmpty(ids)) {
+    		return "fail";
+    	}
+    	String[] idList = ids.split(",");
+    	for (String id : idList) {
+	    	TransportUnit transportUnit = transportUnitService.selectById(Integer.valueOf(id));
+	        transportUnitService.delete(transportUnit);
+    	}
         return "success";
     }
     
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询运输单位")
     @RequestMapping(name="根据id查询运输单位",value="/selectById",method=RequestMethod.GET)
-    public TransportUnit selectById(Integer id) {
+    public TransportUnit selectById(@ApiComment(value="运输单位id",sample="1") Integer id) {
         TransportUnit transportUnit = transportUnitService.selectById(id);
         return transportUnit;
     }

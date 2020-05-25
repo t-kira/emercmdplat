@@ -1,11 +1,11 @@
 package com.kira.emercmdplat.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.BaseObject;
 import com.kira.emercmdplat.pojo.ProtectionTarget;
 import com.kira.emercmdplat.pojo.ProtectionTargetResult;
 import com.kira.emercmdplat.service.ProtectionTargetService;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
@@ -29,29 +29,44 @@ public class ProtectionTargetController extends BaseController {
 
     @Autowired
     private ProtectionTargetService protectionTargetService;
-
-    @RequestMapping("/add")
-    public AlvesJSONResult insert(ProtectionTarget protectionTarget) {
+    
+    @Api2Doc(order = 1)
+    @ApiComment(value="添加防护目标")
+    @RequestMapping(name="添加防护目标",value="/add",method=RequestMethod.POST)
+    public String insert(@ApiComment(value="添加防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
         protectionTargetService.insert(protectionTarget);
-        return AlvesJSONResult.ok();
+        return "success";
     }
-
-    @RequestMapping("/update")
-    public AlvesJSONResult update(ProtectionTarget protectionTarget) {
+    
+    @Api2Doc(order = 2)
+    @ApiComment(value="修改防护目标")
+    @RequestMapping(name="修改防护目标",value="/update",method=RequestMethod.POST)
+    public String update(@ApiComment(value="修改防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
         protectionTargetService.update(protectionTarget);
-        return AlvesJSONResult.ok();
+        return "success";
     }
-
-    @RequestMapping("/delete")
-    public AlvesJSONResult delete(ProtectionTarget protectionTarget) {
-        protectionTargetService.delete(protectionTarget);
-        return AlvesJSONResult.ok();
+    
+    @Api2Doc(order = 3)
+    @ApiComment(value="删除防护目标")
+    @RequestMapping(name="删除防护目标",value="/delete",method=RequestMethod.GET)
+    public String delete(@ApiComment(value="防护目标id",sample="1") String ids) {
+    	if (StringUtils.isEmpty(ids)) {
+    		return "fail";
+    	}
+    	String[] idList = ids.split(",");
+    	for (String id : idList) {
+    		ProtectionTarget protectionTarget = protectionTargetService.selectById(Integer.valueOf(id));
+    		protectionTargetService.delete(protectionTarget);
+    	}
+        return "success";
     }
-
-    @RequestMapping("/selectById")
-    public AlvesJSONResult selectById(Integer id) {
+    
+    @Api2Doc(order = 4)
+    @ApiComment(value="根据id查询防护目标")
+    @RequestMapping(name="根据id查询防护目标",value="/selectById",method=RequestMethod.GET)
+    public ProtectionTarget selectById(@ApiComment(value="防护目标id",sample="1") Integer id) {
         ProtectionTarget protectionTarget = protectionTargetService.selectById(id);
-        return AlvesJSONResult.ok(protectionTarget);
+        return protectionTarget;
     }
     
     @Api2Doc(order = 5)

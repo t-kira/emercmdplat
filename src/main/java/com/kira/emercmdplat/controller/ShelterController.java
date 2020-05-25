@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.Shelter;
 import com.kira.emercmdplat.pojo.ShelterResult;
@@ -30,29 +31,44 @@ public class ShelterController extends BaseController {
 
     @Autowired
     private ShelterService shelterService;
-
-    @RequestMapping("/add")
-    public AlvesJSONResult insert(Shelter shelter) {
+    
+    @Api2Doc(order = 1)
+    @ApiComment(value="添加避难场所")
+    @RequestMapping(name="添加避难场所",value="/add",method=RequestMethod.POST)
+    public String insert(@ApiComment(value="添加避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
         shelterService.insert(shelter);
-        return AlvesJSONResult.ok();
+        return "success";
     }
-
-    @RequestMapping("/update")
+    
+    @Api2Doc(order = 2)
+    @ApiComment(value="修改避难场所")
+    @RequestMapping(name="修改避难场所",value="/update",method=RequestMethod.POST)
     public AlvesJSONResult update(Shelter shelter) {
         shelterService.update(shelter);
         return AlvesJSONResult.ok();
     }
-
-    @RequestMapping("/delete")
-    public AlvesJSONResult delete(Shelter shelter) {
-        shelterService.delete(shelter);
-        return AlvesJSONResult.ok();
+    
+    @Api2Doc(order = 3)
+    @ApiComment(value="删除避难场所")
+    @RequestMapping(name="删除防护目标",value="/delete",method=RequestMethod.GET)
+    public String delete(@ApiComment(value="防护目标id",sample="1") String ids) {
+    	if (StringUtils.isEmpty(ids)) {
+    		return "fail";
+    	}
+    	String[] idList = ids.split(",");
+    	for (String id : idList) {
+    		Shelter shelter = shelterService.selectById(Integer.valueOf(id));
+    		shelterService.delete(shelter);
+    	}
+        return "success";
     }
-
-    @RequestMapping("/selectById")
-    public AlvesJSONResult selectById(Integer id) {
+    
+    @Api2Doc(order = 4)
+    @ApiComment(value="根据id查询避难场所")
+    @RequestMapping(name="根据id查询避难场所",value="/selectById",method=RequestMethod.GET)
+    public Shelter selectById(@ApiComment(value="避难场所id",sample="1") Integer id) {
         Shelter shelter = shelterService.selectById(id);
-        return AlvesJSONResult.ok(shelter);
+        return shelter;
     }
     
     @Api2Doc(order = 5)

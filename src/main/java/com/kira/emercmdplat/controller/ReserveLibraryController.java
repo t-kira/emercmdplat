@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.ReserveLibrary;
 import com.kira.emercmdplat.pojo.ReserveLibraryResult;
@@ -50,9 +51,15 @@ public class ReserveLibraryController extends BaseController {
     @Api2Doc(order = 3)
     @ApiComment(value="删除储备库")
     @RequestMapping(name="删除储备库",value="/delete",method=RequestMethod.GET)
-    public String delete(@ApiComment(value="储备库id",sample="1") Integer id) {
-    	ReserveLibrary reserveLibrary = reserveLibraryService.selectById(id);
-        reserveLibraryService.delete(reserveLibrary);
+    public String delete(@ApiComment(value="储备库id",sample="1") String ids) {
+    	if (StringUtils.isEmpty(ids)) {
+    		return "fail";
+    	}
+    	String[] idList = ids.split(",");
+    	for (String id : idList) {
+	    	ReserveLibrary reserveLibrary = reserveLibraryService.selectById(Integer.valueOf(id));
+	        reserveLibraryService.delete(reserveLibrary);
+    	}
         return "success";
     }
     
