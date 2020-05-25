@@ -22,6 +22,15 @@ public class DataType {
 	@ApiComment(value = "前端用组件名称", sample = "1")
 	private String content;
 
+	@ApiComment(value = "所属单位", sample = "aaa")
+	private String maintenanceCompany;
+
+	@ApiComment(value = "经度", sample = "1")
+	private Double lng;
+
+	@ApiComment(value = "纬度", sample = "1")
+	private Double lat;
+
 	public Long getId() {
 		return id;
 	}
@@ -68,6 +77,30 @@ public class DataType {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getMaintenanceCompany() {
+		return maintenanceCompany;
+	}
+
+	public void setMaintenanceCompany(String maintenanceCompany) {
+		this.maintenanceCompany = maintenanceCompany;
+	}
+
+	public Double getLng() {
+		return lng;
+	}
+
+	public void setLng(Double lng) {
+		this.lng = lng;
+	}
+
+	public Double getLat() {
+		return lat;
+	}
+
+	public void setLat(Double lat) {
+		this.lat = lat;
 	}
 
 }

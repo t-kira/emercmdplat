@@ -88,81 +88,81 @@
     </select>
     
     <select id="queryResources" resultType="com.kira.emercmdplat.pojo.DataType" parameterType="java.util.Map">
-    	select id,name,type,t_name typeName from 
+    	select id,name,type,t_name typeName,maintenanceCompany,lng,lat from 
 		(
 		<if test="dId == 1">
-			(select h_id id,h_name name,h_type type
+			(select h_id id,h_name name,h_type type,h_maintenance_company maintenanceCompany,h_lng lng,h_lat lat
 			from hazard_source)
 		</if>
 		<if test="dId == 3">
-			(select p_id id,p_name name,p_type type
+			(select p_id id,p_name name,p_type type,p_maintenance_company maintenanceCompany,p_lng lng,p_lat lat
 			from protection_target)
 		</if>
 		<if test="dId == 5">
-			(select et_id id,et_name name,et_type type
+			(select et_id id,et_name name,et_type type,et_maintenance_company maintenanceCompany,et_lng lng,et_lat lat
 			from emergency_team)
 		</if>
 		<if test="dId == 7">
-			(select m_id id,m_name name,m_type type
+			(select m_id id,m_name name,m_type type,m_maintenance_company maintenanceCompany,m_lng lng,m_lat lat
 			from medical_institution)
 		</if>
 		<if test="dId == 9">
-			(select s_id id,s_name name,s_type type
+			(select s_id id,s_name name,s_type type,s_maintenance_company maintenanceCompany,s_lng lng,s_lat lat
 			from shelter)
 		</if>
 		<if test="dId == 13">
-			(select r_id id,r_name name,r_type type
+			(select r_id id,r_name name,r_type type,r_PIC_company maintenanceCompany,r_lng lng,r_lat lat
 			from reserve_library)
 		</if>
 		<if test="dId == 15">
-			(select es_id id,es_name name,es_type type
+			(select es_id id,es_name name,es_type type,es_maintenance_company maintenanceCompany,0 lng,0 lat
 			from emergency_supply)
 		</if>
 		<if test="dId == 11">
-			(select e_id id,e_name name,e_type type
+			(select e_id id,e_name name,e_type type,e_unit maintenanceCompany,e_lng lng,e_lat lat
 			from emergency_expert)
 		</if>
 		<if test="dId == 17">
-			(select ef_id id,ef_name name,ef_type type
+			(select ef_id id,ef_name name,ef_type type,ef_maintenance_company maintenanceCompany,0 lng,0 lat 
 			from emergency_fund)
 		</if>
 		<if test="dId == 19">
-			(select t_id id,t_name name,t_type type
+			(select t_id id,t_name name,t_type type,t_maintenance_company maintenanceCompany,t_lng lng,t_lat lat
 			from transport_unit)
 		</if>
 		<if test="dId == null">
-			(select h_id id,h_name name,h_type type
+			(select h_id id,h_name name,h_type type,h_maintenance_company maintenanceCompany,h_lng lng,h_lat lat
 			from hazard_source)
 			UNION ALL
-			(select p_id id,p_name name,p_type type
+			(select p_id id,p_name name,p_type type,p_maintenance_company maintenanceCompany,p_lng lng,p_lat lat
 			from protection_target)
 			UNION ALL
-			(select et_id id,et_name name,et_type type
+			(select et_id id,et_name name,et_type type,et_maintenance_company maintenanceCompany,et_lng lng,et_lat lat
 			from emergency_team)
 			UNION ALL
-			(select m_id id,m_name name,m_type type
+			(select m_id id,m_name name,m_type type,m_maintenance_company maintenanceCompany,m_lng lng,m_lat lat
 			from medical_institution)
 			UNION ALL
-			(select s_id id,s_name name,s_type type
+			(select s_id id,s_name name,s_type type,s_maintenance_company maintenanceCompany,s_lng lng,s_lat lat
 			from shelter)
 			UNION ALL
-			(select r_id id,r_name name,r_type type
+			(select r_id id,r_name name,r_type type,r_PIC_company maintenanceCompany,r_lng lng,r_lat lat
 			from reserve_library)
 			UNION ALL
-			(select es_id id,es_name name,es_type type
+			(select es_id id,es_name name,es_type type,es_maintenance_company maintenanceCompany,0 lng,0 lat
 			from emergency_supply)
 			UNION ALL
-			(select e_id id,e_name name,e_type type
+			(select e_id id,e_name name,e_type type,e_unit maintenanceCompany,e_lng lng,e_lat lat
 			from emergency_expert)
 			UNION ALL
-			(select ef_id id,ef_name name,ef_type type
+			(select ef_id id,ef_name name,ef_type type,ef_maintenance_company maintenanceCompany,0 lng,0 lat 
 			from emergency_fund)
 			UNION ALL
-			(select t_id id,t_name name,t_type type
+			(select t_id id,t_name name,t_type type,t_maintenance_company maintenanceCompany,t_lng lng,t_lat lat
 			from transport_unit)
 		</if>
-		) t,e_type t
-		where t.type = t.t_id
+		) t,e_type t2
+		where t.type = t2.t_id
 		<if test="name != null">
 			and name like concat('%',#{name},'%')
 		</if>
