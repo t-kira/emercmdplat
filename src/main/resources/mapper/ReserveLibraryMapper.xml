@@ -21,14 +21,16 @@
         <result column="r_contact_cell_num" property="contactCellNum" jdbcType="VARCHAR"/>
         <result column="r_update_time" property="updateTime" jdbcType="VARCHAR"/>
         <result column="r_contactsId" property="contactsId" jdbcType="INTEGER"/>
+        <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     r_id, r_name, r_type, r_district, r_PIC_company, r_addr, r_lng, r_lat, r_PIC, r_contact_num, r_cell_num,
-    r_home_num, r_fax_num, r_email, r_contact_name, r_contact_work_num, r_contact_cell_num, r_update_time, r_contactsId
-  </sql>
+    r_home_num, r_fax_num, r_email, r_contact_name, r_contact_work_num, r_contact_cell_num, r_update_time, r_contactsId,
+    t_name
+  	</sql>
     <sql id="Basic_Conditions">
-        <![CDATA[where 1=1 ]]>
+        <!--[CDATA[where 1=1 ]]-->
         <if test="id != null">
             and r_id = #{id,jdbcType=INTEGER}
         </if>
@@ -161,21 +163,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from reserve_library
-        where r_id = #{id,jdbcType=INTEGER}
+        from reserve_library r,e_type t
+        where r.r_type = t.t_id
+        and r_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReserveLibrary">
         select
         <include refid="Base_Column_List"/>
-        from reserve_library
+        from reserve_library r,e_type t
+        where r.r_type = t.t_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from reserve_library
+        from reserve_library r,e_type t
+        where r.r_type = t.t_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
@@ -183,6 +188,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ReserveLibrary">
         select count(r_id)
         from reserve_library
+        where 1=1
         <include refid="Basic_Conditions"/>
     </select>
 

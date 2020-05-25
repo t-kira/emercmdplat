@@ -2,8 +2,11 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.Shelter;
 import com.kira.emercmdplat.pojo.ShelterResult;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.ShelterService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -32,10 +35,21 @@ public class ShelterController extends BaseController {
     @Autowired
     private ShelterService shelterService;
     
+    @Autowired
+	private ContactService contactService;
+    
     @Api2Doc(order = 1)
     @ApiComment(value="添加避难场所")
     @RequestMapping(name="添加避难场所",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
+    	ContactsExtend contact = new ContactsExtend();
+    	contact.setTelephone(shelter.getCellNum());
+    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	if (result != null && result.size() == 1) {
+    		ContactsResult contactsResult = result.get(0);
+    		shelter.setPIC(contactsResult.getContactName());
+    		shelter.setContactsId(contactsResult.getId());
+    	}
         shelterService.insert(shelter);
         return "success";
     }

@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -31,6 +32,7 @@ public class ReserveLibrary extends BaseObject {
 	 * 主管单位
 	 */
 	@ApiComment(value = "主管单位", sample = "aaa")
+	@JsonProperty(value = "PICCompany")
 	private String PICCompany;
 	/**
 	 * 地址
@@ -51,6 +53,7 @@ public class ReserveLibrary extends BaseObject {
 	 * 负责人
 	 */
 	@ApiComment(value = "负责人", sample = "aaa")
+	@JsonProperty(value = "PIC")
 	private String PIC;
 	/**
 	 * 负责人id，与通讯录关联
@@ -102,6 +105,8 @@ public class ReserveLibrary extends BaseObject {
 	 */
 	@ApiComment(value = "更新时间", sample = "aaa")
 	private String updateTime;
+
+	private String typeName;
 
 	protected String commonIcon = host + "/img/library-common.png";
 
@@ -273,6 +278,14 @@ public class ReserveLibrary extends BaseObject {
 
 	public void setContactsId(Long contactsId) {
 		this.contactsId = contactsId;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 
 }
