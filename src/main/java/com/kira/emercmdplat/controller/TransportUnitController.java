@@ -2,8 +2,11 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.TransportUnit;
 import com.kira.emercmdplat.pojo.TransportUnitResult;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.TransportUnitService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -32,10 +35,21 @@ public class TransportUnitController extends BaseController{
     @Autowired
     private TransportUnitService transportUnitService;
     
+    @Autowired
+	private ContactService contactService;
+    
     @Api2Doc(order = 1)
     @ApiComment(value="添加运输单位")
     @RequestMapping(name="添加运输单位",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加运输单位",sample="根据id查询运输单位接口可查看字段信息") @RequestBody TransportUnit transportUnit) {
+    	ContactsExtend contact = new ContactsExtend();
+    	contact.setTelephone(transportUnit.getCellNum());
+    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	if (result != null && result.size() == 1) {
+    		ContactsResult contactsResult = result.get(0);
+    		transportUnit.setPIC(contactsResult.getContactName());
+    		transportUnit.setContactsId(contactsResult.getId());
+    	}
         transportUnitService.insert(transportUnit);
         return "success";
     }

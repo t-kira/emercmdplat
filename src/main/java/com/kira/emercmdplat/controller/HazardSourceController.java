@@ -3,9 +3,12 @@ package com.kira.emercmdplat.controller;
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.pojo.BaseObject;
+import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.HazardSouce;
 import com.kira.emercmdplat.pojo.HazardSouceResult;
 import com.kira.emercmdplat.pojo.ProtectionTarget;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.HazardSourceService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -34,10 +37,21 @@ public class HazardSourceController extends BaseController {
     @Autowired
     private HazardSourceService hazardSourceService;
     
+    @Autowired
+	private ContactService contactService;
+    
     @Api2Doc(order = 1)
     @ApiComment(value="添加风险隐患")
     @RequestMapping(name="添加风险隐患",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
+    	ContactsExtend contact = new ContactsExtend();
+    	contact.setTelephone(hazardSouce.getCellNum());
+    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	if (result != null && result.size() == 1) {
+    		ContactsResult contactsResult = result.get(0);
+    		hazardSouce.setPIC(contactsResult.getContactName());
+    		hazardSouce.setContactsId(contactsResult.getId());
+    	}
         hazardSourceService.insert(hazardSouce);
         return "success";
     }

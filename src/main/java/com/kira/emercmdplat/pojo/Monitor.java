@@ -25,4 +25,8 @@ public class Monitor extends BaseObject {
 	@ApiComment(value = "纬度", sample = "1")
 	private Double lat;
 	
+	private String commonIcon = host + "/img/monitor-common.png";
+
+	private String activeIcon = host + "/img/monitor-active.png";
+	
 }

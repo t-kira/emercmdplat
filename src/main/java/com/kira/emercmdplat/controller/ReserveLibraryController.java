@@ -2,8 +2,11 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.ReserveLibrary;
 import com.kira.emercmdplat.pojo.ReserveLibraryResult;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.ReserveLibraryService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -32,10 +35,21 @@ public class ReserveLibraryController extends BaseController {
     @Autowired
     private ReserveLibraryService reserveLibraryService;
     
+    @Autowired
+	private ContactService contactService;
+    
     @Api2Doc(order = 1)
     @ApiComment(value="添加储备库")
     @RequestMapping(name="添加储备库",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加储备库",sample="根据id查询储备库接口可查看字段信息") @RequestBody ReserveLibrary reserveLibrary) {
+    	ContactsExtend contact = new ContactsExtend();
+    	contact.setTelephone(reserveLibrary.getCellNum());
+    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	if (result != null && result.size() == 1) {
+    		ContactsResult contactsResult = result.get(0);
+    		reserveLibrary.setPIC(contactsResult.getContactName());
+    		reserveLibrary.setContactsId(contactsResult.getId());
+    	}
         reserveLibraryService.insert(reserveLibrary);
         return "success";
     }

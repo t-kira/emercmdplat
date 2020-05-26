@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -66,6 +67,7 @@ public class ProtectionTarget extends BaseObject {
 	 * 负责人
 	 */
 	@ApiComment(value = "负责人", sample = "aaa")
+	@JsonProperty(value = "PIC")
 	private String PIC;
 	/**
 	 * 负责人id，与通讯录关联
@@ -123,6 +125,10 @@ public class ProtectionTarget extends BaseObject {
 
 	@ApiComment(value = "图标", sample = "aaa")
 	private String icon;
+	/**
+	 * 前端用
+	 */
+	private boolean flag;
 
 	protected String commonIcon = host + "/img/active.png";
 
@@ -334,6 +340,14 @@ public class ProtectionTarget extends BaseObject {
 
 	public void setContactsId(Long contactsId) {
 		this.contactsId = contactsId;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
 }

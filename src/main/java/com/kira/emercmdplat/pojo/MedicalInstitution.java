@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.pojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -41,6 +42,7 @@ public class MedicalInstitution extends BaseObject {
 	 * 唯一识别码
 	 */
 	@ApiComment(value = "唯一识别码", sample = "aaa")
+	@JsonProperty(value = "UID")
 	private String UID;
 	/**
 	 * 病床数
@@ -71,6 +73,7 @@ public class MedicalInstitution extends BaseObject {
 	 * 负责人
 	 */
 	@ApiComment(value = "负责人", sample = "aaa")
+	@JsonProperty(value = "PIC")
 	private String PIC;
 	/**
 	 * 负责人id，与通讯录关联

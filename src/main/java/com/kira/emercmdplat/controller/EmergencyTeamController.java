@@ -2,8 +2,11 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.EmergencyTeam;
 import com.kira.emercmdplat.pojo.EmergencyTeamResult;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EmergencyTeamService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -32,10 +35,21 @@ public class EmergencyTeamController extends BaseController {
     @Autowired
     private EmergencyTeamService emergencyTeamService;
     
+    @Autowired
+	private ContactService contactService;
+    
     @Api2Doc(order = 1)
     @ApiComment(value="添加应急队伍")
     @RequestMapping(name="添加应急队伍",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
+    	ContactsExtend contact = new ContactsExtend();
+    	contact.setTelephone(emergencyTeam.getCellNum());
+    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	if (result != null && result.size() == 1) {
+    		ContactsResult contactsResult = result.get(0);
+    		emergencyTeam.setPIC(contactsResult.getContactName());
+    		emergencyTeam.setContactsId(contactsResult.getId());
+    	}
         emergencyTeamService.insert(emergencyTeam);
         return "success";
     }

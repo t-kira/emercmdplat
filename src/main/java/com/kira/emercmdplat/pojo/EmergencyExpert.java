@@ -91,6 +91,11 @@ public class EmergencyExpert extends BaseObject {
 	 */
 	@ApiComment(value = "纬度", sample = "1")
 	private Double lat;
+	/**
+	 * 地址
+	 */
+	@ApiComment(value = "地址", sample = "aaa")
+	private String addr;
 
 	@ApiComment(value = "类型名称", sample = "123")
 	private String typeName;
@@ -276,6 +281,14 @@ public class EmergencyExpert extends BaseObject {
 
 	public void setActiveIcon(String activeIcon) {
 		this.activeIcon = activeIcon;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
 
 }
