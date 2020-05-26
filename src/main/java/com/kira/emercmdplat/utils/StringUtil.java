@@ -331,7 +331,6 @@ public class StringUtil {
      */
     public static String genEventNumber(String lastNumber) {
         String s = lastNumber.substring(8);
-
         int beginNum = Integer.valueOf(s);
         int endNum = ++beginNum;
         String s1 = StringUtil.toStr(endNum);

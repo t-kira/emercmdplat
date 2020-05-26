@@ -64,7 +64,7 @@ public class EventController extends BaseController {
         if (eventResults != null && eventResults.size() > 0) {
             EventResult eventResult = eventResults.get(0);
             String eventNumber = eventResult.getEventNumber();
-            event.setEventNumber(StringUtil.genEventNumber(eventNumber));
+            event.setEventNumber(preEventNumber + StringUtil.genEventNumber(eventNumber));
         } else {
             event.setEventNumber(preEventNumber + "00001");
         }
