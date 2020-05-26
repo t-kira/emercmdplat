@@ -125,6 +125,10 @@ public class ProtectionTarget extends BaseObject {
 
 	@ApiComment(value = "图标", sample = "aaa")
 	private String icon;
+	/**
+	 * 前端用
+	 */
+	private boolean flag;
 
 	protected String commonIcon = host + "/img/active.png";
 
@@ -336,6 +340,14 @@ public class ProtectionTarget extends BaseObject {
 
 	public void setContactsId(Long contactsId) {
 		this.contactsId = contactsId;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
 }

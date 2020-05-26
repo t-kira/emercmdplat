@@ -9,7 +9,7 @@ import lombok.Data;
  * @Description:
  */
 @Data
-public class Contacts {
+public class Contacts extends BaseObject {
 
     private Long id;
     @ApiComment(value = "姓名", sample = "张三")
@@ -67,5 +67,9 @@ public class Contacts {
     private String username;
     @ApiComment(value = "登录密码", sample = "123")
     private String password;
+    
+    private String commonIcon = host + "/img/contacts-common.png";
+
+	private String activeIcon = host + "/img/contacts-active.png";
 
 }
