@@ -42,6 +42,7 @@ public class MedicalInstitution extends BaseObject {
 	 * 唯一识别码
 	 */
 	@ApiComment(value = "唯一识别码", sample = "aaa")
+	@JsonProperty(value = "UID")
 	private String UID;
 	/**
 	 * 病床数
