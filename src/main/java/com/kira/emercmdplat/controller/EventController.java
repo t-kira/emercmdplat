@@ -94,7 +94,6 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(value = "end")
     public AlvesJSONResult end(@RequestBody Event event) {
-//        event.setProcess(EventProcess.EVENT_FINISH.getNo());
         boolean result = es.update(event);
         if (result) {
             return AlvesJSONResult.ok("success close");
@@ -106,7 +105,6 @@ public class EventController extends BaseController {
      * 获取事件类型列表
      * @return 事件类型集合
      */
-//    @MyLog("获取事件类型列表")
     @ResponseBody
     @GetMapping(value = "type_list")
     public AlvesJSONResult listPlanType() {
@@ -118,7 +116,6 @@ public class EventController extends BaseController {
      * @param id 事件类型ID
      * @return
      */
-//    @MyLog("查询事件参数")
     @ResponseBody
     @GetMapping(value = "event_param/{id}")
     public AlvesJSONResult listParam(@PathVariable int id) {
@@ -515,5 +512,12 @@ public class EventController extends BaseController {
         development.setReportTime(coverEvent.getReceiveTime());
         es.insertDevelopment(development);
         return AlvesJSONResult.ok();
+    }
+
+    @ResponseBody
+    @GetMapping("sys_log_list/{eid}")
+    public AlvesJSONResult sysLogList(@PathVariable Long eid) {
+        List<SysLog> list = sls.selectByEid(eid);
+        return AlvesJSONResult.ok(list);
     }
 }
