@@ -69,4 +69,16 @@ public class MessageResult extends Message{
      * 初判等级名称
      */
     private String prLevel;
+    /**
+     * 事发地点
+     */
+    private String incidentLocation;
+    /**
+     * 经度
+     */
+    private Double lng;
+    /**
+     * 纬度
+     */
+    private Double lat;
 }

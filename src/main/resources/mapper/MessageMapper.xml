@@ -25,11 +25,15 @@
         <result column="judge_opinion" property="judgeOpinion" jdbcType="VARCHAR"/>
         <result column="pv_name" property="pvName" jdbcType="VARCHAR"/>
         <result column="pr_Level" property="prLevel" jdbcType="VARCHAR"/>
+        <result column="incident_location" property="incidentLocation" jdbcType="VARCHAR"/>
+        <result column="lng" property="lng" jdbcType="VARCHAR"/>
+        <result column="lat" property="lat" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
     m.id, m.e_id, m.d_id, m.to_d_id, m.v_id, m.m_type, m.status, m.reason, m.v_id,
     e.event_number, e.event_title, e.event_desc, e.receive_time, e.incident_time,pt.pt_name,
-    d.d_name, e.reporter, e.report_tel, v.attach_address, v.quick_report_addr,e.event_level, v.judge_opinion, pv.pv_name, pr.pr_level
+    d.d_name, e.reporter, e.report_tel, v.attach_address, v.quick_report_addr,e.event_level,
+    v.judge_opinion, pv.pv_name, pr.pr_level, e.incident_location, e.lng, e.lat
   </sql>
     <sql id="Basic_Conditions">
         <!--    <![CDATA[where 1=1 ]]>-->
