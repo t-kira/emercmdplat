@@ -9,7 +9,7 @@ import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.PropertiesUtils;
-import com.mysql.cj.util.Base64Decoder;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import sun.misc.BASE64Decoder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -150,31 +149,41 @@ public class AppController extends BaseController {
     }
 
     @ResponseBody
-    @PostMapping("upload_file")
-    public AlvesJSONResult upload(@RequestBody String str) {
+    @PostMapping("upload_files")
+    public AlvesJSONResult upload(@RequestBody FilesReq filesReq) {
         String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
         String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
         List<String> fileList = new ArrayList<>();
-//        for (String str : list) {
+        for (FileReq fileReq : filesReq.getFileReqList()) {
             byte[] byteData = null;
-            BASE64Decoder base64Decoder = new BASE64Decoder();
+            BASE64Decoder decoder = new BASE64Decoder();
             try {
-                byteData = base64Decoder.decodeBuffer(str);
+                String str = fileReq.getFileContent();
+                String extension = fileReq.getExtension();
+                str = str.replaceAll(" ", "+");
+                byteData = decoder.decodeBuffer(str);
+                for (int i = 0; i < byteData.length; ++i) {
+                    // 调整异常数据
+                    if (byteData[i] < 0) {
+                        byteData[i] += 256;
+                    }
+                }
                 String uuid = UUID.randomUUID().toString();
-                String fileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + ".jpg");
+                String fileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + "." + extension);
                 File file = new File(fileUrl);
                 if (!file.exists()) {
                     file.createNewFile();
                 }
-                fileList.add(FilenameUtils.separatorsToSystem(path + uuid + ".png"));
-                OutputStream out = new FileOutputStream(file);
+                Runtime.getRuntime().exec("chmod 777 -R " + fileUrl);
+                fileList.add(FilenameUtils.separatorsToSystem(path + uuid + "." + extension));
+                FileOutputStream out = new FileOutputStream(file);
                 out.write(byteData);
                 out.flush();
                 out.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-//        }
+        }
         return AlvesJSONResult.ok(fileList);
     }
 }
