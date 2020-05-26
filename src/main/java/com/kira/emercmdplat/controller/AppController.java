@@ -136,6 +136,7 @@ public class AppController extends BaseController {
     @ResponseBody
     @PostMapping("add_feedback")
     public AlvesJSONResult insertFeedback(@RequestBody Feedback feedback) {
+        feedback.setFeedbackTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         int result = ts.insertFeedback(feedback);
         if (result > 0) {
             TaskExtend taskExtend = new TaskExtend();

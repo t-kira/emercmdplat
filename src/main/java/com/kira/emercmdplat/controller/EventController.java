@@ -470,7 +470,7 @@ public class EventController extends BaseController {
             if (eventReq.getEventType() == 1) {
                 mainEvent.setProcess(EventProcess.RESERVE_PLAN.getNo());
             } else {
-                mainEvent.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
+//                mainEvent.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
             }
             es.update(mainEvent);
             //被合并
