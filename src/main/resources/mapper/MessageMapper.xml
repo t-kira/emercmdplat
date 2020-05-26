@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.MessageMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.MessageResult">
-        <id column="id" property="id" jdbcType="INTEGER"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="e_id" property="eid" jdbcType="INTEGER"/>
         <result column="d_id" property="did" jdbcType="INTEGER"/>
         <result column="to_d_id" property="toDid" jdbcType="INTEGER"/>
@@ -98,7 +98,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from message m, event_receive e, plan_type pt, duty d, verify_report v, plan_version pv, plan_response pr
