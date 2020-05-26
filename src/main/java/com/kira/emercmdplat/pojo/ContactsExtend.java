@@ -8,7 +8,7 @@ import lombok.Data;
  * @Description:
  */
 @Data
-public class ContactsExtend {
+public class ContactsExtend{
 
     private Integer page;
 
