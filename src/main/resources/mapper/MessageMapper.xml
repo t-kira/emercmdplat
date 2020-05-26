@@ -99,7 +99,7 @@
         and m.id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Duty">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
         select
         <include refid="Base_Column_List"/>
         from message m, event_receive e, plan_type pt, duty d, verify_report v
@@ -107,7 +107,7 @@
         <include refid="Basic_Conditions"/>
     </select>
 
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
         select
         <include refid="Base_Column_List"/>
         from message m, event_receive e, plan_type pt, duty d, verify_report v
@@ -116,7 +116,7 @@
         limit ${page}, ${pageSize}
     </select>
 
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Message">
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
         select count(id)
         from message m
         <include refid="Basic_Conditions"/>

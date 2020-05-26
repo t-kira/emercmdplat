@@ -137,7 +137,7 @@
         <include refid="Basic_Conditions"/>
     </select>
     <select id="selectFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
-        select * from feedback where task_id = #{taskId, jdbcType=BIGINT}
+        select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc
     </select>
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select
