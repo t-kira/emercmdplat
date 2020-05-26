@@ -2,7 +2,7 @@ package com.kira.emercmdplat.pojo;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
-public class DataType {
+public class DataType extends BaseObject {
 
 	@ApiComment(value = "id", sample = "1")
 	private Long id;
@@ -30,15 +30,22 @@ public class DataType {
 
 	@ApiComment(value = "纬度", sample = "1")
 	private Double lat;
-	
+
 	@ApiComment(value = "手机", sample = "123")
 	private String cellNum;
-	
+
 	@ApiComment(value = "负责人", sample = "aaa")
 	private String PIC;
-	
+
 	@ApiComment(value = "地址", sample = "aaa")
 	private String addr;
+
+	@ApiComment(value = "图标", sample = "aaa")
+	private String icon;
+
+	protected String commonIcon = host + "/img/active.png";
+
+	protected String activeIcon = host + "/img/common.png";
 
 	public Long getId() {
 		return id;
@@ -110,6 +117,54 @@ public class DataType {
 
 	public void setLat(Double lat) {
 		this.lat = lat;
+	}
+
+	public String getCellNum() {
+		return cellNum;
+	}
+
+	public void setCellNum(String cellNum) {
+		this.cellNum = cellNum;
+	}
+
+	public String getPIC() {
+		return PIC;
+	}
+
+	public void setPIC(String pIC) {
+		PIC = pIC;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getCommonIcon() {
+		return commonIcon;
+	}
+
+	public void setCommonIcon(String commonIcon) {
+		this.commonIcon = commonIcon;
+	}
+
+	public String getActiveIcon() {
+		return activeIcon;
+	}
+
+	public void setActiveIcon(String activeIcon) {
+		this.activeIcon = activeIcon;
 	}
 
 }

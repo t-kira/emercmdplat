@@ -88,7 +88,7 @@
     </select>
     
     <select id="queryResources" resultType="com.kira.emercmdplat.pojo.DataType" parameterType="java.util.Map">
-    	select id,name,type,t_name typeName,maintenanceCompany,lng,lat,cellNum,PIC,addr from 
+    	select id,name,type,t_name typeName,icon,maintenanceCompany,lng,lat,cellNum,PIC,addr from 
 		(
 		<if test="dId == 1">
 			(select h_id id,h_name name,h_type type,h_maintenance_company maintenanceCompany,

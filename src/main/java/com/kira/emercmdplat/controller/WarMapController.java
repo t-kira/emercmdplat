@@ -95,6 +95,10 @@ public class WarMapController {
             Iterator<DataType> iterator = list.iterator();
             while (iterator.hasNext()) {
                 DataType dataType1 = iterator.next();
+                if (dataType1.getIcon() != null) {
+                	dataType1.setCommonIcon(BaseObject.host + "/img/" + dataType1.getIcon() + "-common.png");
+                	dataType1.setActiveIcon(BaseObject.host + "/img/" + dataType1.getIcon() + "-active.png");
+            	}
                 boolean flag = DistanceUtil.getDistance(eventResult.getLat(), eventResult.getLng(), dataType1.getLat(), dataType1.getLng(), eventSource.getInfluenceScope());
                 if (!flag) {
                     iterator.remove();
