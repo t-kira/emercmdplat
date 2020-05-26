@@ -55,6 +55,19 @@ public class EventController extends BaseController {
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
         Event event = eventDomain.getEvent();
         List<EventParam> eventParamList = eventDomain.getEventParamList();
+        String preEventNumber = DateUtil.getNowStr("yyyyMMdd");
+        EventExtend eventExtend = new EventExtend();
+        eventExtend.setOrder("e_id");
+        eventExtend.setOrderType("desc");
+        eventExtend.setEventNumber(preEventNumber);
+        List<EventResult> eventResults = es.queryForAll(eventExtend);
+        if (eventResults != null && eventResults.size() > 0) {
+            EventResult eventResult = eventResults.get(0);
+            String eventNumber = eventResult.getEventNumber();
+            event.setEventNumber(StringUtil.genEventNumber(eventNumber));
+        } else {
+            event.setEventNumber(preEventNumber + "00001");
+        }
         event.setEventNumber(UUID.randomUUID().toString());
         event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
         event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
@@ -502,12 +515,5 @@ public class EventController extends BaseController {
         development.setReportTime(coverEvent.getReceiveTime());
         es.insertDevelopment(development);
         return AlvesJSONResult.ok();
-    }
-
-    @ResponseBody
-    @GetMapping("sys_log_list/{eid}")
-    public AlvesJSONResult sysLogList(@PathVariable Long eid) {
-        List<SysLog> list = sls.selectByEid(eid);
-        return AlvesJSONResult.ok(list);
     }
 }

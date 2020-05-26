@@ -55,7 +55,7 @@
             and e.e_id = #{id,jdbcType=INTEGER}
         </if>
         <if test="eventNumber != null">
-            and e.event_number = #{eventNumber,jdbcType=VARCHAR}
+            and e.event_number like concat('%', #{eventNumber,jdbcType=VARCHAR}, '%')
         </if>
         <if test="eventDesc != null">
             and e.event_desc = #{eventDesc,jdbcType=VARCHAR}
@@ -137,13 +137,13 @@
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Event" useGeneratedKeys="true" keyProperty="id">
         insert into event_receive (e_id, event_number, event_desc, event_title, receive_time, incident_time, incident_location, lng, lat, influence_sphere, incident_area_id, pt_id, report_mechanism_id,
-            mechanism_id,reporter, report_tel, d_id, status, process, summary, merge_reason, event_level, verify_method, event_type, verify_status, report_type, mechanism_id, attach_addr)
+            mechanism_id,reporter, report_tel, d_id, status, process, summary, merge_reason, event_level, verify_method, event_type, verify_status, report_type, attach_addr)
         values (#{id,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{eventDesc,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, #{receiveTime,jdbcType=VARCHAR},
           #{incidentTime,jdbcType=VARCHAR}, #{incidentLocation,jdbcType=VARCHAR}, #{lng,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE},
           #{influenceSphere,jdbcType=VARCHAR}, #{incidentAreaId,jdbcType=BIGINT}, #{ptId,jdbcType=BIGINT}, #{reportMechanismId,jdbcType=BIGINT},
           #{mechanismId,jdbcType=BIGINT}, #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{did,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
           #{summary,jdbcType=VARCHAR}, #{mergeReason,jdbcType=VARCHAR}, #{eventLevel,jdbcType=INTEGER}, #{verifyMethod,jdbcType=INTEGER}, #{eventType,jdbcType=INTEGER}, #{verifyStatus,jdbcType=INTEGER},
-          #{reportType,jdbcType=INTEGER}, #{mechanismId,jdbcType=BIGINT}, #{attachAddr,jdbcType=VARCHAR})
+          #{reportType,jdbcType=INTEGER}, #{attachAddr,jdbcType=VARCHAR})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Event">
       DELETE event_receive
@@ -245,6 +245,9 @@
         from event_receive e, plan_type pt, mechanism m, duty d, mechanism me
         where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.d_id = d.id and e.mechanism_id = me.id and e.verify_status &lt; 3
         <include refid="Basic_Conditions"/>
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
     </select>
     <select id="queryByTitle" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select

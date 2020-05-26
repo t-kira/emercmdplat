@@ -324,4 +324,23 @@ public class StringUtil {
         return true;
     }
 
+    /**
+     * 生成编号
+     * @param lastNumber
+     * @return
+     */
+    public static String genEventNumber(String lastNumber) {
+        String s = lastNumber.substring(8);
+
+        int beginNum = Integer.valueOf(s);
+        int endNum = ++beginNum;
+        String s1 = StringUtil.toStr(endNum);
+        int num = s.length() - s1.length();
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < num; i++) {
+            buffer.append(0);
+        }
+        return buffer.append(s1).toString();
+    }
+
 }
