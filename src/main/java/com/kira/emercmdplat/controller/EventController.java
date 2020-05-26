@@ -68,6 +68,7 @@ public class EventController extends BaseController {
         } else {
             event.setEventNumber(preEventNumber + "00001");
         }
+        event.setVerifyStatus(0);
         event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
         event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
         int result = es.insert(event);
