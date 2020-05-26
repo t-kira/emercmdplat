@@ -128,7 +128,7 @@
 		</if>
 		<if test="dId == 11">
 			(select e_id id,e_name name,e_type type,e_unit maintenanceCompany,e_lng lng,e_lat lat,
-			e_cell_num cellNum,'' PIC,e_addr addr,0 contactsId
+			e_cell_num cellNum,e_name PIC,e_addr addr,0 contactsId
 			from emergency_expert)
 		</if>
 		<if test="dId == 17">
@@ -171,7 +171,7 @@
 			from emergency_supply)
 			UNION ALL
 			(select e_id id,e_name name,e_type type,e_unit maintenanceCompany,e_lng lng,e_lat lat,
-			e_cell_num cellNum,'' PIC,e_addr addr,0 contactsId
+			e_cell_num cellNum,e_name PIC,e_addr addr,0 contactsId
 			from emergency_expert)
 			UNION ALL
 			(select ef_id id,ef_name name,ef_type type,ef_maintenance_company maintenanceCompany,0 lng,0 lat,
