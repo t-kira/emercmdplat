@@ -30,4 +30,8 @@ public class ReservePlanResult extends ReservePlan{
      * 核实报告ID
      */
     private Long vrId;
+    /**
+     * 预案响应等级
+     */
+    private String prLevel;
 }

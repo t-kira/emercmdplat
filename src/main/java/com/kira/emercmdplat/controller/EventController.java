@@ -487,7 +487,7 @@ public class EventController extends BaseController {
             coverEvent.setVerifyStatus(eventReq.getVerifyStatus());
             coverEvent.setEventType(eventReq.getEventType());
             coverEvent.setMergeReason(eventReq.getMergeReason());
-            coverEvent.setProcess(EventProcess.VERIFY_REPORT.getNo());
+//            coverEvent.setProcess(EventProcess.VERIFY_REPORT.getNo());
             if (eventReq.getEventType() == 1) {
                 coverEvent.setProcess(EventProcess.RESERVE_PLAN.getNo());
             }
