@@ -43,6 +43,9 @@ public class DataType extends BaseObject {
 	@ApiComment(value = "图标", sample = "aaa")
 	private String icon;
 
+	@ApiComment(value = "负责人id", sample = "aaa")
+	private Long contactsId;
+
 	protected String commonIcon = host + "/img/active.png";
 
 	protected String activeIcon = host + "/img/common.png";
@@ -165,6 +168,14 @@ public class DataType extends BaseObject {
 
 	public void setActiveIcon(String activeIcon) {
 		this.activeIcon = activeIcon;
+	}
+
+	public Long getContactsId() {
+		return contactsId;
+	}
+
+	public void setContactsId(Long contactsId) {
+		this.contactsId = contactsId;
 	}
 
 }
