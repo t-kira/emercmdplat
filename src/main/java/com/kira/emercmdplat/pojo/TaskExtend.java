@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
 import lombok.Data;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class TaskExtend extends Task{
 
     private List<Long> contactIdList;
 
-    private List<Map<String,String>> contactList;
+    private List<JSONObject> contactList;
 
     private Integer page;
 
@@ -24,4 +25,8 @@ public class TaskExtend extends Task{
     private String order;
 
     private String orderType;
+
+    public TaskExtend() {
+        super();
+    }
 }

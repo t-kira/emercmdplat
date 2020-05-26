@@ -21,6 +21,10 @@ public class Feedback {
      */
     private Double lng;
     /**
+     * 事件位置
+     */
+    private String address;
+    /**
      * 纬度
      */
     private Double lat;

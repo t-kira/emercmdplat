@@ -61,7 +61,8 @@
             and e.event_desc = #{eventDesc,jdbcType=VARCHAR}
         </if>
         <if test="eventTitle != null">
-            and e.event_title = #{eventTitle,jdbcType=VARCHAR}
+
+            and e.event_title like concat('%',#{eventTitle,jdbcType=VARCHAR},'%')
         </if>
         <if test="receiveTime != null">
             and e.receive_time = #{receiveTime,jdbcType=VARCHAR}
@@ -265,8 +266,8 @@
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Event">
         select count(e_id)
-        from event_receive
-        where 1 = 1 and verify_status &lt; 3
+        from event_receive e
+        where 1 = 1 and e.verify_status &lt; 3
         <include refid="Basic_Conditions"/>
     </select>
     <insert id="insertParam" parameterType="com.kira.emercmdplat.pojo.EventParam">

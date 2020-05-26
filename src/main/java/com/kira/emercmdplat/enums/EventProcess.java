@@ -7,7 +7,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  * @Date: 2020/4/13 02:33
  * @Description:事件进程
  */
-public enum  EventProcess implements BaseEnum<EventProcess> {
+public enum EventProcess implements BaseEnum<EventProcess> {
 
     EVENT_RECEIVE(1, "接报"), VERIFY_REPORT(2, "核实报告"),
     LEADER_INSTRUCT(3, "领导批示"), RESERVE_PLAN(4, "启动预案"),

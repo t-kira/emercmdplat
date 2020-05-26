@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.service.impl;
 
+import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.mapper.TaskMapper;
 import com.kira.emercmdplat.pojo.ContactsResult;
@@ -8,6 +9,7 @@ import com.kira.emercmdplat.pojo.TaskExtend;
 import com.kira.emercmdplat.pojo.Feedback;
 import com.kira.emercmdplat.service.TaskService;
 import com.kira.emercmdplat.utils.DateUtil;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,10 @@ public class TaskServiceImpl implements TaskService {
         try {
             //添加事件任务指派时间
             taskExtend.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            //默认未处理
+            taskExtend.setStatus(TaskStatus.TASK_PENDING.getNo());
+            //默认未到场
+            taskExtend.setIsArrive(1);
             if (taskExtend.getContactIdList() != null && taskExtend.getContactIdList().size() > 0) {
                 for (Long contactId : taskExtend.getContactIdList()) {
                     ContactsResult contactsResult = cm.selectById(contactId);
@@ -42,9 +48,9 @@ public class TaskServiceImpl implements TaskService {
                 }
             }
             if (taskExtend.getContactList() != null && taskExtend.getContactList().size() > 0) {
-                for (Map<String, String> contactMap : taskExtend.getContactList()) {
-                    taskExtend.setContactName(contactMap.get("contactName"));
-                    taskExtend.setTelephone(contactMap.get("telephone"));
+                for (JSONObject json : taskExtend.getContactList()) {
+                    taskExtend.setContactName(json.getString("contactName"));
+                    taskExtend.setTelephone(json.getString("telephone"));
                     tm.insert(taskExtend);
                 }
             }

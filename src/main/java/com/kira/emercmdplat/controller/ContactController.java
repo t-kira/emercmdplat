@@ -5,7 +5,7 @@ import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.Group;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
-import com.kira.emercmdplat.utils.TreeUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/contact")
 public class ContactController {
 
+    @Autowired
     private ContactService cs;
 
     @ResponseBody

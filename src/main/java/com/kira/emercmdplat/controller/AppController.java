@@ -3,14 +3,26 @@ package com.kira.emercmdplat.controller;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.pojo.*;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
+import com.kira.emercmdplat.utils.PropertiesUtils;
+import com.mysql.cj.util.Base64Decoder;
+import net.sf.json.JSONObject;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Decoder;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author: kira
@@ -28,6 +40,8 @@ public class AppController extends BaseController {
     @Autowired
     private TaskServiceImpl ts;
 
+    private ContactService cs;
+
     /**
      * 事件查询接口，查询app登录用户所上报的事件列表
      * @param event
@@ -41,6 +55,21 @@ public class AppController extends BaseController {
     }
 
     /**
+     * 返回登录人员所属的单位信息
+     * @param contactId 联系人ID
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("mechanism/{contactId}")
+    public AlvesJSONResult mechanism(@PathVariable Long contactId) {
+        ContactsResult contactsResult = cs.selectById(contactId);
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("mId", contactsResult.getMId());
+        resultJson.put("mName", contactsResult.getMName());
+        return AlvesJSONResult.ok(resultJson);
+    }
+
+    /**
      * 开始处理 处理完成事件任务
      * @param taskExtend
      * @return
@@ -49,10 +78,10 @@ public class AppController extends BaseController {
     @PostMapping("update_task")
     public AlvesJSONResult updateTask(@RequestBody TaskExtend taskExtend) {
             //开始处理事件任务,添加事件任务的响应时间
-        if (taskExtend.getStatus().equals(TaskStatus.TASK_PROCESSING.getNo())) {
+        if (taskExtend.getStatus() == TaskStatus.TASK_PROCESSING.getNo()) {
             taskExtend.setResponseTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
             //事件任务完成按钮，添加事件任务的完成时间
-        } else if(taskExtend.getStatus().equals(TaskStatus.TASK_PROCESSED.getNo())) {
+        } else if(taskExtend.getStatus() == TaskStatus.TASK_PROCESSED.getNo()) {
             taskExtend.setEndTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         }
         boolean result = ts.update(taskExtend);
@@ -64,7 +93,7 @@ public class AppController extends BaseController {
     }
 
     /**
-     * 查询事件任务
+     * 查询任务
      * @param taskExtend
      * @return
      */
@@ -118,5 +147,34 @@ public class AppController extends BaseController {
         } else {
             return AlvesJSONResult.errorMsg("fail insert...");
         }
+    }
+
+    @ResponseBody
+    @PostMapping("upload_file")
+    public AlvesJSONResult upload(@RequestBody String str) {
+        String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
+        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
+        List<String> fileList = new ArrayList<>();
+//        for (String str : list) {
+            byte[] byteData = null;
+            BASE64Decoder base64Decoder = new BASE64Decoder();
+            try {
+                byteData = base64Decoder.decodeBuffer(str);
+                String uuid = UUID.randomUUID().toString();
+                String fileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + ".jpg");
+                File file = new File(fileUrl);
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                fileList.add(FilenameUtils.separatorsToSystem(path + uuid + ".png"));
+                OutputStream out = new FileOutputStream(file);
+                out.write(byteData);
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//        }
+        return AlvesJSONResult.ok(fileList);
     }
 }

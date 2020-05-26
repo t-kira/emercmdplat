@@ -4,12 +4,13 @@ import com.kira.emercmdplat.enums.SourceType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
+import com.kira.emercmdplat.utils.DistanceUtil;
 import com.kira.emercmdplat.utils.TreeUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: kira
@@ -28,19 +29,7 @@ public class WarMapController {
     @Autowired
     private EventService es;
     @Autowired
-    private HazardSourceService hss;
-    @Autowired
-    private ProtectionTargetService pts;
-    @Autowired
-    private EmergencyTeamService emts;
-    @Autowired
-    private MedicalInstitutionService mis;
-    @Autowired
-    private ShelterService ss;
-    @Autowired
-    private ReserveLibraryService rls;
-    @Autowired
-    private EmergencyExpertService ees;
+    private DataTypeService dts;
     /**
      * 通讯录
      * @return
@@ -93,44 +82,48 @@ public class WarMapController {
     @ResponseBody
     @PostMapping(name="列出事件发源地范围内的风险隐患",value="situation_analysis")
     public AlvesJSONResult situationAnalysis(@RequestBody EventSource eventSource) {
-        JSONObject json = new JSONObject();
         EventResult eventResult = es.selectById(eventSource.getEventId());
-        //危险源
-        List<HazardSouce> hazardSourceList = hss.queryForAll(new HazardSouce());
-        //防护目标
-        List<ProtectionTarget> protectionTargetList = pts.queryForAll(new ProtectionTarget());
-        //应急队伍
-        List<EmergencyTeam> emergencyTeamList = emts.queryForAll(new EmergencyTeam());
-        //医疗机构
-        List<MedicalInstitution> medicalInstitutionList = mis.queryForAll(new MedicalInstitution());
-        //避难场所
-        List<Shelter> shelterList = ss.queryForAll(new Shelter());
-        //物资库
-        List<ReserveLibrary> reserveLibraryList = rls.queryForAll(new ReserveLibrary());
-        //应急专家
-        List<EmergencyExpert> emergencyExpertList = ees.queryForAll(new EmergencyExpert());
+        DataType dataType = new DataType();
+        dataType.setTaskType(1);
+        List<DataType> dataTypeList = dts.queryForAll(dataType);
+        List<JSONObject> listJson = new ArrayList<>();
+        for (DataType d : dataTypeList) {
+            JSONObject jsonObject = new JSONObject();
+            DataType dataType2 = new DataType();
+            dataType2.setId(d.getId());
+            List<DataType> list = dts.queryResources(d);
+            Iterator<DataType> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                DataType dataType1 = iterator.next();
+                boolean flag = DistanceUtil.getDistance(eventResult.getLat(), eventResult.getLng(), dataType1.getLat(), dataType1.getLng(), eventSource.getInfluenceScope());
+                if (!flag) {
+                    iterator.remove();
+                }
+            }
+            jsonObject.put("name", d.getName());
+            jsonObject.put("id", d.getId());
+            jsonObject.put("dataTypeList", list);
+            listJson.add(jsonObject);
+        }
 
-        json.put("hazardSourceList", hazardSourceList);
-        json.put("protectionTargetList", protectionTargetList);
-        json.put("emergencyTeamList", emergencyTeamList);
-        json.put("medicalInstitutionList", medicalInstitutionList);
-        json.put("shelterList", shelterList);
-        json.put("reserveLibraryList", reserveLibraryList);
-        json.put("emergencyExpertList", emergencyExpertList);
-
-        return AlvesJSONResult.ok(json);
+        return AlvesJSONResult.ok(listJson);
     }
 
-    /**
-     * 任务指派
-     * @return
-     */
     @ResponseBody
-    @PostMapping("task_assignment")
-    public AlvesJSONResult taskAssignment(@RequestBody TaskAssignment taskAssignment) {
-        if (taskAssignment.getType().intValue() == SourceType.HAZARD_SOURCE.getNo().intValue()) {
+    @GetMapping("list_task/{tabId}")
+    public AlvesJSONResult eventTaskList(@PathVariable Long tabId) {
+        TaskExtend taskExtend = new TaskExtend();
+        taskExtend.setDataTypeId(tabId);
+        List<Task> taskList = ts.queryForAll(taskExtend);
 
-        }
-        return AlvesJSONResult.ok();
+        return AlvesJSONResult.ok(taskList);
+    }
+    @ResponseBody
+    @GetMapping("list_tab")
+    public AlvesJSONResult tabList() {
+        DataType dataType = new DataType();
+        dataType.setTaskType(1);
+        List<DataType> dataTypeList = dts.queryForAll(dataType);
+        return AlvesJSONResult.ok(dataTypeList);
     }
 }

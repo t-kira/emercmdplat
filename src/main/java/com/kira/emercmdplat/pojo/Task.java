@@ -24,6 +24,10 @@ public class Task {
      */
     private Long prfId;
     /**
+     * 流程名称
+     */
+    private String prfName;
+    /**
      * 开始时间 调度时间
      */
     private String startTime;
