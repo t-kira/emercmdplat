@@ -276,7 +276,7 @@ public class EventController extends BaseController {
         if (result > 0) {
             Event event = new Event();
             event.setId(leaderInstruct.getEid());
-            event.setProcess(EventProcess.RESERVE_PLAN.getNo());
+            event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
             es.update(event);
             return AlvesJSONResult.ok(EventProcess.LEADER_INSTRUCT.getNo());
         } else {

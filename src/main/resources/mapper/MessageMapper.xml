@@ -119,7 +119,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
         select count(id)
         from message m
-        where 1 = 1 
+        where 1 = 1
         <include refid="Basic_Conditions"/>
     </select>
 
