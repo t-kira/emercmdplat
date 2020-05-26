@@ -57,4 +57,16 @@ public class MessageResult extends Message{
      * 事件等级
      */
     private Integer eventLevel;
+    /**
+     * 研判意见
+     */
+    private String judgeOpinion;
+    /**
+     * 初判预案名称
+     */
+    private String pvName;
+    /**
+     * 初判等级名称
+     */
+    private String prLevel;
 }
