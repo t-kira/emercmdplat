@@ -194,7 +194,7 @@ public class EventController extends BaseController {
             //生成PDF
             Event event = es.selectById(verifyReport.getEid());
             event.setId(verifyReport.getEid());
-            event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
+            event.setProcess(EventProcess.VERIFY_REPORT.getNo());
             //新增一条消息
             Message message = new Message();
             message.setEid(event.getId());
