@@ -1,11 +1,16 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.EventProcess;
 import com.kira.emercmdplat.enums.MessageStatus;
 import com.kira.emercmdplat.enums.MessageType;
 import com.kira.emercmdplat.pojo.*;
+import com.kira.emercmdplat.service.EventService;
+import com.kira.emercmdplat.service.LeaderInstructService;
 import com.kira.emercmdplat.service.MessageService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
+import com.kira.emercmdplat.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +29,10 @@ public class MessageController extends BaseController {
 
     @Autowired
     private MessageService ms;
+    @Autowired
+    private LeaderInstructService lis;
+    @Autowired
+    private EventService es;
 
     /**
      * 新增消息
@@ -78,6 +87,33 @@ public class MessageController extends BaseController {
             return AlvesJSONResult.ok("success update message...");
         } else {
             return AlvesJSONResult.errorMsg("error update message...");
+        }
+    }
+
+    /**
+     * 添加领导批示
+     * @param leaderInstructExtend
+     * @return
+     */
+    @MyLog("拟办意见")
+    @ResponseBody
+    @PostMapping(value = "add_leader_instruct")
+    public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstructExtend leaderInstructExtend) {
+        leaderInstructExtend.setInstructTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        int result = lis.insert(leaderInstructExtend);
+        if (result > 0) {
+            Event event = new Event();
+            event.setId(leaderInstructExtend.getEid());
+            event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
+            es.update(event);
+            //修改消息状态
+            Message message = new Message();
+            message.setId(leaderInstructExtend.getMid());
+            message.setStatus(MessageStatus.MESSAGE_READ.getNo());
+            ms.update(message);
+            return AlvesJSONResult.ok(EventProcess.LEADER_INSTRUCT.getNo());
+        } else {
+            return AlvesJSONResult.errorMsg("fail insert leader instruct...");
         }
     }
 

@@ -262,27 +262,27 @@ public class EventController extends BaseController {
         List<PlanResponse> responseList = pvs.listResponses(id,1);
         return AlvesJSONResult.ok(responseList);
     }
-    /**
-     * 添加领导批示
-     * @param leaderInstruct
-     * @return
-     */
-    @MyLog("添加领导批示")
-    @ResponseBody
-    @PostMapping(value = "add_leader_instruct")
-    public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstruct leaderInstruct) {
-        leaderInstruct.setInstructTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-        int result = lis.insert(leaderInstruct);
-        if (result > 0) {
-            Event event = new Event();
-            event.setId(leaderInstruct.getEid());
-            event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
-            es.update(event);
-            return AlvesJSONResult.ok(EventProcess.LEADER_INSTRUCT.getNo());
-        } else {
-            return AlvesJSONResult.errorMsg("fail insert leader instruct...");
-        }
-    }
+//    /**
+//     * 添加领导批示(弃用5月27日)
+//     * @param leaderInstruct
+//     * @return
+//     */
+//    @MyLog("添加领导批示")
+//    @ResponseBody
+//    @PostMapping(value = "add_leader_instruct")
+//    public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstruct leaderInstruct) {
+//        leaderInstruct.setInstructTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+//        int result = lis.insert(leaderInstruct);
+//        if (result > 0) {
+//            Event event = new Event();
+//            event.setId(leaderInstruct.getEid());
+//            event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
+//            es.update(event);
+//            return AlvesJSONResult.ok(EventProcess.LEADER_INSTRUCT.getNo());
+//        } else {
+//            return AlvesJSONResult.errorMsg("fail insert leader instruct...");
+//        }
+//    }
     /**
      * 领导批示
      * @param eId
