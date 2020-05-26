@@ -91,7 +91,7 @@ public class WarMapController {
             JSONObject jsonObject = new JSONObject();
             DataType dataType2 = new DataType();
             dataType2.setId(d.getId());
-            List<DataType> list = dts.queryResources(d);
+            List<DataType> list = dts.queryResources(dataType2);
             Iterator<DataType> iterator = list.iterator();
             while (iterator.hasNext()) {
                 DataType dataType1 = iterator.next();
