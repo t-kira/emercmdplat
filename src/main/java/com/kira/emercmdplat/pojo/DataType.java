@@ -30,6 +30,15 @@ public class DataType {
 
 	@ApiComment(value = "纬度", sample = "1")
 	private Double lat;
+	
+	@ApiComment(value = "手机", sample = "123")
+	private String cellNum;
+	
+	@ApiComment(value = "负责人", sample = "aaa")
+	private String PIC;
+	
+	@ApiComment(value = "地址", sample = "aaa")
+	private String addr;
 
 	public Long getId() {
 		return id;
