@@ -45,6 +45,10 @@ public class DataType extends BaseObject {
 
 	@ApiComment(value = "负责人id", sample = "aaa")
 	private Long contactsId;
+	/**
+	 * 预案任务中任务具体所属的分组
+	 */
+	private Long dataTypeId;
 
 	protected String commonIcon = host + "/img/active.png";
 
@@ -178,4 +182,11 @@ public class DataType extends BaseObject {
 		this.contactsId = contactsId;
 	}
 
+	public Long getDataTypeId() {
+		return dataTypeId;
+	}
+
+	public void setDataTypeId(Long dataTypeId) {
+		this.dataTypeId = dataTypeId;
+	}
 }

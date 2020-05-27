@@ -56,6 +56,9 @@
         <if test="dataTypeId != null" >
             and et.data_type_id = #{dataTypeId,jdbcType=BIGINT}
         </if>
+        <if test="contactId != null">
+            and et.contact_id = #{contactId,jdbcType=BIGINT}
+        </if>
       </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Task" >
         insert into task (id, event_id, task_title, prf_id, contact_id, contact_name, telephone, start_time, end_time, lng, lat, address, task_content, status, is_arrive, task_type, data_type_id)

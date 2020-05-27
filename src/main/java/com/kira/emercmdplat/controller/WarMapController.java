@@ -93,6 +93,7 @@ public class WarMapController {
             Iterator<DataType> iterator = list.iterator();
             while (iterator.hasNext()) {
                 DataType dataType1 = iterator.next();
+                dataType1.setDataTypeId(d.getId());
                 if (dataType1.getIcon() != null) {
                 	dataType1.setCommonIcon(BaseObject.host + "/img/" + dataType1.getIcon() + "-common.png");
                 	dataType1.setActiveIcon(BaseObject.host + "/img/" + dataType1.getIcon() + "-active.png");
