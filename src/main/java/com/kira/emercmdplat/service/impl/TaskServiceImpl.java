@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
             //默认未到场
             taskExtend.setIsArrive(1);
             if (taskExtend.getTaskType() == 2 ) {
-
+                taskExtend.setDataTypeId(20l);
             }
             if (taskExtend.getContactIdList() != null && taskExtend.getContactIdList().size() > 0) {
                 for (Long contactId : taskExtend.getContactIdList()) {
