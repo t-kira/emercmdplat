@@ -62,7 +62,6 @@ public class WarMapController {
             return AlvesJSONResult.errorMsg("fail insert...");
         }
     }
-
     /**
      * 事件详情
      * @param id 事件ID
@@ -78,7 +77,6 @@ public class WarMapController {
         json.put("list", list);
         return AlvesJSONResult.ok(json);
     }
-
     @ResponseBody
     @PostMapping(name="列出事件发源地范围内的风险隐患",value="situation_analysis")
     public AlvesJSONResult situationAnalysis(@RequestBody EventSource eventSource) {
@@ -95,6 +93,7 @@ public class WarMapController {
             Iterator<DataType> iterator = list.iterator();
             while (iterator.hasNext()) {
                 DataType dataType1 = iterator.next();
+                dataType1.setDataTypeId(d.getId());
                 if (dataType1.getIcon() != null) {
                 	dataType1.setCommonIcon(BaseObject.host + "/img/" + dataType1.getIcon() + "-common.png");
                 	dataType1.setActiveIcon(BaseObject.host + "/img/" + dataType1.getIcon() + "-active.png");
@@ -112,22 +111,20 @@ public class WarMapController {
 
         return AlvesJSONResult.ok(listJson);
     }
-
     @ResponseBody
-    @GetMapping("list_task/{tabId}")
-    public AlvesJSONResult eventTaskList(@PathVariable Long tabId) {
-        TaskExtend taskExtend = new TaskExtend();
-        taskExtend.setDataTypeId(tabId);
-        List<Task> taskList = ts.queryForAll(taskExtend);
-
+    @GetMapping("list_task/{taskId}")
+    public AlvesJSONResult eventTaskList(@PathVariable Integer taskId) {
+//        TaskExtend taskExtend = new TaskExtend();
+//        taskExtend.setDataTypeId(tabId);
+        List<Task> taskList = ts.selectByTaskType(taskId);
         return AlvesJSONResult.ok(taskList);
     }
-    @ResponseBody
-    @GetMapping("list_tab")
-    public AlvesJSONResult tabList() {
-        DataType dataType = new DataType();
-        dataType.setTaskType(1);
-        List<DataType> dataTypeList = dts.queryForAll(dataType);
-        return AlvesJSONResult.ok(dataTypeList);
-    }
+//    @ResponseBody
+//    @GetMapping("list_tab")
+//    public AlvesJSONResult tabList() {
+//        DataType dataType = new DataType();
+//        dataType.setTaskType(1);
+//        List<DataType> dataTypeList = dts.queryForAll(dataType);
+//        return AlvesJSONResult.ok(dataTypeList);
+//    }
 }

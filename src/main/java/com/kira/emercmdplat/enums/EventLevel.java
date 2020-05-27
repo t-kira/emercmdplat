@@ -5,7 +5,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
 /**
  * @Author: kira
  * @Date: 2020/4/30 23:34
- * @Description:
+ * @Description:事件等级
  */
 public enum EventLevel implements BaseEnum<EventLevel> {
     EVENT_COMMON(1, "一般"), EVENT_MORE(2, "较大"), EVENT_MAJOR(3, "重大"),

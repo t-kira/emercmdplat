@@ -39,6 +39,9 @@ public class TaskServiceImpl implements TaskService {
             taskExtend.setStatus(TaskStatus.TASK_PENDING.getNo());
             //默认未到场
             taskExtend.setIsArrive(1);
+            if (taskExtend.getTaskType() == 2 ) {
+                taskExtend.setDataTypeId(20l);
+            }
             if (taskExtend.getContactIdList() != null && taskExtend.getContactIdList().size() > 0) {
                 for (Long contactId : taskExtend.getContactIdList()) {
                     ContactsResult contactsResult = cm.selectById(contactId);
@@ -101,5 +104,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Feedback> selectFeedbackByTaskId(Long taskId) {
         return tm.selectFeedbackByTaskId(taskId);
+    }
+
+    @Override
+    public List<Task> selectByTaskType(Integer taskType) {
+        return tm.selectByTaskType(taskType);
     }
 }
