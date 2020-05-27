@@ -27,4 +27,6 @@ public interface TaskMapper {
     int insertFeedback(Feedback feedback);
 
     List<Feedback> selectFeedbackByTaskId(Long taskId);
+
+    List<Task> selectByTaskType(Integer taskType);
 }

@@ -5,8 +5,6 @@
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="event_id" property="eventId" jdbcType="BIGINT"/>
         <result column="task_title" property="taskTitle" jdbcType="VARCHAR"/>
-        <result column="prf_id" property="prfId" jdbcType="BIGINT"/>
-        <result column="prf_name" property="prfName" jdbcType="VARCHAR"/>
         <result column="contact_id" property="contactId" jdbcType="BIGINT"/>
         <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
         <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
@@ -32,7 +30,7 @@
         <result column="feedback_time" property="feedbackTime" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-        et.id, et.task_title, et.prf_id, prf.prf_name, et.contact_id, et.contact_name, et.telephone,
+        et.id, et.task_title, et.contact_id, et.contact_name, et.telephone,
         et.start_time, et.end_time, et.lng, et.lat, et.address, et.task_content, et.status, et.is_arrive,
         et.task_type, et.data_type_id
     </sql>
@@ -126,15 +124,20 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from task et, plan_response_flow prf
-        where et.prf_id = prf.prf_id and et.id = #{id,jdbcType=BIGINT}
+        from task et
+        where 1 = 1 and et.id = #{id,jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select
         <include refid="Base_Column_List"/>
-        from task et, plan_response_flow prf
-        where et.prf_id = prf.prf_id
+        from task et
+        where 1 = 1
         <include refid="Basic_Conditions"/>
+    </select>
+    <select id="selectByTaskType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from task et, data_type dt
+        where et.data_type_id = dt.d_id
+        and dt.d_task_type = #{taskType, jdbcType=INTEGER}
     </select>
     <select id="selectFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
         select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc
