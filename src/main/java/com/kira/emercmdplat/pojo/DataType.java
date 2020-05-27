@@ -35,7 +35,7 @@ public class DataType extends BaseObject {
 	private String cellNum;
 
 	@ApiComment(value = "负责人", sample = "aaa")
-	private String PIC;
+	private String pic;
 
 	@ApiComment(value = "地址", sample = "aaa")
 	private String addr;
@@ -130,12 +130,12 @@ public class DataType extends BaseObject {
 		this.cellNum = cellNum;
 	}
 
-	public String getPIC() {
-		return PIC;
+	public String getPic() {
+		return pic;
 	}
 
-	public void setPIC(String pIC) {
-		PIC = pIC;
+	public void setPic(String pic) {
+		this.pic = pic;
 	}
 
 	public String getAddr() {

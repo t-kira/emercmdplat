@@ -88,98 +88,98 @@
     </select>
     
     <select id="queryResources" resultType="com.kira.emercmdplat.pojo.DataType" parameterType="java.util.Map">
-    	select id,name,type,t_name typeName,icon,maintenanceCompany,lng,lat,cellNum,PIC,addr,contactsId
+    	select id,name,type,t_name typeName,icon,maintenanceCompany,lng,lat,cellNum,pic,addr,contactsId
     	from 
 		(
 		<if test="dId == 1">
 			(select h_id id,h_name name,h_type type,h_maintenance_company maintenanceCompany,
-			h_lng lng,h_lat lat,h_cell_num cellNum,h_PIC PIC,h_addr addr,h_contactsId contactsId
+			h_lng lng,h_lat lat,h_cell_num cellNum,h_PIC pic,h_addr addr,h_contactsId contactsId
 			from hazard_source)
 		</if>
 		<if test="dId == 3">
 			(select p_id id,p_name name,p_type type,p_maintenance_company maintenanceCompany,
-			p_lng lng,p_lat lat,p_cell_num cellNum,p_PIC PIC,p_addr addr,p_contactsId contactsId
+			p_lng lng,p_lat lat,p_cell_num cellNum,p_PIC pic,p_addr addr,p_contactsId contactsId
 			from protection_target)
 		</if>
 		<if test="dId == 5">
 			(select et_id id,et_name name,et_type type,et_maintenance_company maintenanceCompany,
-			et_lng lng,et_lat lat,et_cell_num cellNum,et_PIC PIC,et_addr addr,et_contactsId contactsId
+			et_lng lng,et_lat lat,et_cell_num cellNum,et_PIC pic,et_addr addr,et_contactsId contactsId
 			from emergency_team)
 		</if>
 		<if test="dId == 7">
 			(select m_id id,m_name name,m_type type,m_maintenance_company maintenanceCompany,
-			m_lng lng,m_lat lat,m_cell_num cellNum,m_PIC PIC,m_addr addr,m_contactsId contactsId
+			m_lng lng,m_lat lat,m_cell_num cellNum,m_PIC pic,m_addr addr,m_contactsId contactsId
 			from medical_institution)
 		</if>
 		<if test="dId == 9">
 			(select s_id id,s_name name,s_type type,s_maintenance_company maintenanceCompany,
-			s_lng lng,s_lat lat,s_cell_num cellNum,s_PIC PIC,s_addr addr,s_contactsId contactsId
+			s_lng lng,s_lat lat,s_cell_num cellNum,s_PIC pic,s_addr addr,s_contactsId contactsId
 			from shelter)
 		</if>
 		<if test="dId == 13">
 			(select r_id id,r_name name,r_type type,r_PIC_company maintenanceCompany,
-			r_lng lng,r_lat lat,r_cell_num cellNum,r_PIC PIC,r_addr addr,r_contactsId contactsId
+			r_lng lng,r_lat lat,r_cell_num cellNum,r_PIC pic,r_addr addr,r_contactsId contactsId
 			from reserve_library)
 		</if>
 		<if test="dId == 15">
 			(select es_id id,es_name name,es_type type,es_maintenance_company maintenanceCompany,
-			0 lng,0 lat,es_contact_num cellNum,'' PIC,'' addr,0 contactsId
+			0 lng,0 lat,es_contact_num cellNum,'' pic,'' addr,0 contactsId
 			from emergency_supply)
 		</if>
 		<if test="dId == 11">
 			(select e_id id,e_name name,e_type type,e_unit maintenanceCompany,e_lng lng,e_lat lat,
-			e_cell_num cellNum,e_name PIC,e_addr addr,0 contactsId
+			e_cell_num cellNum,e_name pic,e_addr addr,0 contactsId
 			from emergency_expert)
 		</if>
 		<if test="dId == 17">
 			(select ef_id id,ef_name name,ef_type type,ef_maintenance_company maintenanceCompany,0 lng,0 lat,
-			ef_contact_num cellNum,'' PIC,'' addr,0 contactsId
+			ef_contact_num cellNum,'' pic,'' addr,0 contactsId
 			from emergency_fund)
 		</if>
 		<if test="dId == 19">
 			(select t_id id,t_name name,t_type type,t_maintenance_company maintenanceCompany,t_lng lng,t_lat lat,
-			t_cell_num cellNum,t_PIC PIC,t_addr addr,t_contactsId contactsId
+			t_cell_num cellNum,t_PIC pic,t_addr addr,t_contactsId contactsId
 			from transport_unit)
 		</if>
 		<if test="dId == null">
 			(select h_id id,h_name name,h_type type,h_maintenance_company maintenanceCompany,
-			h_lng lng,h_lat lat,h_cell_num cellNum,h_PIC PIC,h_addr addr,h_contactsId contactsId
+			h_lng lng,h_lat lat,h_cell_num cellNum,h_PIC pic,h_addr addr,h_contactsId contactsId
 			from hazard_source)
 			UNION ALL
 			(select p_id id,p_name name,p_type type,p_maintenance_company maintenanceCompany,
-			p_lng lng,p_lat lat,p_cell_num cellNum,p_PIC PIC,p_addr addr,p_contactsId contactsId
+			p_lng lng,p_lat lat,p_cell_num cellNum,p_PIC pic,p_addr addr,p_contactsId contactsId
 			from protection_target)
 			UNION ALL
 			(select et_id id,et_name name,et_type type,et_maintenance_company maintenanceCompany,
-			et_lng lng,et_lat lat,et_cell_num cellNum,et_PIC PIC,et_addr addr,et_contactsId contactsId
+			et_lng lng,et_lat lat,et_cell_num cellNum,et_PIC pic,et_addr addr,et_contactsId contactsId
 			from emergency_team)
 			UNION ALL
 			(select m_id id,m_name name,m_type type,m_maintenance_company maintenanceCompany,
-			m_lng lng,m_lat lat,m_cell_num cellNum,m_PIC PIC,m_addr addr,m_contactsId contactsId
+			m_lng lng,m_lat lat,m_cell_num cellNum,m_PIC pic,m_addr addr,m_contactsId contactsId
 			from medical_institution)
 			UNION ALL
 			(select s_id id,s_name name,s_type type,s_maintenance_company maintenanceCompany,
-			s_lng lng,s_lat lat,s_cell_num cellNum,s_PIC PIC,s_addr addr,s_contactsId contactsId
+			s_lng lng,s_lat lat,s_cell_num cellNum,s_PIC pic,s_addr addr,s_contactsId contactsId
 			from shelter)
 			UNION ALL
 			(select r_id id,r_name name,r_type type,r_PIC_company maintenanceCompany,
-			r_lng lng,r_lat lat,r_cell_num cellNum,r_PIC PIC,r_addr addr,r_contactsId contactsId
+			r_lng lng,r_lat lat,r_cell_num cellNum,r_PIC pic,r_addr addr,r_contactsId contactsId
 			from reserve_library)
 			UNION ALL
 			(select es_id id,es_name name,es_type type,es_maintenance_company maintenanceCompany,
-			0 lng,0 lat,es_contact_num cellNum,'' PIC,'' addr,0 contactsId
+			0 lng,0 lat,es_contact_num cellNum,'' pic,'' addr,0 contactsId
 			from emergency_supply)
 			UNION ALL
 			(select e_id id,e_name name,e_type type,e_unit maintenanceCompany,e_lng lng,e_lat lat,
-			e_cell_num cellNum,e_name PIC,e_addr addr,0 contactsId
+			e_cell_num cellNum,e_name pic,e_addr addr,0 contactsId
 			from emergency_expert)
 			UNION ALL
 			(select ef_id id,ef_name name,ef_type type,ef_maintenance_company maintenanceCompany,0 lng,0 lat,
-			ef_contact_num cellNum,'' PIC,'' addr,0 contactsId
+			ef_contact_num cellNum,'' pic,'' addr,0 contactsId
 			from emergency_fund)
 			UNION ALL
 			(select t_id id,t_name name,t_type type,t_maintenance_company maintenanceCompany,t_lng lng,t_lat lat,
-			t_cell_num cellNum,t_PIC PIC,t_addr addr,t_contactsId contactsId
+			t_cell_num cellNum,t_PIC pic,t_addr addr,t_contactsId contactsId
 			from transport_unit)
 		</if>
 		) t,e_type t2
