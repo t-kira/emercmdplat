@@ -9,6 +9,7 @@ import com.kira.emercmdplat.pojo.TaskExtend;
 import com.kira.emercmdplat.pojo.Feedback;
 import com.kira.emercmdplat.service.TaskService;
 import com.kira.emercmdplat.utils.DateUtil;
+import com.kira.emercmdplat.utils.StringUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
             }
             if (taskExtend.getContactList() != null && taskExtend.getContactList().size() > 0) {
                 for (JSONObject json : taskExtend.getContactList()) {
-                    taskExtend.setContactName(json.getString("contactName"));
+                    taskExtend.setContactName(StringUtil.toStr(json.get("contactName")));
                     taskExtend.setTelephone(json.getString("telephone"));
                     tm.insert(taskExtend);
                 }
