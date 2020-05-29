@@ -24,7 +24,7 @@ public class LeaderInstruct{
      */
     private String instructContent;
     /**
-     * 批示状态
+     * 批示状态 0：已批示 1：未批示
      */
     private Integer instructStatus;
     /**

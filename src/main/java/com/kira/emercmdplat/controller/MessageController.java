@@ -99,6 +99,7 @@ public class MessageController extends BaseController {
     @ResponseBody
     @PostMapping(value = "add_leader_instruct")
     public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstructExtend leaderInstructExtend) {
+        leaderInstructExtend.setInstructStatus(0);
         leaderInstructExtend.setInstructTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         int result = lis.insert(leaderInstructExtend);
         if (result > 0) {
