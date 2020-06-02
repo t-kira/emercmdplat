@@ -1,18 +1,20 @@
 package com.kira.emercmdplat.service.impl;
 
+import com.kira.emercmdplat.config.WebSecurityConfig;
 import com.kira.emercmdplat.mapper.ContactMapper;
-import com.kira.emercmdplat.pojo.Contacts;
-import com.kira.emercmdplat.pojo.ContactsExtend;
-import com.kira.emercmdplat.pojo.ContactsResult;
-import com.kira.emercmdplat.pojo.Group;
+import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 
+import com.kira.emercmdplat.utils.DateUtil;
+import com.kira.emercmdplat.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author: kira
@@ -103,7 +105,47 @@ public class ContactServiceImpl implements ContactService {
         return cm.selectGroupById(id);
     }
 	@Override
-	public ContactsResult selectByUserName(String username) {
+	public Contacts selectByUserName(String username) {
 		return cm.selectByUserName(username);
 	}
+
+    @Override
+    public TokenVO createToken(Contacts contacts) {
+        //用UUID生成token
+        String token = UUID.randomUUID().toString();
+        //当前时间
+        String now = DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss");
+        //过期时间
+        String expireTime = DateUtil.getExpireTime(now, WebSecurityConfig.EXPIRE);
+        Contacts newContact = new Contacts();
+        newContact.setId(contacts.getId());
+        //保存到数据库
+        newContact.setLoginTime(now);
+        newContact.setExpireTime(expireTime);
+        newContact.setToken(token);
+        cm.update(newContact);
+        TokenVO tokenVO = new TokenVO();
+        tokenVO.setToken(token);
+        tokenVO.setExpireTime(expireTime);
+        return tokenVO;
+    }
+
+    @Override
+    public Contacts findByToken(String token) {
+        return cm.findByToken(token);
+    }
+
+    @Override
+    public void logout(String token) {
+        Contacts contacts = cm.findByToken(token);
+        //用UUID生成token
+        token = UUID.randomUUID().toString();
+        contacts.setToken(token);
+        cm.update(contacts);
+    }
+
+    @Override
+    public List<Permission> findPermissionsByCid(Long cid) {
+        return cm.findPermissionsByCid(cid);
+    }
 }

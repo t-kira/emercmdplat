@@ -7,6 +7,7 @@
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
         <result column="pv_name" property="pvName" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="VARCHAR"/>
         <result column="pv_id" property="pvId" jdbcType="INTEGER"/>
         <result column="pr_id" property="prId" jdbcType="INTEGER"/>
         <result column="vr_id" property="vrId" jdbcType="INTEGER"/>
@@ -14,7 +15,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    r.id, r.e_id, r.status, pt.pt_name, pv.pv_name, pv.pv_id, vr.id as vr_id, pr.pr_id, pr.pr_level
+    r.id, r.e_id, r.status, r.start_time, pt.pt_name, pv.pv_name, pv.pv_id, vr.id as vr_id, pr.pr_id, pr.pr_level
     </sql>
     <sql id="Basic_Conditions">
 <!--        <![CDATA[where 1=1 ]]>-->
@@ -23,8 +24,8 @@
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.ReservePlan" useGeneratedKeys="true" keyProperty="id">
-        insert into reserve_plan (id, e_id, status)
-        values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+        insert into reserve_plan (id, e_id, status, start_time)
+        values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{startTime,jdbcType=VARCHAR})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
       DELETE reserve_plan
@@ -38,6 +39,9 @@
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="start_time != null">
+                start_time = #{startTime,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

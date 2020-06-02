@@ -64,7 +64,6 @@ public class DateUtil {
         return d;
     }
 
-
     public static String changeFormat(String dateStr) {
         String d = "";
         try {
@@ -166,6 +165,23 @@ public class DateUtil {
         return DateUtil.formatDate(date, format);
     }
 
+    public static String getExpireTime(String dateStr, int hour) {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date_a = null;
+        try {
+            date_a = sf.parse(dateStr);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date_a);
+            cal.add(Calendar.HOUR, hour);
+            Date date = cal.getTime();
+            return DateUtil.formatDate(date, "yyyy-MM-dd HH:mm:ss");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
     public static String getQYDateNew(String dateStr, String format, int day) {
         SimpleDateFormat sf = new SimpleDateFormat(format);
         Date date_a = null;
@@ -213,5 +229,15 @@ public class DateUtil {
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(new Date(Long.valueOf(seconds)));
+    }
+
+    public static boolean isBefore(String expireTime) {
+        Date expireDate = stringToDate(expireTime, "yyyy-MM-dd HH:mm:ss");
+        Date now = getNowDate();
+        if ((expireDate.getTime() - now.getTime()) > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

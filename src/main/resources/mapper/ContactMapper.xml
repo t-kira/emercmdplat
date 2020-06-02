@@ -28,12 +28,46 @@
         <result column="g_name" property="gName" jdbcType="VARCHAR"/>
         <result column="person_attribute" property="personAttribute" jdbcType="INTEGER"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ContactResultMap" type="com.kira.emercmdplat.pojo.Contacts">
+        <id column="c_id" property="id" jdbcType="INTEGER"/>
+        <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="INTEGER"/>
+        <result column="j_id" property="jId" jdbcType="INTEGER"/>
+        <result column="m_id" property="mId" jdbcType="INTEGER"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="backup_phone" property="backupPhone" jdbcType="VARCHAR"/>
+        <result column="terminal" property="terminal" jdbcType="VARCHAR"/>
+        <result column="work_phone" property="workPhone" jdbcType="VARCHAR"/>
+        <result column="home_phone" property="homePhone" jdbcType="VARCHAR"/>
+        <result column="other_phone" property="otherPhone" jdbcType="VARCHAR"/>
+        <result column="fax_number" property="faxNumber" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="importance_degree" property="importanceDegree" jdbcType="INTEGER"/>
+        <result column="photo" property="photo" jdbcType="VARCHAR"/>
+        <result column="notes" property="notes" jdbcType="VARCHAR"/>
+        <result column="lng" property="lng" jdbcType="DOUBLE"/>
+        <result column="lat" property="lat" jdbcType="DOUBLE"/>
+        <result column="g_id" property="gId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="person_attribute" property="personAttribute" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="login_time" property="loginTime" jdbcType="VARCHAR"/>
+        <result column="expire_time" property="expireTime" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="GroupResultMap" type="com.kira.emercmdplat.pojo.Group">
         <id column="g_id" property="id" jdbcType="BIGINT"/>
         <result column="g_name" property="gName" jdbcType="VARCHAR"/>
         <result column="super_g_id" property="superGid" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="PermissionResultMap" type="com.kira.emercmdplat.pojo.Permission">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="p_name" property="pName" jdbcType="VARCHAR"/>
+        <result column="p_value" property="pValue" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
         c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
@@ -177,6 +211,15 @@
             <if test="updateTime != null">
                 update_time = #{updateTime, jdbcType=VARCHAR},
             </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime, jdbcType=VARCHAR},
+            </if>
+            <if test="expireTime != null">
+                expire_time = #{expireTime, jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                token = #{token, jdbcType=VARCHAR},
+            </if>
         </set>
         where c_id = #{id,jdbcType=INTEGER}
     </update>
@@ -248,10 +291,20 @@
     <select id="selectGroup" resultMap="GroupResultMap" parameterType="com.kira.emercmdplat.pojo.Group">
         select g_id, g_name, super_g_id from contact_group
     </select>
-    <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <select id="selectByUserName" resultMap="ContactResultMap" parameterType="java.lang.String">
     	select
-        <include refid="Base_Column_List"/>
-        from contacts c, job j, mechanism m , contact_group g
-        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and c.username=#{username}
+        *
+        from contacts
+        where username=#{username}
+    </select>
+    <select id="findByToken" resultMap="ContactResultMap" parameterType="java.lang.String">
+    	select
+        *
+        from contacts
+        where token = #{token, jdbcType=VARCHAR}
+    </select>
+    <select id="findPermissionsByCid" resultMap="PermissionResultMap" parameterType="java.lang.Long">
+        select p.* from contacts c, role_permission rp, permission p
+        where c.role_id = rp.role_id and rp.permission_id = p.id and c.c_id = #{cid,jdbcType=BIGINT}
     </select>
 </mapper>

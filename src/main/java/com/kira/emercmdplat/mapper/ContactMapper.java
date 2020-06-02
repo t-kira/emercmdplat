@@ -1,9 +1,6 @@
 package com.kira.emercmdplat.mapper;
 
-import com.kira.emercmdplat.pojo.Contacts;
-import com.kira.emercmdplat.pojo.ContactsExtend;
-import com.kira.emercmdplat.pojo.ContactsResult;
-import com.kira.emercmdplat.pojo.Group;
+import com.kira.emercmdplat.pojo.*;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +41,10 @@ public interface ContactMapper {
     boolean updateGroup(Group group);
 
     Group selectGroupById(Long id);
-    
-    ContactsResult selectByUserName(String username);
+
+    Contacts selectByUserName(String username);
+
+    Contacts findByToken(String token);
+
+    List<Permission> findPermissionsByCid(Long cid);
 }

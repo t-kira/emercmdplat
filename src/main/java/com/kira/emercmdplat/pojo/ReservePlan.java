@@ -14,5 +14,7 @@ public class ReservePlan {
 
     private Long eid;
 
+    private String startTime;
+
     private Integer status;
 }

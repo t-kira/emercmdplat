@@ -3,6 +3,8 @@ package com.kira.emercmdplat.pojo;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author: kira
  * @Date: 2020/4/21 22:26
@@ -67,9 +69,15 @@ public class Contacts extends BaseObject {
     private String username;
     @ApiComment(value = "登录密码", sample = "123")
     private String password;
-    
+
     private String commonIcon = host + "/img/contacts-common.png";
 
 	private String activeIcon = host + "/img/contacts-active.png";
+
+	private String loginTime;
+
+	private String expireTime;
+
+	private String token;
 
 }

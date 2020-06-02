@@ -9,7 +9,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  */
 public enum ReservePlanStatus implements BaseEnum<ReservePlanStatus> {
 
-    UNEDIT(0,"未编辑"),UNSTART(1, "未启动"), START(2, "已启动"),STOP(3, "终止");
+    UNEDIT(0,"未编辑"),UNSTART(1, "未启动"), START(2, "已启动"),STOP(3, "终止"), ADJUST(4, "调整");
 
     private Integer PLAN_Code;
 
@@ -53,6 +53,10 @@ public enum ReservePlanStatus implements BaseEnum<ReservePlanStatus> {
                 return UNSTART;
             case 2:
                 return START;
+            case 3:
+                return STOP;
+            case 4:
+                return ADJUST;
             default:
                 throw new RuntimeException("无法识别的状态");
         }
