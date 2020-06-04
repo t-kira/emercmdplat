@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.PlanVersionApprovalMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.PlanVersionApproval">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="pv_id" property="pvId" jdbcType="INTEGER"/>
+        <result column="submitter" property="submitter" jdbcType="INTEGER"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="examiner" property="examiner" jdbcType="INTEGER"/>
+        <result column="examineTime" property="examineTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="opinion" property="opinion" jdbcType="VARCHAR"/>
+        <result column="submitterName" property="submitterName" jdbcType="VARCHAR"/>
+        <result column="examinerName" property="examinerName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    pva.id, pva.pv_id, pva.submitter, pva.createTime, pva.examiner, pva.examineTime, pva.status, pva.opinion,
+    c1.c_name submitterName, c2.c_name examinerName
+  	</sql>
+    <sql id="Basic_Conditions">
+        <![CDATA[where 1=1 ]]>
+        <if test="id != null">
+            and id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="pvId != null">
+            and pv_id = #{pvId,jdbcType=INTEGER}
+        </if>
+        <if test="submitter != null">
+            and submitter = #{submitter,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null">
+            and createTime = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="examiner != null">
+            and examiner = #{examiner,jdbcType=INTEGER}
+        </if>
+        <if test="examineTime != null">
+            and examineTime = #{examineTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="status != null">
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="opinion != null">
+            and opinion = #{opinion,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanVersionApproval">
+    insert into plan_version_approval (id, pv_id, submitter, createTime, examiner, examineTime, status, opinion)
+    values (#{id,jdbcType=INTEGER}, #{pvId,jdbcType=INTEGER}, #{submitter,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+    #{examiner,jdbcType=INTEGER}, #{examineTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{opinion,jdbcType=VARCHAR})
+  </insert>
+    <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanVersionApproval">
+    DELETE from plan_version_approval
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanVersionApproval">
+        update plan_version_approval
+        <set>
+            <if test="pvId != null">
+                pv_id = #{pvId,jdbcType=INTEGER},
+            </if>
+            <if test="submitter != null">
+                submitter = #{submitter,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="examiner != null">
+                examiner = #{examiner,jdbcType=INTEGER},
+            </if>
+            <if test="examineTime != null">
+                examineTime = #{examineTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+            	status = #{status,jdbcType=VARCHAR},
+        	</if>
+        	<if test="opinion != null">
+            	opinion = #{opinion,jdbcType=VARCHAR},
+        	</if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_version_approval pva
+        left join contacts c1 on pva.submitter = c1.c_id
+        left join contacts c2 on pva.examiner = c2.c_id
+        where pva.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.PlanVersionApproval">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_version_approval pva
+        left join contacts c1 on pva.submitter = c1.c_id
+        left join contacts c2 on pva.examiner = c2.c_id
+        <include refid="Basic_Conditions"/>
+        order by pva.id
+    </select>
+
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from plan_version_approval pva
+        left join contacts c1 on pva.submitter = c1.c_id
+        left join contacts c2 on pva.examiner = c2.c_id
+        <include refid="Basic_Conditions"/>
+        order by pva.id
+        limit ${index}, ${pageSize}
+    </select>
+
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.PlanVersionApproval">
+        select count(id)
+        from plan_version_approval
+        <include refid="Basic_Conditions"/>
+    </select>
+
+</mapper>

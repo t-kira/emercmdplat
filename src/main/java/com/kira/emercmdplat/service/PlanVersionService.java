@@ -9,6 +9,7 @@ import com.kira.emercmdplat.pojo.PlanResponseFlow;
 import com.kira.emercmdplat.pojo.PlanResponseFlowTask;
 import com.kira.emercmdplat.pojo.PlanResponseGuard;
 import com.kira.emercmdplat.pojo.PlanVersion;
+import com.kira.emercmdplat.pojo.PlanVersionApproval;
 import com.kira.emercmdplat.utils.Node;
 
 public interface PlanVersionService {
@@ -78,5 +79,11 @@ public interface PlanVersionService {
 	PlanResponse getResponseById(Integer id);
 
 	void updateReponse(PlanResponse planResponse);
+	
+	void insertPlanVersionApproval(PlanVersionApproval planVersionApproval);
+	
+	void updatePlanVersionApproval(PlanVersionApproval planVersionApproval);
+	
+	List<PlanVersionApproval> listPlanVersionApprovals(int pvId);
 
 }

@@ -2,6 +2,7 @@ package com.kira.emercmdplat.controller;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +31,7 @@ import com.kira.emercmdplat.pojo.PlanResponseFlowTask;
 import com.kira.emercmdplat.pojo.PlanResponseGuard;
 import com.kira.emercmdplat.pojo.PlanTag;
 import com.kira.emercmdplat.pojo.PlanVersion;
+import com.kira.emercmdplat.pojo.PlanVersionApproval;
 import com.kira.emercmdplat.pojo.PlanVersionResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.DataTypeService;
@@ -136,6 +138,7 @@ public class PlanVersionController extends BaseController {
 	public int insertVersion(@ApiComment(value="插入预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
 		String nowStr = DateUtil.getNowStr("yyyy-MM-dd hh:mm:ss");
 		planVersion.setCreateTime(nowStr);
+		planVersion.setStatus(0);//编制中
 		int id = planVersionService.insertVersion(planVersion);
 		return id;
 	}
@@ -144,7 +147,7 @@ public class PlanVersionController extends BaseController {
 	@ApiComment("修改预案，参数类型参见列出预案列表")
 	@RequestMapping(name="修改预案",value="/updateVersion",method=RequestMethod.POST)
 	public String updateVersion(@ApiComment(value="修改预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
-		if (planVersion.getStatus() != null && planVersion.getStatus() == 1) {
+		if (planVersion.getStatus() != null && planVersion.getStatus() == 4) {//已发布
 			String nowStr = DateUtil.getNowStr("yyyy-MM-dd hh:mm:ss");
 			planVersion.setPubTime(nowStr);
 		}
@@ -422,5 +425,42 @@ public class PlanVersionController extends BaseController {
 		planVersionService.deleteCatalog(id);
 		return "success";
 	}
-
+	
+	@Api2Doc(order = 35)
+    @ApiComment(value="提交预案审核")
+	@RequestMapping(name="提交预案审核",value="/insertPlanVersionApproval",method=RequestMethod.POST)
+	public String insertPlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval) {
+		planVersionApproval.setCreateTime(new Date());
+		planVersionService.insertPlanVersionApproval(planVersionApproval);
+		PlanVersion planVersion = new PlanVersion();
+		planVersion.setId(planVersionApproval.getPvId());
+		planVersion.setStatus(1);//审核中
+		planVersionService.updateVersion(planVersion);
+		return "success";
+	}
+	
+	@Api2Doc(order = 36)
+    @ApiComment(value="预案审核")
+	@RequestMapping(name="预案审核",value="/updatePlanVersionApproval",method=RequestMethod.POST)
+	public String updatePlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval) {
+		planVersionApproval.setExamineTime(new Date());
+		planVersionService.updatePlanVersionApproval(planVersionApproval);
+		PlanVersion planVersion = new PlanVersion();
+		planVersion.setId(planVersionApproval.getPvId());
+		if (planVersionApproval.getStatus() == 1) {//审核通过
+			planVersion.setStatus(2);
+		} else {//审核不通过
+			planVersion.setStatus(3);
+		}
+		planVersionService.updateVersion(planVersion);
+		return "success";
+	}
+	
+	@Api2Doc(order = 37)
+    @ApiComment(value="列出预案审核")
+	@RequestMapping(name="列出预案审核",value="/listPlanVersionApproval",method=RequestMethod.GET)
+	public List<PlanVersionApproval> listPlanVersionApproval(@ApiComment("预案id") Integer pvId) {
+		List<PlanVersionApproval> list = planVersionService.listPlanVersionApprovals(pvId);
+		return list;
+	}
 }

@@ -14,6 +14,7 @@ import com.kira.emercmdplat.mapper.PlanResponseFlowMapper;
 import com.kira.emercmdplat.mapper.PlanResponseFlowTaskMapper;
 import com.kira.emercmdplat.mapper.PlanResponseGuardMapper;
 import com.kira.emercmdplat.mapper.PlanResponseMapper;
+import com.kira.emercmdplat.mapper.PlanVersionApprovalMapper;
 import com.kira.emercmdplat.mapper.PlanVersionMapper;
 import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.PlanCatalog;
@@ -23,6 +24,7 @@ import com.kira.emercmdplat.pojo.PlanResponseFlow;
 import com.kira.emercmdplat.pojo.PlanResponseFlowTask;
 import com.kira.emercmdplat.pojo.PlanResponseGuard;
 import com.kira.emercmdplat.pojo.PlanVersion;
+import com.kira.emercmdplat.pojo.PlanVersionApproval;
 import com.kira.emercmdplat.service.DataTypeService;
 import com.kira.emercmdplat.service.PlanVersionService;
 import com.kira.emercmdplat.utils.Node;
@@ -54,6 +56,9 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 
 	@Autowired
 	private DataTypeService dataTypeService;
+	
+	@Autowired
+	private PlanVersionApprovalMapper planVersionApprovalMapper;
 
 	@Override
 	public List<PlanVersion> listVersions(PlanVersion planVersion) {
@@ -265,6 +270,23 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	@Override
 	public void updateReponse(PlanResponse planResponse) {
 		planResponseMapper.update(planResponse);
+	}
+
+	@Override
+	public void insertPlanVersionApproval(PlanVersionApproval pojo) {
+		planVersionApprovalMapper.insert(pojo);
+	}
+
+	@Override
+	public void updatePlanVersionApproval(PlanVersionApproval pojo) {
+		planVersionApprovalMapper.update(pojo);
+	}
+
+	@Override
+	public List<PlanVersionApproval> listPlanVersionApprovals(int pvId) {
+		PlanVersionApproval pojo = new PlanVersionApproval();
+		pojo.setPvId(pvId);
+		return planVersionApprovalMapper.queryForAll(pojo);
 	}
 
 }
