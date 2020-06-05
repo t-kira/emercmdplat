@@ -105,7 +105,7 @@ public class ContactServiceImpl implements ContactService {
         return cm.selectGroupById(id);
     }
 	@Override
-	public Contacts selectByUserName(String username) {
+	public ContactsResult selectByUserName(String username) {
 		return cm.selectByUserName(username);
 	}
 
@@ -131,7 +131,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public Contacts findByToken(String token) {
+    public ContactsResult findByToken(String token) {
         return cm.findByToken(token);
     }
 

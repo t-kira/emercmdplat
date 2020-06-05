@@ -42,9 +42,9 @@ public interface ContactMapper {
 
     Group selectGroupById(Long id);
 
-    Contacts selectByUserName(String username);
+    ContactsResult selectByUserName(String username);
 
-    Contacts findByToken(String token);
+    ContactsResult findByToken(String token);
 
     List<Permission> findPermissionsByCid(Long cid);
 }

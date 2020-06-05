@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 
@@ -46,6 +47,8 @@ public class EventController extends BaseController {
     private MessageService mas;
     @Autowired
     private SysLogService sls;
+    @Autowired
+    private ContactService cs;
 
     /**
      * 事件接报
@@ -273,27 +276,6 @@ public class EventController extends BaseController {
         List<PlanResponse> responseList = pvs.listResponses(id,1);
         return AlvesJSONResult.ok(responseList);
     }
-//    /**
-//     * 添加领导批示(弃用5月27日)
-//     * @param leaderInstruct
-//     * @return
-//     */
-//    @MyLog("添加领导批示")
-//    @ResponseBody
-//    @PostMapping(value = "add_leader_instruct")
-//    public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstruct leaderInstruct) {
-//        leaderInstruct.setInstructTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-//        int result = lis.insert(leaderInstruct);
-//        if (result > 0) {
-//            Event event = new Event();
-//            event.setId(leaderInstruct.getEid());
-//            event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
-//            es.update(event);
-//            return AlvesJSONResult.ok(EventProcess.LEADER_INSTRUCT.getNo());
-//        } else {
-//            return AlvesJSONResult.errorMsg("fail insert leader instruct...");
-//        }
-//    }
     /**
      * 领导批示
      * @param eId
@@ -490,18 +472,18 @@ public class EventController extends BaseController {
             //被合并
             coverEvent.setVerifyStatus(EventVerifyStatus.IS_MERGE.getNo());
             es.update(coverEvent);
-            EventDevelopment development = new EventDevelopment();
-            development.setEid(mainEvent.getId());
-            development.setReportContent(coverEvent.getEventDesc());
-            development.setReporter(mainEvent.getReporter());
-            development.setReportTime(coverEvent.getReceiveTime());
-            es.insertDevelopment(development);
+
+            SysLog sysLog = new SysLog();
+            sysLog.setEid(mainEvent.getId());
+            sysLog.setOperation(coverEvent.getEventDesc());
+            sysLog.setUserName(mainEvent.getReporter());
+            sysLog.setCreateTime(coverEvent.getReceiveTime());
+            sls.insert(sysLog);
         } else {
             coverEvent.setVerifyMethod(eventReq.getVerifyMethod());
             coverEvent.setVerifyStatus(eventReq.getVerifyStatus());
             coverEvent.setEventType(eventReq.getEventType());
             coverEvent.setMergeReason(eventReq.getMergeReason());
-//            coverEvent.setProcess(EventProcess.VERIFY_REPORT.getNo());
             if (eventReq.getEventType() == 1) {
                 coverEvent.setProcess(EventProcess.EVENT_FINISH.getNo());
                 coverEvent.setStatus(EventStatus.FINISH.getNo());
@@ -522,15 +504,15 @@ public class EventController extends BaseController {
         EventResult coverEvent = es.selectById(eventReq.getCoverEId());
         EventResult mainEvent = es.selectById(eventReq.getMainEId());
         coverEvent.setMergeReason(eventReq.getMergeReason());
-            //被合并
+        //被合并
         coverEvent.setVerifyStatus(EventVerifyStatus.IS_MERGE.getNo());
         es.update(coverEvent);
-        EventDevelopment development = new EventDevelopment();
-        development.setEid(mainEvent.getId());
-        development.setReportContent(coverEvent.getEventDesc());
-        development.setReporter(mainEvent.getReporter());
-        development.setReportTime(coverEvent.getReceiveTime());
-        es.insertDevelopment(development);
+        SysLog sysLog = new SysLog();
+        sysLog.setEid(mainEvent.getId());
+        sysLog.setOperation(coverEvent.getEventDesc());
+        sysLog.setUserName(mainEvent.getReporter());
+        sysLog.setCreateTime(coverEvent.getReceiveTime());
+        sls.insert(sysLog);
         return AlvesJSONResult.ok();
     }
     /**
@@ -543,5 +525,24 @@ public class EventController extends BaseController {
     public AlvesJSONResult sysLogList(@PathVariable Long eid) {
         List<SysLog> list = sls.selectByEid(eid);
         return AlvesJSONResult.ok(list);
+    }
+    /**
+     * 情况更新
+     * @param sysLog
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("sys_log_add")
+    public AlvesJSONResult sysLogInsert(@RequestBody SysLog sysLog, HttpServletRequest request) {
+        String token = TokenUtil.getRequestToken(request);
+        Contacts contacts = cs.findByToken(token);
+        sysLog.setUserName(contacts.getContactName());
+        int result = sls.insert(sysLog);
+        if (result > 0) {
+            return AlvesJSONResult.ok("success insert ...");
+        } else {
+            return AlvesJSONResult.errorMsg("fail insert ....");
+        }
     }
 }

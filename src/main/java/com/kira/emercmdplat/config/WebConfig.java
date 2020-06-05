@@ -40,6 +40,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> patterns = new ArrayList();
         patterns.add("/login");
+        patterns.add("/app/login");
         registry.addInterceptor(interceptor).addPathPatterns("/**")
                 .excludePathPatterns(patterns);
     }

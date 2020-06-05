@@ -23,12 +23,13 @@ public class LoginController {
 	@Autowired
 	private ContactService contactService;
 
+	@ResponseBody
     @PostMapping(value = "login")
 	public AlvesJSONResult login(@RequestBody Contacts contacts,HttpServletRequest request) {
     	if (null == contacts.getUsername() || null == contacts.getPassword()) {
             return AlvesJSONResult.errorMsg("用户名密码不能为空");
         }
-    	Contacts user = contactService.selectByUserName(contacts.getUsername());
+    	ContactsResult user = contactService.selectByUserName(contacts.getUsername());
     	if (user == null || !StringUtil.isEq(user.getPassword(), MD52.MD5Encode(contacts.getPassword()))) {
     		return AlvesJSONResult.errorMsg("用户名或密码错误");
     	} else {
@@ -38,6 +39,7 @@ public class LoginController {
 			JSONObject json = new JSONObject();
 			json.put("permissionList", permissionList);
 			json.put("token", tokenVo);
+			json.put("user", user);
 			return AlvesJSONResult.ok(json);
 		}
     }
