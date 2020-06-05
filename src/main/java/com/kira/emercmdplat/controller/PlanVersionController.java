@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +44,7 @@ import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.Node;
 import com.kira.emercmdplat.utils.PropertiesUtils;
+import com.kira.emercmdplat.utils.TokenUtil;
 import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -429,7 +432,9 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 35)
     @ApiComment(value="提交预案审核")
 	@RequestMapping(name="提交预案审核",value="/insertPlanVersionApproval",method=RequestMethod.POST)
-	public String insertPlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval) {
+	public String insertPlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval, HttpServletRequest request) {
+		int userId = getLoginUser(request);
+		planVersionApproval.setSubmitter(userId);
 		planVersionApproval.setCreateTime(new Date());
 		planVersionService.insertPlanVersionApproval(planVersionApproval);
 		PlanVersion planVersion = new PlanVersion();
@@ -439,10 +444,24 @@ public class PlanVersionController extends BaseController {
 		return "success";
 	}
 	
+	private int getLoginUser(HttpServletRequest request) {
+		String token = TokenUtil.getRequestToken(request);
+        if (StringUtils.isBlank(token)) {
+            return -1;
+        }
+        ContactsResult userEntity = contactService.findByToken(token);
+        if (userEntity == null) {
+            return -1;
+        }
+		return userEntity.getId().intValue();
+	}
+
 	@Api2Doc(order = 36)
     @ApiComment(value="预案审核")
 	@RequestMapping(name="预案审核",value="/updatePlanVersionApproval",method=RequestMethod.POST)
-	public String updatePlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval) {
+	public String updatePlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval, HttpServletRequest request) {
+		int userId = getLoginUser(request);
+		planVersionApproval.setExaminer(userId);
 		planVersionApproval.setExamineTime(new Date());
 		planVersionService.updatePlanVersionApproval(planVersionApproval);
 		PlanVersion planVersion = planVersionService.getPlanVerionById(planVersionApproval.getPvId());
@@ -464,5 +483,13 @@ public class PlanVersionController extends BaseController {
 	public List<PlanVersionApproval> listPlanVersionApproval(@ApiComment("预案id") Integer pvId) {
 		List<PlanVersionApproval> list = planVersionService.listPlanVersionApprovals(pvId);
 		return list;
+	}
+	
+	@Api2Doc(order = 38)
+    @ApiComment(value="复制组织")
+	@RequestMapping(name="复制组织",value="/copyOrg",method=RequestMethod.GET)
+	public String copyOrg(@ApiComment("预案id") Integer pvId) {
+		planVersionService.copyOrg(pvId);
+		return "success";
 	}
 }

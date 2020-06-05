@@ -85,5 +85,7 @@ public interface PlanVersionService {
 	void updatePlanVersionApproval(PlanVersionApproval planVersionApproval);
 	
 	List<PlanVersionApproval> listPlanVersionApprovals(int pvId);
+	
+	void copyOrg(int pvId);
 
 }

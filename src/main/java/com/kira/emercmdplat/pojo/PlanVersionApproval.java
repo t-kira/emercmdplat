@@ -21,11 +21,17 @@ public class PlanVersionApproval {
 	@ApiComment(value = "提交时间", sample = "1")
 	private Date createTime;
 	
+	@ApiComment(value = "显示提交时间", sample = "1")
+	private String sCreateTime;
+	
 	@ApiComment(value = "审核人", sample = "1")
 	private Integer examiner;
 	
 	@ApiComment(value = "审核时间", sample = "1")
 	private Date examineTime;
+	
+	@ApiComment(value = "显示审核时间", sample = "1")
+	private String sExamineTime;
 	
 	@ApiComment(value = "审核状态 1通过 2未通过", sample = "1")
 	private Integer status;

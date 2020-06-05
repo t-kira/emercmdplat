@@ -13,7 +13,7 @@
 
     <sql id="Base_Column_List">
     po_id, po_name, po_type, po_duty, po_d_ids, po_parent_id, po_pv_id
-  </sql>
+  	</sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
         <if test="id != null">
@@ -42,11 +42,11 @@
     insert into plan_org (po_id, po_name, po_type, po_duty, po_d_ids, po_parent_id, po_pv_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{duty,jdbcType=VARCHAR}, #{userIds,jdbcType=VARCHAR},
     #{parentId,jdbcType=INTEGER}, #{pvId,jdbcType=INTEGER})
-  </insert>
+  	</insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanOrg">
     DELETE from plan_org
     where po_id = #{id,jdbcType=INTEGER}
-  </update>
+  	</update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanOrg">
         update plan_org
         <set>
@@ -99,5 +99,9 @@
         from plan_org
         <include refid="Basic_Conditions"/>
     </select>
+    
+    <insert id="copyOrg" parameterType="int" statementType="CALLABLE">
+		{call copy_plan_org(#{pvId,mode=IN,jdbcType=INTEGER})}
+	</insert>
 
 </mapper>

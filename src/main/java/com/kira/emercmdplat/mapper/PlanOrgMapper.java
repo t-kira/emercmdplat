@@ -9,5 +9,7 @@ import com.kira.emercmdplat.pojo.PlanOrg;
  * @Description:危险源mapper
  */
 public interface PlanOrgMapper extends BaseMapper<PlanOrg> {
-
+	
+	void copyOrg(int pvId);
+	
 }

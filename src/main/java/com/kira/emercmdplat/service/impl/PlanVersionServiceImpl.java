@@ -289,4 +289,9 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 		return planVersionApprovalMapper.queryForAll(pojo);
 	}
 
+	@Override
+	public void copyOrg(int pvId) {
+		planOrgMapper.copyOrg(pvId);
+	}
+
 }

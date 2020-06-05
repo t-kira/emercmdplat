@@ -5,9 +5,9 @@
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="pv_id" property="pvId" jdbcType="INTEGER"/>
         <result column="submitter" property="submitter" jdbcType="INTEGER"/>
-        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="createTime" property="sCreateTime" jdbcType="VARCHAR"/>
         <result column="examiner" property="examiner" jdbcType="INTEGER"/>
-        <result column="examineTime" property="examineTime" jdbcType="TIMESTAMP"/>
+        <result column="examineTime" property="sExamineTime" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="opinion" property="opinion" jdbcType="VARCHAR"/>
         <result column="submitterName" property="submitterName" jdbcType="VARCHAR"/>
@@ -15,7 +15,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    pva.id, pva.pv_id, pva.submitter, pva.createTime, pva.examiner, pva.examineTime, pva.status, pva.opinion,
+    pva.id, pva.pv_id, pva.submitter, DATE_FORMAT(pva.createTime,'%Y-%m-%d %H:%i:%s') createTime, pva.examiner,
+    DATE_FORMAT(pva.examineTime,'%Y-%m-%d %H:%i:%s') examineTime, pva.status, pva.opinion,
     c1.c_name submitterName, c2.c_name examinerName
   	</sql>
     <sql id="Basic_Conditions">
