@@ -1,7 +1,5 @@
 package com.kira.emercmdplat.interceptor;
 
-import com.kira.emercmdplat.config.WebSecurityConfig;
-import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -61,7 +59,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
             return false;
         }
         //1. 根据token，查询用户信息
-        Contacts userEntity = cs.findByToken(token);
+        ContactsResult userEntity = cs.findByToken(token);
         //2. 若用户不存在,
         if (userEntity == null) {
             setReturn(response, 400, "用户不存在");

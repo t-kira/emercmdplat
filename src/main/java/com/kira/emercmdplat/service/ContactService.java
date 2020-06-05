@@ -41,11 +41,11 @@ public interface ContactService {
 
     Group selectGroupById(Long id);
 
-    Contacts selectByUserName(String username);
+    ContactsResult selectByUserName(String username);
 
     TokenVO createToken(Contacts contacts);
 
-    Contacts findByToken(String token);
+    ContactsResult findByToken(String token);
 
     void logout(String token);
 

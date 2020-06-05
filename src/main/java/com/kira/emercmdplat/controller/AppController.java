@@ -6,16 +6,14 @@ import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.impl.TaskServiceImpl;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
-import com.kira.emercmdplat.utils.DateUtil;
-import com.kira.emercmdplat.utils.PropertiesUtils;
-import net.sf.json.JSONArray;
+import com.kira.emercmdplat.utils.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Decoder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,11 +33,29 @@ public class AppController extends BaseController {
 
     @Autowired
     private EventService es;
-
     @Autowired
     private TaskServiceImpl ts;
-
+    @Autowired
     private ContactService cs;
+
+
+    @ResponseBody
+    @PostMapping(value = "login")
+    public AlvesJSONResult login(@RequestBody Contacts contacts, HttpServletRequest request) {
+        if (null == contacts.getUsername() || null == contacts.getPassword()) {
+            return AlvesJSONResult.errorMsg("用户名密码不能为空");
+        }
+        ContactsResult user = cs.selectByUserName(contacts.getUsername());
+        if (user == null || !StringUtil.isEq(user.getPassword(), MD52.MD5Encode(contacts.getPassword()))) {
+            return AlvesJSONResult.errorMsg("用户名或密码错误");
+        } else {
+            TokenVO tokenVo = cs.createToken(user);
+            JSONObject json = new JSONObject();
+            json.put("loginToken", tokenVo);
+            json.put("user", user);
+            return AlvesJSONResult.ok(json);
+        }
+    }
 
     /**
      * 事件查询接口，查询app登录用户所上报的事件列表
@@ -139,14 +155,23 @@ public class AppController extends BaseController {
         feedback.setFeedbackTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         int result = ts.insertFeedback(feedback);
         if (result > 0) {
-            TaskExtend taskExtend = new TaskExtend();
-            taskExtend.setId(feedback.getTaskId());
-            taskExtend.setArriveTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-            taskExtend.setIsArrive(1);
-            ts.update(taskExtend);
             return AlvesJSONResult.ok("success insert...");
         } else {
             return AlvesJSONResult.errorMsg("fail insert...");
+        }
+    }
+    @ResponseBody
+    @GetMapping("arrive/{taskId}")
+    public AlvesJSONResult arrive(@PathVariable Long taskId) {
+        TaskExtend taskExtend = new TaskExtend();
+        taskExtend.setId(taskId);
+        taskExtend.setIsArrive(0);
+        taskExtend.setArriveTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        boolean result = ts.update(taskExtend);
+        if (result) {
+            return AlvesJSONResult.ok("success arrive...");
+        } else {
+            return AlvesJSONResult.errorMsg("fail arrive ...");
         }
     }
 
