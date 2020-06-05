@@ -95,7 +95,7 @@ public class PlanVersion extends BaseObject {
 	private Integer pvaId;
 
 	@ApiComment(value = "预案状态查询条件", sample = "[1,3,5]")
-	private List statusList;
+	private List<Integer> statusList;
 
 	public Integer getId() {
 		return id;
@@ -257,11 +257,11 @@ public class PlanVersion extends BaseObject {
 		this.level = level;
 	}
 
-	public List getStatusList() {
+	public List<Integer> getStatusList() {
 		return statusList;
 	}
 
-	public void setStatusList(List statusList) {
+	public void setStatusList(List<Integer> statusList) {
 		this.statusList = statusList;
 	}
 
