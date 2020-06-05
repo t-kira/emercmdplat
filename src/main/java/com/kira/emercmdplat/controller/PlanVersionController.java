@@ -445,10 +445,12 @@ public class PlanVersionController extends BaseController {
 	public String updatePlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval) {
 		planVersionApproval.setExamineTime(new Date());
 		planVersionService.updatePlanVersionApproval(planVersionApproval);
-		PlanVersion planVersion = new PlanVersion();
-		planVersion.setId(planVersionApproval.getPvId());
+		PlanVersion planVersion = planVersionService.getPlanVerionById(planVersionApproval.getPvId());
 		if (planVersionApproval.getStatus() == 1) {//审核通过
 			planVersion.setStatus(2);
+			String version = planVersion.getVersion();
+			version = String.valueOf(Double.parseDouble(version) +  1);
+			planVersion.setVersion(version);
 		} else {//审核不通过
 			planVersion.setStatus(3);
 		}
