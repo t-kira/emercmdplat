@@ -5,6 +5,7 @@ import com.kira.emercmdplat.pojo.TaskExtend;
 import com.kira.emercmdplat.pojo.Feedback;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kira
@@ -31,7 +32,7 @@ public interface TaskService {
 
     List<Feedback> selectFeedbackByTaskId(Long taskId);
 
-    List<Task> selectByTaskType(Integer taskType);
+    List<Task> selectByTaskType(Map<String, Object> paramMap);
 
     Feedback selectLatestFeedbackByTaskId(Long taskId);
 }

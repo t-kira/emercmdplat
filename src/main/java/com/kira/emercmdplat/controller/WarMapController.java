@@ -5,6 +5,7 @@ import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DistanceUtil;
+import com.kira.emercmdplat.utils.StringUtil;
 import com.kira.emercmdplat.utils.TreeUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,13 +113,16 @@ public class WarMapController {
         return AlvesJSONResult.ok(listJson);
     }
     @ResponseBody
-    @GetMapping("list_task/{eventId}")
-    public AlvesJSONResult taskList(@PathVariable Long eventId) {
-        TaskExtend taskExtend = new TaskExtend();
-        taskExtend.setEventId(eventId);
-        taskExtend.setOrder("id");
-        taskExtend.setOrderType("desc");
-        List<Task> taskList = ts.queryForAll(taskExtend);
+    @GetMapping("list_task")
+    public AlvesJSONResult taskList(Integer dataTypeId, Long eventId) {
+//        TaskExtend taskExtend = new TaskExtend();
+//        taskExtend.setEventId(eventId);
+//        taskExtend.setOrder("id");
+//        taskExtend.setOrderType("desc");
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("dataTypeId", dataTypeId);
+        paramMap.put("eventId", eventId);
+        List<Task> taskList = ts.selectByTaskType(paramMap);
         return AlvesJSONResult.ok(taskList);
     }
 
@@ -131,7 +135,16 @@ public class WarMapController {
             JSONObject json = JSONObject.fromObject(task);
             Feedback feedback = ts.selectLatestFeedbackByTaskId(task.getId());
             if (feedback != null) {
-                json.put("feedback", feedback);
+                JSONObject jsonObject = JSONObject.fromObject(feedback);
+                if (!StringUtil.isEmpty(feedback.getAttachPath())) {
+                    String[] attachArr = feedback.getAttachPath().split(",");
+                    List<String> attachList = new ArrayList<>();
+                    for (String attach : attachArr) {
+                        attachList.add(attach);
+                    }
+                    jsonObject.put("attachList", attachList);
+                }
+                json.put("feedback", jsonObject);
             }
             jsonObjectList.add(json);
         }

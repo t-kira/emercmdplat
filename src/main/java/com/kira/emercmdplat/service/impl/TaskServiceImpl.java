@@ -107,8 +107,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> selectByTaskType(Integer taskType) {
-        return tm.selectByTaskType(taskType);
+    public List<Task> selectByTaskType(Map<String, Object> paramMap) {
+        return tm.selectByTaskType(paramMap);
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.kira.emercmdplat.mapper;
 import com.kira.emercmdplat.pojo.*;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  * @Author: kira
  * @Date: 2020/4/21 22:50
@@ -28,7 +30,7 @@ public interface TaskMapper {
 
     List<Feedback> selectFeedbackByTaskId(Long taskId);
 
-    List<Task> selectByTaskType(Integer taskType);
+    List<Task> selectByTaskType(Map<String, Object> paramMap);
 
     Feedback selectLatestFeedbackByTaskId(Long taskId);
 }
