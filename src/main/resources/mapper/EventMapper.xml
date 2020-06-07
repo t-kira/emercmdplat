@@ -43,6 +43,7 @@
         <result column="pp_id" property="ppId" jdbcType="BIGINT"/>
         <result column="pp_value" property="ppValue" jdbcType="VARCHAR"/>
         <result column="pp_name" property="name" jdbcType="VARCHAR"/>
+        <result column="pp_unit" property="unit" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
     e.e_id, e.event_number, e.event_desc, e.event_title, e.receive_time, e.incident_time, e.incident_location, e.lng, e.lat, e.influence_sphere, e.incident_area_id,
@@ -277,8 +278,17 @@
         insert into event_param(id, e_id, event_number, pp_id, pp_value)
         values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{ppId,jdbcType=INTEGER}, #{ppValue, jdbcType=VARCHAR})
     </insert>
+    <update id="updateParam" parameterType="com.kira.emercmdplat.pojo.EventParam">
+        update event_param
+        <set>
+            <if test="ppValue != null">
+                pp_value = #{ppValue,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
     <select id="selectParamByEId" resultMap="BaseParamResultMap" parameterType="java.lang.Long">
-        select ep.id, ep.e_id, ep.event_number, ep.pp_id, ep.pp_value, pp.pp_name from event_param ep, plan_param pp where ep.pp_id = pp.pp_id and e_id = #{eid,jdbcType=BIGINT}
+        select ep.id, ep.e_id, ep.event_number, ep.pp_id, ep.pp_value, pp.pp_name, pp.pp_unit from event_param ep, plan_param pp where ep.pp_id = pp.pp_id and e_id = #{eid,jdbcType=BIGINT}
     </select>
     <insert id="insertDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">
         insert into event_development(id, e_id, report_time, report_content, reporter)

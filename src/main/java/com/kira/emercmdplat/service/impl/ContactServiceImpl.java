@@ -111,18 +111,22 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public TokenVO createToken(Contacts contacts) {
-        //用UUID生成token
-        String token = UUID.randomUUID().toString();
+        String token = contacts.getToken();
         //当前时间
         String now = DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss");
         //过期时间
         String expireTime = DateUtil.getExpireTime(now, WebSecurityConfig.EXPIRE);
         Contacts newContact = new Contacts();
         newContact.setId(contacts.getId());
-        //保存到数据库
         newContact.setLoginTime(now);
+        //重新生成时间
         newContact.setExpireTime(expireTime);
-        newContact.setToken(token);
+        //登录已过失效时间，重新生成token
+        if (DateUtil.isBefore(contacts.getExpireTime())) {
+            //用UUID生成token
+            token = UUID.randomUUID().toString();
+            newContact.setToken(token);
+        }
         cm.update(newContact);
         TokenVO tokenVO = new TokenVO();
         tokenVO.setToken(token);

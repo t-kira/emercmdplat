@@ -11,4 +11,6 @@ import lombok.Data;
 public class EventParamResult extends EventParam{
 
     private String name;
+
+    private String unit;
 }

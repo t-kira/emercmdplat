@@ -33,10 +33,10 @@ public interface ReservePlanService {
     /**
      * 改，
      *
-     * @param reservePlan
+     * @param reservePlanResult
      * @return
      */
-    boolean update(ReservePlan reservePlan);
+    boolean update(ReservePlanResult reservePlanResult);
 
     /**
      * 根据id查询单个

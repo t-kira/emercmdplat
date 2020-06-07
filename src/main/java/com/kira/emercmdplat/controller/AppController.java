@@ -79,8 +79,8 @@ public class AppController extends BaseController {
     public AlvesJSONResult mechanism(@PathVariable Long contactId) {
         ContactsResult contactsResult = cs.selectById(contactId);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("mId", contactsResult.getMId());
-        resultJson.put("mName", contactsResult.getMName());
+        resultJson.put("mId", contactsResult.getmId());
+        resultJson.put("mName", contactsResult.getmName());
         return AlvesJSONResult.ok(resultJson);
     }
 

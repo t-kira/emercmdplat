@@ -7,7 +7,7 @@ import lombok.Data;
  * @Date: 2020/4/21 22:51
  * @Description:
  */
-@Data
+//@Data
 public class ContactsResult extends Contacts{
 
     private String jName;
@@ -15,4 +15,28 @@ public class ContactsResult extends Contacts{
     private String mName;
 
     private String gName;
+
+    public String getjName() {
+        return jName;
+    }
+
+    public void setjName(String jName) {
+        this.jName = jName;
+    }
+
+    public String getmName() {
+        return mName;
+    }
+
+    public void setmName(String mName) {
+        this.mName = mName;
+    }
+
+    public String getgName() {
+        return gName;
+    }
+
+    public void setgName(String gName) {
+        this.gName = gName;
+    }
 }
