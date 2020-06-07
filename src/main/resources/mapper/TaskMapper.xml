@@ -145,6 +145,9 @@
         from task et
         where 1 = 1
         <include refid="Basic_Conditions"/>
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
     </select>
     <select id="selectByTaskType" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select * from task et, data_type dt
@@ -160,6 +163,9 @@
         from task et, plan_response_flow prf
         where et.prf_id = prf.prf_id
         <include refid="Basic_Conditions"/>
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
         limit ${page}, ${pageSize}
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.TaskExtend">

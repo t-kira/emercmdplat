@@ -91,4 +91,14 @@ public class EventServiceImpl implements EventService {
     public List<EventResult> queryByTitle(Event event) {
         return em.queryByTitle(event);
     }
+
+    @Override
+    public int updateParam(List<EventParam> eventParamList) {
+        if (eventParamList != null && eventParamList.size() >0) {
+            for (EventParam eventParam : eventParamList) {
+                em.updateParam(eventParam);
+            }
+        }
+        return 1;
+    }
 }

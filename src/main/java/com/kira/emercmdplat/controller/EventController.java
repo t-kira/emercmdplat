@@ -375,15 +375,19 @@ public class EventController extends BaseController {
         verifyReport.setPrId(reservePlanResult.getPrId());
         boolean result = vrs.update(verifyReport);
         if (result) {
-            if (reservePlanResult.getStatus() < 0) {
-                reservePlanResult.setStatus(ReservePlanStatus.STOP.getNo());
+            reservePlanResult.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            if (reservePlanResult.getStatus() == ReservePlanStatus.STOP.getNo()) {
+//                reservePlanResult.setStatus(ReservePlanStatus.STOP.getNo());
                 Event event = new Event();
                 event.setId(reservePlanResult.getEid());
                 event.setProcess(EventProcess.EVENT_FINISH.getNo());
                 es.update(event);
-            } else {
-                reservePlanResult.setStatus(ReservePlanStatus.START.getNo());
             }
+//            else if (reservePlanResult.getStatus() == 4) {
+//
+//            }else {
+//                reservePlanResult.setStatus(ReservePlanStatus.START.getNo());
+//            }
             rps.update(reservePlanResult);
             return AlvesJSONResult.ok("ok start...");
         } else {
@@ -409,9 +413,10 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(value = "update")
     @MyLog("更新事件")
-    public AlvesJSONResult update(Event event) {
-        boolean result = es.update(event);
+    public AlvesJSONResult update(@RequestBody EventDomain eventDomain) {
+        boolean result = es.update(eventDomain.getEvent());
         if (result) {
+            es.updateParam(eventDomain.getEventParamList());
             return AlvesJSONResult.ok();
         } else {
             return AlvesJSONResult.errorMsg("fail update...");

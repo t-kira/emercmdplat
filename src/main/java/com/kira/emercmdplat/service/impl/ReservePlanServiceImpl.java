@@ -50,8 +50,8 @@ public class ReservePlanServiceImpl implements ReservePlanService {
      * @return
      */
     @Override
-    public boolean update(ReservePlan reservePlan) {
-        return rpm.update(reservePlan);
+    public boolean update(ReservePlanResult reservePlanResult) {
+        return rpm.update(reservePlanResult);
     }
 
     /**

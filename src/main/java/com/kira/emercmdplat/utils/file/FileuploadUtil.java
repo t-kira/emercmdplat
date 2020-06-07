@@ -51,6 +51,7 @@ public class FileuploadUtil {
                 throw new IOException("目标文件创建失败...");
             }
         }
+        Runtime.getRuntime().exec("chmod 777 -R " + filePath);
         return file;
     }
 

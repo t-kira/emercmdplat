@@ -1,12 +1,12 @@
 package com.kira.emercmdplat.log;
 
 import com.kira.emercmdplat.annotation.MyLog;
-import com.kira.emercmdplat.pojo.Event;
-import com.kira.emercmdplat.pojo.SysLog;
-import com.kira.emercmdplat.pojo.VerifyEventReq;
+import com.kira.emercmdplat.pojo.*;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.SysLogService;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.StringUtil;
+import com.kira.emercmdplat.utils.TokenUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.aspectj.lang.JoinPoint;
@@ -16,7 +16,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
@@ -29,6 +32,8 @@ import java.lang.reflect.Method;
 public class SysLogAspect {
     @Autowired
     private SysLogService sls;
+    @Autowired
+    private ContactService cs;
 
     @Pointcut("@annotation(com.kira.emercmdplat.annotation.MyLog)")
     public void logPointCut() {
@@ -46,6 +51,11 @@ public class SysLogAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         //获取切入点所在的方法
         Method method = signature.getMethod();
+
+        //获取RequestAttributes
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        //从获取RequestAttributes中获取HttpServletRequest的信息
+        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
         //获取操作
         MyLog myLog = method.getAnnotation(MyLog.class);
@@ -75,6 +85,15 @@ public class SysLogAspect {
             } else {
                 eid = coverEId;
             }
+        } else if(arg instanceof EventDomain) {
+            JSONObject eventJson = json.getJSONObject("event");
+            eid = StringUtil.toLongDefValue(StringUtil.toStr(eventJson.get("id")), 0l);
+        } else if(arg instanceof ReservePlanResult) {
+            int status = StringUtil.toIntDefValue(StringUtil.toStr(json.get("status")), 0);
+            if (status == 4) {
+                sysLog.setOperation("调整预案");
+            }
+            eid = StringUtil.toLongDefValue(json.get("eid").toString(), 0l);
         } else {
             eid = StringUtil.toLongDefValue(json.get("eid").toString(), 0l);
         }
@@ -86,7 +105,9 @@ public class SysLogAspect {
         sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         //获取用户名
 //        sysLog.setUserName(ShiroUtils.getUserEntity().getUsername());
-        sysLog.setUserName("kira");
+        String token = TokenUtil.getRequestToken(request);
+        ContactsResult contactsResult = cs.findByToken(token);
+        sysLog.setUserName(contactsResult.getContactName());
 
         //调用service保存SysLog实体类到数据库
         sls.insert(sysLog);
