@@ -110,4 +110,9 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> selectByTaskType(Integer taskType) {
         return tm.selectByTaskType(taskType);
     }
+
+    @Override
+    public Feedback selectLatestFeedbackByTaskId(Long taskId) {
+        return tm.selectLatestFeedbackByTaskId(taskId);
+    }
 }

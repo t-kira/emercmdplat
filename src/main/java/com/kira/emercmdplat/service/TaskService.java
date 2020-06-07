@@ -32,4 +32,6 @@ public interface TaskService {
     List<Feedback> selectFeedbackByTaskId(Long taskId);
 
     List<Task> selectByTaskType(Integer taskType);
+
+    Feedback selectLatestFeedbackByTaskId(Long taskId);
 }

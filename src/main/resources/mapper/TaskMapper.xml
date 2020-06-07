@@ -32,13 +32,16 @@
         <result column="feedback_time" property="feedbackTime" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-        et.id, et.task_title, et.contact_id, et.contact_name, et.telephone,
+        et.id, et.task_title, et.contact_id, et.contact_name, et.telephone, et.event_id,
         et.start_time, et.end_time, et.lng, et.lat, et.address, et.task_content, et.status, et.is_arrive,
         et.task_type, et.data_type_id, et.response_time, et.arrive_time
     </sql>
     <sql id="Basic_Conditions" >
         <if test="id != null" >
           and et.id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="eventId != null">
+            and et.event_id = #{eventId,jdbcType=BIGINT}
         </if>
         <if test="taskTitle != null" >
           and et.task_title = #{taskTitle,jdbcType=VARCHAR}
@@ -63,7 +66,7 @@
         </if>
       </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Task" >
-        insert into task (id, event_id, task_title, prf_id, contact_id, contact_name, telephone, start_time, end_time, lng, lat, address, task_content, status, is_arrive, task_type, data_type_id, )
+        insert into task (id, event_id, task_title, prf_id, contact_id, contact_name, telephone, start_time, end_time, lng, lat, address, task_content, status, is_arrive, task_type, data_type_id)
         values (#{id,jdbcType=BIGINT}, #{eventId, jdbcType=BIGINT}, #{taskTitle,jdbcType=VARCHAR}, #{prfId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{contactName,jdbcType=VARCHAR},
         #{telephone,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
         #{lng, jdbcType=DOUBLE}, #{lat, jdbcType=DOUBLE}, #{address, jdbcType=VARCHAR}, #{taskContent, jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isArrive, jdbcType=INTEGER}, #{taskType, jdbcType=INTEGER}, #{dataTypeId, jdbcType=BIGINT})
@@ -157,6 +160,11 @@
     <select id="selectFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
         select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc
     </select>
+
+    <select id="selectLatestFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
+        select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc limit 1
+    </select>
+
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select
         <include refid="Base_Column_List"/>

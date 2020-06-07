@@ -112,19 +112,29 @@ public class WarMapController {
         return AlvesJSONResult.ok(listJson);
     }
     @ResponseBody
-    @GetMapping("list_task/{taskId}")
-    public AlvesJSONResult eventTaskList(@PathVariable Integer taskId) {
-//        TaskExtend taskExtend = new TaskExtend();
-//        taskExtend.setDataTypeId(tabId);
-        List<Task> taskList = ts.selectByTaskType(taskId);
+    @GetMapping("list_task/{eventId}")
+    public AlvesJSONResult taskList(@PathVariable Long eventId) {
+        TaskExtend taskExtend = new TaskExtend();
+        taskExtend.setEventId(eventId);
+        taskExtend.setOrder("id");
+        taskExtend.setOrderType("desc");
+        List<Task> taskList = ts.queryForAll(taskExtend);
         return AlvesJSONResult.ok(taskList);
     }
-//    @ResponseBody
-//    @GetMapping("list_tab")
-//    public AlvesJSONResult tabList() {
-//        DataType dataType = new DataType();
-//        dataType.setTaskType(1);
-//        List<DataType> dataTypeList = dts.queryForAll(dataType);
-//        return AlvesJSONResult.ok(dataTypeList);
-//    }
+
+    @ResponseBody
+    @PostMapping("new_update_list")
+    public AlvesJSONResult newUpdateList(@RequestBody TaskExtend taskExtend) {
+        List<Task> taskList = ts.queryForAll(taskExtend);
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+        for (Task task : taskList) {
+            JSONObject json = JSONObject.fromObject(task);
+            Feedback feedback = ts.selectLatestFeedbackByTaskId(task.getId());
+            if (feedback != null) {
+                json.put("feedback", feedback);
+            }
+            jsonObjectList.add(json);
+        }
+        return AlvesJSONResult.ok(jsonObjectList);
+    }
 }

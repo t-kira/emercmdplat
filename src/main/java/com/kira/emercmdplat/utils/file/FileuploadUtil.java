@@ -123,7 +123,7 @@ public class FileuploadUtil {
      */
     private static String getDestPath(String childFile, String extName) {
         //规则：  子目录/年月日_随机数.后缀名
-        String sb = childFile + "/"
+        String sb = childFile
                 + DateUtil.getNowTimestamp().getTime()
                 + "." + extName;
         return sb;

@@ -181,13 +181,15 @@ public class EventController extends BaseController {
             JSONObject json = JSONObject.fromObject(quickReport);
 
             // 文件的实际路径
-            String destPath = PropertiesUtils.getInstance().getProperty("ftlPath").toString() + UUID.randomUUID().toString() + ".pdf";
+            String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
             String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
-            String toPath = FilenameUtils.separatorsToSystem(attachmentGainPath + destPath);
+            String uuid = UUID.randomUUID().toString();
+
+            String toPath = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + ".pdf");
             String content = PDFTemplateUtil.freeMarkerRender(json, "/ftlFile/pdf.ftl");
             try {
                 PDFTemplateUtil.createPdf(content, toPath);
-                verifyReport.setQuickReportAddr(destPath);
+                verifyReport.setQuickReportAddr(path + uuid + ".pdf");
                 vrs.update(verifyReport);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -210,6 +212,7 @@ public class EventController extends BaseController {
             ReservePlan reservePlan = new ReservePlan();
             reservePlan.setEid(verifyReport.getEid());
             reservePlan.setStatus(ReservePlanStatus.UNEDIT.getNo());
+            reservePlan.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
             rps.insert(reservePlan);
             return AlvesJSONResult.ok(EventProcess.VERIFY_REPORT.getNo());
         } else {

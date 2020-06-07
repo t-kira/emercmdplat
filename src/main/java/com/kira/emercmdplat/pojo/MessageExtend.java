@@ -13,4 +13,8 @@ public class MessageExtend extends Message{
     private Integer page;
 
     private Integer pageSize;
+
+    private String order;
+
+    private String orderType;
 }

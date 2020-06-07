@@ -64,7 +64,10 @@ public class AppController extends BaseController {
      */
     @ResponseBody
     @PostMapping("query_event")
-    public AlvesJSONResult queryEventList(@RequestBody Event event) {
+    public AlvesJSONResult queryEventList(@RequestBody Event event, HttpServletRequest request) {
+        String token = TokenUtil.getRequestToken(request);
+        ContactsResult contactsResult = cs.findByToken(token);
+        event.setDid(contactsResult.getId());
         List<EventResult> eventResultList = es.queryByTitle(event);
         return AlvesJSONResult.ok(eventResultList);
     }
@@ -114,7 +117,10 @@ public class AppController extends BaseController {
      */
     @ResponseBody
     @PostMapping("list_task")
-    public AlvesJSONResult eventTaskList(@RequestBody TaskExtend taskExtend) {
+    public AlvesJSONResult eventTaskList(@RequestBody TaskExtend taskExtend, HttpServletRequest request) {
+        String token = TokenUtil.getRequestToken(request);
+        ContactsResult contactsResult = cs.findByToken(token);
+        taskExtend.setContactId(contactsResult.getId());
         List<Task> taskList = ts.queryForAll(taskExtend);
         return AlvesJSONResult.ok(taskList);
     }

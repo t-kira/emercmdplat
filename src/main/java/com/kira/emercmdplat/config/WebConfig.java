@@ -41,6 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
         List<String> patterns = new ArrayList();
         patterns.add("/login");
         patterns.add("/app/login");
+        patterns.add("/event/upload");
         registry.addInterceptor(interceptor).addPathPatterns("/**")
                 .excludePathPatterns(patterns);
     }
