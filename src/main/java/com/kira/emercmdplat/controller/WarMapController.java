@@ -5,6 +5,7 @@ import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DistanceUtil;
+import com.kira.emercmdplat.utils.StringUtil;
 import com.kira.emercmdplat.utils.TreeUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,19 +113,41 @@ public class WarMapController {
         return AlvesJSONResult.ok(listJson);
     }
     @ResponseBody
-    @GetMapping("list_task/{taskId}")
-    public AlvesJSONResult eventTaskList(@PathVariable Integer taskId) {
+    @GetMapping("list_task")
+    public AlvesJSONResult taskList(Integer dataTypeId, Long eventId) {
 //        TaskExtend taskExtend = new TaskExtend();
-//        taskExtend.setDataTypeId(tabId);
-        List<Task> taskList = ts.selectByTaskType(taskId);
+//        taskExtend.setEventId(eventId);
+//        taskExtend.setOrder("id");
+//        taskExtend.setOrderType("desc");
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("dataTypeId", dataTypeId);
+        paramMap.put("eventId", eventId);
+        List<Task> taskList = ts.selectByTaskType(paramMap);
         return AlvesJSONResult.ok(taskList);
     }
-//    @ResponseBody
-//    @GetMapping("list_tab")
-//    public AlvesJSONResult tabList() {
-//        DataType dataType = new DataType();
-//        dataType.setTaskType(1);
-//        List<DataType> dataTypeList = dts.queryForAll(dataType);
-//        return AlvesJSONResult.ok(dataTypeList);
-//    }
+
+    @ResponseBody
+    @PostMapping("new_update_list")
+    public AlvesJSONResult newUpdateList(@RequestBody TaskExtend taskExtend) {
+        List<Task> taskList = ts.queryForAll(taskExtend);
+        List<JSONObject> jsonObjectList = new ArrayList<>();
+        for (Task task : taskList) {
+            JSONObject json = JSONObject.fromObject(task);
+            Feedback feedback = ts.selectLatestFeedbackByTaskId(task.getId());
+            if (feedback != null) {
+                JSONObject jsonObject = JSONObject.fromObject(feedback);
+                if (!StringUtil.isEmpty(feedback.getAttachPath())) {
+                    String[] attachArr = feedback.getAttachPath().split(",");
+                    List<String> attachList = new ArrayList<>();
+                    for (String attach : attachArr) {
+                        attachList.add(attach);
+                    }
+                    jsonObject.put("attachList", attachList);
+                }
+                json.put("feedback", jsonObject);
+            }
+            jsonObjectList.add(json);
+        }
+        return AlvesJSONResult.ok(jsonObjectList);
+    }
 }

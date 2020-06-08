@@ -99,6 +99,7 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(value = "end")
     public AlvesJSONResult end(@RequestBody Event event) {
+        event.setProcess(EventProcess.EVENT_FINISH.getNo());
         boolean result = es.update(event);
         if (result) {
             return AlvesJSONResult.ok("success close");
@@ -181,13 +182,15 @@ public class EventController extends BaseController {
             JSONObject json = JSONObject.fromObject(quickReport);
 
             // 文件的实际路径
-            String destPath = PropertiesUtils.getInstance().getProperty("ftlPath").toString() + UUID.randomUUID().toString() + ".pdf";
+            String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
             String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
-            String toPath = FilenameUtils.separatorsToSystem(attachmentGainPath + destPath);
+            String uuid = UUID.randomUUID().toString();
+
+            String toPath = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + ".pdf");
             String content = PDFTemplateUtil.freeMarkerRender(json, "/ftlFile/pdf.ftl");
             try {
                 PDFTemplateUtil.createPdf(content, toPath);
-                verifyReport.setQuickReportAddr(destPath);
+                verifyReport.setQuickReportAddr(path + uuid + ".pdf");
                 vrs.update(verifyReport);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -210,6 +213,7 @@ public class EventController extends BaseController {
             ReservePlan reservePlan = new ReservePlan();
             reservePlan.setEid(verifyReport.getEid());
             reservePlan.setStatus(ReservePlanStatus.UNEDIT.getNo());
+            reservePlan.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
             rps.insert(reservePlan);
             return AlvesJSONResult.ok(EventProcess.VERIFY_REPORT.getNo());
         } else {
@@ -376,13 +380,13 @@ public class EventController extends BaseController {
         boolean result = vrs.update(verifyReport);
         if (result) {
             reservePlanResult.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-            if (reservePlanResult.getStatus() == ReservePlanStatus.STOP.getNo()) {
+//            if (reservePlanResult.getStatus() == ReservePlanStatus.STOP.getNo()) {
 //                reservePlanResult.setStatus(ReservePlanStatus.STOP.getNo());
                 Event event = new Event();
                 event.setId(reservePlanResult.getEid());
-                event.setProcess(EventProcess.EVENT_FINISH.getNo());
+                event.setProcess(EventProcess.RESERVE_PLAN.getNo());
                 es.update(event);
-            }
+//            }
 //            else if (reservePlanResult.getStatus() == 4) {
 //
 //            }else {

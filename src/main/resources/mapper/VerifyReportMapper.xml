@@ -49,7 +49,7 @@
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.VerifyReport" useGeneratedKeys="true" keyProperty="id">
     insert into verify_report (id, e_id, pv_id, pr_id, d_id, judge_opinion, attach_address, quick_report_addr, create_time)
     values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{pvId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{judgeOpinion,jdbcType=VARCHAR},
-      #{attachAddress,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{quickReportAddr,jdbcType=VARCHAR})
+      #{attachAddress,jdbcType=VARCHAR}, #{quickReportAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
     DELETE verify_report

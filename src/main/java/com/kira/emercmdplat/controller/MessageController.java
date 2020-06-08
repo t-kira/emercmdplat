@@ -6,14 +6,17 @@ import com.kira.emercmdplat.enums.EventProcess;
 import com.kira.emercmdplat.enums.MessageStatus;
 import com.kira.emercmdplat.enums.MessageType;
 import com.kira.emercmdplat.pojo.*;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.LeaderInstructService;
 import com.kira.emercmdplat.service.MessageService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
+import com.kira.emercmdplat.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,8 @@ public class MessageController extends BaseController {
     private LeaderInstructService lis;
     @Autowired
     private EventService es;
+    @Autowired
+    private ContactService cs;
 
     /**
      * 新增消息
@@ -120,7 +125,10 @@ public class MessageController extends BaseController {
 
     @ResponseBody
     @PostMapping("list")
-    public AlvesJSONResult list(@RequestBody MessageExtend messageExtend) {
+    public AlvesJSONResult list(@RequestBody MessageExtend messageExtend, HttpServletRequest request) {
+        String token = TokenUtil.getRequestToken(request);
+        ContactsResult contactsResult = cs.findByToken(token);
+        messageExtend.setDid(contactsResult.getId());
         Map<String, Object> map = new HashMap<>();
         List<MessageResult> list = ms.queryForPage(messageExtend);
         Long count = ms.queryForCounts(messageExtend);
