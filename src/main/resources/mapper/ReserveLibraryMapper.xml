@@ -22,12 +22,13 @@
         <result column="r_update_time" property="updateTime" jdbcType="VARCHAR"/>
         <result column="r_contactsId" property="contactsId" jdbcType="INTEGER"/>
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     r_id, r_name, r_type, r_district, r_PIC_company, r_addr, r_lng, r_lat, r_PIC, r_contact_num, r_cell_num,
     r_home_num, r_fax_num, r_email, r_contact_name, r_contact_work_num, r_contact_cell_num, r_update_time, r_contactsId,
-    t_name
+    t_name, d_id
   	</sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->

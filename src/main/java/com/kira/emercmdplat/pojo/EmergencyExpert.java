@@ -103,6 +103,9 @@ public class EmergencyExpert extends BaseObject {
 	@ApiComment(value = "单位名称", sample = "123")
 	private String unitName;
 
+	@ApiComment(value = "资源分组id", sample = "1")
+	private Long dataTypeId;
+
 	protected String commonIcon = host + "/img/expert-common.png";
 
 	protected String activeIcon = host + "/img/expert-active.png";
@@ -289,6 +292,14 @@ public class EmergencyExpert extends BaseObject {
 
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+
+	public Long getDataTypeId() {
+		return dataTypeId;
+	}
+
+	public void setDataTypeId(Long dataTypeId) {
+		this.dataTypeId = dataTypeId;
 	}
 
 }

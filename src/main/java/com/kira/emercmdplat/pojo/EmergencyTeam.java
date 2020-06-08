@@ -118,6 +118,9 @@ public class EmergencyTeam extends BaseObject {
 	@ApiComment(value = "类型名称", sample = "aaa")
 	private String typeName;
 
+	@ApiComment(value = "资源分组id", sample = "1")
+	private Long dataTypeId;
+
 	protected String commonIcon = host + "/img/team-common.png";
 
 	protected String activeIcon = host + "/img/team-active.png";
@@ -312,6 +315,14 @@ public class EmergencyTeam extends BaseObject {
 
 	public void setContactsId(Long contactsId) {
 		this.contactsId = contactsId;
+	}
+
+	public Long getDataTypeId() {
+		return dataTypeId;
+	}
+
+	public void setDataTypeId(Long dataTypeId) {
+		this.dataTypeId = dataTypeId;
 	}
 
 }

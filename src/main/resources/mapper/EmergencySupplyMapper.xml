@@ -16,11 +16,12 @@
         <result column="es_remark" property="remark" jdbcType="VARCHAR"/>
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="d_name" property="sourceName" jdbcType="VARCHAR"/>
+        <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     es_id, es_name, es_type, es_measurement_unit, es_supply_num, es_supply_source, es_storage_point, es_contact_name, es_contact_num,
-    es_unit_price, es_maintenance_company, es_remark, t_name, d_name
+    es_unit_price, es_maintenance_company, es_remark, t_name, d_name, d.d_id
   	</sql>
     <sql id="Basic_Conditions">
         <!--![CDATA[where 1=1 ]]-->

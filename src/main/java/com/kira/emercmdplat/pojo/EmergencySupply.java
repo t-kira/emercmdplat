@@ -74,6 +74,9 @@ public class EmergencySupply extends BaseObject {
 	@ApiComment(value = "来源名称", sample = "aaa")
 	private String sourceName;
 
+	@ApiComment(value = "资源分组id", sample = "1")
+	private Long dataTypeId;
+
 	public Integer getId() {
 		return id;
 	}
@@ -184,6 +187,14 @@ public class EmergencySupply extends BaseObject {
 
 	public void setSourceName(String sourceName) {
 		this.sourceName = sourceName;
+	}
+
+	public Long getDataTypeId() {
+		return dataTypeId;
+	}
+
+	public void setDataTypeId(Long dataTypeId) {
+		this.dataTypeId = dataTypeId;
 	}
 
 }

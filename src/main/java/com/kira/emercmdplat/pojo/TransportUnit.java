@@ -109,7 +109,11 @@ public class TransportUnit extends BaseObject {
 	@ApiComment(value = "更新时间", sample = "aaa")
 	private String updateTime;
 
+	@ApiComment(value = "类型名称", sample = "aaa")
 	private String typeName;
+
+	@ApiComment(value = "资源分组id", sample = "1")
+	private Long dataTypeId;
 
 	protected String commonIcon = host + "/img/transport-common.png";
 
@@ -305,6 +309,14 @@ public class TransportUnit extends BaseObject {
 
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
+	}
+
+	public Long getDataTypeId() {
+		return dataTypeId;
+	}
+
+	public void setDataTypeId(Long dataTypeId) {
+		this.dataTypeId = dataTypeId;
 	}
 
 }

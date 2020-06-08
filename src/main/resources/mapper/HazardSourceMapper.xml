@@ -25,12 +25,13 @@
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="h_contactsId" property="contactsId" jdbcType="INTEGER"/>
+        <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     h_id, h_name, h_type, h_district, h_number, h_PIC, h_addr, h_maintenance_company, h_warning_level, h_lng, h_lat,
     h_contact_num, h_cell_num, h_home_num, h_fax_num, h_email, h_contact_name, h_contact_work_num, h_contact_cell_num,
-    h_update_time, h_contactsId, t_name, icon
+    h_update_time, h_contactsId, t_name, icon, d_id
   	</sql>
     <sql id="Basic_Conditions">
         <!-- [CDATA[where 1=1 ]] -->

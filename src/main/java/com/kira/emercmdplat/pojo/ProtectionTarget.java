@@ -126,6 +126,9 @@ public class ProtectionTarget extends BaseObject {
 	@ApiComment(value = "图标", sample = "aaa")
 	private String icon;
 
+	@ApiComment(value = "资源分组id", sample = "1")
+	private Long dataTypeId;
+
 	protected String commonIcon = host + "/img/active.png";
 
 	protected String activeIcon = host + "/img/common.png";
@@ -336,6 +339,14 @@ public class ProtectionTarget extends BaseObject {
 
 	public void setContactsId(Long contactsId) {
 		this.contactsId = contactsId;
+	}
+
+	public Long getDataTypeId() {
+		return dataTypeId;
+	}
+
+	public void setDataTypeId(Long dataTypeId) {
+		this.dataTypeId = dataTypeId;
 	}
 
 }

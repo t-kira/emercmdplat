@@ -24,12 +24,13 @@
         <result column="et_update_time" property="updateTime" jdbcType="VARCHAR"/>
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="et_contactsId" property="contactsId" jdbcType="INTEGER"/>
+        <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     et_id, et_name, et_type, et_maintenance_company, et_district, et_level, et_number, et_addr, et_lng, et_lat, et_PIC,
     et_contact_num, et_cell_num, et_home_num, et_fax_num, et_email, et_contact_name, et_contact_work_num, et_contact_cell_num,
-    et_update_time, et_contactsId, t_name
+    et_update_time, et_contactsId, t_name, d_id
   </sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->
