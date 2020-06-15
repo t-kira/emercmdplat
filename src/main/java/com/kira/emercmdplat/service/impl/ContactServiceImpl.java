@@ -5,8 +5,10 @@ import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 
-import com.kira.emercmdplat.utils.DateUtil;
-import com.kira.emercmdplat.utils.TokenUtil;
+import com.kira.emercmdplat.utils.*;
+import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ import java.util.UUID;
  */
 @Service
 public class ContactServiceImpl implements ContactService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ContactServiceImpl.class);
 
 	@Autowired
     private ContactMapper cm;
@@ -110,7 +114,7 @@ public class ContactServiceImpl implements ContactService {
 	}
 
     @Override
-    public TokenVO createToken(Contacts contacts) {
+    public TokenVO createToken(ContactsResult contacts) {
         String token = contacts.getToken();
         //当前时间
         String now = DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss");
@@ -127,8 +131,20 @@ public class ContactServiceImpl implements ContactService {
             token = UUID.randomUUID().toString();
             newContact.setToken(token);
         }
+        String rongCloudResult = TokenUtil.getRongCloudToken(contacts);
+        if (!StringUtil.isEmpty(rongCloudResult)) {
+            JSONObject resultJson = JSONObject.fromObject(rongCloudResult);
+            int code = resultJson.getInt("code");
+            if (code == 200) {
+                newContact.setRongToken(resultJson.getString("token"));
+            } else {
+                logger.error(resultJson.getString("errorMessage"));
+            }
+        }
+
         cm.update(newContact);
         TokenVO tokenVO = new TokenVO();
+        tokenVO.setRongCloudToken(newContact.getRongToken());
         tokenVO.setToken(token);
         tokenVO.setExpireTime(expireTime);
         return tokenVO;
@@ -152,4 +168,5 @@ public class ContactServiceImpl implements ContactService {
     public List<Permission> findPermissionsByCid(Long cid) {
         return cm.findPermissionsByCid(cid);
     }
+
 }

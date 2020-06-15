@@ -32,6 +32,7 @@
         <result column="login_time" property="loginTime" jdbcType="VARCHAR"/>
         <result column="expire_time" property="expireTime" jdbcType="VARCHAR"/>
         <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="rong_token" property="rongToken" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="GroupResultMap" type="com.kira.emercmdplat.pojo.Group">
         <id column="g_id" property="id" jdbcType="BIGINT"/>
@@ -46,7 +47,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
-        c.photo, c.notes, c.g_id, c.lng, c.lat, c.create_time, c.update_time, c.username, c.password, j.j_name, m.m_name, g.g_name, c.person_attribute, c.username, c.password, c.login_time, c.expire_time, c.token
+        c.photo, c.notes, c.g_id, c.lng, c.lat, c.create_time, c.update_time, c.username, c.password, j.j_name, m.m_name, g.g_name, c.person_attribute, c.username, c.password, c.login_time, c.expire_time, c.token, c.rong_token
     </sql>
     <sql id="Basic_Conditions" >
         <!--    <![CDATA[where 1=1 ]]>-->
@@ -194,6 +195,9 @@
             </if>
             <if test="token != null">
                 token = #{token, jdbcType=VARCHAR},
+            </if>
+            <if test="rongToken != null">
+                rong_token = #{rongToken, jdbcType=VARCHAR},
             </if>
         </set>
         where c_id = #{id,jdbcType=INTEGER}

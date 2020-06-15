@@ -80,6 +80,8 @@ public class Contacts extends BaseObject {
 
 	private String token;
 
+	private String rongToken;
+
     public Long getId() {
         return id;
     }
@@ -314,5 +316,13 @@ public class Contacts extends BaseObject {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getRongToken() {
+        return rongToken;
+    }
+
+    public void setRongToken(String rongToken) {
+        this.rongToken = rongToken;
     }
 }

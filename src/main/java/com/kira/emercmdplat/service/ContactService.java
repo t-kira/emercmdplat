@@ -43,11 +43,13 @@ public interface ContactService {
 
     ContactsResult selectByUserName(String username);
 
-    TokenVO createToken(Contacts contacts);
+    TokenVO createToken(ContactsResult contacts);
 
     ContactsResult findByToken(String token);
 
     void logout(String token);
 
     List<Permission> findPermissionsByCid(Long cid);
+
+//    String getRongCloudToken(ContactsResult contactsResult);
 }

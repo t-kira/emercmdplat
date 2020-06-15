@@ -13,4 +13,6 @@ public class TokenVO {
     private String token;
 
     private String expireTime;
+
+    private String rongCloudToken;
 }

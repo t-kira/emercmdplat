@@ -31,6 +31,8 @@ public class WarMapController {
     private EventService es;
     @Autowired
     private DataTypeService dts;
+    @Autowired
+    private SecondaryDerivationService sds;
     /**
      * 通讯录
      * @return
@@ -149,5 +151,43 @@ public class WarMapController {
             jsonObjectList.add(json);
         }
         return AlvesJSONResult.ok(jsonObjectList);
+    }
+    @ResponseBody
+    @GetMapping("add_secondary_derivation")
+    public AlvesJSONResult insertSecondaryDerivation(@RequestBody EventSource eventSource) {
+        EventResult eventResult = es.selectById(eventSource.getEventId());
+        DataType dataType2 = new DataType();
+        dataType2.setId(1l);
+        List<DataType> list = dts.queryResources(dataType2);
+        Iterator<DataType> iterator = list.iterator();
+        List<RiskLevel> riskLevelList = sds.selectByPtId(eventResult.getPtId());
+        while (iterator.hasNext()) {
+            DataType dataType1 = iterator.next();
+            boolean flag = DistanceUtil.getDistance(eventResult.getLat(), eventResult.getLng(), dataType1.getLat(), dataType1.getLng(), eventSource.getInfluenceScope());
+            if (flag) {
+                double distance = DistanceUtil.getDistance(eventResult.getLat(), eventResult.getLng(), dataType1.getLat(), dataType1.getLng());
+                for (RiskLevel riskLevel : riskLevelList) {
+                    if (distance >= riskLevel.getLatelyDistance() && distance < riskLevel.getFurthestDistance()) {
+                        EventRisk eventRisk = new EventRisk();
+                        eventRisk.setEventId(eventResult.getId());
+                        eventRisk.setEventTitle(eventResult.getEventTitle());
+                        eventRisk.setRlId(riskLevel.getId());
+                        eventRisk.setHid(dataType1.getId());
+                        eventRisk.setHName(dataType1.getTypeName());
+                        eventRisk.setDistance(distance);
+                        sds.insert(eventRisk);
+                    }
+                }
+
+            }
+        }
+        return AlvesJSONResult.ok();
+    }
+
+    @ResponseBody
+    @GetMapping("list_secondary_derivation/{eventId}")
+    public AlvesJSONResult listSecondaryDerivation(@PathVariable Long eventId) {
+        List<EventRiskResult> list = sds.selectByEventId(eventId);
+        return AlvesJSONResult.ok(list);
     }
 }

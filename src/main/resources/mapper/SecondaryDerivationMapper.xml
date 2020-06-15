@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.SecondaryDerivationMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.RiskLevel">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="sd_id" property="sdId" jdbcType="BIGINT"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="lately_distance" property="latelyDistance" jdbcType="DOUBLE"/>
+        <result column="furthest_distance" property="furthestDistance" jdbcType="DOUBLE"/>
+    </resultMap>
+    <resultMap id="BaseEventRiskResultMap" type="com.kira.emercmdplat.pojo.EventRiskResult">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="event_title" property="eventTitle" jdbcType="VARCHAR"/>
+        <result column="event_id" property="eventId" jdbcType="BIGINT"/>
+        <result column="rl_id" property="rlId" jdbcType="BIGINT"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="h_id" property="hid" jdbcType="BIGINT"/>
+        <result column="h_name" property="hName" jdbcType="VARCHAR"/>
+        <result column="distance" property="distance" jdbcType="DOUBLE"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        rl.id, rl.sd_id, rl.level, rl.lately_distance, rl.furthest_distance
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.EventRisk">
+        insert into event_risk(id, event_title, event_id, rl_id, h_id, h_name, distance)
+        values (#{id,jdbcType=BIGINT}, #{eventTitle,jdbcType=VARCHAR}, #{eventId,jdbcType=BIGINT}, #{rlId,jdbcType=BIGINT},
+        #{hid,jdbcType=BIGINT}, #{hName,jdbcType=VARCHAR}, #{distance,jdbcType=DOUBLE})
+    </insert>
+    <select id="selectByPtId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select rl.* from risk_level rl, secondary_derivation sd
+        where rl.sd_id = sd.id and sd.pt_id = #{ptId, jdbcType=BIGINT}
+    </select>
+    <select id="selectByEventId" parameterType="java.lang.Long" resultMap="BaseEventRiskResultMap">
+        select er.*, rl.* from event_risk er, risk_level rl
+        where er.rl_id = rl.id and er.event_id = #{eventId, jdbcType=BIGINT}
+    </select>
+</mapper>

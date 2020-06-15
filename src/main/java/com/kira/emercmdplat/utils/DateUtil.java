@@ -240,4 +240,8 @@ public class DateUtil {
             return true;
         }
     }
+
+    public static String getTimeStampString() {
+        return StringUtil.toStr(getNowDate().getTime());
+    }
 }
