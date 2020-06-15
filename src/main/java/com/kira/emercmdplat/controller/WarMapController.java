@@ -84,9 +84,16 @@ public class WarMapController {
     @PostMapping(name="列出事件发源地范围内的风险隐患",value="situation_analysis")
     public AlvesJSONResult situationAnalysis(@RequestBody EventSource eventSource) {
         EventResult eventResult = es.selectById(eventSource.getEventId());
-        DataType dataType = new DataType();
-        dataType.setTaskType(1);
-        List<DataType> dataTypeList = dts.queryForAll(dataType);
+        List<DataType> dataTypeList = new ArrayList<>();
+        if (eventSource.getDataTypeId() != null && eventSource.getDataTypeId() > 0) {
+            DataType dataType = new DataType();
+            dataType.setId(eventSource.getDataTypeId());
+            dataTypeList.add(dataType);
+        } else {
+            DataType dataType = new DataType();
+            dataType.setTaskType(1);
+            dataTypeList = dts.queryForAll(dataType);
+        }
         List<JSONObject> listJson = new ArrayList<>();
         for (DataType d : dataTypeList) {
             JSONObject jsonObject = new JSONObject();
