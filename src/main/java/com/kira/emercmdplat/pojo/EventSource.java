@@ -18,4 +18,9 @@ public class EventSource {
      * 影响范围 单位(米)
      */
     private Double influenceScope;
+
+    /**
+     *
+     */
+    private Long dataTypeId;
 }
