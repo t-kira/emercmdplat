@@ -190,4 +190,28 @@ public class WarMapController {
         List<EventRiskResult> list = sds.selectByEventId(eventId);
         return AlvesJSONResult.ok(list);
     }
+    
+    @ResponseBody
+    @GetMapping("list_research_report/{eventId}")
+    public String listResearchReport(@PathVariable Long eventId) {
+    	StringBuilder sb = new StringBuilder();
+    	EventResult event = es.selectById(eventId);
+    	List<EventParamResult> list = es.selectParamByEId(eventId);
+    	sb.append(event.getReceiveTime());
+    	sb.append(",");
+    	sb.append("接" + event.getReporter() + "报");
+    	sb.append(event.getIncidentTime());
+    	sb.append(",");
+    	sb.append(event.getIncidentLocation());
+    	sb.append("发生");
+    	sb.append(event.getPtName());
+    	sb.append("。");
+    	sb.append("经核实，截至发文时，发生");
+    	for (EventParamResult ep : list) {
+    		sb.append(ep.getName() + ep.getPpValue() + ep.getUnit());
+    		sb.append(",");
+    	}
+    	sb.append("。");
+    	return sb.toString();
+    }
 }

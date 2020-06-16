@@ -125,7 +125,7 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping(value = "event_param/{id}")
     public AlvesJSONResult listParam(@PathVariable int id) {
-        List<PlanParam> planParamList = pts.listParamsByPtId(id);
+        List<PlanParam> planParamList = pts.listParamsByPtId(id,true);
         return AlvesJSONResult.ok(planParamList);
     }
     /**

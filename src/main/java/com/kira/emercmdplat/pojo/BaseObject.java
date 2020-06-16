@@ -4,7 +4,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 public class BaseObject {
 	
-	public static final String host = "http://47.93.126.142:8989";
+	public static final String host = "https://www.chinahqd.cn:8989";
 	
 	protected String commonIcon = host + "/img/active.png";
 	

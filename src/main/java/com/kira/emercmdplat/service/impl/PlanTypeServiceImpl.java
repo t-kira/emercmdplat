@@ -105,9 +105,10 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
-    public List<PlanParam> listParamsByPtId(int ptId) {
+    public List<PlanParam> listParamsByPtId(int ptId,Boolean includeCommon) {
         PlanParam param = new PlanParam();
         param.setPtId(ptId);
+        param.setIncludeCommon(includeCommon);
         return planParamMapper.queryForAll(param);
     }
 
