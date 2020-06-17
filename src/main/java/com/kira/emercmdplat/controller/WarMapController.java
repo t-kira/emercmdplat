@@ -3,14 +3,12 @@ package com.kira.emercmdplat.controller;
 import com.kira.emercmdplat.enums.SourceType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
-import com.kira.emercmdplat.utils.DistanceUtil;
-import com.kira.emercmdplat.utils.StringUtil;
-import com.kira.emercmdplat.utils.TreeUtil;
+import com.kira.emercmdplat.utils.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.MessageFormat;
 import java.util.*;
 
 /**
@@ -33,6 +31,12 @@ public class WarMapController {
     private DataTypeService dts;
     @Autowired
     private SecondaryDerivationService sds;
+    @Autowired
+    private ReservePlanService rps;
+    @Autowired
+    private EmergencySupplyService ess;
+    @Autowired
+    private HazardSourceService hss;
     /**
      * 通讯录
      * @return
@@ -197,28 +201,60 @@ public class WarMapController {
         List<EventRiskResult> list = sds.selectByEventId(eventId);
         return AlvesJSONResult.ok(list);
     }
-    
+
     @ResponseBody
     @GetMapping("list_research_report/{eventId}")
-    public String listResearchReport(@PathVariable Long eventId) {
-    	StringBuilder sb = new StringBuilder();
+    public AlvesJSONResult listResearchReport(@PathVariable Long eventId) {
+        String report = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("researchReport"));
     	EventResult event = es.selectById(eventId);
+
+        //事件参数
     	List<EventParamResult> list = es.selectParamByEId(eventId);
-    	sb.append(event.getReceiveTime());
-    	sb.append(",");
-    	sb.append("接" + event.getReporter() + "报");
-    	sb.append(event.getIncidentTime());
-    	sb.append(",");
-    	sb.append(event.getIncidentLocation());
-    	sb.append("发生");
-    	sb.append(event.getPtName());
-    	sb.append("。");
-    	sb.append("经核实，截至发文时，发生");
-    	for (EventParamResult ep : list) {
-    		sb.append(ep.getName() + ep.getPpValue() + ep.getUnit());
-    		sb.append(",");
+    	StringBuffer paramBuffer = new StringBuffer();
+        for (EventParamResult ep : list) {
+            paramBuffer.append(ep.getName()).append(ep.getPpValue()).append(ep.getUnit()).append("，");
     	}
-    	sb.append("。");
-    	return sb.toString();
+        //危险源
+        StringBuffer dataBuffer = new StringBuffer();
+        List<HazardSouce> hazardSouceList = hss.queryForAll(new HazardSouce());
+        if (hazardSouceList == null || hazardSouceList.size() == 0) {
+            dataBuffer.append("无危险源,");
+        } else {
+            for (HazardSouce hazardSouce : hazardSouceList) {
+                dataBuffer.append(hazardSouce.getName()).append("，地址：").append(hazardSouce.getAddr()).append("，负责人：").
+                        append(hazardSouce.getPIC()).append("，联系电话：").append(hazardSouce.getCellNum()).append("；");
+            }
+        }
+        //预案
+        List<ReservePlanResult> reservePlanResultList = rps.selectByEId(eventId);
+        ReservePlanResult reservePlan = reservePlanResultList.get(0);
+        //应急物资
+        StringBuffer emergencySupplyBuffer = new StringBuffer();
+        List<EmergencySupply> emergencySupplyList = ess.queryForAll(new EmergencySupply());
+        if (emergencySupplyList == null || emergencySupplyList.size() == 0) {
+            emergencySupplyBuffer.append("无应急物质,");
+        } else {
+            for (EmergencySupply emergencySupply : emergencySupplyList) {
+                emergencySupplyBuffer.append(emergencySupply.getName()).append("，数量：").append(emergencySupply.getSupplyNum()).
+                        append("(").append(emergencySupply.getMeasurementUnit()).append(")，联系人：").
+                        append(emergencySupply.getContactName()).append("，联系电话：").append(emergencySupply.getContactNum()).append("；");
+            }
+        }
+        //次生衍生
+        StringBuffer riskBuffer = new StringBuffer();
+        List<EventRiskResult> riskList = sds.selectByEventId(eventId);
+        if (riskList == null || riskList.size() == 0) {
+            riskBuffer.append("无次生衍生，");
+        } else {
+            for (EventRiskResult riskResult : riskList) {
+                riskBuffer.append(riskResult.getEventTitle()).append("，等级：").append(riskResult.getLevel()).append("，距离：").append(riskResult.getDistance()).append("米；");
+            }
+        }
+        return AlvesJSONResult.ok(MessageFormat.format(report, event.getReceiveTime(), event.getReporter(),
+                event.getIncidentTime(), event.getIncidentLocation(), event.getPtName(),
+                paramBuffer.deleteCharAt(paramBuffer.length()-1),dataBuffer.deleteCharAt(dataBuffer.length() - 1),
+                reservePlan.getPvName(), reservePlan.getPrLevel(), emergencySupplyBuffer.deleteCharAt(emergencySupplyBuffer.length() - 1),
+                riskBuffer.deleteCharAt(riskBuffer.length() - 1)
+        ));
     }
 }

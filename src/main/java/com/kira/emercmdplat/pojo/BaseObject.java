@@ -3,18 +3,18 @@ package com.kira.emercmdplat.pojo;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 public class BaseObject {
-	
-	public static final String host = "https://www.chinahqd.cn:8989";
-	
+
+	public static final String host = "https://www.chinahqd.cn:9090";
+
 	protected String commonIcon = host + "/img/active.png";
-	
+
 	protected String activeIcon = host + "/img/common.png";
-	
+
 	@ApiComment("第几页")
 	private Integer page;
-	
+
 	@ApiComment("每页显示条数")
-	private Integer pageSize; 
+	private Integer pageSize;
 
 	public String getCommonIcon() {
 		return commonIcon;

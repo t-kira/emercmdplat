@@ -1,7 +1,9 @@
 package com.kira.emercmdplat.utils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 /**
@@ -21,8 +23,9 @@ public class PropertiesUtils {
         properties = new Properties();
         InputStream in = PropertiesUtils.class.getClassLoader()
                 .getResourceAsStream("custom.properties");
+        BufferedReader bf = new BufferedReader(new InputStreamReader(in));
         try {
-            properties.load(in);
+            properties.load(bf);
         } catch (IOException e) {
             e.printStackTrace();
         }

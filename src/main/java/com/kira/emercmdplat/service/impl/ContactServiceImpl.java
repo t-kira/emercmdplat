@@ -141,7 +141,7 @@ public class ContactServiceImpl implements ContactService {
                 logger.error(resultJson.getString("errorMessage"));
             }
         }
-
+        logger.error("用户Id：" + contacts.getId() + ",用户名：" + contacts.getUsername() +",融云token:" + newContact.getRongToken());
         cm.update(newContact);
         TokenVO tokenVO = new TokenVO();
         tokenVO.setRongCloudToken(newContact.getRongToken());
