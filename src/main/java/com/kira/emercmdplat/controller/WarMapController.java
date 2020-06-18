@@ -207,6 +207,7 @@ public class WarMapController {
     public AlvesJSONResult listResearchReport(@PathVariable Long eventId) {
         String report = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("researchReport"));
     	EventResult event = es.selectById(eventId);
+    	JSONObject resultJson = new JSONObject();
 
         //事件参数
     	List<EventParamResult> list = es.selectParamByEId(eventId);
@@ -214,21 +215,29 @@ public class WarMapController {
         for (EventParamResult ep : list) {
             paramBuffer.append(ep.getName()).append(ep.getPpValue()).append(ep.getUnit()).append("，");
     	}
+        resultJson.put("eventReport", MessageFormat.format(report, event.getReceiveTime(), event.getReporter(),
+                event.getIncidentTime(), event.getIncidentLocation(), event.getPtName(),
+                paramBuffer.deleteCharAt(paramBuffer.length()-1)));
         //危险源
+        String hazardSourceReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("hazardSourceReport"));
         StringBuffer dataBuffer = new StringBuffer();
-        List<HazardSouce> hazardSouceList = hss.queryForAll(new HazardSouce());
-        if (hazardSouceList == null || hazardSouceList.size() == 0) {
+        List<HazardSouce> hazardSourceList = hss.queryForAll(new HazardSouce());
+        if (hazardSourceList == null || hazardSourceList.size() == 0) {
             dataBuffer.append("无危险源,");
         } else {
-            for (HazardSouce hazardSouce : hazardSouceList) {
+            for (HazardSouce hazardSouce : hazardSourceList) {
                 dataBuffer.append(hazardSouce.getName()).append("，地址：").append(hazardSouce.getAddr()).append("，负责人：").
                         append(hazardSouce.getPIC()).append("，联系电话：").append(hazardSouce.getCellNum()).append("；");
             }
         }
+        resultJson.put("hazardSourceReport", MessageFormat.format(hazardSourceReport, dataBuffer.deleteCharAt(dataBuffer.length() - 1)));
         //预案
+        String reservePlanReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("reservePlanReport"));
         List<ReservePlanResult> reservePlanResultList = rps.selectByEId(eventId);
         ReservePlanResult reservePlan = reservePlanResultList.get(0);
+        resultJson.put("reservePlanReport", MessageFormat.format(reservePlanReport, reservePlan.getPvName(), reservePlan.getPrLevel()));
         //应急物资
+        String emergencySupplyReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("emergencySupplyReport"));
         StringBuffer emergencySupplyBuffer = new StringBuffer();
         List<EmergencySupply> emergencySupplyList = ess.queryForAll(new EmergencySupply());
         if (emergencySupplyList == null || emergencySupplyList.size() == 0) {
@@ -240,7 +249,9 @@ public class WarMapController {
                         append(emergencySupply.getContactName()).append("，联系电话：").append(emergencySupply.getContactNum()).append("；");
             }
         }
+        resultJson.put("emergencySupplyReport", MessageFormat.format(emergencySupplyReport, emergencySupplyBuffer.deleteCharAt(emergencySupplyBuffer.length() - 1)));
         //次生衍生
+        String riskReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("riskReport"));
         StringBuffer riskBuffer = new StringBuffer();
         List<EventRiskResult> riskList = sds.selectByEventId(eventId);
         if (riskList == null || riskList.size() == 0) {
@@ -250,11 +261,7 @@ public class WarMapController {
                 riskBuffer.append(riskResult.getEventTitle()).append("，等级：").append(riskResult.getLevel()).append("，距离：").append(riskResult.getDistance()).append("米；");
             }
         }
-        return AlvesJSONResult.ok(MessageFormat.format(report, event.getReceiveTime(), event.getReporter(),
-                event.getIncidentTime(), event.getIncidentLocation(), event.getPtName(),
-                paramBuffer.deleteCharAt(paramBuffer.length()-1),dataBuffer.deleteCharAt(dataBuffer.length() - 1),
-                reservePlan.getPvName(), reservePlan.getPrLevel(), emergencySupplyBuffer.deleteCharAt(emergencySupplyBuffer.length() - 1),
-                riskBuffer.deleteCharAt(riskBuffer.length() - 1)
-        ));
+        resultJson.put("riskReport", MessageFormat.format(riskReport, riskBuffer.deleteCharAt(riskBuffer.length() - 1)));
+        return AlvesJSONResult.ok(resultJson);
     }
 }
