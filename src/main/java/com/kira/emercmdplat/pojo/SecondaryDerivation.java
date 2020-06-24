@@ -11,10 +11,16 @@ import lombok.Data;
 public class SecondaryDerivation {
 
     private Long id;
-
+    /**
+     * 事件标题
+     */
     private String eventTitle;
-
+    /**
+     * 次生衍生等级
+     */
     private Integer riskLevel;
-
+    /**
+     * 次生衍生距离
+     */
     private Double distance;
 }
