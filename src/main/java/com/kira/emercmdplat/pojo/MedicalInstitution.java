@@ -93,7 +93,7 @@ public class MedicalInstitution extends BaseObject {
 	/**
 	 * 住宅电话
 	 */
-	@ApiComment(value = "手机", sample = "123")
+	@ApiComment(value = "住宅电话", sample = "123")
 	private String homeNum;
 	/**
 	 * 传真号码
