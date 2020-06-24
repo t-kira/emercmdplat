@@ -49,12 +49,15 @@ public class EventController extends BaseController {
     private SysLogService sls;
     @Autowired
     private ContactService cs;
+    @Autowired
+    private QuickReportService qrs;
 
     /**
      * 事件接报
      * @param eventDomain
      * @return
      */
+    @MyLog("事件录入")
     @ResponseBody
     @PostMapping(value = "add")
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
@@ -195,7 +198,7 @@ public class EventController extends BaseController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//            qrs.insert(quickReport);
+            qrs.insert(quickReport);
             //生成PDF
             Event event = es.selectById(verifyReport.getEid());
             event.setId(verifyReport.getEid());
@@ -380,18 +383,10 @@ public class EventController extends BaseController {
         boolean result = vrs.update(verifyReport);
         if (result) {
             reservePlanResult.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-//            if (reservePlanResult.getStatus() == ReservePlanStatus.STOP.getNo()) {
-//                reservePlanResult.setStatus(ReservePlanStatus.STOP.getNo());
                 Event event = new Event();
                 event.setId(reservePlanResult.getEid());
                 event.setProcess(EventProcess.RESERVE_PLAN.getNo());
                 es.update(event);
-//            }
-//            else if (reservePlanResult.getStatus() == 4) {
-//
-//            }else {
-//                reservePlanResult.setStatus(ReservePlanStatus.START.getNo());
-//            }
             rps.update(reservePlanResult);
             return AlvesJSONResult.ok("ok start...");
         } else {
@@ -553,6 +548,53 @@ public class EventController extends BaseController {
             return AlvesJSONResult.ok("success insert ...");
         } else {
             return AlvesJSONResult.errorMsg("fail insert ....");
+        }
+    }
+    /**
+     * 通讯录
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("list_group")
+    public AlvesJSONResult groupList() {
+        List<Group> groups = cs.selectGroup(new Group());
+        for (Group group : groups) {
+            List<ContactsResult> contactsResultList = cs.selectByGid(group.getId());
+            if (contactsResultList != null && contactsResultList.size() > 0) {
+                group.setContactsList(contactsResultList);
+            }
+        }
+        List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
+        List<JSONObject> list = new ArrayList<>();
+        for (Group group : groupList) {
+            JSONObject json = JSONObject.fromObject(group);
+            json.remove("groupList");
+            list.add(json);
+        }
+        return AlvesJSONResult.ok(list);
+    }
+    @MyLog("指挥调度")
+    @ResponseBody
+    @GetMapping("dispatch_control")
+    public AlvesJSONResult dispatchControl(@PathVariable Long eventId) {
+
+        return AlvesJSONResult.ok();
+    }
+
+    /**
+     * 添加操作日志
+     * @param sysLog
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("add_sys_log")
+    public AlvesJSONResult insertSysLog(@RequestBody SysLog sysLog) {
+        sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        int result = sls.insert(sysLog);
+        if (result > 0) {
+            return AlvesJSONResult.ok();
+        } else {
+            return AlvesJSONResult.errorMsg("fail to insert syslog...");
         }
     }
 }
