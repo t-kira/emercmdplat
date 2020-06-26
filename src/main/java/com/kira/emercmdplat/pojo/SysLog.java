@@ -12,6 +12,10 @@ public class SysLog {
 
     private Long id;
     /**
+     * 方法类型
+     */
+    private Integer sysLogType;
+    /**
      * 事件ID
      */
     private Long eid;

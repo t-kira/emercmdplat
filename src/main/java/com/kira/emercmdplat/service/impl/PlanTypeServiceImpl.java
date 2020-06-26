@@ -113,6 +113,11 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
+    public PlanParam selectByParamId(Long id) {
+        return planParamMapper.selectById(id.intValue());
+    }
+
+    @Override
     public Long countParams(int ptId, Boolean includeCommon) {
         PlanParam param = new PlanParam();
         param.setPtId(ptId);

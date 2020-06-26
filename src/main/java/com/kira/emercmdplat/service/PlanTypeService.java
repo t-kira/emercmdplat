@@ -28,6 +28,8 @@ public interface PlanTypeService {
 
     List<PlanParam> listParamsByPtId(int ptId, Boolean includeCommon);
 
+    PlanParam selectByParamId(Long id);
+
     Long countParams(int ptId, Boolean includeCommon);
 
     void insertParam(PlanParam planParam);

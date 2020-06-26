@@ -57,4 +57,17 @@ public enum EventVerifyStatus implements BaseEnum<EventVerifyStatus> {
                 throw new RuntimeException("无法识别的状态");
         }
     }
+
+    public static EventVerifyStatus getByValue(Integer key) {
+        switch (key) {
+            case 1:
+                return IS_TRUE;
+            case 2:
+                return IS_FALSE;
+            case 3:
+                return IS_MERGE;
+            default:
+                throw new RuntimeException("无法识别的状态");
+        }
+    }
 }

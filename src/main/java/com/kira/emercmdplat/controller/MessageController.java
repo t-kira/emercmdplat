@@ -100,7 +100,7 @@ public class MessageController extends BaseController {
      * @param leaderInstructExtend
      * @return
      */
-    @MyLog("拟办意见")
+    @MyLog(value = 4)
     @ResponseBody
     @PostMapping(value = "add_leader_instruct")
     public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstructExtend leaderInstructExtend) {

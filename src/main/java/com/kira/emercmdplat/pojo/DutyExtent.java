@@ -13,9 +13,11 @@ public class DutyExtent extends Duty{
      * 机构名称
      */
     private String mechanismName;
+
     /**
      * 职务名称
      */
     private String jobName;
+
 
 }

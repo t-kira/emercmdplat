@@ -48,6 +48,7 @@ public class DateUtil {
             date = sf.parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
+            return null;
         }
         return date;
     }
@@ -234,7 +235,7 @@ public class DateUtil {
     public static boolean isBefore(String expireTime) {
         Date expireDate = stringToDate(expireTime, "yyyy-MM-dd HH:mm:ss");
         Date now = getNowDate();
-        if ((expireDate.getTime() - now.getTime()) > 0 ) {
+        if (expireDate != null && (expireDate.getTime() - now.getTime()) > 0 ) {
             return false;
         } else {
             return true;

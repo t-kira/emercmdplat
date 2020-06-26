@@ -14,5 +14,4 @@ import com.kira.emercmdplat.pojo.PlanParam;
 public interface PlanParamMapper extends BaseMapper<PlanParam> {
 
 	List<PlanParam> queryForIds(Map<String, Object> paramMap);
-
 }
