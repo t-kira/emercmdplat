@@ -199,6 +199,8 @@ public class EventController extends BaseController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            quickReport.setPdfAddr(path + uuid + ".pdf");
+            quickReport.setSubmitId(eventResult.getDid().intValue());
             qrs.insert(quickReport);
             //生成PDF
             Event event = es.selectById(verifyReport.getEid());
@@ -545,6 +547,8 @@ public class EventController extends BaseController {
         String token = TokenUtil.getRequestToken(request);
         Contacts contacts = cs.findByToken(token);
         sysLog.setUserName(contacts.getContactName());
+        sysLog.setSysLogType(SysLogType.COMMON.getNo());
+        sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         int result = sls.insert(sysLog);
         if (result > 0) {
             return AlvesJSONResult.ok("success insert ...");

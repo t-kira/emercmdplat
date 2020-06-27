@@ -67,4 +67,8 @@ public class QuickReport {
      * 来源0：要情速报 1:核实报告
      */
     private Integer origin;
+    /**
+     * pdf地址
+     */
+    private String pdfAddr;
 }
