@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.enums.SourceType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
@@ -59,6 +60,7 @@ public class WarMapController {
      * @param taskExtend
      * @return
      */
+    @MyLog(value = 6)
     @ResponseBody
     @PostMapping("add_task")
     public AlvesJSONResult insertTask(@RequestBody TaskExtend taskExtend) {

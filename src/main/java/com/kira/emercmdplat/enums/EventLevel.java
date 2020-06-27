@@ -8,7 +8,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  * @Description:事件等级
  */
 public enum EventLevel implements BaseEnum<EventLevel> {
-    EVENT_COMMON(1, "一般"), EVENT_MORE(2, "较大"), EVENT_MAJOR(3, "重大"),
+    undefined_Level(0, "未识别事件等级"), EVENT_COMMON(1, "一般"), EVENT_MORE(2, "较大"), EVENT_MAJOR(3, "重大"),
     EVENT_ESPECIALLY_IMPORTANT(4, "特别重大");
 
     private Integer LEVEL_CODE;
@@ -59,6 +59,21 @@ public enum EventLevel implements BaseEnum<EventLevel> {
                 return EVENT_ESPECIALLY_IMPORTANT;
             default:
                 throw new RuntimeException("无法识别的状态");
+        }
+    }
+
+    public static EventLevel getByValue(Integer key) {
+        switch (key) {
+            case 1:
+                return EVENT_COMMON;
+            case 2:
+                return EVENT_MORE;
+            case 3:
+                return EVENT_MAJOR;
+            case 4:
+                return EVENT_ESPECIALLY_IMPORTANT;
+            default:
+                return undefined_Level;
         }
     }
 }

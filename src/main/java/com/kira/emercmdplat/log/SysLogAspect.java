@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.log;
 
 import com.kira.emercmdplat.annotation.MyLog;
+import com.kira.emercmdplat.enums.SysLogType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.SysLogService;
@@ -60,8 +61,8 @@ public class SysLogAspect {
         //获取操作
         MyLog myLog = method.getAnnotation(MyLog.class);
         if (myLog != null) {
-            String value = myLog.value();
-            sysLog.setOperation(value);//保存获取的操作
+            sysLog.setSysLogType(myLog.value());
+            sysLog.setOperation(SysLogType.getByValue(myLog.value()).getName());//保存获取的操作
         }
 
         //获取请求的类名
@@ -104,7 +105,6 @@ public class SysLogAspect {
 
         sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         //获取用户名
-//        sysLog.setUserName(ShiroUtils.getUserEntity().getUsername());
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
         sysLog.setUserName(contactsResult.getContactName());

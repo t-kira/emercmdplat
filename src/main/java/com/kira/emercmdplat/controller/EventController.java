@@ -57,7 +57,7 @@ public class EventController extends BaseController {
      * @param eventDomain
      * @return
      */
-    @MyLog("事件录入")
+    @MyLog(value = 1)
     @ResponseBody
     @PostMapping(value = "add")
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
@@ -98,7 +98,7 @@ public class EventController extends BaseController {
      * @param event
      * @return
      */
-    @MyLog("终结事件")
+    @MyLog(value = 7)
     @ResponseBody
     @PostMapping(value = "end")
     public AlvesJSONResult end(@RequestBody Event event) {
@@ -167,7 +167,7 @@ public class EventController extends BaseController {
      * @param verifyReport
      * @return
      */
-    @MyLog("添加核实报告")
+    @MyLog(value = 3)
     @ResponseBody
     @PostMapping(value = "add_verify")
     public AlvesJSONResult insertVerifyReport(@RequestBody VerifyReport verifyReport) {
@@ -182,7 +182,8 @@ public class EventController extends BaseController {
             quickReport.setOrigin(1);
             quickReport.setEditId(eventResult.getDid());
             quickReport.setIssueTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-            JSONObject json = JSONObject.fromObject(quickReport);
+            JSONObject json = new JSONObject();
+            json.put("richText", verifyReport.getCreateTime());
 
             // 文件的实际路径
             String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
@@ -319,7 +320,7 @@ public class EventController extends BaseController {
      * @param development
      * @return
      */
-    @MyLog("添加事件发展")
+    @MyLog(value = 11)
     @ResponseBody
     @PostMapping(value = "add_development")
     public AlvesJSONResult insertDevelopment(@RequestBody EventDevelopment development) {
@@ -335,7 +336,7 @@ public class EventController extends BaseController {
      * @param development
      * @return
      */
-    @MyLog("修改事件发展")
+    @MyLog(value = 10)
     @ResponseBody
     @PostMapping(value = "updateDevelopment")
     public AlvesJSONResult updateDevelopment(@RequestBody EventDevelopment development) {
@@ -373,7 +374,7 @@ public class EventController extends BaseController {
      * @param reservePlanResult
      * @return
      */
-    @MyLog("启动预案")
+    @MyLog(value = 5)
     @ResponseBody
     @PostMapping(value = "reserve_start")
     public AlvesJSONResult startReservePlan(@RequestBody ReservePlanResult reservePlanResult) {
@@ -398,7 +399,7 @@ public class EventController extends BaseController {
      * @param event
      * @return
      */
-    @MyLog("删除事件")
+    @MyLog(value = 8)
     @ResponseBody
     @PostMapping(value = "remove")
     public AlvesJSONResult delete(Event event) {
@@ -411,7 +412,7 @@ public class EventController extends BaseController {
     }
     @ResponseBody
     @PostMapping(value = "update")
-    @MyLog("更新事件")
+    @MyLog(value = 9)
     public AlvesJSONResult update(@RequestBody EventDomain eventDomain) {
         boolean result = es.update(eventDomain.getEvent());
         if (result) {
@@ -456,7 +457,7 @@ public class EventController extends BaseController {
      * @param eventReq
      * @return
      */
-    @MyLog("审核事件")
+    @MyLog(value = 2)
     @ResponseBody
     @PostMapping("verify_event")
     public AlvesJSONResult verifyEvent(@RequestBody VerifyEventReq eventReq) {
@@ -502,7 +503,7 @@ public class EventController extends BaseController {
      * @param eventReq
      * @return
      */
-    @MyLog("事件合并")
+    @MyLog(value = 12)
     @ResponseBody
     @PostMapping("merge_event")
     public AlvesJSONResult mergeEvent(@RequestBody VerifyEventReq eventReq) {
@@ -528,7 +529,8 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping("sys_log_list/{eid}")
     public AlvesJSONResult sysLogList(@PathVariable Long eid) {
-        List<SysLog> list = sls.selectByEid(eid);
+        List<JSONObject> list = sls.selectByEid(eid);
+
         return AlvesJSONResult.ok(list);
     }
     /**
@@ -573,28 +575,11 @@ public class EventController extends BaseController {
         }
         return AlvesJSONResult.ok(list);
     }
-    @MyLog("指挥调度")
+    @MyLog(value = 6)
     @ResponseBody
     @GetMapping("dispatch_control")
     public AlvesJSONResult dispatchControl(@PathVariable Long eventId) {
 
         return AlvesJSONResult.ok();
-    }
-
-    /**
-     * 添加操作日志
-     * @param sysLog
-     * @return
-     */
-    @ResponseBody
-    @PostMapping("add_sys_log")
-    public AlvesJSONResult insertSysLog(@RequestBody SysLog sysLog) {
-        sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-        int result = sls.insert(sysLog);
-        if (result > 0) {
-            return AlvesJSONResult.ok();
-        } else {
-            return AlvesJSONResult.errorMsg("fail to insert syslog...");
-        }
     }
 }

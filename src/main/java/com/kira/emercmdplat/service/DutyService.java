@@ -1,11 +1,9 @@
 package com.kira.emercmdplat.service;
 
-import java.util.List;
-import java.util.Map;
-
 import com.kira.emercmdplat.pojo.Duty;
 import com.kira.emercmdplat.pojo.DutyExtent;
-import com.kira.emercmdplat.service.base.BaseService;
+
+import java.util.List;
 
 /**
  * @Author: kira

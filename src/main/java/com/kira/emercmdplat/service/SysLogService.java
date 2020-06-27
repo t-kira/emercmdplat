@@ -2,6 +2,7 @@ package com.kira.emercmdplat.service;
 
 import com.kira.emercmdplat.pojo.SysLog;
 import com.kira.emercmdplat.pojo.SysLogExtend;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -26,5 +27,5 @@ public interface SysLogService {
 
     List<SysLog> queryForPage(SysLogExtend sysLogExtend);
 
-    List<SysLog> selectByEid(Long eid);
+    List<JSONObject> selectByEid(Long eid);
 }
