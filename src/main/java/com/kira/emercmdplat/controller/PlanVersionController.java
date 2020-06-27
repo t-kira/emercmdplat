@@ -298,11 +298,12 @@ public class PlanVersionController extends BaseController {
 	public List<PlanResponseFlowTask> listResponseFlowTasks(@ApiComment("预案响应流程id") int prfId) {
 		List<PlanResponseFlowTask> list = planVersionService.listResponseFlowTasks(prfId);
 		for (PlanResponseFlowTask prft : list) {
-			PlanGroup group = planTypeService.getGroupById(prft.getGroupId());
-			String userIds = group.getUserIds();
-			List<ContactsResult> userList = contactService.queryForIds(Arrays.asList(userIds.split(",")));
-			group.setUserList(userList);
-			prft.setGroup(group);
+			String json = prft.getGroupId();
+			System.out.println(json);
+			if (!StringUtils.isEmpty(json)) {
+				List<DataType> groupList = dataTypeService.getFlowTaskMembers(json);
+				prft.setGroupList(groupList);
+			}
 		}
 		return list;
 	}

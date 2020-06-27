@@ -21,7 +21,7 @@ public class PlanGroup extends BaseObject {
     /**
      * 预案组成员ID
      */
-	@ApiComment(value = "预案组成员IDs", sample = "1,2,3")
+	@ApiComment(value = "预案组成员json", sample = "[{type:1,id:1}]")
     private String userIds;
     /**
      * 预案组职责
@@ -36,8 +36,8 @@ public class PlanGroup extends BaseObject {
 	/**
 	 * 预案组成员集合
 	 */
-	@ApiComment(value = "预案组成员集合", sample = "[]")
-	private List<ContactsResult> userList;
+	@ApiComment(value = "预案组成员集合", sample = "[{type:1,typeName:'aaa',id:1,name:'bbb'}]")
+	private List<DataType> userList;
 
     public Integer getId() {
         return id;
@@ -87,11 +87,11 @@ public class PlanGroup extends BaseObject {
         this.ptId = ptId;
     }
 
-	public List<ContactsResult> getUserList() {
+	public List<DataType> getUserList() {
 		return userList;
 	}
 
-	public void setUserList(List<ContactsResult> userList) {
+	public void setUserList(List<DataType> userList) {
 		this.userList = userList;
 	}
 
