@@ -8,15 +8,21 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.mapper.DataTypeMapper;
 import com.kira.emercmdplat.mapper.EmergencyTeamMapper;
 import com.kira.emercmdplat.mapper.MedicalInstitutionMapper;
+import com.kira.emercmdplat.mapper.PlanGroupMapper;
+import com.kira.emercmdplat.mapper.PlanOrgMapper;
 import com.kira.emercmdplat.mapper.ReserveLibraryMapper;
 import com.kira.emercmdplat.mapper.ShelterMapper;
+import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.EType;
 import com.kira.emercmdplat.pojo.EmergencyTeam;
 import com.kira.emercmdplat.pojo.MedicalInstitution;
+import com.kira.emercmdplat.pojo.PlanGroup;
+import com.kira.emercmdplat.pojo.PlanOrg;
 import com.kira.emercmdplat.pojo.ReserveLibrary;
 import com.kira.emercmdplat.pojo.Shelter;
 import com.kira.emercmdplat.service.DataTypeService;
@@ -47,6 +53,15 @@ public class DataTypeServiceImpl implements DataTypeService {
 	
 	@Autowired
 	private ReserveLibraryMapper rlm;
+	
+	@Autowired
+	private ContactMapper cm;
+	
+	@Autowired
+	private PlanOrgMapper pm;
+	
+	@Autowired
+    private PlanGroupMapper pgm;
 
 	@Override
 	public int insert(DataType pojo) {
@@ -171,6 +186,65 @@ public class DataTypeServiceImpl implements DataTypeService {
 		param.put("dId", dataType.getId());
 		param.put("name", dataType.getName());
 		return dm.queryResources(param);
+	}
+
+	@Override
+	public List<DataType> getPlanGroupMembers(String json) {
+		JSONArray arr = JSONArray.fromObject(json);
+		List<DataType> result = new ArrayList<>();
+		for (Object obj : arr) {
+			JSONObject js = (JSONObject) obj;
+			int type = js.getInt("type");
+			long id = js.getLong("id");
+			DataType d = new DataType();
+			d.setType(type);
+			d.setTypeName(type==0?"通讯录":"指挥架构");
+			if (type == 0) {//通讯录
+				ContactsResult cr = cm.selectById(id);
+				d.setId(cr.getId());
+				d.setName(cr.getContactName());
+			} else {//指挥架构
+				PlanOrg org = pm.selectById(new Long(id).intValue());
+				d.setId(new Long(org.getId()));
+				d.setName(org.getName());
+			}
+			result.add(d);
+		}
+		return result;
+	}
+
+	@Override
+	public List<DataType> getFlowTaskMembers(String json) {
+		JSONArray arr = JSONArray.fromObject(json);
+		List<DataType> result = new ArrayList<>();
+		for (Object obj : arr) {
+			JSONObject js = (JSONObject) obj;
+			int type = js.getInt("type");
+			long id = js.getLong("id");
+			DataType d = new DataType();
+			d.setType(type);
+			if (type == 0) {//通讯录
+				d.setTypeName("通讯录");
+				ContactsResult cr = cm.selectById(id);
+				d.setId(cr.getId());
+				d.setName(cr.getContactName());
+				d.setContent("");//职责
+			} else if (type == 1) {//指挥架构
+				d.setTypeName("指挥架构");
+				PlanOrg org = pm.selectById(new Long(id).intValue());
+				d.setId(new Long(org.getId()));
+				d.setName(org.getName());
+				d.setContent(org.getDuty());
+			} else { //预案组
+				d.setTypeName("预案组");
+				PlanGroup group = pgm.selectById(new Long(id).intValue());
+				d.setId(new Long(group.getId()));
+				d.setName(group.getName());
+				d.setContent(group.getDuty());
+			}
+			result.add(d);
+		}
+		return result;
 	}
 
 }

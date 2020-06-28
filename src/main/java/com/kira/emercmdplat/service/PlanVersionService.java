@@ -43,12 +43,16 @@ public interface PlanVersionService {
 	List<PlanResponseFlow> listResponseFlows(int prId);
 
 	void insertResponseFlow(PlanResponseFlow planResponseFlow);
+	
+	void updateResponseFlow(PlanResponseFlow planResponseFlow);
 
 	void deleteResponseFlow(Integer id);
 
 	List<PlanResponseFlowTask> listResponseFlowTasks(int prfId);
 
 	void insertResponseFlowTask(PlanResponseFlowTask planResponseFlowTask);
+	
+	void updateResponseFlowTask(PlanResponseFlowTask planResponseFlowTask);
 
 	void deleteResponseFlowTask(Integer id);
 

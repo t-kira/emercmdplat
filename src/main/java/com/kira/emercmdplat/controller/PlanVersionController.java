@@ -276,6 +276,14 @@ public class PlanVersionController extends BaseController {
 		planVersionService.insertResponseFlow(planResponseFlow);
 		return "success";
 	}
+	
+	@Api2Doc(order = 39)
+    @ApiComment(value="修改预案响应流程")
+	@RequestMapping(name="修改预案响应流程",value="/updateResponseFlow",method=RequestMethod.POST)
+	public String updateResponseFlow(@ApiComment(value="修改预案响应流程",sample="{id:1,name:'aaa',content:'aaa',groupIds:'1,2,3',prId:1}") @RequestBody PlanResponseFlow planResponseFlow) {
+		planVersionService.updateResponseFlow(planResponseFlow);
+		return "success";
+	}
 
 	@Api2Doc(order = 14)
     @ApiComment(value="删除预案响应流程")
@@ -291,11 +299,12 @@ public class PlanVersionController extends BaseController {
 	public List<PlanResponseFlowTask> listResponseFlowTasks(@ApiComment("预案响应流程id") int prfId) {
 		List<PlanResponseFlowTask> list = planVersionService.listResponseFlowTasks(prfId);
 		for (PlanResponseFlowTask prft : list) {
-			PlanGroup group = planTypeService.getGroupById(prft.getGroupId());
-			String userIds = group.getUserIds();
-			List<ContactsResult> userList = contactService.queryForIds(Arrays.asList(userIds.split(",")));
-			group.setUserList(userList);
-			prft.setGroup(group);
+			String json = prft.getGroupId();
+			System.out.println(json);
+			if (!StringUtils.isEmpty(json)) {
+				List<DataType> groupList = dataTypeService.getFlowTaskMembers(json);
+				prft.setGroupList(groupList);
+			}
 		}
 		return list;
 	}
@@ -303,8 +312,16 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 16)
     @ApiComment(value="插入预案响应流程任务")
 	@RequestMapping(name="插入预案响应流程任务",value="/insertResponseFlowTask",method=RequestMethod.POST)
-	public String insertResponseFlowTask(@ApiComment(value="插入预案响应流程",sample="{id:1,name:'aaa',desc:'aaa',groupId:'1',prfId:1}") @RequestBody PlanResponseFlowTask planResponseFlowTask) {
+	public String insertResponseFlowTask(@ApiComment(value="插入预案响应流程任务",sample="{id:1,name:'aaa',desc:'aaa',groupId:'1',prfId:1}") @RequestBody PlanResponseFlowTask planResponseFlowTask) {
 		planVersionService.insertResponseFlowTask(planResponseFlowTask);
+		return "success";
+	}
+	
+	@Api2Doc(order = 40)
+    @ApiComment(value="修改预案响应流程任务")
+	@RequestMapping(name="修改预案响应流程任务",value="/updateResponseFlowTask",method=RequestMethod.POST)
+	public String updateResponseFlowTask(@ApiComment(value="修改预案响应流程任务",sample="{id:1,name:'aaa',desc:'aaa',groupId:'1',prfId:1}") @RequestBody PlanResponseFlowTask planResponseFlowTask) {
+		planVersionService.updateResponseFlowTask(planResponseFlowTask);
 		return "success";
 	}
 

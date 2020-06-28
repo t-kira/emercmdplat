@@ -16,4 +16,8 @@ public interface DataTypeService extends BaseService<DataType> {
 
 	List<DataType> queryResources(DataType dataType);
 
+	List<DataType> getPlanGroupMembers(String json);
+
+	List<DataType> getFlowTaskMembers(String json);
+
 }

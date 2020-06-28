@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import java.util.List;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 public class PlanResponseFlowTask {
@@ -17,20 +19,18 @@ public class PlanResponseFlowTask {
 	@ApiComment(value = "描述", sample = "aaa")
 	private String desc;
 	/**
-	 * 预案组ID
+	 * 任务成员json
 	 */
-	@ApiComment(value = "预案组ID", sample = "1")
-	private Integer groupId;
+	@ApiComment(value = "任务成员json(type 0 通讯录 1 指挥架构 2 预案组)", sample = "[{type:1,id:1}]")
+	private String groupId;
 	/**
 	 * 预案响应流程ID
 	 */
 	@ApiComment(value = "预案响应流程ID", sample = "1")
 	private Integer prfId;
-	/**
-	 * 预案组
-	 */
-	@ApiComment(value = "预案组", sample = "{}")
-	private PlanGroup group;
+
+	@ApiComment(value = "任务成员集合", sample = "[{type:1,typeName:'aaa',id:1,name:'bbb'}]")
+	private List<DataType> groupList;
 
 	public Integer getId() {
 		return id;
@@ -56,11 +56,11 @@ public class PlanResponseFlowTask {
 		this.desc = desc;
 	}
 
-	public Integer getGroupId() {
+	public String getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(Integer groupId) {
+	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
 
@@ -72,12 +72,12 @@ public class PlanResponseFlowTask {
 		this.prfId = prfId;
 	}
 
-	public PlanGroup getGroup() {
-		return group;
+	public List<DataType> getGroupList() {
+		return groupList;
 	}
 
-	public void setGroup(PlanGroup group) {
-		this.group = group;
+	public void setGroupList(List<DataType> groupList) {
+		this.groupList = groupList;
 	}
 
 }

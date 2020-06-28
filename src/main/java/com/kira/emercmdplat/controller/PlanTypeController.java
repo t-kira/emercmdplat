@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.kira.emercmdplat.pojo.*;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.service.ContactService;
+import com.kira.emercmdplat.service.DataTypeService;
 import com.kira.emercmdplat.service.PlanTypeService;
 import com.kira.emercmdplat.utils.Node;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
@@ -27,6 +30,9 @@ public class PlanTypeController extends BaseController {
 
 	@Autowired
 	private ContactService contactService;
+	
+	@Autowired
+	private DataTypeService dataTypeService;
 
 	@Api2Doc(order = 1)
     @ApiComment(value="列出预案分类树")
@@ -127,9 +133,12 @@ public class PlanTypeController extends BaseController {
 		PlanGroupResult result = new PlanGroupResult();
 		List<PlanGroup> list = planTypeService.listGroups(planGroup);
 		for (PlanGroup pg : list) {
-			String userIds = pg.getUserIds();
-			List<ContactsResult> userList = contactService.queryForIds(Arrays.asList(userIds.split(",")));
-			pg.setUserList(userList);
+			String json = pg.getUserIds();
+			System.out.println(json);
+			if (!StringUtils.isEmpty(json)) {
+				List<DataType> userList = dataTypeService.getPlanGroupMembers(json);
+				pg.setUserList(userList);
+			}
 		}
 		Long count = planTypeService.countGroups(planGroup);
 		result.setCount(count);
