@@ -21,7 +21,7 @@ public class PlanResponseFlowTask {
 	/**
 	 * 任务成员json
 	 */
-	@ApiComment(value = "任务成员json", sample = "[{type:1,id:1}]")
+	@ApiComment(value = "任务成员json(type 0 通讯录 1 指挥架构 2 预案组)", sample = "[{type:1,id:1}]")
 	private String groupId;
 	/**
 	 * 预案响应流程ID

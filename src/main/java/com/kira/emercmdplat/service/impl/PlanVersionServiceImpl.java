@@ -294,4 +294,14 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 		planOrgMapper.copyOrg(pvId);
 	}
 
+	@Override
+	public void updateResponseFlow(PlanResponseFlow planResponseFlow) {
+		planResponseFlowMapper.update(planResponseFlow);
+	}
+
+	@Override
+	public void updateResponseFlowTask(PlanResponseFlowTask planResponseFlowTask) {
+		planResponseFlowTaskMapper.update(planResponseFlowTask);
+	}
+
 }

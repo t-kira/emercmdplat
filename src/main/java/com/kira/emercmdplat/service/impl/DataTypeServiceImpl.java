@@ -228,16 +228,19 @@ public class DataTypeServiceImpl implements DataTypeService {
 				ContactsResult cr = cm.selectById(id);
 				d.setId(cr.getId());
 				d.setName(cr.getContactName());
+				d.setContent("");//职责
 			} else if (type == 1) {//指挥架构
 				d.setTypeName("指挥架构");
 				PlanOrg org = pm.selectById(new Long(id).intValue());
 				d.setId(new Long(org.getId()));
 				d.setName(org.getName());
+				d.setContent(org.getDuty());
 			} else { //预案组
 				d.setTypeName("预案组");
 				PlanGroup group = pgm.selectById(new Long(id).intValue());
 				d.setId(new Long(group.getId()));
 				d.setName(group.getName());
+				d.setContent(group.getDuty());
 			}
 			result.add(d);
 		}

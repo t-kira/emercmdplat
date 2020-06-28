@@ -21,7 +21,7 @@ public class PlanGroup extends BaseObject {
     /**
      * 预案组成员ID
      */
-	@ApiComment(value = "预案组成员json", sample = "[{type:1,id:1}]")
+	@ApiComment(value = "预案组成员json(type 0 通讯录 1 指挥架构)", sample = "[{type:1,id:1}]")
     private String userIds;
     /**
      * 预案组职责
