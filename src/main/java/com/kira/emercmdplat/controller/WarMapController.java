@@ -236,8 +236,10 @@ public class WarMapController {
         //预案
         String reservePlanReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("reservePlanReport"));
         List<ReservePlanResult> reservePlanResultList = rps.selectByEId(eventId);
-        ReservePlanResult reservePlan = reservePlanResultList.get(0);
-        resultJson.put("reservePlanReport", MessageFormat.format(reservePlanReport, reservePlan.getPvName(), reservePlan.getPrLevel()));
+        if (reservePlanResultList != null && reservePlanResultList.size() > 0) {
+            ReservePlanResult reservePlan = reservePlanResultList.get(0);
+            resultJson.put("reservePlanReport", MessageFormat.format(reservePlanReport, reservePlan.getPvName(), reservePlan.getPrLevel()));
+        }
         //应急物资
         String emergencySupplyReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("emergencySupplyReport"));
         StringBuffer emergencySupplyBuffer = new StringBuffer();

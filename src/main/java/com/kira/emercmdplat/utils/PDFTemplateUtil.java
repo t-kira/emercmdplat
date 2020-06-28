@@ -1,19 +1,14 @@
 package com.kira.emercmdplat.utils;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontProvider;
 import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorkerFontProvider;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.lowagie.text.DocumentException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import net.sf.json.JSONObject;
+import org.xhtmlrenderer.pdf.ITextFontResolver;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
 public class PDFTemplateUtil {
 
@@ -29,15 +24,16 @@ public class PDFTemplateUtil {
         }
     }
 
-    public static void createPdf(String content, String dest) throws IOException, DocumentException {
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
-        document.open();
-        XMLWorkerFontProvider fontImp = new XMLWorkerFontProvider();
-        fontImp.register("/ftlFile/font/simsun.ttc");
-        InputStream is = new ByteArrayInputStream(content.getBytes("utf-8"));
-        XMLWorkerHelper.getInstance().parseXHtml(writer, document, is, null, Charset.forName("UTF-8"), (FontProvider)fontImp);
-        document.close();
+    public static void createPdf(String content, String dest)  throws IOException, DocumentException {
+        ITextRenderer render = new ITextRenderer();
+        ITextFontResolver fontResolver = render.getFontResolver();
+        fontResolver.addFont("/ftlFile/font/simsun.ttc", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+        // 解析html生成pdf
+        render.setDocumentFromString(content);
+        //解决图片相对路径的问题
+//        render.getSharedContext().setBaseURL(LOGO_PATH);
+        render.layout();
+        render.createPDF(new FileOutputStream(dest));
     }
 
     /**

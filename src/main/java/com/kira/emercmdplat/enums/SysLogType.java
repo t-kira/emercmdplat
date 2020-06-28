@@ -14,7 +14,7 @@ public enum SysLogType implements BaseEnum<SysLogType> {
     INSERT_LEADER_INSTRUCT_INSERT(4, "添加领导拟办意见"), START_RESERVE_PLAN(5, "启动预案"),
     DISPATCH_CONTROL(6, "指挥调度"), EVENT_END(7, "完结事件"), EVENT_DELETE(8, "删除事件"),
     EVENT_UPDATE(9, "更新事件"), UPDATE_EVENT_DEVELOPMENT(10, "修改事件发展"),
-    INSERT_EVENT_DEVELOPMENT(11, "添加事件发展"), EVENT_MERGE(12, "事件合并");
+    INSERT_EVENT_DEVELOPMENT(11, "添加事件发展"), EVENT_MERGE(12, "事件合并"), COMMON(13, "显示原始内容");
 
     private Integer methodType;
 
@@ -66,6 +66,20 @@ public enum SysLogType implements BaseEnum<SysLogType> {
                 return INSERT_LEADER_INSTRUCT_INSERT;
             case 5:
                 return START_RESERVE_PLAN;
+            case 6:
+                return DISPATCH_CONTROL;
+            case 7:
+                return EVENT_END;
+            case 8:
+                return EVENT_DELETE;
+            case 9:
+                return EVENT_UPDATE;
+            case 10:
+                return UPDATE_EVENT_DEVELOPMENT;
+            case 11:
+                return INSERT_EVENT_DEVELOPMENT;
+            case 12:
+                return EVENT_MERGE;
             default:
                 throw new RuntimeException("无法识别的状态");
         }
@@ -85,6 +99,22 @@ public enum SysLogType implements BaseEnum<SysLogType> {
                 return INSERT_LEADER_INSTRUCT_INSERT;
             case 5:
                 return START_RESERVE_PLAN;
+            case 6:
+                return DISPATCH_CONTROL;
+            case 7:
+                return EVENT_END;
+            case 8:
+                return EVENT_DELETE;
+            case 9:
+                return EVENT_UPDATE;
+            case 10:
+                return UPDATE_EVENT_DEVELOPMENT;
+            case 11:
+                return INSERT_EVENT_DEVELOPMENT;
+            case 12:
+                return EVENT_MERGE;
+            case 13:
+                return COMMON;
             default:
                 throw new RuntimeException("无法识别的状态");
         }

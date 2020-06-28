@@ -21,4 +21,12 @@ public class QuickReportResult extends QuickReport{
      * 事件类型名称
      */
     private String ptName;
+    /**
+     * 上报人
+     */
+    private String reporter;
+    /**
+     * 报送人
+     */
+    private String submitter;
 }
