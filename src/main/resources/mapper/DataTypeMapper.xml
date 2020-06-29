@@ -10,7 +10,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    d_id, d_name, d_type, d_task_type, d_content 
+    d_id, d_name, d_type, d_task_type, d_content
   	</sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
@@ -81,15 +81,15 @@
         from data_type
         <include refid="Basic_Conditions"/>
     </select>
-    
+
     <select id="queryTypeListByDataId" resultType="com.kira.emercmdplat.pojo.EType" parameterType="java.lang.Integer">
     	select t_id id,t_name name,d_id dataId,icon
     	from e_type where d_id=#{dataId}
     </select>
-    
+
     <select id="queryResources" resultType="com.kira.emercmdplat.pojo.DataType" parameterType="java.util.Map">
     	select id,name,type,t_name typeName,icon,maintenanceCompany,lng,lat,cellNum,pic,addr,contactsId
-    	from 
+    	from
 		(
 		<if test="dId == 1">
 			(select h_id id,h_name name,h_type type,h_maintenance_company maintenanceCompany,
@@ -189,4 +189,7 @@
 		</if>
     </select>
 
+	<update id="truncateTable" parameterType="java.lang.String" statementType="STATEMENT">
+		TRUNCATE table ${tableName}
+	</update>
 </mapper>
