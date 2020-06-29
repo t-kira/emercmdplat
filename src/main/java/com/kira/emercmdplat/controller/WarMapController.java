@@ -273,7 +273,7 @@ public class WarMapController {
 
     @PostMapping("download")
     public void downLoad(@RequestBody FilesReq filesReq, HttpServletResponse response) {
-        String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
+        String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath").toString();
         String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
         List<String> fileList = FileuploadUtil.addWaterMark(filesReq, path, attachmentGainPath, "应急平台图片文字测试");
         for (String fileUrl : fileList) {
