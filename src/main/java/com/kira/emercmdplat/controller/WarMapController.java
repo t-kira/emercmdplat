@@ -5,10 +5,12 @@ import com.kira.emercmdplat.enums.SourceType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.*;
+import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -160,8 +162,8 @@ public class WarMapController {
                     jsonObject.put("attachList", attachList);
                 }
                 json.put("feedback", jsonObject);
+                jsonObjectList.add(json);
             }
-            jsonObjectList.add(json);
         }
         return AlvesJSONResult.ok(jsonObjectList);
     }
@@ -267,5 +269,17 @@ public class WarMapController {
         }
         resultJson.put("riskReport", MessageFormat.format(riskReport, riskBuffer.deleteCharAt(riskBuffer.length() - 1)));
         return AlvesJSONResult.ok(resultJson);
+    }
+
+    @PostMapping("download")
+    public void downLoad(@RequestBody FilesReq filesReq, HttpServletResponse response) {
+        String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
+        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
+        List<String> fileList = FileuploadUtil.addWaterMark(filesReq, path, attachmentGainPath, "应急平台图片文字测试");
+        for (String fileUrl : fileList) {
+            String extension = fileUrl.substring(fileUrl.lastIndexOf("."));
+            String newFileName = DateUtil.getNowStr("yyyyMMddHHmmss") + "." + extension;
+            FileuploadUtil.downLoad(response, attachmentGainPath + fileUrl, newFileName);
+        }
     }
 }

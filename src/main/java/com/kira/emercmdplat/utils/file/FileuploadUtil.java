@@ -1,19 +1,30 @@
 package com.kira.emercmdplat.utils.file;
 
+import com.kira.emercmdplat.pojo.FileReq;
+import com.kira.emercmdplat.pojo.FilesReq;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.PropertiesUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.font.TextAttribute;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URLEncoder;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -216,5 +227,141 @@ public class FileuploadUtil {
      */
     public static FileResult saveImage(MultipartFile multipartFile, String childFile, String extension) throws IOException {
         return saveFile(multipartFile, childFile, extension, true);
+    }
+
+    public static List<String> saveFileByBase64(FilesReq filesReq, String path, String attachmentGainPath) {
+        List<String> fileList = new ArrayList<>();
+        for (FileReq fileReq : filesReq.getFileReqList()) {
+            byte[] byteData = null;
+            BASE64Decoder decoder = new BASE64Decoder();
+            try {
+                String str = fileReq.getFileContent();
+                String extension = fileReq.getExtension();
+                str = str.replaceAll(" ", "+");
+                byteData = decoder.decodeBuffer(str);
+                for (int i = 0; i < byteData.length; ++i) {
+                    // 调整异常数据
+                    if (byteData[i] < 0) {
+                        byteData[i] += 256;
+                    }
+                }
+                String uuid = UUID.randomUUID().toString();
+                String fileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + "." + extension);
+                File file = new File(fileUrl);
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                Runtime.getRuntime().exec("chmod 777 -R " + fileUrl);
+                fileList.add(FilenameUtils.separatorsToSystem(path + uuid + "." + extension));
+                FileOutputStream out = new FileOutputStream(file);
+                out.write(byteData);
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return fileList;
+    }
+
+    /**
+     * 给图片添加文字水印
+     * @param filesReq
+     * @param path
+     * @param attachmentGainPath
+     * @param waterMarkContent 水印文字内容
+     * @return
+     */
+    public static List<String> addWaterMark(FilesReq filesReq, String path, String attachmentGainPath, String waterMarkContent) {
+        Font font = new Font("方正楷体简体", Font.PLAIN, 26);
+        List<String> fileList = new ArrayList<>();
+        for (FileReq fileReq : filesReq.getFileReqList()) {
+            byte[] byteData = null;
+            BASE64Decoder decoder = new BASE64Decoder();
+            try {
+                String str = fileReq.getFileContent();
+                String extension = fileReq.getExtension();
+                str = str.replaceAll(" ", "+");
+                byteData = decoder.decodeBuffer(str);
+                for (int i = 0; i < byteData.length; ++i) {
+                    // 调整异常数据
+                    if (byteData[i] < 0) {
+                        byteData[i] += 256;
+                    }
+                }
+                String uuid = UUID.randomUUID().toString();
+                String fileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + "." + extension);
+                File file = new File(fileUrl);
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                // 读取原图片信息
+                InputStream in = new ByteArrayInputStream(byteData);
+                Image srcImg = ImageIO.read(in);//文件转化为图片
+                int srcImgWidth = srcImg.getWidth(null);//获取图片的宽
+                int srcImgHeight = srcImg.getHeight(null);//获取图片的高
+                // 加水印
+                BufferedImage bufImg = new BufferedImage(srcImgWidth, srcImgHeight, BufferedImage.TYPE_INT_RGB);
+                Graphics2D g = bufImg.createGraphics();
+
+                g.setColor(Color.WHITE); //根据图片的背景设置水印颜色
+                g.setBackground(Color.WHITE);
+                g.drawImage(srcImg, 0, 0, srcImgWidth, srcImgHeight, null);
+
+                /*----------对显示的文字进行处理------------------*/
+                AttributedString ats = new AttributedString(waterMarkContent);
+                RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                rh.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+                rh.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+                g.setFont(font);
+                g.setRenderingHints(rh);
+
+                ats.addAttribute(TextAttribute.FONT, font, 0, waterMarkContent.length());
+                AttributedCharacterIterator iter = ats.getIterator();
+                g.drawString(iter, 0, 30);  //画出水印
+                g.dispose();
+
+                Runtime.getRuntime().exec("chmod 777 -R " + fileUrl);
+                fileList.add(FilenameUtils.separatorsToSystem(path + uuid + "." + extension));
+                FileOutputStream out = new FileOutputStream(file);
+                ImageIO.write(bufImg, fileReq.getExtension(), out);
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return fileList;
+    }
+    private static int getWatermarkLength(String waterMarkContent, Graphics2D g) {
+        return g.getFontMetrics(g.getFont()).charsWidth(waterMarkContent.toCharArray(), 0, waterMarkContent.length());
+    }
+
+    public static void downLoad(HttpServletResponse response, String dirOrFile, String targetFullName) {
+        try {
+            File file = new File(dirOrFile);
+            FileInputStream fis;
+            try {
+                fis = new FileInputStream(file);
+                byte[] buffer = new byte[fis.available()];
+                fis.read(buffer);
+                fis.close();
+
+                response.reset();
+                response.addHeader("Content-Disposition",
+                        "attachment;filename=" + URLEncoder.encode(targetFullName, "UTF-8"));
+                response.addHeader("Content-Length", "" + file.length());
+                OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+                response.setContentType("application/octet-stream");
+                outputStream.write(buffer);
+                outputStream.flush();
+                outputStream.close();
+                IOUtils.closeQuietly(outputStream);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

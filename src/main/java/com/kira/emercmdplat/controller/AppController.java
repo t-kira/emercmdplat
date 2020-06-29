@@ -7,6 +7,7 @@ import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.*;
+import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,37 +187,7 @@ public class AppController extends BaseController {
     public AlvesJSONResult upload(@RequestBody FilesReq filesReq) {
         String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
         String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
-        List<String> fileList = new ArrayList<>();
-        for (FileReq fileReq : filesReq.getFileReqList()) {
-            byte[] byteData = null;
-            BASE64Decoder decoder = new BASE64Decoder();
-            try {
-                String str = fileReq.getFileContent();
-                String extension = fileReq.getExtension();
-                str = str.replaceAll(" ", "+");
-                byteData = decoder.decodeBuffer(str);
-                for (int i = 0; i < byteData.length; ++i) {
-                    // 调整异常数据
-                    if (byteData[i] < 0) {
-                        byteData[i] += 256;
-                    }
-                }
-                String uuid = UUID.randomUUID().toString();
-                String fileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + "." + extension);
-                File file = new File(fileUrl);
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-                Runtime.getRuntime().exec("chmod 777 -R " + fileUrl);
-                fileList.add(FilenameUtils.separatorsToSystem(path + uuid + "." + extension));
-                FileOutputStream out = new FileOutputStream(file);
-                out.write(byteData);
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        List<String> fileList = FileuploadUtil.saveFileByBase64(filesReq, path, attachmentGainPath);
         return AlvesJSONResult.ok(fileList);
     }
 }

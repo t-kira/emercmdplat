@@ -123,6 +123,7 @@ public class SysLogServiceImpl implements SysLogService {
                     JSONObject taskJson = JSONObject.fromObject(params);
                     Map taskClassMap = new HashMap();
                     taskClassMap.put("contactList", JSONObject.class);
+                    taskClassMap.put("contactIdList", Long.class);
                     TaskExtend taskExtend = (TaskExtend)JSONObject.toBean(taskJson, TaskExtend.class, taskClassMap);
                     rJson.put("taskTitle", taskExtend.getTaskTitle());
                     rJson.put("taskContent", taskExtend.getTaskContent());
@@ -130,7 +131,7 @@ public class SysLogServiceImpl implements SysLogService {
                     List<JSONObject> contactList = taskExtend.getContactList();
                     List<String> contactNameList = new ArrayList<>();
                     if (contactIdList != null && contactIdList.size() > 0) {
-                        for (Long contactId : taskExtend.getContactIdList()) {
+                        for (Long contactId : contactIdList) {
                             ContactsResult contactsResult = cm.selectById(contactId);
                             contactNameList.add(contactsResult.getContactName());
                         }
