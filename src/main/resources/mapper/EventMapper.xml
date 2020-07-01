@@ -147,8 +147,11 @@
           #{reportType,jdbcType=INTEGER}, #{attachAddr,jdbcType=VARCHAR})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Event">
-      DELETE event_receive
+      DELETE from event_receive
       where e_id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteParam" parameterType="java.lang.Long">
+        delete from event_param where id = #{id, jdbcType=BIGINT}
     </delete>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.Event">
         update event_receive

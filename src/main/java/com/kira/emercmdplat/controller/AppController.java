@@ -1,6 +1,8 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.EventProcess;
 import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
@@ -189,5 +191,38 @@ public class AppController extends BaseController {
         String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
         List<String> fileList = FileuploadUtil.saveFileByBase64(filesReq, path, attachmentGainPath);
         return AlvesJSONResult.ok(fileList);
+    }
+    /**
+     * 事件接报
+     * @param eventDomain
+     * @return
+     */
+    @MyLog(value = 1)
+    @ResponseBody
+    @PostMapping(value = "add_event")
+    public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
+        Event event = eventDomain.getEvent();
+        String preEventNumber = DateUtil.getNowStr("yyyyMMdd");
+        EventExtend eventExtend = new EventExtend();
+        eventExtend.setOrder("e_id");
+        eventExtend.setOrderType("desc");
+        eventExtend.setEventNumber(preEventNumber);
+        List<EventResult> eventResults = es.queryForAll(eventExtend);
+        if (eventResults != null && eventResults.size() > 0) {
+            EventResult eventResult = eventResults.get(0);
+            String eventNumber = eventResult.getEventNumber();
+            event.setEventNumber(preEventNumber + StringUtil.genEventNumber(eventNumber));
+        } else {
+            event.setEventNumber(preEventNumber + "00001");
+        }
+        event.setVerifyStatus(0);
+        event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
+        event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
+        int result = es.insert(event);
+        if (result > 0) {
+            return AlvesJSONResult.ok("success insert...");
+        } else {
+            return AlvesJSONResult.errorMsg("fail insert...");
+        }
     }
 }

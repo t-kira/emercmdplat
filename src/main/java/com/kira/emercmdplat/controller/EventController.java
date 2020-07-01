@@ -81,7 +81,7 @@ public class EventController extends BaseController {
         event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
         int result = es.insert(event);
         if (result > 0) {
-            if (eventParamList.size() > 0) {
+            if (eventParamList != null && eventParamList.size() > 0) {
                 for (EventParam eventParam : eventParamList) {
                     eventParam.setEId(event.getId());
                     eventParam.setEventNumber(event.getEventNumber());
@@ -416,9 +416,23 @@ public class EventController extends BaseController {
     @PostMapping(value = "update")
     @MyLog(value = 9)
     public AlvesJSONResult update(@RequestBody EventDomain eventDomain) {
-        boolean result = es.update(eventDomain.getEvent());
+        Event event = eventDomain.getEvent();
+        List<EventParam> eventParamList = eventDomain.getEventParamList();
+        boolean result = es.update(event);
         if (result) {
-            es.updateParam(eventDomain.getEventParamList());
+            List<EventParamResult> paramList =  es.selectParamByEId(event.getId());
+            if (paramList != null && paramList.size() > 0) {
+                for (EventParamResult param : paramList) {
+                    es.deleteParam(param.getId());
+                }
+            }
+            if (eventParamList != null && eventParamList.size() > 0) {
+                for (EventParam eventParam : eventParamList) {
+                    eventParam.setEId(event.getId());
+                    eventParam.setEventNumber(event.getEventNumber());
+                    es.insertParam(eventParam);
+                }
+            }
             return AlvesJSONResult.ok();
         } else {
             return AlvesJSONResult.errorMsg("fail update...");

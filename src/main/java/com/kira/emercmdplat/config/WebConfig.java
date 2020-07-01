@@ -42,6 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
         patterns.add("/login");
         patterns.add("/app/login");
         patterns.add("/event/upload");
+        patterns.add("/war/img_download");
         registry.addInterceptor(interceptor).addPathPatterns("/**")
                 .excludePathPatterns(patterns);
     }

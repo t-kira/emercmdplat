@@ -269,16 +269,22 @@ public class FileuploadUtil {
      * @param filesReq
      * @param path
      * @param attachmentGainPath
-     * @param waterMarkContent 水印文字内容
+     * @param waterFileName 水印文字内容
      * @return
      */
-    public static List<String> addWaterMark(FilesReq filesReq, String path, String attachmentGainPath, String waterMarkContent) {
-        Font font = new Font("方正楷体简体", Font.PLAIN, 26);
+    public static List<String> addWaterMark(FilesReq filesReq, String path, String attachmentGainPath, String waterFileName) {
+        Font font = new Font("宋体", Font.PLAIN, 24);
         List<String> fileList = new ArrayList<>();
+        String waterFileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + waterFileName);
+        File waterFile = new File(waterFileUrl);
+        try {
+        Image waterImage = ImageIO.read(waterFile);
+        int waterWidth = waterImage.getWidth(null);
+        int waterHeight = waterImage.getHeight(null);
         for (FileReq fileReq : filesReq.getFileReqList()) {
             byte[] byteData = null;
             BASE64Decoder decoder = new BASE64Decoder();
-            try {
+
                 String str = fileReq.getFileContent();
                 String extension = fileReq.getExtension();
                 str = str.replaceAll(" ", "+");
@@ -304,21 +310,30 @@ public class FileuploadUtil {
                 BufferedImage bufImg = new BufferedImage(srcImgWidth, srcImgHeight, BufferedImage.TYPE_INT_RGB);
                 Graphics2D g = bufImg.createGraphics();
 
-                g.setColor(Color.WHITE); //根据图片的背景设置水印颜色
-                g.setBackground(Color.WHITE);
+//                g.setColor(Color.BLACK); //根据图片的背景设置水印颜色
+//                g.setBackground(Color.WHITE);
                 g.drawImage(srcImg, 0, 0, srcImgWidth, srcImgHeight, null);
+                float alpha = 0.8f; // 透明度
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP,
+                    alpha));
+                // 表示水印图片的位置
+                g.drawImage(waterImage, 0,0, waterWidth/2, waterHeight/2, null);
+                g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+            /*----------对显示的文字进行处理------------------*/
+//                AttributedString ats = new AttributedString(waterMarkContent);
+//                RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//                rh.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+//                rh.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+//                g.setFont(font);
+//                g.setRenderingHints(rh);
+//
+//                ats.addAttribute(TextAttribute.FONT, font, 0, waterMarkContent.length());
+//                AttributedCharacterIterator iter = ats.getIterator();
+//                g.drawString(iter, 20, 30);  //画出水印
+//                g.drawString("名称是中国石油呼和浩特石化公司，负责人是李石化。", 20, 70);
+//                g.drawString("联系电话是13266873569。", 20, 110);
+//                g.drawString("地址内蒙古自治区呼和浩特市赛罕区金河镇中国石油加油站(赛罕区金河镇格尔图小学东南)", 20, 150);
 
-                /*----------对显示的文字进行处理------------------*/
-                AttributedString ats = new AttributedString(waterMarkContent);
-                RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                rh.put(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-                rh.put(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-                g.setFont(font);
-                g.setRenderingHints(rh);
-
-                ats.addAttribute(TextAttribute.FONT, font, 0, waterMarkContent.length());
-                AttributedCharacterIterator iter = ats.getIterator();
-                g.drawString(iter, 0, 30);  //画出水印
                 g.dispose();
 
                 Runtime.getRuntime().exec("chmod 777 -R " + fileUrl);
@@ -327,9 +342,9 @@ public class FileuploadUtil {
                 ImageIO.write(bufImg, fileReq.getExtension(), out);
                 out.flush();
                 out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return fileList;
     }

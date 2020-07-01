@@ -42,11 +42,11 @@ public class LoadInitData implements CommandLineRunner {
         tableList.add("sys_log");
         tableList.add("task");
         tableList.add("verify_report");
-        tableList.add("plan_catalog");
-        tableList.add("plan_group");
-        tableList.add("plan_response_guard");
-        tableList.add("plan_version");
-        tableList.add("plan_version_approval");
+//        tableList.add("plan_catalog");
+//        tableList.add("plan_group");
+//        tableList.add("plan_response_guard");
+//        tableList.add("plan_version");
+//        tableList.add("plan_version_approval");
 //        dts.truncateTable(tableList);
         System.out.println("数据初始化成功...");
     }
