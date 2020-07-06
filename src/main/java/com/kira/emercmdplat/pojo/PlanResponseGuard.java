@@ -3,7 +3,11 @@ package com.kira.emercmdplat.pojo;
 import java.util.List;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
-
+/**
+ * 预案应急资源保障
+ * @author richard.yuq
+ *
+ */
 public class PlanResponseGuard {
 
 	@ApiComment(value = "id", sample = "1")

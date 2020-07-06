@@ -1,7 +1,11 @@
 package com.kira.emercmdplat.pojo;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
-
+/**
+ * 应急专家
+ * @author richard.yuq
+ *
+ */
 public class EmergencyExpert extends BaseObject {
 
 	@ApiComment(value = "id", sample = "1")

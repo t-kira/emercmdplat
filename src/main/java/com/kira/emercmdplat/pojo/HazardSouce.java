@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
+ * 风险隐患
+ * 
  * @Author: kira
  * @Date: 2020/2/1 11:01
  * @Description:

@@ -6,6 +6,11 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 import lombok.Data;
 
+/**
+ * 预案审核
+ * @author richard.yuq
+ *
+ */
 @Data
 public class PlanVersionApproval {
 	

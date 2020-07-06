@@ -4,6 +4,11 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 import lombok.Data;
 
+/**
+ * 监控
+ * @author richard.yuq
+ *
+ */
 @Data
 public class Monitor extends BaseObject {
 	

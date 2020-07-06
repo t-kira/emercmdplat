@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
+/**
+ * 预案响应
+ * @author richard.yuq
+ *
+ */
 public class PlanResponse {
 
 	@ApiComment(value = "id", sample = "1")

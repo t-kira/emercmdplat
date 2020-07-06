@@ -3,6 +3,11 @@ package com.kira.emercmdplat.pojo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
+/**
+ * 运输单位
+ * @author richard.yuq
+ *
+ */
 public class TransportUnit extends BaseObject {
 
 	@ApiComment(value = "id", sample = "1")

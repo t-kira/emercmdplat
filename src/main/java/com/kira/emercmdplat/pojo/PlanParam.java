@@ -2,6 +2,11 @@ package com.kira.emercmdplat.pojo;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
+/**
+ * 预案参数
+ * @author richard.yuq
+ *
+ */
 public class PlanParam {
 
 	@ApiComment(value = "id", sample = "1")

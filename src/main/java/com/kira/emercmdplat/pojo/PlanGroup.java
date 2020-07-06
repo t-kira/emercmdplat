@@ -4,6 +4,11 @@ import java.util.List;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
+/**
+ * 预案组
+ * @author richard.yuq
+ *
+ */
 public class PlanGroup extends BaseObject {
 
 	@ApiComment(value = "id", sample = "1")

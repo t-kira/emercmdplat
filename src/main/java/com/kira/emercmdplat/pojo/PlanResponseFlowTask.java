@@ -3,7 +3,11 @@ package com.kira.emercmdplat.pojo;
 import java.util.List;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
-
+/**
+ * 预案响应流程任务
+ * @author richard.yuq
+ *
+ */
 public class PlanResponseFlowTask {
 
 	@ApiComment(value = "id", sample = "1")
