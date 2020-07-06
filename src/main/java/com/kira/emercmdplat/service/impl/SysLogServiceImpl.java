@@ -86,15 +86,18 @@ public class SysLogServiceImpl implements SysLogService {
                     EventDomain eventDomain = (EventDomain)JSONObject.toBean(eventJson, EventDomain.class, classMap);
                     rJson.put("eventTitle", eventDomain.getEvent().getEventTitle());
                     List<JSONObject> paramList = new ArrayList<>();
-                    for (EventParam eventParam : eventDomain.getEventParamList()) {
-                        JSONObject paramJson = new JSONObject();
-                        paramJson.put("value", eventParam.getPpValue());
-                        PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
-                        paramJson.put("name", param.getName());
-                        paramJson.put("unit", param.getUnit());
-                        paramList.add(paramJson);
+                    List<EventParam> eventParamList = eventDomain.getEventParamList();
+                    if (eventParamList != null && eventParamList.size() > 0) {
+                        for (EventParam eventParam : eventParamList) {
+                            JSONObject paramJson = new JSONObject();
+                            paramJson.put("value", eventParam.getPpValue());
+                            PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
+                            paramJson.put("name", param.getName());
+                            paramJson.put("unit", param.getUnit());
+                            paramList.add(paramJson);
+                        }
+                        rJson.put("paramList", paramList);
                     }
-                    rJson.put("paramList", paramList);
                     break;
                 case EVENT_VERIFY:
                     JSONObject eventVerifyJson = JSONObject.fromObject(params);
@@ -123,6 +126,7 @@ public class SysLogServiceImpl implements SysLogService {
                     JSONObject taskJson = JSONObject.fromObject(params);
                     Map taskClassMap = new HashMap();
                     taskClassMap.put("contactList", JSONObject.class);
+                    taskClassMap.put("contactIdList", Long.class);
                     TaskExtend taskExtend = (TaskExtend)JSONObject.toBean(taskJson, TaskExtend.class, taskClassMap);
                     rJson.put("taskTitle", taskExtend.getTaskTitle());
                     rJson.put("taskContent", taskExtend.getTaskContent());
@@ -130,7 +134,7 @@ public class SysLogServiceImpl implements SysLogService {
                     List<JSONObject> contactList = taskExtend.getContactList();
                     List<String> contactNameList = new ArrayList<>();
                     if (contactIdList != null && contactIdList.size() > 0) {
-                        for (Long contactId : taskExtend.getContactIdList()) {
+                        for (Long contactId : contactIdList) {
                             ContactsResult contactsResult = cm.selectById(contactId);
                             contactNameList.add(contactsResult.getContactName());
                         }
@@ -158,15 +162,18 @@ public class SysLogServiceImpl implements SysLogService {
                     PlanType planType = ptm.selectById(eventDomain1.getEvent().getPtId().intValue());
                     rJson.put("ptName", planType.getName());
                     List<JSONObject> paramsList = new ArrayList<>();
-                    for (EventParam eventParam : eventDomain1.getEventParamList()) {
-                        JSONObject paramJson = new JSONObject();
-                        paramJson.put("value", eventParam.getPpValue());
-                        PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
-                        paramJson.put("name", param.getName());
-                        paramJson.put("unit", param.getUnit());
-                        paramsList.add(paramJson);
+                    List<EventParam> eventParams = eventDomain1.getEventParamList();
+                    if (eventParams != null && eventParams.size() > 0) {
+                        for (EventParam eventParam : eventParams) {
+                            JSONObject paramJson = new JSONObject();
+                            paramJson.put("value", eventParam.getPpValue());
+                            PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
+                            paramJson.put("name", param.getName());
+                            paramJson.put("unit", param.getUnit());
+                            paramsList.add(paramJson);
+                        }
+                        rJson.put("paramList", paramsList);
                     }
-                    rJson.put("paramList", paramsList);
                     break;
                 default:
                     break;

@@ -32,34 +32,34 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * 
+ *
  * @author richard.yuq
  *
  */
 @Service
 public class DataTypeServiceImpl implements DataTypeService {
-	
+
 	@Autowired
     private DataTypeMapper dm;
-	
+
 	@Autowired
     private EmergencyTeamMapper etm;
-	
+
 	@Autowired
     private MedicalInstitutionMapper mim;
-	
+
 	@Autowired
 	private ShelterMapper sm;
-	
+
 	@Autowired
 	private ReserveLibraryMapper rlm;
-	
+
 	@Autowired
 	private ContactMapper cm;
-	
+
 	@Autowired
 	private PlanOrgMapper pm;
-	
+
 	@Autowired
     private PlanGroupMapper pgm;
 
@@ -135,7 +135,7 @@ public class DataTypeServiceImpl implements DataTypeService {
 				result.add(d);
 			}
 		} else {
-			
+
 		}
 		return result;
 	}
@@ -168,7 +168,7 @@ public class DataTypeServiceImpl implements DataTypeService {
 				d.setId(rl.getId());
 				d.setName(rl.getName());
 			} else {
-				
+
 			}
 			result.add(d);
 		}
@@ -247,4 +247,11 @@ public class DataTypeServiceImpl implements DataTypeService {
 		return result;
 	}
 
+	@Override
+	public boolean truncateTable(List<String> tableList) {
+		for (String tableName : tableList) {
+			dm.truncateTable(tableName);
+		}
+		return true;
+	}
 }

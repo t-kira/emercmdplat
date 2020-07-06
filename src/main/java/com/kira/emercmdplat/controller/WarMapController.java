@@ -5,10 +5,13 @@ import com.kira.emercmdplat.enums.SourceType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.*;
+import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -99,6 +102,22 @@ public class WarMapController {
             DataType dataType = new DataType();
             dataType.setTaskType(1);
             dataTypeList = dts.queryForAll(dataType);
+            DataType dataType1 = new DataType();
+            dataType1.setTaskType(2);
+            List<DataType> dataTypes = dts.queryForAll(dataType1);
+            DataType dataType2 = new DataType();
+            dataType1.setTaskType(3);
+            List<DataType> dataTypes1 = dts.queryForAll(dataType2);
+            if (dataTypes != null && dataTypes.size() > 0) {
+                for (DataType dataType3 : dataTypes) {
+                    dataTypeList.add(dataType3);
+                }
+            }
+            if (dataTypes1 != null && dataTypes1.size() > 0) {
+                for (DataType dataType3 : dataTypes) {
+                    dataTypeList.add(dataType3);
+                }
+            }
         }
         List<JSONObject> listJson = new ArrayList<>();
         for (DataType d : dataTypeList) {
@@ -160,8 +179,8 @@ public class WarMapController {
                     jsonObject.put("attachList", attachList);
                 }
                 json.put("feedback", jsonObject);
+                jsonObjectList.add(json);
             }
-            jsonObjectList.add(json);
         }
         return AlvesJSONResult.ok(jsonObjectList);
     }
@@ -267,5 +286,27 @@ public class WarMapController {
         }
         resultJson.put("riskReport", MessageFormat.format(riskReport, riskBuffer.deleteCharAt(riskBuffer.length() - 1)));
         return AlvesJSONResult.ok(resultJson);
+    }
+
+    @ResponseBody
+    @PostMapping("download")
+    public AlvesJSONResult downLoad(@RequestBody FilesReq filesReq, HttpServletResponse response) {
+        String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath").toString();
+        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
+        List<String> fileList = FileuploadUtil.addWaterMark(filesReq, path, attachmentGainPath, "water.png");
+        return AlvesJSONResult.ok(fileList);
+//        for (String fileUrl : fileList) {
+//            String extension = fileUrl.substring(fileUrl.lastIndexOf("."));
+//            String newFileName = DateUtil.getNowStr("yyyyMMddHHmmss") + "." + extension;
+//            FileuploadUtil.downLoad(response, attachmentGainPath + fileUrl, newFileName);
+//        }
+    }
+    @GetMapping("img_download")
+    public void downloadImg(String fileName, HttpServletResponse response) {
+        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
+        String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath").toString();
+        String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String newFileName = DateUtil.getNowStr("yyyyMMddHHmmss") + "." + extension;
+        FileuploadUtil.downLoad(response, attachmentGainPath + path + fileName, newFileName);
     }
 }

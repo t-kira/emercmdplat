@@ -1,12 +1,15 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.EventProcess;
 import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.*;
+import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,37 +189,40 @@ public class AppController extends BaseController {
     public AlvesJSONResult upload(@RequestBody FilesReq filesReq) {
         String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
         String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
-        List<String> fileList = new ArrayList<>();
-        for (FileReq fileReq : filesReq.getFileReqList()) {
-            byte[] byteData = null;
-            BASE64Decoder decoder = new BASE64Decoder();
-            try {
-                String str = fileReq.getFileContent();
-                String extension = fileReq.getExtension();
-                str = str.replaceAll(" ", "+");
-                byteData = decoder.decodeBuffer(str);
-                for (int i = 0; i < byteData.length; ++i) {
-                    // 调整异常数据
-                    if (byteData[i] < 0) {
-                        byteData[i] += 256;
-                    }
-                }
-                String uuid = UUID.randomUUID().toString();
-                String fileUrl = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + "." + extension);
-                File file = new File(fileUrl);
-                if (!file.exists()) {
-                    file.createNewFile();
-                }
-                Runtime.getRuntime().exec("chmod 777 -R " + fileUrl);
-                fileList.add(FilenameUtils.separatorsToSystem(path + uuid + "." + extension));
-                FileOutputStream out = new FileOutputStream(file);
-                out.write(byteData);
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        List<String> fileList = FileuploadUtil.saveFileByBase64(filesReq, path, attachmentGainPath);
         return AlvesJSONResult.ok(fileList);
+    }
+    /**
+     * 事件接报
+     * @param eventDomain
+     * @return
+     */
+    @MyLog(value = 1)
+    @ResponseBody
+    @PostMapping(value = "add_event")
+    public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
+        Event event = eventDomain.getEvent();
+        String preEventNumber = DateUtil.getNowStr("yyyyMMdd");
+        EventExtend eventExtend = new EventExtend();
+        eventExtend.setOrder("e_id");
+        eventExtend.setOrderType("desc");
+        eventExtend.setEventNumber(preEventNumber);
+        List<EventResult> eventResults = es.queryForAll(eventExtend);
+        if (eventResults != null && eventResults.size() > 0) {
+            EventResult eventResult = eventResults.get(0);
+            String eventNumber = eventResult.getEventNumber();
+            event.setEventNumber(preEventNumber + StringUtil.genEventNumber(eventNumber));
+        } else {
+            event.setEventNumber(preEventNumber + "00001");
+        }
+        event.setVerifyStatus(0);
+        event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
+        event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
+        int result = es.insert(event);
+        if (result > 0) {
+            return AlvesJSONResult.ok("success insert...");
+        } else {
+            return AlvesJSONResult.errorMsg("fail insert...");
+        }
     }
 }

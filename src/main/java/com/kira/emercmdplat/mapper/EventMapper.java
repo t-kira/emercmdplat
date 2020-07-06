@@ -40,4 +40,6 @@ public interface EventMapper{
     List<EventResult> queryByTitle(Event event);
 
     int updateParam(EventParam eventParam);
+
+    int deleteParam(Long id);
 }

@@ -95,6 +95,8 @@ public class SysLogAspect {
                 sysLog.setOperation("调整预案");
             }
             eid = StringUtil.toLongDefValue(json.get("eid").toString(), 0l);
+        } else if(arg instanceof TaskExtend) {
+            eid = StringUtil.toLongDefValue(json.get("eventId").toString(), 0l);
         } else {
             eid = StringUtil.toLongDefValue(json.get("eid").toString(), 0l);
         }

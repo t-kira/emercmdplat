@@ -32,6 +32,8 @@ public interface EventService{
 
     int updateDevelopment(EventDevelopment eventDevelopment);
 
+    int deleteParam(Long id);
+
     List<EventResult> queryForPage(EventExtend eventExtend);
 
     List<EventParamResult> selectParamByEId(Long eId);
