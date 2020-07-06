@@ -36,7 +36,7 @@
             and r_id = #{id,jdbcType=INTEGER}
         </if>
         <if test="name != null">
-            and r_name = #{name,jdbcType=VARCHAR}
+            and r_name like concat('%',#{name,jdbcType=VARCHAR},'%')
         </if>
         <if test="type != null">
             and r_type = #{type,jdbcType=INTEGER}
