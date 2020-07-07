@@ -16,8 +16,7 @@
     <sql id="Base_Column_List">
     l.id, l.event_id, l.contact_id, l.instruct_content, l.instruct_status, l.instruct_time, c.c_name as contact_name, j.j_name, m.m_name as mechanism_name
     </sql>
-  <sql id="Basic_Conditions" >
-<!--    <![CDATA[where 1=1 ]]>-->
+    <sql id="Basic_Conditions" >
     <if test="id != null" >
       and l.id = #{id,jdbcType=BIGINT}
     </if>
@@ -27,17 +26,11 @@
     <if test="contactId != null" >
       and l.contact_id = #{contactId,jdbcType=BIGINT}
     </if>
-    <if test="instructContent != null" >
-      and l.instruct_content = #{instructContent,jdbcType=VARCHAR}
-    </if>
     <if test="instructStatus != null" >
       and l.instruct_status = #{instructStatus,jdbcType=INTEGER}
     </if>
-    <if test="instructTime != null" >
-      and l.instruct_time = #{instructTime,jdbcType=VARCHAR}
-    </if>
   </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct" >
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct" >
     insert into leader_instruct (id, event_id, contact_id, instruct_content, instruct_status, instruct_time)
     values (#{id,jdbcType=BIGINT}, #{eventId, jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{instructContent,jdbcType=VARCHAR}, #{instructStatus,jdbcType=INTEGER},
       #{instructTime,jdbcType=VARCHAR})
@@ -67,7 +60,6 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>

@@ -51,7 +51,6 @@
     e.verify_method, e.event_type, e.verify_status, e.report_type, e.attach_addr
     </sql>
     <sql id="Basic_Conditions">
-<!--        <![CDATA[where 1=1 ]]>-->
         <if test="id != null">
             and e.e_id = #{id,jdbcType=BIGINT}
         </if>

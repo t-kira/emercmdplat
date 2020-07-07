@@ -1,11 +1,14 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.Group;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,28 +28,28 @@ public class ContactController {
 
     @ResponseBody
     @PostMapping("add")
-    public AlvesJSONResult insert(@RequestBody Contacts contacts) {
+    public AlvesJSONResult insert(@Validated @RequestBody Contacts contacts) {
         int result = cs.insert(contacts);
         if (result > 0) {
             return AlvesJSONResult.ok("success insert...");
         } else {
-            return AlvesJSONResult.errorMsg("fail insert...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "新增联系人失败");
         }
     }
 
     @ResponseBody
     @PostMapping("add_group")
-    public AlvesJSONResult insertGroup(@RequestBody Group group) {
+    public AlvesJSONResult insertGroup(@Validated @RequestBody Group group) {
         int result = cs.insertGroup(group);
         if (result > 0) {
             return AlvesJSONResult.ok("success insert...");
         } else {
-            return AlvesJSONResult.errorMsg("fail insert...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "新增分组失败");
         }
     }
 
     @ResponseBody
-    @GetMapping("remove")
+    @GetMapping("remove/{id}")
     public AlvesJSONResult delete(@PathVariable Long id) {
         boolean result = cs.delete(id);
         if (result) {
@@ -57,13 +60,17 @@ public class ContactController {
     }
 
     @ResponseBody
-    @GetMapping("remove_group")
+    @GetMapping("remove_group/{id}")
     public AlvesJSONResult deleteGroup(@PathVariable Long id) {
+        List<ContactsResult> contactsResultList = cs.selectByGid(id);
+        if (contactsResultList != null || contactsResultList.size() > 0) {
+            return AlvesJSONResult.errorMsg("分组下有联系人,无法删除");
+        }
         boolean result = cs.deleteGroup(id);
         if (result) {
             return AlvesJSONResult.ok("success remove");
         } else {
-            return AlvesJSONResult.errorMsg("fail remove...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "删除分组失败");
         }
     }
 
@@ -74,7 +81,7 @@ public class ContactController {
         if (result) {
             return AlvesJSONResult.ok("success update...");
         } else {
-            return AlvesJSONResult.errorMsg("fail update...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "更新联系人失败");
         }
     }
     @ResponseBody
@@ -84,7 +91,7 @@ public class ContactController {
         if (result) {
             return AlvesJSONResult.ok("success update...");
         } else {
-            return AlvesJSONResult.errorMsg("fail update...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "更新分组失败");
         }
     }
     @ResponseBody

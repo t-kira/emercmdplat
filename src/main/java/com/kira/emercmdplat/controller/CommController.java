@@ -34,19 +34,7 @@ public class CommController {
     public AlvesJSONResult getRongCloudToken(HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contacts = cs.findByToken(token);
-        String nonce = StringUtil.getRandomNum(10);
-        String timeStamp = DateUtil.getTimeStampString();
-        String signature = SecuritySHA1Utils.shaEncode(WebSecurityConfig.APP_SECRE + nonce + timeStamp);
-        Map<String, String> headers = new HashMap<>();
-        headers.put("App-Key", WebSecurityConfig.APP_KEY);
-        headers.put("Nonce", nonce);
-        headers.put("Timestamp", timeStamp);
-        headers.put("Signature", signature);
-        Map params = new HashMap();
-        params.put("userId", contacts.getId());
-        params.put("name", contacts.getContactName());
-        params.put("portraitUri", contacts.getPhoto());
-        String result = HttpUtils.post(WebSecurityConfig.RONGCLOUD_API_URL, params, headers, WebSecurityConfig.HTTP_CONNECT_TIMEOUT, WebSecurityConfig.HTTP_READ_TIMEOUT, "UTF-8");
+        String result = TokenUtil.getRongCloudToken(contacts);
         if (StringUtil.isEmpty(result)) {
             return AlvesJSONResult.errorMsg("获取Token失败...");
         } else {

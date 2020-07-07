@@ -12,8 +12,8 @@
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, event_id, sys_log_type, user_name, operation, method, params, create_time
-  </sql>
+        id, event_id, sys_log_type, user_name, operation, method, params, create_time
+    </sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
         <if test="id != null">
@@ -27,18 +27,6 @@
         </if>
         <if test="user_name != null">
             and user_name = #{userName,jdbcType=VARCHAR}
-        </if>
-        <if test="operation != null">
-            and operation = #{operation,jdbcType=VARCHAR}
-        </if>
-        <if test="method != null">
-            and method = #{method,jdbcType=VARCHAR}
-        </if>
-        <if test="params != null">
-            and params = #{params,jdbcType=VARCHAR}
-        </if>
-        <if test="createTime != null">
-            and create_time = #{createTime,jdbcType=VARCHAR}
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.SysLog">
@@ -107,5 +95,4 @@
         from sys_log
         <include refid="Basic_Conditions"/>
     </select>
-
 </mapper>
