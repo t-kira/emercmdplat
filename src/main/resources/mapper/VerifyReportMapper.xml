@@ -11,9 +11,10 @@
         <result column="attach_address" property="attachAddress" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
         <result column="quick_report_addr" property="quickReportAddr" jdbcType="VARCHAR"/>
+        <result column="rich_text" property="richText" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id,event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, create_time
+        id,event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, rich_text, create_time
     </sql>
     <sql id="Basic_Conditions" >
         <![CDATA[where 1=1 ]]>
@@ -32,23 +33,14 @@
         <if test="contactId != null" >
             and contact_id = #{contactId,jdbcType=BIGINT}
         </if>
-        <if test="judgeOpinion != null" >
-            and judge_opinion = #{judgeOpinion,jdbcType=VARCHAR}
-        </if>
-        <if test="attachAddress != null" >
-            and attach_address = #{attachAddress,jdbcType=VARCHAR}
-        </if>
-        <if test="quickReportAddr != null">
-            and quick_report_addr = #{quickReportAddr,jdbcType=VARCHAR}
-        </if>
         <if test="createTime != null" >
             and create_time = #{createTime,jdbcType=VARCHAR}
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.VerifyReport" useGeneratedKeys="true" keyProperty="id">
-        insert into verify_report (id, event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, quick_report_addr, create_time)
+        insert into verify_report (id, event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, quick_report_addr, create_time, rich_text)
         values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{pvId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER}, #{contactId,jdbcType=BIGINT}, #{judgeOpinion,jdbcType=VARCHAR},
-          #{attachAddress,jdbcType=VARCHAR}, #{quickReportAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
+          #{attachAddress,jdbcType=VARCHAR}, #{quickReportAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{richText,jdbcType=VARCHAR})
     </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         DELETE verify_report
@@ -77,6 +69,9 @@
             </if>
             <if test="quickReportAddr != null">
                 quick_report_addr = #{quickReportAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="richText != null">
+                rich_text = #{richText,jdbcType=VARCHAR},
             </if>
             <if test="createTime != null" >
                  create_time = #{createTime,jdbcType=VARCHAR},

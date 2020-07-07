@@ -9,7 +9,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  */
 public enum MessageType implements BaseEnum<MessageType> {
 
-    MESSAGE_TRANSFER(1, "转办督办"), MESSAGE_REPORT(2, "呈报上报"), MESSAGE_RETURN(3, "退回");
+    NORMAL_TYPE(0,"正常类型"),MESSAGE_TRANSFER(1, "转办督办"), MESSAGE_REPORT(2, "呈报上报"), MESSAGE_RETURN(3, "退回");
 
     private Integer MESSAGE_Code;
 
@@ -46,6 +46,8 @@ public enum MessageType implements BaseEnum<MessageType> {
     @Override
     public MessageType getProperty(Integer key) {
         switch (key) {
+            case 0:
+                return NORMAL_TYPE;
             case 1:
                 return MESSAGE_TRANSFER;
             case 2:

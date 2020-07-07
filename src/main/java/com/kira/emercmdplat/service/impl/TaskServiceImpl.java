@@ -1,6 +1,8 @@
 package com.kira.emercmdplat.service.impl;
 
+import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.enums.TaskStatus;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.mapper.TaskMapper;
 import com.kira.emercmdplat.pojo.ContactsResult;
@@ -61,7 +63,7 @@ public class TaskServiceImpl implements TaskService {
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "任务指派失败");
         }
     }
 

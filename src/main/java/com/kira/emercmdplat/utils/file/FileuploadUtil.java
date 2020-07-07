@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.utils.file;
 
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.FileReq;
 import com.kira.emercmdplat.pojo.FilesReq;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -345,6 +347,7 @@ public class FileuploadUtil {
         }
         } catch (IOException e) {
             e.printStackTrace();
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo());
         }
         return fileList;
     }
@@ -377,6 +380,7 @@ public class FileuploadUtil {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "图片下载失败");
         }
     }
 }

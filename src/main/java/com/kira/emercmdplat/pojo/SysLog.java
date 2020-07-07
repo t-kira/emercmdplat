@@ -2,6 +2,9 @@ package com.kira.emercmdplat.pojo;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * @Author: kira
  * @Date: 2020/5/4 22:04
@@ -18,6 +21,8 @@ public class SysLog {
     /**
      * 事件ID
      */
+    @NotNull(message = "事件ID为必传项")
+    @Min(value = 1, message = "事件ID为必传项")
     private Long eventId;
     /**
      * 用户名

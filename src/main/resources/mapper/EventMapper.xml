@@ -73,18 +73,6 @@
         <if test="incidentLocation != null">
             and e.incident_location = #{incidentLocation,jdbcType=VARCHAR}
         </if>
-        <if test="lng != null">
-            and e.lng = #{lng,jdbcType=DOUBLE}
-        </if>
-        <if test="lat != null">
-            and e.lat = #{lat,jdbcType=DOUBLE}
-        </if>
-        <if test="influenceSphere != null">
-            and e.influence_sphere = #{influenceSphere,jdbcType=DOUBLE}
-        </if>
-        <if test="incidentAreaId != null">
-            and e.incident_area_id = #{incidentAreaId,jdbcType=BIGINT}
-        </if>
         <if test="ptId != null">
             and e.pt_id = #{ptId,jdbcType=BIGINT}
         </if>
@@ -118,7 +106,6 @@
         <if test="eventLevel != null">
             and e.event_level = #{eventLevel,jdbcType=INTEGER}
         </if>
-
         <if test="verifyMethod != null">
             and e.verify_method = #{verifyMethod,jdbcType=INTEGER}
         </if>

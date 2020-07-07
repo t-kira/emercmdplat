@@ -2,6 +2,7 @@ package com.kira.emercmdplat.service;
 
 import com.kira.emercmdplat.pojo.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @Description:
  */
 public interface EventService{
-    int insert(Event event);
+    int insert(Event event, HttpServletRequest request);
 
     boolean delete(Event event);
 

@@ -12,6 +12,7 @@ import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,29 +55,10 @@ public class EventController extends BaseController {
     @MyLog(value = 1)
     @ResponseBody
     @PostMapping(name = "事件接报", value = "add")
-    public AlvesJSONResult insert(@RequestBody EventDomain eventDomain, HttpServletRequest request) {
+    public AlvesJSONResult insert(@Validated @RequestBody EventDomain eventDomain, HttpServletRequest request) {
         Event event = eventDomain.getEvent();
         List<EventParam> eventParamList = eventDomain.getEventParamList();
-        String preEventNumber = DateUtil.getNowStr("yyyyMMdd");
-        EventExtend eventExtend = new EventExtend();
-        eventExtend.setOrder("e_id");
-        eventExtend.setOrderType("desc");
-        eventExtend.setEventNumber(preEventNumber);
-        List<EventResult> eventResults = es.queryForAll(eventExtend);
-        if (eventResults != null && eventResults.size() > 0) {
-            EventResult eventResult = eventResults.get(0);
-            String eventNumber = eventResult.getEventNumber();
-            event.setEventNumber(preEventNumber + StringUtil.genEventNumber(eventNumber));
-        } else {
-            event.setEventNumber(preEventNumber + "00001");
-        }
-        String token = TokenUtil.getRequestToken(request);
-        ContactsResult contactsResult = cs.findByToken(token);
-        event.setContactId(contactsResult.getId());
-        event.setVerifyStatus(0);
-        event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
-        event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
-        int result = es.insert(event);
+        int result = es.insert(event, request);
         if (result > 0) {
             if (eventParamList != null && eventParamList.size() > 0) {
                 for (EventParam eventParam : eventParamList) {
@@ -84,24 +66,26 @@ public class EventController extends BaseController {
                     eventParam.setEventNumber(event.getEventNumber());
                     es.insertParam(eventParam);
                 }
-            } else {
-                throw new CustomException(ResultEnum.MISSING_PARAMETER.getNo());
             }
             return AlvesJSONResult.ok(event);
         } else {
-            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo());
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(),"事件保存失败");
         }
     }
     @MyLog(value = 7)
     @ResponseBody
     @PostMapping(name = "终结事件", value = "end")
     public AlvesJSONResult end(@RequestBody Event event) {
-        event.setProcess(EventProcess.EVENT_FINISH.getNo());
-        boolean result = es.update(event);
-        if (result) {
-            return AlvesJSONResult.ok("success close");
+        if (event != null && event.getId() > 0) {
+            event.setProcess(EventProcess.EVENT_FINISH.getNo());
+            boolean result = es.update(event);
+            if (result) {
+                return AlvesJSONResult.ok("success close");
+            } else {
+                throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo());
+            }
         } else {
-            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo());
+            throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo());
         }
     }
     @ResponseBody
@@ -112,7 +96,7 @@ public class EventController extends BaseController {
     }
     @ResponseBody
     @GetMapping(name = "根据事件类型返回事件参数集合", value = "event_param/{id}")
-    public AlvesJSONResult listParam(@PathVariable int id) {
+    public AlvesJSONResult listParam(@PathVariable Integer id) {
         List<PlanParam> planParamList = pts.listParamsByPtId(id,true);
         return AlvesJSONResult.ok(planParamList);
     }
@@ -139,20 +123,24 @@ public class EventController extends BaseController {
     @MyLog(value = 3)
     @ResponseBody
     @PostMapping(name = "添加核实报告内容", value = "add_verify")
-    public AlvesJSONResult insertVerifyReport(@RequestBody VerifyReport verifyReport) {
+    public AlvesJSONResult insertVerifyReport(@Validated @RequestBody VerifyReport verifyReport) {
 //        VerifyReport verifyReport = verifyQuickReport.getVerify();
+        verifyReport.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         int result = vrs.insert(verifyReport);
         if (result > 0) {
             EventResult eventResult = es.selectById(verifyReport.getEventId());
+            if (eventResult == null) {
+                throw new CustomException(ResultEnum.NON_DATA.getNo());
+            }
             QuickReport quickReport = new QuickReport();
             quickReport.setTitle(eventResult.getEventTitle());
             quickReport.setContent(eventResult.getEventDesc());
             quickReport.setEventId(verifyReport.getEventId());
-            quickReport.setOrigin(1);
+            quickReport.setOrigin(QuickReportOrigin.VERIFY_REPORT_ORIGIN.getNo());
             quickReport.setEditId(eventResult.getContactId());
             quickReport.setIssueTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
             JSONObject json = new JSONObject();
-            json.put("richText", verifyReport.getCreateTime());
+            json.put("richText", verifyReport.getRichText());
 
             // 文件的实际路径
             String path = PropertiesUtils.getInstance().getProperty("attachmentPath");
@@ -167,13 +155,14 @@ public class EventController extends BaseController {
                 vrs.update(verifyReport);
             } catch (Exception e) {
                 e.printStackTrace();
+                throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "pdf文件生成失败");
             }
             quickReport.setPdfAddr(path + uuid + ".pdf");
             quickReport.setSubmitId(eventResult.getContactId().intValue());
             qrs.insert(quickReport);
             //生成PDF
-            Event event = es.selectById(verifyReport.getEventId());
-            event.setId(verifyReport.getEventId());
+            Event event = new Event();
+            event.setId(eventResult.getId());
             event.setProcess(EventProcess.VERIFY_REPORT.getNo());
             //新增一条消息
             Message message = new Message();
@@ -181,10 +170,11 @@ public class EventController extends BaseController {
             message.setContactId(verifyReport.getContactId());
             message.setVId(verifyReport.getId());
             message.setStatus(MessageStatus.MESSAGE_UNREAD.getNo());
-            message.setType(0);
+            message.setType(MessageType.NORMAL_TYPE.getNo());
             mas.insert(message);
-
+            //更新事件进程
             es.update(event);
+            //预先生成一条预案记录
             ReservePlan reservePlan = new ReservePlan();
             reservePlan.setEventId(verifyReport.getEventId());
             reservePlan.setStatus(ReservePlanStatus.UNEDIT.getNo());
@@ -192,7 +182,7 @@ public class EventController extends BaseController {
             rps.insert(reservePlan);
             return AlvesJSONResult.ok(EventProcess.VERIFY_REPORT.getNo());
         } else {
-            return AlvesJSONResult.errorMsg("fail insert verifyReport...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo());
         }
     }
     @ResponseBody
@@ -204,7 +194,7 @@ public class EventController extends BaseController {
         if (verifyReportList != null && verifyReportList.size() > 0) {
             return AlvesJSONResult.ok(verifyReportList.get(0));
         } else {
-            return AlvesJSONResult.errorMsg("verify report is null ...");
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
         }
     }
     @ResponseBody
@@ -218,8 +208,8 @@ public class EventController extends BaseController {
             return AlvesJSONResult.ok(fileResult);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "附件上传失败");
         }
-        return AlvesJSONResult.errorMsg("fail upload...");
     }
     @ResponseBody
     @GetMapping(name = "初判预案列表", value = "plan_version_list/{id}")
@@ -254,7 +244,7 @@ public class EventController extends BaseController {
         if (list != null && list.size() > 0) {
             return AlvesJSONResult.ok(list.get(0));
         } else {
-            return AlvesJSONResult.errorMsg("verify report is null ...");
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
         }
     }
     @ResponseBody
@@ -272,21 +262,21 @@ public class EventController extends BaseController {
     @MyLog(value = 5)
     @ResponseBody
     @PostMapping(name = "启动预案", value = "reserve_start")
-    public AlvesJSONResult startReservePlan(@RequestBody ReservePlanResult reservePlanResult) {
+    public AlvesJSONResult startReservePlan(@Validated @RequestBody ReservePlanResult reservePlanResult) {
         VerifyReport verifyReport = new VerifyReport();
         verifyReport.setId(reservePlanResult.getVrId());
         verifyReport.setPrId(reservePlanResult.getPrId());
         boolean result = vrs.update(verifyReport);
         if (result) {
             reservePlanResult.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-                Event event = new Event();
-                event.setId(reservePlanResult.getEventId());
-                event.setProcess(EventProcess.RESERVE_PLAN.getNo());
-                es.update(event);
+            Event event = new Event();
+            event.setId(reservePlanResult.getEventId());
+            event.setProcess(EventProcess.RESERVE_PLAN.getNo());
+            es.update(event);
             rps.update(reservePlanResult);
-            return AlvesJSONResult.ok("ok start...");
+            return AlvesJSONResult.ok("预案启动成功");
         } else {
-            return AlvesJSONResult.errorMsg("fail start reserve...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "预案启动失败");
         }
     }
     @MyLog(value = 8)
@@ -297,7 +287,7 @@ public class EventController extends BaseController {
         if (result) {
             return AlvesJSONResult.ok();
         } else {
-            return AlvesJSONResult.errorMsg("fail delete...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "事件删除失败");
         }
     }
     @MyLog(value = 9)
@@ -326,7 +316,7 @@ public class EventController extends BaseController {
             }
             return AlvesJSONResult.ok();
         } else {
-            return AlvesJSONResult.errorMsg("fail update...");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "事件更新失败");
         }
     }
     @ResponseBody
@@ -352,7 +342,7 @@ public class EventController extends BaseController {
     @MyLog(value = 2)
     @ResponseBody
     @PostMapping(name = "审核事件", value = "verify_event")
-    public AlvesJSONResult verifyEvent(@RequestBody VerifyEventReq eventReq) {
+    public AlvesJSONResult verifyEvent(@Validated @RequestBody VerifyEventReq eventReq) {
         EventResult coverEvent = es.selectById(eventReq.getCoverEId());
         if (eventReq.getMainEId() != null) {
             EventResult mainEvent = es.selectById(eventReq.getMainEId());
@@ -382,7 +372,7 @@ public class EventController extends BaseController {
             coverEvent.setVerifyStatus(eventReq.getVerifyStatus());
             coverEvent.setEventType(eventReq.getEventType());
             coverEvent.setMergeReason(eventReq.getMergeReason());
-            if (eventReq.getEventType() == 1) {
+            if (eventReq.getEventType() == EventType.NORMAL_EVENT.getNo()) {
                 coverEvent.setProcess(EventProcess.EVENT_FINISH.getNo());
                 coverEvent.setStatus(EventStatus.FINISH.getNo());
             }
@@ -394,20 +384,24 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(name = "事件合并", value = "merge_event")
     public AlvesJSONResult mergeEvent(@RequestBody VerifyEventReq eventReq) {
-        EventResult coverEvent = es.selectById(eventReq.getCoverEId());
-        EventResult mainEvent = es.selectById(eventReq.getMainEId());
-        coverEvent.setMergeReason(eventReq.getMergeReason());
-        //被合并
-        coverEvent.setVerifyStatus(EventVerifyStatus.IS_MERGE.getNo());
-        es.update(coverEvent);
-        //被合并的事件记录
-        SysLog sysLog = new SysLog();
-        sysLog.setEventId(mainEvent.getId());
-        sysLog.setOperation(coverEvent.getEventDesc());
-        sysLog.setUserName(mainEvent.getReporter());
-        sysLog.setCreateTime(coverEvent.getReceiveTime());
-        sls.insert(sysLog);
-        return AlvesJSONResult.ok();
+        if (eventReq.getMainEId() > 0 && eventReq.getCoverEId() > 0) {
+            EventResult coverEvent = es.selectById(eventReq.getCoverEId());
+            EventResult mainEvent = es.selectById(eventReq.getMainEId());
+            coverEvent.setMergeReason(eventReq.getMergeReason());
+            //被合并
+            coverEvent.setVerifyStatus(EventVerifyStatus.IS_MERGE.getNo());
+            es.update(coverEvent);
+            //被合并的事件记录
+            SysLog sysLog = new SysLog();
+            sysLog.setEventId(mainEvent.getId());
+            sysLog.setOperation(coverEvent.getEventDesc());
+            sysLog.setUserName(mainEvent.getReporter());
+            sysLog.setCreateTime(coverEvent.getReceiveTime());
+            sls.insert(sysLog);
+            return AlvesJSONResult.ok();
+        } else {
+            throw new CustomException(ResultEnum.MISSING_PARAMETER.getNo(), "主事件和被合并事件ID不能为空");
+        }
     }
     @ResponseBody
     @GetMapping(name = "查询操作记录", value = "sys_log_list/{eventId}")
@@ -417,7 +411,7 @@ public class EventController extends BaseController {
     }
     @ResponseBody
     @PostMapping(name = "情况更新", value = "sys_log_add")
-    public AlvesJSONResult sysLogInsert(@RequestBody SysLog sysLog, HttpServletRequest request) {
+    public AlvesJSONResult sysLogInsert(@Validated @RequestBody SysLog sysLog, HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         Contacts contacts = cs.findByToken(token);
         sysLog.setUserName(contacts.getContactName());
@@ -427,7 +421,7 @@ public class EventController extends BaseController {
         if (result > 0) {
             return AlvesJSONResult.ok("success insert ...");
         } else {
-            return AlvesJSONResult.errorMsg("fail insert ....");
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "情况更新失败");
         }
     }
     @ResponseBody

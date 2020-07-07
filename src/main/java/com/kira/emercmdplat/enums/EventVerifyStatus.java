@@ -9,7 +9,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  */
 public enum EventVerifyStatus implements BaseEnum<EventVerifyStatus> {
 
-    IS_TRUE(1,"属实"),IS_FALSE(2, "不属实"),IS_MERGE(3, "被合并");
+    UN_VERIFY(0, "未审核"),IS_TRUE(1,"属实"),IS_FALSE(2, "不属实"),IS_MERGE(3, "被合并");
 
     private Integer VERIFY_CODE;
 
@@ -60,6 +60,8 @@ public enum EventVerifyStatus implements BaseEnum<EventVerifyStatus> {
 
     public static EventVerifyStatus getByValue(Integer key) {
         switch (key) {
+            case 0:
+                return UN_VERIFY;
             case 1:
                 return IS_TRUE;
             case 2:

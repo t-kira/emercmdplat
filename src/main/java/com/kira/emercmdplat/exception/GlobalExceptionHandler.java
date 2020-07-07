@@ -2,6 +2,7 @@ package com.kira.emercmdplat.exception;
 
 import com.kira.emercmdplat.enums.ResultEnum;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,10 +29,22 @@ public class GlobalExceptionHandler {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         if (e instanceof CustomException) {
             CustomException exception = (CustomException) e;
-            return new ErrorResponseEntity(exception.getCode(), exception.getMessage());
+            return new ErrorResponseEntity(exception.getCode(), ResultEnum.getByValue(exception.getCode()).getName());
         } else {
             return new ErrorResponseEntity(ResultEnum.UNKNOW_ERROR.getNo(), ResultEnum.UNKNOW_ERROR.getName());
         }
+    }
+
+    /**
+     * post请求参数校验抛出的异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponseEntity methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
+        //获取异常中随机一个异常信息
+        String defaultMessage = e.getBindingResult().getFieldError().getDefaultMessage();
+        return new ErrorResponseEntity(ResultEnum.ERROR_PARAMETER.getNo(), defaultMessage);
     }
 
     /**

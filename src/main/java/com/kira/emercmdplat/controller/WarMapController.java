@@ -1,14 +1,13 @@
 package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.annotation.MyLog;
-import com.kira.emercmdplat.enums.SourceType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.*;
 import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -51,7 +50,7 @@ public class WarMapController {
     @MyLog(value = 6)
     @ResponseBody
     @PostMapping(name = "指派事件任务", value = "add_task")
-    public AlvesJSONResult insertTask(@RequestBody TaskExtend taskExtend) {
+    public AlvesJSONResult insertTask(@Validated  @RequestBody TaskExtend taskExtend) {
         int result = ts.insert(taskExtend);
         if (result > 0) {
             return AlvesJSONResult.ok("success insert...");
@@ -71,7 +70,7 @@ public class WarMapController {
     }
     @ResponseBody
     @PostMapping(name="列出事件发源地范围内的风险隐患",value="situation_analysis")
-    public AlvesJSONResult situationAnalysis(@RequestBody EventSource eventSource) {
+    public AlvesJSONResult situationAnalysis(@Validated @RequestBody EventSource eventSource) {
         EventResult eventResult = es.selectById(eventSource.getEventId());
         List<DataType> dataTypeList = new ArrayList<>();
         if (eventSource.getDataTypeId() != null && eventSource.getDataTypeId() > 0) {
@@ -266,16 +265,11 @@ public class WarMapController {
     }
     @ResponseBody
     @PostMapping(name = "上传截图", value = "download")
-    public AlvesJSONResult downLoad(@RequestBody FilesReq filesReq, HttpServletResponse response) {
+    public AlvesJSONResult downLoad(@RequestBody FilesReq filesReq) {
         String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath");
         String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath");
         List<String> fileList = FileuploadUtil.addWaterMark(filesReq, path, attachmentGainPath, "water.png");
         return AlvesJSONResult.ok(fileList);
-//        for (String fileUrl : fileList) {
-//            String extension = fileUrl.substring(fileUrl.lastIndexOf("."));
-//            String newFileName = DateUtil.getNowStr("yyyyMMddHHmmss") + "." + extension;
-//            FileuploadUtil.downLoad(response, attachmentGainPath + fileUrl, newFileName);
-//        }
     }
     @GetMapping(name = "下载截图", value = "img_download")
     public void downloadImg(String fileName, HttpServletResponse response) {

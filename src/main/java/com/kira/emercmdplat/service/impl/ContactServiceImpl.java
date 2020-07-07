@@ -1,6 +1,8 @@
 package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.config.WebSecurityConfig;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
@@ -139,6 +141,7 @@ public class ContactServiceImpl implements ContactService {
                 newContact.setRongToken(resultJson.getString("token"));
             } else {
                 logger.error(resultJson.getString("errorMessage"));
+                throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "融云token获取失败");
             }
         }
         logger.error("用户Id：" + contacts.getId() + ",用户名：" + contacts.getUsername() +",融云token:" + newContact.getRongToken());

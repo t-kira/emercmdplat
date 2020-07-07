@@ -146,25 +146,9 @@ public class AppController extends BaseController {
     @MyLog(value = 1)
     @ResponseBody
     @PostMapping(name = "手机端事件接报", value = "add_event")
-    public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
+    public AlvesJSONResult insert(@RequestBody EventDomain eventDomain, HttpServletRequest request) {
         Event event = eventDomain.getEvent();
-        String preEventNumber = DateUtil.getNowStr("yyyyMMdd");
-        EventExtend eventExtend = new EventExtend();
-        eventExtend.setOrder("e_id");
-        eventExtend.setOrderType("desc");
-        eventExtend.setEventNumber(preEventNumber);
-        List<EventResult> eventResults = es.queryForAll(eventExtend);
-        if (eventResults != null && eventResults.size() > 0) {
-            EventResult eventResult = eventResults.get(0);
-            String eventNumber = eventResult.getEventNumber();
-            event.setEventNumber(preEventNumber + StringUtil.genEventNumber(eventNumber));
-        } else {
-            event.setEventNumber(preEventNumber + "00001");
-        }
-        event.setVerifyStatus(0);
-        event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
-        event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
-        int result = es.insert(event);
+        int result = es.insert(event, request);
         if (result > 0) {
             return AlvesJSONResult.ok("录入成功");
         } else {

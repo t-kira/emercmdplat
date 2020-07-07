@@ -2,6 +2,9 @@ package com.kira.emercmdplat.pojo;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 /**
  * @Author: kira
  * @Date: 2020/5/2 18:20
@@ -17,6 +20,8 @@ public class VerifyEventReq {
     /**
      * 事件类型：1：一般事件 2：应急事件
      */
+    @NotNull(message = "事件类型为必填项")
+    @Min(value = 1, message = "事件类型为必填项")
     private Integer eventType;
     /**
      * 核实状态：1：属实 2：不属实
@@ -33,5 +38,7 @@ public class VerifyEventReq {
     /**
      * 从事件ID
      */
+    @NotNull(message = "coverEId为必填项")
+    @Min(value = 1, message = "coverEId为必填项")
     private Long coverEId;
 }

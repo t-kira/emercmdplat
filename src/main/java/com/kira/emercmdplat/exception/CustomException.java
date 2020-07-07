@@ -5,7 +5,7 @@ import com.kira.emercmdplat.enums.ResultEnum;
 /**
  * @Author: kira
  * @Date: 2020/7/6 17:33
- * @Description:
+ * @Description:自定义异常类
  */
 public class CustomException extends RuntimeException{
 

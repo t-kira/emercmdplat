@@ -69,9 +69,6 @@
         <if test="telephone != null" >
           and c.telephone = #{telephone,jdbcType=VARCHAR}
         </if>
-        <if test="backupPhone != null" >
-          and c.backup_phone = #{backupPhone,jdbcType=VARCHAR}
-        </if>
         <if test="terminal != null" >
           and c.terminal = #{terminal,jdbcType=VARCHAR}
         </if>
@@ -90,23 +87,8 @@
         <if test="email != null">
             and c.email = #{email, jdbcType=VARCHAR}
         </if>
-        <if test="importanceDegree != null">
-            and c.importance_degree = #{importanceDegree, jdbcType=INTEGER}
-        </if>
-        <if test="photo != null">
-            and c.photo = #{photo, jdbcType=VARCHAR}
-        </if>
-        <if test="notes != null">
-            and c.notes = #{notes, jdbcType=VARCHAR}
-        </if>
         <if test="gId != null">
             and c.g_id = #{gId, jdbcType=INTEGER}
-        </if>
-        <if test="createTime != null">
-            and c.create_time = #{createTime, jdbcType=VARCHAR}
-        </if>
-        <if test="updateTime != null">
-            and c.update_time = #{updateTime, jdbcType=VARCHAR}
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Contacts" >
