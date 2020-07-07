@@ -45,14 +45,7 @@ public class WarMapController {
     @ResponseBody
     @GetMapping(name = "通讯录", value = "list_group")
     public AlvesJSONResult groupList() {
-        List<Group> groups = cs.selectGroup(new Group());
-        for (Group group : groups) {
-            List<ContactsResult> contactsResultList = cs.selectByGid(group.getId());
-            if (contactsResultList != null && contactsResultList.size() > 0) {
-                group.setContactsList(contactsResultList);
-            }
-        }
-        List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
+        List<Group> groupList = cs.selectContactList();
         return AlvesJSONResult.ok(groupList);
     }
     @MyLog(value = 6)
@@ -93,7 +86,7 @@ public class WarMapController {
             dataType1.setTaskType(2);
             List<DataType> dataTypes = dts.queryForAll(dataType1);
             DataType dataType2 = new DataType();
-            dataType1.setTaskType(3);
+            dataType2.setTaskType(3);
             List<DataType> dataTypes1 = dts.queryForAll(dataType2);
             if (dataTypes != null && dataTypes.size() > 0) {
                 for (DataType dataType3 : dataTypes) {
@@ -101,7 +94,7 @@ public class WarMapController {
                 }
             }
             if (dataTypes1 != null && dataTypes1.size() > 0) {
-                for (DataType dataType3 : dataTypes) {
+                for (DataType dataType3 : dataTypes1) {
                     dataTypeList.add(dataType3);
                 }
             }

@@ -50,4 +50,6 @@ public interface ContactService {
     void logout(String token);
 
     List<Permission> findPermissionsByCid(Long cid);
+
+    List<Group> selectContactList();
 }

@@ -169,4 +169,16 @@ public class ContactServiceImpl implements ContactService {
         return cm.findPermissionsByCid(cid);
     }
 
+    @Override
+    public List<Group> selectContactList() {
+        List<Group> groups = cm.selectGroup(new Group());
+        for (Group group : groups) {
+            List<ContactsResult> contactsResultList = cm.selectByGid(group.getId());
+            if (contactsResultList != null && contactsResultList.size() > 0) {
+                group.setContactsList(contactsResultList);
+            }
+        }
+        List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
+        return groupList;
+    }
 }

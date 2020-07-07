@@ -433,14 +433,7 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping(name = "通讯录", value = "list_group")
     public AlvesJSONResult groupList() {
-        List<Group> groups = cs.selectGroup(new Group());
-        for (Group group : groups) {
-            List<ContactsResult> contactsResultList = cs.selectByGid(group.getId());
-            if (contactsResultList != null && contactsResultList.size() > 0) {
-                group.setContactsList(contactsResultList);
-            }
-        }
-        List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
+        List<Group> groupList = cs.selectContactList();
         List<JSONObject> list = new ArrayList<>();
         for (Group group : groupList) {
             JSONObject json = JSONObject.fromObject(group);
