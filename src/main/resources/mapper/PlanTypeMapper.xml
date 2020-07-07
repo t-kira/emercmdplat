@@ -17,7 +17,7 @@
             and pt_id = #{id,jdbcType=INTEGER}
         </if>
         <if test="name != null">
-            and pt_name = #{name,jdbcType=VARCHAR}
+            and pt_name like concat('%',#{name,jdbcType=VARCHAR},'%')
         </if>
         <if test="order != null">
             and pt_order = #{order,jdbcType=INTEGER}

@@ -2,21 +2,28 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 /**
  * @Author: kira
  * @Date: 2020/5/7 22:55
  * @Description:
  */
 public class Group {
-
+	
+	@ApiComment(value = "id", sample = "1")
     private Long id;
-
+    
+    @ApiComment(value = "分组名", sample = "aaa")
     private String gName;
-
+    
+    @ApiComment(value = "父组id", sample = "1")
     private Long superGid;
 
+    @ApiComment(value = "联系人列表", sample = "[]")
     private List<ContactsResult> contactsList;
-
+    
+    @ApiComment(value = "分组列表", sample = "[]")
     private List<Group> groupList;
 
     public Long getId() {

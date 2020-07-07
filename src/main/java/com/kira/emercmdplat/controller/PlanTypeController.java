@@ -149,8 +149,8 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 16)
 	@ApiComment("列出组员列表")
 	@RequestMapping(name="列出组员列表",value="/listUsers",method=RequestMethod.GET)
-	public List<ContactsResult> listUsers() {
-		return contactService.queryForAll(null);
+	public List<Group> listUsers() {
+		return contactService.selectContactList();
 	}
 
 	@Api2Doc(order = 13)

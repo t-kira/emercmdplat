@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 import lombok.Data;
 
 /**
@@ -9,11 +11,14 @@ import lombok.Data;
  */
 //@Data
 public class ContactsResult extends Contacts{
-
+	
+	@ApiComment(value = "职务名称", sample = "aaa")
     private String jName;
-
+	
+	@ApiComment(value = "工作单位名称", sample = "aaa")
     private String mName;
-
+	
+	@ApiComment(value = "分组名称", sample = "aaa")
     private String gName;
 
     public String getjName() {
