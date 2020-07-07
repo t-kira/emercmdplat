@@ -19,7 +19,7 @@
     </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Mechanism" >
-    insert into duty (id, m_name)
+    insert into mechanism (id, m_name)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.Mechanism">

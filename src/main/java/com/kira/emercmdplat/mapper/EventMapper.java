@@ -21,25 +21,17 @@ public interface EventMapper{
 
     EventResult selectById(Long id);
 
-    EventResult selectByEId(Long eId);
-
     List<EventResult> queryForAll(EventExtend eventExtend);
 
     Long queryForCounts(EventExtend eventExtend);
 
     int insertParam(EventParam eventParam);
 
-    int insertDevelopment(EventDevelopment eventDevelopment);
-
-    int updateDevelopment(EventDevelopment eventDevelopment);
-
     List<EventResult> queryForPage(EventExtend eventExtend);
 
-    List<EventParamResult> selectParamByEId(Long eId);
+    List<EventParamResult> selectParamByEventId(Long eventId);
     //app事件标题模糊查询
     List<EventResult> queryByTitle(Event event);
-
-    int updateParam(EventParam eventParam);
 
     int deleteParam(Long id);
 }

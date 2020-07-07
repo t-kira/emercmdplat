@@ -5,7 +5,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
 /**
  * @Author: kira
  * @Date: 2020/4/13 02:15
- * @Description:事件状态
+ * @Description:预案状态
  */
 public enum ReservePlanStatus implements BaseEnum<ReservePlanStatus> {
 

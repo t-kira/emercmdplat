@@ -46,7 +46,7 @@ public class ReservePlanServiceImpl implements ReservePlanService {
     /**
      * 改，
      *
-     * @param reservePlan
+     * @param reservePlanResult
      * @return
      */
     @Override
@@ -57,12 +57,12 @@ public class ReservePlanServiceImpl implements ReservePlanService {
     /**
      * 根据id查询单个
      *
-     * @param eId
+     * @param eventId
      * @return
      */
     @Override
-    public List<ReservePlanResult> selectByEId(Long eId) {
-        return rpm.selectByEId(eId);
+    public List<ReservePlanResult> selectByEventId(Long eventId) {
+        return rpm.selectByEventId(eventId);
     }
 
     /**

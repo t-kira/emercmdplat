@@ -84,8 +84,8 @@ public class MessageController extends BaseController {
         if (result) {
             if (message.getType() == MessageType.MESSAGE_TRANSFER.getNo() || message.getType() == MessageType.MESSAGE_REPORT.getNo()) {
                 message.setStatus(MessageStatus.MESSAGE_UNREAD.getNo());
-                message.setDid(message.getToDid());
-                message.setToDid(null);
+                message.setContactId(message.getContactId());
+                message.setContactId(null);
                 message.setId(null);
                 ms.insert(message);
             }
@@ -109,7 +109,7 @@ public class MessageController extends BaseController {
         int result = lis.insert(leaderInstructExtend);
         if (result > 0) {
             Event event = new Event();
-            event.setId(leaderInstructExtend.getEid());
+            event.setId(leaderInstructExtend.getEventId());
             event.setProcess(EventProcess.LEADER_INSTRUCT.getNo());
             es.update(event);
             //修改消息状态
@@ -128,7 +128,7 @@ public class MessageController extends BaseController {
     public AlvesJSONResult list(@RequestBody MessageExtend messageExtend, HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
-        messageExtend.setDid(contactsResult.getId());
+        messageExtend.setContactId(contactsResult.getId());
         Map<String, Object> map = new HashMap<>();
         List<MessageResult> list = ms.queryForPage(messageExtend);
         Long count = ms.queryForCounts(messageExtend);

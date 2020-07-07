@@ -6,9 +6,7 @@ import com.kira.emercmdplat.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: kira
@@ -62,48 +60,17 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public int insertDevelopment(EventDevelopment eventDevelopment) {
-        return em.insertDevelopment(eventDevelopment);
-    }
-
-    /**
-     * 修改事件发展内容
-     *
-     * @param eventDevelopment
-     * @return
-     */
-    @Override
-    public int updateDevelopment(EventDevelopment eventDevelopment) {
-        return em.updateDevelopment(eventDevelopment);
-    }
-
-    @Override
     public int deleteParam(Long id) {
         return em.deleteParam(id);
     }
 
     @Override
-    public EventResult selectByEId(Long eId) {
-        return em.selectByEId(eId);
-    }
-
-    @Override
-    public List<EventParamResult> selectParamByEId(Long eId) {
-        return em.selectParamByEId(eId);
+    public List<EventParamResult> selectParamByEventId(Long eventId) {
+        return em.selectParamByEventId(eventId);
     }
 
     @Override
     public List<EventResult> queryByTitle(Event event) {
         return em.queryByTitle(event);
-    }
-
-    @Override
-    public int updateParam(List<EventParam> eventParamList) {
-        if (eventParamList != null && eventParamList.size() >0) {
-            for (EventParam eventParam : eventParamList) {
-                em.updateParam(eventParam);
-            }
-        }
-        return 1;
     }
 }

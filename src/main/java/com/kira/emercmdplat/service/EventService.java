@@ -1,10 +1,8 @@
 package com.kira.emercmdplat.service;
 
 import com.kira.emercmdplat.pojo.*;
-import com.kira.emercmdplat.service.base.BaseService;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: kira
@@ -20,26 +18,19 @@ public interface EventService{
 
     EventResult selectById(Long id);
 
-    EventResult selectByEId(Long eId);
-
     List<EventResult> queryForAll(EventExtend eventExtend);
 
     Long queryForCounts(EventExtend eventExtend);
 
     int insertParam(EventParam eventParam);
 
-    int insertDevelopment(EventDevelopment eventDevelopment);
-
-    int updateDevelopment(EventDevelopment eventDevelopment);
-
     int deleteParam(Long id);
 
     List<EventResult> queryForPage(EventExtend eventExtend);
 
-    List<EventParamResult> selectParamByEId(Long eId);
+    List<EventParamResult> selectParamByEventId(Long eventId);
 
     //app事件标题模糊查询
     List<EventResult> queryByTitle(Event event);
 
-    int updateParam(List<EventParam> eventParamList);
 }

@@ -5,7 +5,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
 /**
  * @Author: kira
  * @Date: 2020/4/18 22:44
- * @Description:
+ * @Description:消息状态
  */
 public enum MessageStatus implements BaseEnum<MessageStatus> {
 

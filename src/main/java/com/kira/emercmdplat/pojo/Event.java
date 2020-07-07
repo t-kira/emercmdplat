@@ -72,7 +72,7 @@ public class Event {
     /**
      * 值班人员ID
      */
-    private Long did;
+    private Long contactId;
     /**
      * 事件状态
      */

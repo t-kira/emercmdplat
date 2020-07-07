@@ -6,7 +6,7 @@ import com.kira.emercmdplat.pojo.Report;
 /**
  * @Author: kira
  * @Date: 2020/6/26 10:36
- * @Description:
+ * @Description:日志操作类型
  */
 public enum SysLogType implements BaseEnum<SysLogType> {
     UNDEFINED_TYPE(0, "无法识别的状态"), EVENT_INSERT(1, "事件接报"), EVENT_VERIFY(2, "事件核实"),

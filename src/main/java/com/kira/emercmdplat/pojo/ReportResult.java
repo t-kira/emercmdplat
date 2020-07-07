@@ -12,5 +12,5 @@ public class ReportResult extends Report{
 
     private String eventNumber;
 
-    private String dName;
+    private String contactName;
 }

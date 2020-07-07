@@ -18,7 +18,7 @@ public class SysLog {
     /**
      * 事件ID
      */
-    private Long eid;
+    private Long eventId;
     /**
      * 用户名
      */

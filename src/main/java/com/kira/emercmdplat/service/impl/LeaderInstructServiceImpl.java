@@ -2,6 +2,8 @@ package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.mapper.LeaderInstructMapper;
 import com.kira.emercmdplat.pojo.LeaderInstruct;
+import com.kira.emercmdplat.pojo.LeaderInstructExtend;
+import com.kira.emercmdplat.pojo.LeaderInstructResult;
 import com.kira.emercmdplat.service.LeaderInstructService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,23 +38,23 @@ public class LeaderInstructServiceImpl implements LeaderInstructService {
     }
 
     @Override
-    public LeaderInstruct selectById(Integer id) {
+    public LeaderInstructResult selectById(Integer id) {
         return lim.selectById(id);
     }
 
     @Override
-    public List queryForAll(LeaderInstruct pojo) {
-        return lim.queryForAll(pojo);
+    public List<LeaderInstructResult> queryForAll(LeaderInstructExtend leaderInstructExtend) {
+        return lim.queryForAll(leaderInstructExtend);
     }
 
     @Override
-    public List queryForPage(LeaderInstruct pojo, Integer page, Integer pageSize) {
-        Map<String, Object> paramMap = new HashMap<>();
-        return lim.queryForPage(paramMap);
+    public List<LeaderInstructResult> queryForPage(LeaderInstructExtend leaderInstructExtend) {
+        leaderInstructExtend.setPage((leaderInstructExtend.getPage() - 1) * leaderInstructExtend.getPageSize());
+        return lim.queryForPage(leaderInstructExtend);
     }
 
     @Override
-    public Long queryForCounts(LeaderInstruct pojo) {
-        return lim.queryForCounts(pojo);
+    public Long queryForCounts(LeaderInstructExtend leaderInstructExtend) {
+        return lim.queryForCounts(leaderInstructExtend);
     }
 }

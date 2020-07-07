@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.ReportMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.ReportResult">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="e_id" property="eId" jdbcType="INTEGER"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="event_id" property="eventId" jdbcType="BIGINT"/>
         <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
-        <result column="d_id" property="did" jdbcType="INTEGER"/>
-        <result column="d_name" property="dName" jdbcType="VARCHAR"/>
+        <result column="contact_id" property="contactId" jdbcType="BIGINT"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
         <result column="report_time" property="reportTime" jdbcType="VARCHAR"/>
         <result column="key_word" property="keyWord" jdbcType="VARCHAR"/>
         <result column="report_content" property="reportContent" jdbcType="VARCHAR"/>
@@ -16,18 +16,17 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    r.id, r.e_id, e.event_number, r.d_id, d.d_name, r.report_time, r.key_word, r.report_content, r.r_type, r.create_time, r.update_time
+    r.id, r.event_id, e.event_number, r.contact_id, c.contact_name, r.report_time, r.key_word, r.report_content, r.r_type, r.create_time, r.update_time
   </sql>
   <sql id="Basic_Conditions" >
-<!--    <![CDATA[where 1=1 ]]>-->
     <if test="id != null" >
       and r.id = #{id,jdbcType=INTEGER}
     </if>
-    <if test="eId != null" >
-      and r.e_id = #{eId,jdbcType=INTEGER}
+    <if test="eventId != null" >
+      and r.event_id = #{eventId,jdbcType=BIGINT}
     </if>
-    <if test="did != null" >
-      and r.d_id = #{did,jdbcType=INTEGER}
+    <if test="contactId != null" >
+      and r.contact_id = #{contactId,jdbcType=BIGINT}
     </if>
     <if test="reportTime != null" >
       and r.report_time = #{reportTime,jdbcType=VARCHAR}
@@ -49,8 +48,8 @@
     </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Report" >
-    insert into report (id, e_id, d_id, report_time, key_word, report_content, r_type, create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR},
+    insert into report (id, event_id, contact_id, report_time, key_word, report_content, r_type, create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{reportTime,jdbcType=VARCHAR},
       #{keyWord,jdbcType=VARCHAR}, #{reportContent,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
       #{updateTime,jdbcType=VARCHAR})
   </insert>
@@ -61,11 +60,11 @@
     <update id="update" parameterType="com.kira.emercmdplat.pojo.Report">
         update report
         <set>
-            <if test="eId != null" >
-                e_id = #{eId,jdbcType=INTEGER},
+            <if test="eventId != null" >
+                event_id = #{eventId,jdbcType=BIGINT},
             </if>
-            <if test="did != null" >
-                d_id = #{did,jdbcType=INTEGER},
+            <if test="contactId != null" >
+                contact_id = #{contactId,jdbcType=BIGINT},
             </if>
             <if test="reportTime != null" >
                 report_time = #{reportTime,jdbcType=VARCHAR},
@@ -92,23 +91,23 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from report r, event_receive e, duty d
-        where r.e_id = e.e_id and r.d_id = d.d_id and r.id = #{id,jdbcType=INTEGER}
+        from report r, event_receive e, contacts c
+        where r.event_id = e.e_id and r.contact_id = c.c_id and r.id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
         select
         <include refid="Base_Column_List"/>
-        from report r, event_receive e, duty d
-        where r.e_id = e.e_id and r.d_id = d.d_id
+        from report r, event_receive e, contacts c
+        where r.event_id = e.e_id and r.contact_id = c.c_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
         select
         <include refid="Base_Column_List"/>
-        from report r, event_receive e, duty d
-        where r.e_id = e.e_id and r.d_id = d.d_id
+        from report r, event_receive e, contacts c
+        where r.event_id = e.e_id and r.contact_id = c.c_id
         <include refid="Basic_Conditions"/>
         limit ${page}, ${pageSize}
     </select>

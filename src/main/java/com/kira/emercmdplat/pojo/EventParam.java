@@ -16,7 +16,7 @@ public class EventParam {
     /**
      * 事件ID
      */
-    private Long eId;
+    private Long eventId;
     /**
      * 事件编号
      */

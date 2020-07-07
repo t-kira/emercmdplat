@@ -124,7 +124,7 @@
     </insert>
     <update id="delete" parameterType="java.lang.Long">
         DELETE from contacts
-        where c_id = #{id,jdbcType=BIGINT}
+        where c_id = #{contactId,jdbcType=BIGINT}
     </update>
     <update id="deleteGroup" parameterType="java.lang.Long">
         delete from contact_group
@@ -218,7 +218,7 @@
         select
         <include refid="Base_Column_List"/>
         from contacts c, job j, mechanism m , contact_group g
-        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and c.c_id = #{id, jdbcType=BIGINT}
+        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and c.c_id = #{contactId, jdbcType=BIGINT}
     </select>
     <select id="selectGroupById" resultMap="GroupResultMap" parameterType="java.lang.Long">
         select g_id, g_name, super_g_id from contact_group

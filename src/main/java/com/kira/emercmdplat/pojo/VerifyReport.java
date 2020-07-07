@@ -14,7 +14,7 @@ public class VerifyReport {
     /**
      * event_receive.id事件ID
      */
-    private Long eid;
+    private Long eventId;
     /**
      * plan_version.id
      */
@@ -26,7 +26,7 @@ public class VerifyReport {
     /**
      * 领导ID
      */
-    private Long did;
+    private Long contactId;
     /**
      * 研判意见
      */

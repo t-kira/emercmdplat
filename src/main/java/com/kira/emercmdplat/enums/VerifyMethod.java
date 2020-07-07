@@ -5,7 +5,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
 /**
  * @Author: kira
  * @Date: 2020/6/26 12:50
- * @Description:
+ * @Description:事件核实途径
  */
 public enum VerifyMethod implements BaseEnum<VerifyMethod> {
 

@@ -75,32 +75,32 @@ public class SysLogAspect {
         Object[] args = joinPoint.getArgs();
         Object arg = args[0];
         JSONObject json = JSONObject.fromObject(arg);
-        Long eid = 0l;
+        Long eventId = 0l;
         if (arg instanceof Event) {
-            eid = StringUtil.toLongDefValue(json.get("id").toString(), 0l);
+            eventId = StringUtil.toLongDefValue(json.get("id").toString(), 0l);
         } else if(arg instanceof VerifyEventReq) {
             Long coverEId = StringUtil.toLongDefValue(json.get("coverEId").toString(), 0l);
             Long mainEId = StringUtil.toLongDefValue(json.get("mainEId").toString(), 0l);
             if (mainEId > 0) {
-                eid = mainEId;
+                eventId = mainEId;
             } else {
-                eid = coverEId;
+                eventId = coverEId;
             }
         } else if(arg instanceof EventDomain) {
             JSONObject eventJson = json.getJSONObject("event");
-            eid = StringUtil.toLongDefValue(StringUtil.toStr(eventJson.get("id")), 0l);
+            eventId = StringUtil.toLongDefValue(StringUtil.toStr(eventJson.get("id")), 0l);
         } else if(arg instanceof ReservePlanResult) {
             int status = StringUtil.toIntDefValue(StringUtil.toStr(json.get("status")), 0);
             if (status == 4) {
                 sysLog.setOperation("调整预案");
             }
-            eid = StringUtil.toLongDefValue(json.get("eid").toString(), 0l);
+            eventId = StringUtil.toLongDefValue(json.get("eventId").toString(), 0l);
         } else if(arg instanceof TaskExtend) {
-            eid = StringUtil.toLongDefValue(json.get("eventId").toString(), 0l);
+            eventId = StringUtil.toLongDefValue(json.get("eventId").toString(), 0l);
         } else {
-            eid = StringUtil.toLongDefValue(json.get("eid").toString(), 0l);
+            eventId = StringUtil.toLongDefValue(json.get("eventId").toString(), 0l);
         }
-        sysLog.setEid(eid);
+        sysLog.setEventId(eventId);
         //将参数所在的数组转换成json
         String params = json.toString();
         sysLog.setParams(params);

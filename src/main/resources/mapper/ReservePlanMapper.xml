@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.ReservePlanMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.ReservePlanResult">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="e_id" property="eid" jdbcType="VARCHAR"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="event_id" property="eventId" jdbcType="BIGINT"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
         <result column="pv_name" property="pvName" jdbcType="VARCHAR"/>
@@ -15,27 +15,27 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    r.id, r.e_id, r.status, r.start_time, pt.pt_name, pv.pv_name, pv.pv_id, vr.id as vr_id, pr.pr_id, pr.pr_level
+    r.id, r.event_id, r.status, r.start_time, pt.pt_name, pv.pv_name, pv.pv_id, vr.id as vr_id, pr.pr_id, pr.pr_level
     </sql>
     <sql id="Basic_Conditions">
 <!--        <![CDATA[where 1=1 ]]>-->
-        <if test="eid != null">
-            and r.e_id = #{eid,jdbcType=INTEGER}
+        <if test="eventId != null">
+            and r.event_id = #{eventId,jdbcType=BIGINT}
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.ReservePlan" useGeneratedKeys="true" keyProperty="id">
-        insert into reserve_plan (id, e_id, status, start_time)
-        values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{startTime,jdbcType=VARCHAR})
+        insert into reserve_plan (id, event_id, status, start_time)
+        values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{startTime,jdbcType=VARCHAR})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
       DELETE reserve_plan
-      where id = #{id,jdbcType=INTEGER}
+      where id = #{id,jdbcType=BIGINT}
     </delete>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.ReservePlanResult">
         update reserve_plan
         <set>
-            <if test="eid != null">
-                e_id = #{eid,jdbcType=INTEGER},
+            <if test="eventId != null">
+                event_id = #{eventId,jdbcType=BIGINT},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
@@ -44,37 +44,37 @@
                 start_time = #{startTime,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
-    <select id="selectByEId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="selectByEventId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_report vr
-        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and e.e_id = #{eid,jdbcType=BIGINT}
+        where r.event_id = e.e_id and vr.event_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and e.e_id = #{eventId,jdbcType=BIGINT}
     </select>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_report vr
-        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and r.e_id = #{id,jdbcType=BIGINT}
+        where r.event_id = e.e_id and vr.event_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and r.id = #{id,jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
         select
         <include refid="Base_Column_List"/>
         from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_eport vr
-        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
+        where r.event_id = e.e_id and vr.event_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
         <include refid="Basic_Conditions"/>
     </select>
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlanExtend">
         select
         <include refid="Base_Column_List"/>
         from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_eport vr
-        where r.e_id = e.e_id and vr.e_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
+        where r.event_id = e.e_id and vr.event_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
         <include refid="Basic_Conditions"/>
         limit ${page}, ${pageSize}
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ReservePlanExtend">
-        select count(e_id)
+        select count(id)
         from reserve_plan
         <include refid="Basic_Conditions"/>
     </select>

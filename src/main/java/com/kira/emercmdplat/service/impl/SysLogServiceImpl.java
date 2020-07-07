@@ -70,8 +70,8 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     @Override
-    public List<JSONObject> selectByEid(Long eid) {
-        List<SysLog> list = slm.selectByEid(eid);
+    public List<JSONObject> selectByEventId(Long eventId) {
+        List<SysLog> list = slm.selectByEventId(eventId);
         List<JSONObject> resultList = new ArrayList<>();
         for (SysLog sysLog : list) {
             JSONObject jsonObject = JSONObject.fromObject(sysLog);

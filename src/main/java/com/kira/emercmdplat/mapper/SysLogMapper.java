@@ -25,5 +25,5 @@ public interface SysLogMapper {
 
     List<SysLog> queryForPage(SysLogExtend sysLogExtend);
 
-    List<SysLog> selectByEid(Long eid);
+    List<SysLog> selectByEventId(Long eventId);
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.EventMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.EventResult">
-        <id column="e_id" property="id" jdbcType="INTEGER"/>
+        <id column="e_id" property="id" jdbcType="BIGINT"/>
         <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
         <result column="event_desc" property="eventDesc" jdbcType="VARCHAR"/>
         <result column="event_title" property="eventTitle" jdbcType="VARCHAR"/>
@@ -14,16 +14,16 @@
         <result column="influence_sphere" property="influenceSphere" jdbcType="DOUBLE"/>
         <result column="incident_area_id" property="incidentAreaId" jdbcType="INTEGER"/>
 <!--        <result column="incident_area_name" property="incidentAreaName" jdbcType="VARCHAR"/>-->
-        <result column="pt_id" property="ptId" jdbcType="INTEGER"/>
+        <result column="pt_id" property="ptId" jdbcType="BIGINT"/>
         <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
         <result column="report_mechanism_id" property="reportMechanismId" jdbcType="INTEGER"/>
         <result column="m_name" property="reportMechanismName" jdbcType="VARCHAR"/>
-        <result column="mechanism_id" property="mechanismId" jdbcType="INTEGER"/>
+        <result column="mechanism_id" property="mechanismId" jdbcType="BIGINT"/>
         <result column="mechanism_name" property="mechanismName" jdbcType="VARCHAR"/>
         <result column="reporter" property="reporter" jdbcType="VARCHAR"/>
         <result column="report_tel" property="reportTel" jdbcType="VARCHAR"/>
-        <result column="d_id" property="did" jdbcType="INTEGER"/>
-        <result column="d_name" property="dName" jdbcType="VARCHAR"/>
+        <result column="contact_id" property="contactId" jdbcType="BIGINT"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="process" property="process" jdbcType="INTEGER"/>
         <result column="summary" property="summary" jdbcType="VARCHAR"/>
@@ -38,7 +38,7 @@
     </resultMap>
     <resultMap id="BaseParamResultMap" type="com.kira.emercmdplat.pojo.EventParamResult">
         <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="e_id" property="eId" jdbcType="BIGINT"/>
+        <result column="event_id" property="eventId" jdbcType="BIGINT"/>
         <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
         <result column="pp_id" property="ppId" jdbcType="BIGINT"/>
         <result column="pp_value" property="ppValue" jdbcType="VARCHAR"/>
@@ -47,13 +47,13 @@
     </resultMap>
     <sql id="Base_Column_List">
     e.e_id, e.event_number, e.event_desc, e.event_title, e.receive_time, e.incident_time, e.incident_location, e.lng, e.lat, e.influence_sphere, e.incident_area_id,
-    e.pt_id, pt.pt_name, e.report_mechanism_id, m.m_name, e.mechanism_id, me.m_name as mechanism_name, e.reporter, e.report_tel, e.d_id, d.d_name, e.status, e.process, e.summary, e.merge_reason, e.event_level,
+    e.pt_id, pt.pt_name, e.report_mechanism_id, m.m_name, e.mechanism_id, me.m_name as mechanism_name, e.reporter, e.report_tel, e.contact_id, c.c_name as contact_name, e.status, e.process, e.summary, e.merge_reason, e.event_level,
     e.verify_method, e.event_type, e.verify_status, e.report_type, e.attach_addr
     </sql>
     <sql id="Basic_Conditions">
 <!--        <![CDATA[where 1=1 ]]>-->
         <if test="id != null">
-            and e.e_id = #{id,jdbcType=INTEGER}
+            and e.e_id = #{id,jdbcType=BIGINT}
         </if>
         <if test="eventNumber != null">
             and e.event_number like concat('%', #{eventNumber,jdbcType=VARCHAR}, '%')
@@ -62,7 +62,6 @@
             and e.event_desc = #{eventDesc,jdbcType=VARCHAR}
         </if>
         <if test="eventTitle != null">
-
             and e.event_title like concat('%',#{eventTitle,jdbcType=VARCHAR},'%')
         </if>
         <if test="receiveTime != null">
@@ -87,7 +86,7 @@
             and e.incident_area_id = #{incidentAreaId,jdbcType=BIGINT}
         </if>
         <if test="ptId != null">
-            and e.pt_id = #{ptId,jdbcType=INTEGER}
+            and e.pt_id = #{ptId,jdbcType=BIGINT}
         </if>
         <if test="reportMechanismId != null">
             and e.report_mechanism_id = #{reportMechanismId,jdbcType=BIGINT}
@@ -101,8 +100,8 @@
         <if test="reportTel != null">
             and e.report_tel = #{reportTel,jdbcType=VARCHAR}
         </if>
-        <if test="did != null">
-            and e.d_id = #{did,jdbcType=INTEGER}
+        <if test="contactId != null">
+            and e.contact_id = #{contactId,jdbcType=BIGINT}
         </if>
         <if test="status != null">
             and e.status = #{status,jdbcType=INTEGER}
@@ -138,17 +137,17 @@
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Event" useGeneratedKeys="true" keyProperty="id">
         insert into event_receive (e_id, event_number, event_desc, event_title, receive_time, incident_time, incident_location, lng, lat, influence_sphere, incident_area_id, pt_id, report_mechanism_id,
-            mechanism_id,reporter, report_tel, d_id, status, process, summary, merge_reason, event_level, verify_method, event_type, verify_status, report_type, attach_addr)
+            mechanism_id,reporter, report_tel, contact_id, status, process, summary, merge_reason, event_level, verify_method, event_type, verify_status, report_type, attach_addr)
         values (#{id,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{eventDesc,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, #{receiveTime,jdbcType=VARCHAR},
           #{incidentTime,jdbcType=VARCHAR}, #{incidentLocation,jdbcType=VARCHAR}, #{lng,jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE},
           #{influenceSphere,jdbcType=VARCHAR}, #{incidentAreaId,jdbcType=BIGINT}, #{ptId,jdbcType=BIGINT}, #{reportMechanismId,jdbcType=BIGINT},
-          #{mechanismId,jdbcType=BIGINT}, #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{did,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
+          #{mechanismId,jdbcType=BIGINT}, #{reporter,jdbcType=VARCHAR}, #{reportTel,jdbcType=INTEGER}, #{contactId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, #{process,jdbcType=INTEGER},
           #{summary,jdbcType=VARCHAR}, #{mergeReason,jdbcType=VARCHAR}, #{eventLevel,jdbcType=INTEGER}, #{verifyMethod,jdbcType=INTEGER}, #{eventType,jdbcType=INTEGER}, #{verifyStatus,jdbcType=INTEGER},
           #{reportType,jdbcType=INTEGER}, #{attachAddr,jdbcType=VARCHAR})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Event">
       DELETE from event_receive
-      where e_id = #{id,jdbcType=INTEGER}
+      where e_id = #{id,jdbcType=BIGINT}
     </delete>
     <delete id="deleteParam" parameterType="java.lang.Long">
         delete from event_param where id = #{id, jdbcType=BIGINT}
@@ -187,7 +186,7 @@
                 incident_area_id = #{incidentAreaId,jdbcType=INTEGER},
             </if>
             <if test="ptId != null">
-                pt_id = #{ptId,jdbcType=INTEGER},
+                pt_id = #{ptId,jdbcType=BIGINT},
             </if>
             <if test="reportMechanismId != null">
                 report_mechanism_id = #{reportMechanismId,jdbcType=INTEGER},
@@ -198,8 +197,8 @@
             <if test="reportTel != null">
                 report_tel = #{reportTel,jdbcType=VARCHAR},
             </if>
-            <if test="did != null">
-                d_id = #{did,jdbcType=INTEGER},
+            <if test="contactId != null">
+                contact_id = #{contactId,jdbcType=BIGINT},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
@@ -231,23 +230,20 @@
             <if test="mechanismId != null">
                 mechanism_id = #{mechanismId,jdbcType=BIGINT},
             </if>
-            <if test="attachAddr != null">
-                attach_addr = #{attachAddr,jdbcType=VARCHAR},
-            </if>
         </set>
-        where e_id = #{id,jdbcType=INTEGER}
+        where e_id = #{id,jdbcType=BIGINT}
     </update>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from event_receive e, plan_type pt, mechanism m, duty d, mechanism me
-        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.mechanism_id = me.id and e.d_id = d.id and e.verify_status &lt; 3 and e.e_id = #{id,jdbcType=BIGINT}
+        from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
+        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.mechanism_id = me.id and e.contact_id = c.c_id and e.verify_status &lt; 3 and e.e_id = #{id,jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventExtend">
         select
         <include refid="Base_Column_List"/>
-        from event_receive e, plan_type pt, mechanism m, duty d, mechanism me
-        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.d_id = d.id and e.mechanism_id = me.id and e.verify_status &lt; 3
+        from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
+        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id and e.verify_status &lt; 3
         <include refid="Basic_Conditions"/>
         <if test="order != null and orderType">
             order by ${order} ${orderType}
@@ -256,15 +252,15 @@
     <select id="queryByTitle" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select
         <include refid="Base_Column_List"/>
-        from event_receive e, plan_type pt, mechanism m, duty d, mechanism me
-        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.d_id = d.id and e.mechanism_id = me.id and e.verify_status &lt; 3
-        and e.event_title like concat('%',#{eventTitle},'%') and e.d_id = #{did, jdbcType=BIGINT}
+        from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
+        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id and e.verify_status &lt; 3
+        and e.event_title like concat('%',#{eventTitle},'%') and e.contact_id = #{contactId, jdbcType=BIGINT}
     </select>
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventExtend">
         select
         <include refid="Base_Column_List"/>
-        from event_receive e, plan_type pt, mechanism m, duty d, mechanism me
-        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.d_id = d.id and e.mechanism_id = me.id and e.verify_status &lt; 3
+        from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
+        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id and e.verify_status &lt; 3
         <include refid="Basic_Conditions"/>
         <if test="order != null and orderType">
             order by ${order} ${orderType}
@@ -278,39 +274,10 @@
         <include refid="Basic_Conditions"/>
     </select>
     <insert id="insertParam" parameterType="com.kira.emercmdplat.pojo.EventParam">
-        insert into event_param(id, e_id, event_number, pp_id, pp_value)
-        values (#{id,jdbcType=INTEGER}, #{eId,jdbcType=INTEGER}, #{eventNumber,jdbcType=VARCHAR}, #{ppId,jdbcType=INTEGER}, #{ppValue, jdbcType=VARCHAR})
+        insert into event_param(id, event_id, event_number, pp_id, pp_value)
+        values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{eventNumber,jdbcType=VARCHAR}, #{ppId,jdbcType=INTEGER}, #{ppValue, jdbcType=VARCHAR})
     </insert>
-    <update id="updateParam" parameterType="com.kira.emercmdplat.pojo.EventParam">
-        update event_param
-        <set>
-            <if test="ppValue != null">
-                pp_value = #{ppValue,jdbcType=VARCHAR}
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <select id="selectParamByEId" resultMap="BaseParamResultMap" parameterType="java.lang.Long">
-        select ep.id, ep.e_id, ep.event_number, ep.pp_id, ep.pp_value, pp.pp_name, pp.pp_unit from event_param ep, plan_param pp where ep.pp_id = pp.pp_id and e_id = #{eid,jdbcType=BIGINT}
+    <select id="selectParamByEventId" resultMap="BaseParamResultMap" parameterType="java.lang.Long">
+        select ep.id, ep.event_id, ep.event_number, ep.pp_id, ep.pp_value, pp.pp_name, pp.pp_unit from event_param ep, plan_param pp where ep.pp_id = pp.pp_id and ep.event_id = #{eventId,jdbcType=BIGINT}
     </select>
-    <insert id="insertDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">
-        insert into event_development(id, e_id, report_time, report_content, reporter)
-        values (#{id, jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{reportTime,jdbcType=VARCHAR},
-        #{reportContent,jdbcType=VARCHAR}, #{reporter,jdbcType=VARCHAR})
-    </insert>
-    <update id="updateDevelopment" parameterType="com.kira.emercmdplat.pojo.EventDevelopment">
-        update event_development
-        <set>
-            <if test="reportTime != null">
-                report_time = #{reportTime,jdbcType=VARCHAR}
-            </if>
-            <if test="reportContent != null">
-                report_content = #{reportContent,jdbcType=VARCHAR}
-            </if>
-            <if test="reporter != null">
-                reporter = #{reporter,jdbcType=VARCHAR}
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
 </mapper>

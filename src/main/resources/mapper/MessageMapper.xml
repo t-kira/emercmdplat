@@ -3,9 +3,9 @@
 <mapper namespace="com.kira.emercmdplat.mapper.MessageMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.MessageResult">
         <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="e_id" property="eid" jdbcType="INTEGER"/>
-        <result column="d_id" property="did" jdbcType="INTEGER"/>
-        <result column="to_d_id" property="toDid" jdbcType="INTEGER"/>
+        <result column="event_id" property="eventId" jdbcType="BIGINT"/>
+        <result column="contact_id" property="contactId" jdbcType="BIGINT"/>
+        <result column="to_contact_id" property="toContactId" jdbcType="BIGINT"/>
         <result column="v_id" property="vId" jdbcType="INTEGER"/>
         <result column="m_type" property="type" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
@@ -16,7 +16,7 @@
         <result column="receive_time" property="receiveTime" jdbcType="VARCHAR"/>
         <result column="incident_time" property="incidentTime" jdbcType="VARCHAR"/>
         <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
-        <result column="d_name" property="dName" jdbcType="VARCHAR"/>
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
         <result column="reporter" property="reporter" jdbcType="VARCHAR"/>
         <result column="report_tel" property="reportTel" jdbcType="VARCHAR"/>
         <result column="quick_report_addr" property="quickReportAddr" jdbcType="VARCHAR"/>
@@ -30,24 +30,23 @@
         <result column="lat" property="lat" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    m.id, m.e_id, m.d_id, m.to_d_id, m.v_id, m.m_type, m.status, m.reason, m.v_id,
+    m.id, m.event_id, m.contact_id, m.to_contact_id, m.v_id, m.m_type, m.status, m.reason, m.v_id,
     e.event_number, e.event_title, e.event_desc, e.receive_time, e.incident_time,pt.pt_name,
-    d.d_name, e.reporter, e.report_tel, v.attach_address, v.quick_report_addr,e.event_level,
+    c.c_name as contact_name, e.reporter, e.report_tel, v.attach_address, v.quick_report_addr,e.event_level,
     v.judge_opinion, pv.pv_name, pr.pr_level, e.incident_location, e.lng, e.lat
   </sql>
     <sql id="Basic_Conditions">
-        <!--    <![CDATA[where 1=1 ]]>-->
         <if test="id != null">
-            and m.id = #{id,jdbcType=INTEGER}
+            and m.id = #{id,jdbcType=BIGINT}
         </if>
-        <if test="eid != null">
-            and m.e_id = #{eid,jdbcType=INTEGER}
+        <if test="eventId != null">
+            and m.event_id = #{eventId,jdbcType=BIGINT}
         </if>
-        <if test="did != null">
-            and m.d_id = #{did,jdbcType=INTEGER}
+        <if test="contactId != null">
+            and m.contact_id = #{contactId,jdbcType=BIGINT}
         </if>
-        <if test="toDid != null">
-            and m.to_d_id = #{toDid,jdbcType=INTEGER}
+        <if test="toContactId != null">
+            and m.to_contact_id = #{toContactId,jdbcType=BIGINT}
         </if>
         <if test="vId != null">
             and m.v_id = #{vId,jdbcType=INTEGER}
@@ -63,25 +62,25 @@
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Message">
-    insert into message (id, e_id, d_id, to_d_id, v_id, m_type, status, reason)
-    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{toDid,jdbcType=INTEGER},
-      #{vId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR})
-  </insert>
+        insert into message (id, event_id, contact_id, to_contact_id, v_id, m_type, status, reason)
+        values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{toContactId,jdbcType=BIGINT},
+          #{vId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{reason,jdbcType=VARCHAR})
+    </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.Message">
     DELETE message
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.Message">
         update message
         <set>
-            <if test="eid != null">
-                e_id = #{eid,jdbcType=INTEGER},
+            <if test="eventId != null">
+                event_id = #{eventId,jdbcType=BIGINT},
             </if>
-            <if test="did != null">
-                d_id = #{did,jdbcType=INTEGER},
+            <if test="contactId != null">
+                contact_id = #{contactId,jdbcType=BIGINT},
             </if>
-            <if test="toDid != null">
-                to_d_id = #{toDid,jdbcType=INTEGER},
+            <if test="toContactId != null">
+                to_contact_id = #{toContactId,jdbcType=BIGINT},
             </if>
             <if test="vId != null">
                 v_id = #{vId,jdbcType=INTEGER},
@@ -96,36 +95,33 @@
                 reason = #{reason,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from message m, event_receive e, plan_type pt, duty d, verify_report v, plan_version pv, plan_response pr
-        where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.e_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
-        and m.id = #{id,jdbcType=INTEGER}
+        from message m, event_receive e, plan_type pt, contacts c, verify_report v, plan_version pv, plan_response pr
+        where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
+        and m.id = #{id,jdbcType=BIGINT}
     </select>
-
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
         select
         <include refid="Base_Column_List"/>
-        from message m, event_receive e, plan_type pt, duty d, verify_report v, plan_version pv, plan_response pr
-        where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.e_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
+        from message m, event_receive e, plan_type pt, contacts c, verify_report v, plan_version pv, plan_response pr
+        where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
         <include refid="Basic_Conditions"/>
     </select>
-
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
         select
         <include refid="Base_Column_List"/>
-        from message m, event_receive e, plan_type pt, duty d, verify_report v, plan_version pv, plan_response pr
-        where m.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and v.e_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
+        from message m, event_receive e, plan_type pt, contacts c, verify_report v, plan_version pv, plan_response pr
+        where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
         <include refid="Basic_Conditions"/>
         <if test="order != null and orderType">
             order by ${order} ${orderType}
         </if>
         limit ${page}, ${pageSize}
     </select>
-
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
         select count(id)
         from message m

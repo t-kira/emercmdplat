@@ -37,8 +37,8 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return cm.delete(id);
+    public boolean delete(Long contactId) {
+        return cm.delete(contactId);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactsResult selectById(Long id) {
-        return cm.selectById(id);
+    public ContactsResult selectById(Long contactId) {
+        return cm.selectById(contactId);
     }
 
     @Override

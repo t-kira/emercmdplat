@@ -14,11 +14,11 @@ public interface ContactMapper {
 
     int insert(Contacts contacts);
 
-    boolean delete(Long id);
+    boolean delete(Long contactId);
 
     boolean update(Contacts contacts);
 
-    ContactsResult selectById(Long id);
+    ContactsResult selectById(Long contactId);
 
     List<ContactsResult> queryForAll(ContactsExtend contactsExtend);
 

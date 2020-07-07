@@ -12,7 +12,7 @@ public class ReservePlan {
 
     private Long id;
 
-    private Long eid;
+    private Long eventId;
 
     private String startTime;
 

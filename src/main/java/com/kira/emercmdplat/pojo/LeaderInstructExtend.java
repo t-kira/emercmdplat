@@ -13,4 +13,8 @@ public class LeaderInstructExtend extends LeaderInstruct{
      * 信息ID
      */
     private Long mid;
+
+    private Integer page;
+
+    private Integer pageSize;
 }

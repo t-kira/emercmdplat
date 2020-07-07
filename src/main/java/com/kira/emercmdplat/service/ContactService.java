@@ -13,11 +13,11 @@ public interface ContactService {
 
     int insert(Contacts contacts);
 
-    boolean delete(Long id);
+    boolean delete(Long contactId);
 
     boolean update(Contacts contacts);
 
-    ContactsResult selectById(Long id);
+    ContactsResult selectById(Long contactId);
 
     List<ContactsResult> queryForAll(ContactsExtend contactsExtend);
 
@@ -50,6 +50,4 @@ public interface ContactService {
     void logout(String token);
 
     List<Permission> findPermissionsByCid(Long cid);
-
-//    String getRongCloudToken(ContactsResult contactsResult);
 }

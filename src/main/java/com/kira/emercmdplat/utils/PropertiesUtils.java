@@ -48,7 +48,7 @@ public class PropertiesUtils {
      *
      * @param name 名称
      */
-    public Object getProperty(String name) {
+    public String getProperty(String name) {
         return properties.getProperty(name);
     }
 

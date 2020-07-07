@@ -36,7 +36,7 @@ public class MessageResult extends Message{
     /**
      * 值班人员
      */
-    private String dName;
+    private String contactName;
     /**
      * 报告人姓名
      */

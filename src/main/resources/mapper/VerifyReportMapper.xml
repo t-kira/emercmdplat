@@ -2,64 +2,63 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.VerifyReportMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.VerifyReport">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="e_id" property="eid" jdbcType="INTEGER"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="event_id" property="eventId" jdbcType="BIGINT"/>
         <result column="pv_id" property="pvId" jdbcType="INTEGER"/>
         <result column="pr_id" property="prId" jdbcType="INTEGER"/>
-        <result column="d_id"  property="did" jdbcType="INTEGER"/>
+        <result column="contact_id"  property="contactId" jdbcType="BIGINT"/>
         <result column="judge_opinion" property="judgeOpinion" jdbcType="VARCHAR"/>
         <result column="attach_address" property="attachAddress" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
         <result column="quick_report_addr" property="quickReportAddr" jdbcType="VARCHAR"/>
     </resultMap>
-
     <sql id="Base_Column_List">
-    id,e_id, pv_id, pr_id, d_id, judge_opinion, attach_address, create_time
-  </sql>
-  <sql id="Basic_Conditions" >
-    <![CDATA[where 1=1 ]]>
-    <if test="id != null" >
-      and id = #{id,jdbcType=INTEGER}
-    </if>
-      <if test="eid != null">
-        and e_id = #{eid, jdbcType=INTEGER}
-      </if>
-    <if test="pvId != null" >
-      and pv_id = #{pvId,jdbcType=INTEGER}
-    </if>
-    <if test="prId != null" >
-      and pr_id = #{prId,jdbcType=INTEGER}
-    </if>
-      <if test="did != null" >
-          and d_id = #{did,jdbcType=INTEGER}
-      </if>
-    <if test="judgeOpinion != null" >
-      and judge_opinion = #{judgeOpinion,jdbcType=VARCHAR}
-    </if>
-    <if test="attachAddress != null" >
-      and attach_address = #{attachAddress,jdbcType=VARCHAR}
-    </if>
-    <if test="quickReportAddr != null">
-        and quick_report_addr = #{quickReportAddr,jdbcType=VARCHAR}
-    </if>
-    <if test="createTime != null" >
-      and create_time = #{createTime,jdbcType=VARCHAR}
-    </if>
-  </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.VerifyReport" useGeneratedKeys="true" keyProperty="id">
-    insert into verify_report (id, e_id, pv_id, pr_id, d_id, judge_opinion, attach_address, quick_report_addr, create_time)
-    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{pvId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{judgeOpinion,jdbcType=VARCHAR},
-      #{attachAddress,jdbcType=VARCHAR}, #{quickReportAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
-  </insert>
+        id,event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, create_time
+    </sql>
+    <sql id="Basic_Conditions" >
+        <![CDATA[where 1=1 ]]>
+        <if test="id != null" >
+            and id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="eventId != null">
+            and event_id = #{eventId, jdbcType=BIGINT}
+        </if>
+        <if test="pvId != null" >
+            and pv_id = #{pvId,jdbcType=INTEGER}
+        </if>
+        <if test="prId != null" >
+            and pr_id = #{prId,jdbcType=INTEGER}
+        </if>
+        <if test="contactId != null" >
+            and contact_id = #{contactId,jdbcType=BIGINT}
+        </if>
+        <if test="judgeOpinion != null" >
+            and judge_opinion = #{judgeOpinion,jdbcType=VARCHAR}
+        </if>
+        <if test="attachAddress != null" >
+            and attach_address = #{attachAddress,jdbcType=VARCHAR}
+        </if>
+        <if test="quickReportAddr != null">
+            and quick_report_addr = #{quickReportAddr,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null" >
+            and create_time = #{createTime,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.VerifyReport" useGeneratedKeys="true" keyProperty="id">
+        insert into verify_report (id, event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, quick_report_addr, create_time)
+        values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{pvId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER}, #{contactId,jdbcType=BIGINT}, #{judgeOpinion,jdbcType=VARCHAR},
+          #{attachAddress,jdbcType=VARCHAR}, #{quickReportAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
+    </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
-    DELETE verify_report
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        DELETE verify_report
+        where id = #{id,jdbcType=BIGINT}
+    </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         update verify_report
         <set>
-            <if test="eid != null">
-                e_id = #{eid, jdbcType=INTEGER},
+            <if test="eventId != null">
+                event_id = #{eventId, jdbcType=BIGINT},
             </if>
             <if test="pvId != null" >
                  pv_id = #{pvId,jdbcType=INTEGER},
@@ -67,8 +66,8 @@
             <if test="prId != null" >
                  pr_id = #{prId,jdbcType=INTEGER},
             </if>
-            <if test="did != null">
-                d_id = #{did, jdbcType=INTEGER},
+            <if test="contactId != null">
+                contact_id = #{contactId, jdbcType=BIGINT},
             </if>
             <if test="judgeOpinion != null" >
                  judge_opinion = #{judgeOpinion,jdbcType=VARCHAR},
@@ -83,23 +82,20 @@
                  create_time = #{createTime,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
-
-    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from verify_report
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </select>
-
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         select
         <include refid="Base_Column_List"/>
         from verify_report
         <include refid="Basic_Conditions"/>
     </select>
-
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
@@ -107,7 +103,6 @@
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
-
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         select count(id)
         from verify_report

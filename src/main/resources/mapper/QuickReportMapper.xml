@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.QuickReportMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.QuickReportResult">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="e_id" property="eid" jdbcType="INTEGER"/>
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="event_id" property="eventId" jdbcType="BIGINT"/>
         <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
         <result column="event_title" property="eventTitle" jdbcType="VARCHAR"/>
         <result column="pt_name" property="ptName" jdbcType="VARCHAR"/>
         <result column="period_number" property="periodNumber" jdbcType="INTEGER"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
-        <result column="main_delivery_id" property="mainDeliveryId" jdbcType="INTEGER"/>
-        <result column="cc_id" property="ccId" jdbcType="INTEGER"/>
-        <result column="submit_id" property="submitId" jdbcType="INTEGER"/>
-        <result column="edit_id" property="editId" jdbcType="INTEGER"/>
+        <result column="main_delivery_id" property="mainDeliveryId" jdbcType="BIGINT"/>
+        <result column="cc_id" property="ccId" jdbcType="BIGINT"/>
+        <result column="submit_id" property="submitId" jdbcType="BIGINT"/>
+        <result column="edit_id" property="editId" jdbcType="BIGINT"/>
         <result column="contact_num" property="contactNum" jdbcType="VARCHAR"/>
-        <result column="issuer_id" property="issuerId" jdbcType="INTEGER"/>
-        <result column="issue_company_id" property="issueCompanyId" jdbcType="INTEGER"/>
+        <result column="issuer_id" property="issuerId" jdbcType="BIGINT"/>
+        <result column="issue_company_id" property="issueCompanyId" jdbcType="BIGINT"/>
         <result column="issue_time" property="issueTime" jdbcType="VARCHAR"/>
         <result column="q_type" property="type" jdbcType="INTEGER"/>
         <result column="origin" property="origin" jdbcType="INTEGER"/>
@@ -24,74 +24,73 @@
         <result column="reporter" property="reporter" jdbcType="VARCHAR"/>
         <result column="submitter" property="submitter" jdbcType="VARCHAR"/>
     </resultMap>
-
     <sql id="Base_Column_List">
-        qr.id, qr.e_id, qr.period_number, qr.title, qr.content, qr.main_delivery_id, qr.cc_id, qr.submit_id, qr.edit_id, qr.contact_num, qr.issuer_id, qr.issue_company_id, qr.issue_time, qr.q_type, qr.origin,
-        e.event_number, e.event_title,pt.pt_name, qr.pdf_addr,e.reporter,d.d_name as submitter
+        qr.id, qr.event_id, qr.period_number, qr.title, qr.content, qr.main_delivery_id, qr.cc_id, qr.submit_id, qr.edit_id, qr.contact_num, qr.issuer_id, qr.issue_company_id, qr.issue_time, qr.q_type, qr.origin,
+        e.event_number, e.event_title,pt.pt_name, qr.pdf_addr,e.reporter,c.contact_name as submitter
     </sql>
-  <sql id="Basic_Conditions" >
-<!--    <![CDATA[where 1=1 ]]>-->
-    <if test="id != null" >
-      and qr.id = #{id,jdbcType=INTEGER}
-    </if>
-    <if test="eid != null" >
-      and qr.e_id = #{eid,jdbcType=INTEGER}
-    </if>
-    <if test="periodNumber != null" >
-      and qr.period_number = #{periodNumber,jdbcType=INTEGER}
-    </if>
-    <if test="title != null" >
-      and qr.title = #{title,jdbcType=VARCHAR}
-    </if>
-    <if test="content != null" >
-      and qr.content = #{content,jdbcType=VARCHAR}
-    </if>
-    <if test="mainDeliveryId != null" >
-      and qr.main_delivery_id = #{mainDeliveryId,jdbcType=INTEGER}
-    </if>
-    <if test="ccId != null" >
-      and qr.cc_id = #{ccId,jdbcType=INTEGER}
-    </if>
-    <if test="submitId != null" >
-      and qr.submit_id = #{submitId,jdbcType=INTEGER}
-    </if>
-    <if test="editId != null" >
-      and qr.edit_id = #{editId,jdbcType=INTEGER}
-    </if>
-    <if test="contactNum != null" >
-      and qr.contact_num = #{contactNum,jdbcType=VARCHAR}
-    </if>
-    <if test="issuerId != null" >
-      and qr.issuer_id = #{issuerId,jdbcType=INTEGER}
-    </if>
-    <if test="issueCompanyId != null" >
-      and qr.issue_company_id = #{issueCompanyId,jdbcType=INTEGER}
-    </if>
-    <if test="issueTime != null">
-        and qr.issue_time = #{issueTime, jdbcType=VARCHAR}
-    </if>
-    <if test="type != null">
-        and qr.q_type = #{type, jdbcType=INTEGER}
-    </if>
-    <if test="origin != null">
-        and qr.origin = #{origin, jdbcType=INTEGER}
-    </if>
-  </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.QuickReport" >
-    insert into quick_report (id, e_id, period_number, title, content, main_delivery_id, cc_id, submit_id, edit_id, contact_num, issuer_id, issue_company_id, issue_time, q_type, origin, pdf_addr)
-    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{periodNumber,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
-      #{mainDeliveryId,jdbcType=INTEGER}, #{ccId,jdbcType=INTEGER}, #{submitId,jdbcType=INTEGER}, #{editId,jdbcType=INTEGER}, #{contactNum,jdbcType=VARCHAR}, #{issuerId,jdbcType=INTEGER},
-     #{issueCompanyId,jdbcType=INTEGER}, #{issueTime, jdbcType=VARCHAR}, #{type, jdbcType=INTEGER}, #{origin, jdbcType=INTEGER}, #{pdfAddr,jdbcType=VARCHAR})
-  </insert>
+    <sql id="Basic_Conditions" >
+        <!--    <![CDATA[where 1=1 ]]>-->
+        <if test="id != null" >
+            and qr.id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="eventId != null" >
+            and qr.event_id = #{eventId,jdbcType=BIGINT}
+        </if>
+        <if test="periodNumber != null" >
+            and qr.period_number = #{periodNumber,jdbcType=INTEGER}
+        </if>
+        <if test="title != null" >
+            and qr.title = #{title,jdbcType=VARCHAR}
+        </if>
+        <if test="content != null" >
+            and qr.content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="mainDeliveryId != null" >
+            and qr.main_delivery_id = #{mainDeliveryId,jdbcType=BIGINT}
+        </if>
+        <if test="ccId != null" >
+            and qr.cc_id = #{ccId,jdbcType=BIGINT}
+        </if>
+        <if test="submitId != null" >
+            and qr.submit_id = #{submitId,jdbcType=BIGINT}
+        </if>
+        <if test="editId != null" >
+            and qr.edit_id = #{editId,jdbcType=BIGINT}
+        </if>
+        <if test="contactNum != null" >
+            and qr.contact_num = #{contactNum,jdbcType=VARCHAR}
+        </if>
+        <if test="issuerId != null" >
+            and qr.issuer_id = #{issuerId,jdbcType=BIGINT}
+        </if>
+        <if test="issueCompanyId != null" >
+            and qr.issue_company_id = #{issueCompanyId,jdbcType=BIGINT}
+        </if>
+        <if test="issueTime != null">
+            and qr.issue_time = #{issueTime, jdbcType=VARCHAR}
+        </if>
+        <if test="type != null">
+            and qr.q_type = #{type, jdbcType=INTEGER}
+        </if>
+        <if test="origin != null">
+            and qr.origin = #{origin, jdbcType=INTEGER}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.QuickReport" >
+        insert into quick_report (id, event_id, period_number, title, content, main_delivery_id, cc_id, submit_id, edit_id, contact_num, issuer_id, issue_company_id, issue_time, q_type, origin, pdf_addr)
+        values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{periodNumber,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
+                #{mainDeliveryId,jdbcType=BIGINT}, #{ccId,jdbcType=BIGINT}, #{submitId,jdbcType=BIGINT}, #{editId,jdbcType=BIGINT}, #{contactNum,jdbcType=VARCHAR}, #{issuerId,jdbcType=BIGINT},
+                #{issueCompanyId,jdbcType=BIGINT}, #{issueTime, jdbcType=VARCHAR}, #{type, jdbcType=INTEGER}, #{origin, jdbcType=INTEGER}, #{pdfAddr,jdbcType=VARCHAR})
+    </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.QuickReport">
-    DELETE from quick_report
-    where id = #{id,jdbcType=INTEGER}
+        DELETE from quick_report
+        where id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.QuickReport">
         update quick_report
         <set>
-            <if test="eid != null" >
-                e_id = #{eid,jdbcType=INTEGER},
+            <if test="eventId != null" >
+                event_id = #{eventId,jdbcType=BIGINT},
             </if>
             <if test="periodNumber != null" >
                 period_number = #{periodNumber,jdbcType=INTEGER},
@@ -135,41 +134,36 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from quick_report qr, event_receive e, plan_type pt, duty d
-        where qr.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id and id = #{id,jdbcType=BIGINT}
+        from quick_report qr, event_receive e, plan_type pt, contacts c
+        where qr.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and id = #{id,jdbcType=BIGINT}
     </select>
-
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.QuickReport">
         select
         <include refid="Base_Column_List"/>
-        from quick_report qr, event_receive e, plan_type pt, duty d
-        where qr.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id
+        from quick_report qr, event_receive e, plan_type pt, contacts c
+        where qr.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id
         <include refid="Basic_Conditions"/>
         <if test="order != null and orderType">
             order by ${order} ${orderType}
         </if>
     </select>
-
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from quick_report qr, event_receive e, plan_type pt, duty d
-        where qr.e_id = e.e_id and e.pt_id = pt.pt_id and e.d_id = d.id
+        from quick_report qr, event_receive e, plan_type pt, contacts c
+        where qr.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id
         <include refid="Basic_Conditions"/>
         <if test="order != null and orderType">
             order by ${order} ${orderType}
         </if>
         limit ${page}, ${pageSize}
     </select>
-
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.QuickReport">
         select count(id)
         from quick_report
         <include refid="Basic_Conditions"/>
     </select>
-
 </mapper>

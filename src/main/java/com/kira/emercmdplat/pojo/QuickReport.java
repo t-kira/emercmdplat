@@ -14,7 +14,7 @@ public class QuickReport {
     /**
      * 事件ID
      */
-    private Long eid;
+    private Long eventId;
     /**
      * 期数
      */

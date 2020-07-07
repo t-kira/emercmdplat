@@ -22,7 +22,7 @@ import java.util.*;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/war")
+@RequestMapping(name = "战时一张图接口", value = "/war")
 public class WarMapController {
 
     @Autowired
@@ -41,12 +41,9 @@ public class WarMapController {
     private EmergencySupplyService ess;
     @Autowired
     private HazardSourceService hss;
-    /**
-     * 通讯录
-     * @return
-     */
+
     @ResponseBody
-    @GetMapping("list_group")
+    @GetMapping(name = "通讯录", value = "list_group")
     public AlvesJSONResult groupList() {
         List<Group> groups = cs.selectGroup(new Group());
         for (Group group : groups) {
@@ -58,14 +55,9 @@ public class WarMapController {
         List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
         return AlvesJSONResult.ok(groupList);
     }
-    /**
-     * 指派事件任务
-     * @param taskExtend
-     * @return
-     */
     @MyLog(value = 6)
     @ResponseBody
-    @PostMapping("add_task")
+    @PostMapping(name = "指派事件任务", value = "add_task")
     public AlvesJSONResult insertTask(@RequestBody TaskExtend taskExtend) {
         int result = ts.insert(taskExtend);
         if (result > 0) {
@@ -74,16 +66,11 @@ public class WarMapController {
             return AlvesJSONResult.errorMsg("fail insert...");
         }
     }
-    /**
-     * 事件详情
-     * @param id 事件ID
-     * @return
-     */
     @ResponseBody
-    @GetMapping(value = "event/{id}")
-    public AlvesJSONResult selectById(@PathVariable Long id) {
-        EventResult event = es.selectById(id);
-        List<EventParamResult> list = es.selectParamByEId(id);
+    @GetMapping(name = "事件详情", value = "event/{eventId}")
+    public AlvesJSONResult selectById(@PathVariable Long eventId) {
+        EventResult event = es.selectById(eventId);
+        List<EventParamResult> list = es.selectParamByEventId(eventId);
         JSONObject json = new JSONObject();
         json.put("event", event);
         json.put("list", list);
@@ -147,7 +134,7 @@ public class WarMapController {
         return AlvesJSONResult.ok(listJson);
     }
     @ResponseBody
-    @GetMapping("list_task")
+    @GetMapping(name = "指定事件的所有任务集合", value = "list_task")
     public AlvesJSONResult taskList(Integer dataTypeId, Long eventId) {
 //        TaskExtend taskExtend = new TaskExtend();
 //        taskExtend.setEventId(eventId);
@@ -159,9 +146,8 @@ public class WarMapController {
         List<Task> taskList = ts.selectByTaskType(paramMap);
         return AlvesJSONResult.ok(taskList);
     }
-
     @ResponseBody
-    @PostMapping("new_update_list")
+    @PostMapping(name = "最新更新的反馈信息", value = "new_update_list")
     public AlvesJSONResult newUpdateList(@RequestBody TaskExtend taskExtend) {
         List<Task> taskList = ts.queryForAll(taskExtend);
         List<JSONObject> jsonObjectList = new ArrayList<>();
@@ -185,7 +171,7 @@ public class WarMapController {
         return AlvesJSONResult.ok(jsonObjectList);
     }
     @ResponseBody
-    @GetMapping("add_secondary_derivation")
+    @GetMapping(name = "新增次生衍生", value = "add_secondary_derivation")
     public AlvesJSONResult insertSecondaryDerivation(@RequestBody EventSource eventSource) {
         EventResult eventResult = es.selectById(eventSource.getEventId());
         DataType dataType2 = new DataType();
@@ -215,23 +201,21 @@ public class WarMapController {
         }
         return AlvesJSONResult.ok();
     }
-
     @ResponseBody
-    @GetMapping("list_secondary_derivation/{eventId}")
+    @GetMapping(name = "指定事件的次生衍生", value = "list_secondary_derivation/{eventId}")
     public AlvesJSONResult listSecondaryDerivation(@PathVariable Long eventId) {
         List<EventRiskResult> list = sds.selectByEventId(eventId);
         return AlvesJSONResult.ok(list);
     }
-
     @ResponseBody
     @GetMapping("list_research_report/{eventId}")
     public AlvesJSONResult listResearchReport(@PathVariable Long eventId) {
-        String report = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("researchReport"));
+        String report = PropertiesUtils.getInstance().getProperty("researchReport");
     	EventResult event = es.selectById(eventId);
     	JSONObject resultJson = new JSONObject();
 
         //事件参数
-    	List<EventParamResult> list = es.selectParamByEId(eventId);
+    	List<EventParamResult> list = es.selectParamByEventId(eventId);
     	StringBuffer paramBuffer = new StringBuffer();
         for (EventParamResult ep : list) {
             paramBuffer.append(ep.getName()).append(ep.getPpValue()).append(ep.getUnit()).append("，");
@@ -240,7 +224,7 @@ public class WarMapController {
                 event.getIncidentTime(), event.getIncidentLocation(), event.getPtName(),
                 paramBuffer.deleteCharAt(paramBuffer.length()-1)));
         //危险源
-        String hazardSourceReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("hazardSourceReport"));
+        String hazardSourceReport = PropertiesUtils.getInstance().getProperty("hazardSourceReport");
         StringBuffer dataBuffer = new StringBuffer();
         List<HazardSouce> hazardSourceList = hss.queryForAll(new HazardSouce());
         if (hazardSourceList == null || hazardSourceList.size() == 0) {
@@ -253,14 +237,14 @@ public class WarMapController {
         }
         resultJson.put("hazardSourceReport", MessageFormat.format(hazardSourceReport, dataBuffer.deleteCharAt(dataBuffer.length() - 1)));
         //预案
-        String reservePlanReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("reservePlanReport"));
-        List<ReservePlanResult> reservePlanResultList = rps.selectByEId(eventId);
+        String reservePlanReport = PropertiesUtils.getInstance().getProperty("reservePlanReport");
+        List<ReservePlanResult> reservePlanResultList = rps.selectByEventId(eventId);
         if (reservePlanResultList != null && reservePlanResultList.size() > 0) {
             ReservePlanResult reservePlan = reservePlanResultList.get(0);
             resultJson.put("reservePlanReport", MessageFormat.format(reservePlanReport, reservePlan.getPvName(), reservePlan.getPrLevel()));
         }
         //应急物资
-        String emergencySupplyReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("emergencySupplyReport"));
+        String emergencySupplyReport = PropertiesUtils.getInstance().getProperty("emergencySupplyReport");
         StringBuffer emergencySupplyBuffer = new StringBuffer();
         List<EmergencySupply> emergencySupplyList = ess.queryForAll(new EmergencySupply());
         if (emergencySupplyList == null || emergencySupplyList.size() == 0) {
@@ -274,7 +258,7 @@ public class WarMapController {
         }
         resultJson.put("emergencySupplyReport", MessageFormat.format(emergencySupplyReport, emergencySupplyBuffer.deleteCharAt(emergencySupplyBuffer.length() - 1)));
         //次生衍生
-        String riskReport = StringUtil.toStr(PropertiesUtils.getInstance().getProperty("riskReport"));
+        String riskReport = PropertiesUtils.getInstance().getProperty("riskReport");
         StringBuffer riskBuffer = new StringBuffer();
         List<EventRiskResult> riskList = sds.selectByEventId(eventId);
         if (riskList == null || riskList.size() == 0) {
@@ -287,12 +271,11 @@ public class WarMapController {
         resultJson.put("riskReport", MessageFormat.format(riskReport, riskBuffer.deleteCharAt(riskBuffer.length() - 1)));
         return AlvesJSONResult.ok(resultJson);
     }
-
     @ResponseBody
-    @PostMapping("download")
+    @PostMapping(name = "上传截图", value = "download")
     public AlvesJSONResult downLoad(@RequestBody FilesReq filesReq, HttpServletResponse response) {
-        String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath").toString();
-        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
+        String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath");
+        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath");
         List<String> fileList = FileuploadUtil.addWaterMark(filesReq, path, attachmentGainPath, "water.png");
         return AlvesJSONResult.ok(fileList);
 //        for (String fileUrl : fileList) {
@@ -301,10 +284,10 @@ public class WarMapController {
 //            FileuploadUtil.downLoad(response, attachmentGainPath + fileUrl, newFileName);
 //        }
     }
-    @GetMapping("img_download")
+    @GetMapping(name = "下载截图", value = "img_download")
     public void downloadImg(String fileName, HttpServletResponse response) {
-        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
-        String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath").toString();
+        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath");
+        String path = PropertiesUtils.getInstance().getProperty("attachmentTempPath");
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         String newFileName = DateUtil.getNowStr("yyyyMMddHHmmss") + "." + extension;
         FileuploadUtil.downLoad(response, attachmentGainPath + path + fileName, newFileName);

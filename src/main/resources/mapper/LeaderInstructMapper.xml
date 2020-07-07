@@ -1,62 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kira.emercmdplat.mapper.LeaderInstructMapper">
-    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.LeaderInstruct">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <id column="e_id" property="eid" jdbcType="INTEGER"/>
-        <result column="d_id" property="did" jdbcType="INTEGER"/>
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.LeaderInstructResult">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="event_id" property="eventId" jdbcType="BIGINT"/>
+        <result column="contact_id" property="contactId" jdbcType="BIGINT"/>
         <result column="instruct_content" property="instructContent" jdbcType="VARCHAR"/>
         <result column="instruct_status" property="instructStatus" jdbcType="INTEGER"/>
         <result column="instruct_time" property="instructTime" jdbcType="VARCHAR"/>
-<!--        <result column="d_name" property="dName" jdbcType="VARCHAR"/>-->
-<!--        <result column="j_name" property="jName" jdbcType="VARCHAR"/>-->
-<!--        <result column="mechanism_name" property="mechanismName" jdbcType="VARCHAR"/>-->
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
+        <result column="j_name" property="jName" jdbcType="VARCHAR"/>
+        <result column="mechanism_name" property="mechanismName" jdbcType="VARCHAR"/>
     </resultMap>
 
-<!--    <sql id="Base_Column_List">-->
-<!--    l.id, l.e_id, l.d_id, l.instruct_content, l.instruct_status, l.instruct_time, d.d_name, j.j_name, m.mechanism_name-->
-<!--  </sql>-->
     <sql id="Base_Column_List">
-    id, e_id, d_id, instruct_content, instruct_status, instruct_time
-  </sql>
+    l.id, l.event_id, l.contact_id, l.instruct_content, l.instruct_status, l.instruct_time, c.c_name as contact_name, j.j_name, m.m_name as mechanism_name
+    </sql>
   <sql id="Basic_Conditions" >
-    <![CDATA[where 1=1 ]]>
+<!--    <![CDATA[where 1=1 ]]>-->
     <if test="id != null" >
-      and id = #{id,jdbcType=INTEGER}
+      and l.id = #{id,jdbcType=BIGINT}
     </if>
-    <if test="eid != null">
-        and e_id = #{eid, jdbcType=INTEGER}
+    <if test="eventId != null">
+        and l.event_id = #{eventId, jdbcType=BIGINT}
     </if>
-    <if test="did != null" >
-      and d_id = #{did,jdbcType=INTEGER}
+    <if test="contactId != null" >
+      and l.contact_id = #{contactId,jdbcType=BIGINT}
     </if>
     <if test="instructContent != null" >
-      and instruct_content = #{instructContent,jdbcType=VARCHAR}
+      and l.instruct_content = #{instructContent,jdbcType=VARCHAR}
     </if>
     <if test="instructStatus != null" >
-      and instruct_status = #{instructStatus,jdbcType=INTEGER}
+      and l.instruct_status = #{instructStatus,jdbcType=INTEGER}
     </if>
     <if test="instructTime != null" >
-      and instruct_time = #{instructTime,jdbcType=VARCHAR}
+      and l.instruct_time = #{instructTime,jdbcType=VARCHAR}
     </if>
   </sql>
   <insert id="insert" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct" >
-    insert into leader_instruct (id, e_id, d_id, instruct_content, instruct_status, instruct_time)
-    values (#{id,jdbcType=INTEGER}, #{eid, jdbcType=INTEGER}, #{did,jdbcType=INTEGER}, #{instructContent,jdbcType=VARCHAR}, #{instructStatus,jdbcType=INTEGER},
+    insert into leader_instruct (id, event_id, contact_id, instruct_content, instruct_status, instruct_time)
+    values (#{id,jdbcType=BIGINT}, #{eventId, jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{instructContent,jdbcType=VARCHAR}, #{instructStatus,jdbcType=INTEGER},
       #{instructTime,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
     DELETE leader_instruct
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
         update leader_instruct
         <set>
-            <if test="eid != null">
-                e_id = #{eid, jdbcType=INTEGER}
+            <if test="eventId != null">
+                event_id = #{eventId, jdbcType=BIGINT}
             </if>
-            <if test="did != null" >
-                d_id = #{did,jdbcType=INTEGER}
+            <if test="contactId != null" >
+                contact_id = #{contactId,jdbcType=BIGINT}
             </if>
             <if test="instructContent != null" >
                 instruct_content = #{instructContent,jdbcType=VARCHAR}
@@ -68,32 +65,34 @@
                 instruct_time = #{instructTime,jdbcType=VARCHAR}
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select leader_instruct
-        <include refid="Base_Column_List"/>
-        from
-        where id = #{id,jdbcType=INTEGER}
-    </select>
-
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from leader_instruct
+        from leader_instruct l , contacts c, job j, mechanism m
+        where l.contact_id = c.c_id and c.j_id = j.id and c.m_id = m.id and l.id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.LeaderInstructExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from leader_instruct l , contacts c, job j, mechanism m
+        where l.contact_id = c.c_id and c.j_id = j.id and c.m_id = m.id
         <include refid="Basic_Conditions"/>
     </select>
 
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.LeaderInstructExtend">
         select
         <include refid="Base_Column_List"/>
-        from leader_instruct
+        from leader_instruct l , contacts c, job j, mechanism m
+        where l.contact_id = c.c_id and c.j_id = j.id and c.m_id = m.id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
 
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.LeaderInstruct">
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.LeaderInstructExtend">
         select count(id)
         from leader_instruct
         <include refid="Basic_Conditions"/>

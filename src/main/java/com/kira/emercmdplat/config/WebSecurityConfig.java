@@ -7,8 +7,6 @@ package com.kira.emercmdplat.config;
  */
 public interface WebSecurityConfig {
 
-    String SESSION_KEY = "1a6ac48801fd8d5adae8761e14574d74";
-
     int EXPIRE = 168;
 
     String APP_KEY = "p5tvi9dspqv74";

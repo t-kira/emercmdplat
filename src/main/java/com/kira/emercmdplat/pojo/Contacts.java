@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 import lombok.Data;
 
@@ -44,6 +45,7 @@ public class Contacts extends BaseObject {
     /**
      * 0：一般 1：紧急
      */
+    @JsonIgnore
     @ApiComment(value = "重要程度", sample = "0")
     private Integer importanceDegree;
     @ApiComment(value = "照片地址", sample = "/usr/static/2.jpg")
@@ -56,9 +58,11 @@ public class Contacts extends BaseObject {
     private Double lat;
     @ApiComment(value = "经度", sample = "23.0001")
     private Double lng;
+    @JsonIgnore
     @ApiComment(value = "添加时间", sample = "2020-04-21 22:44:40")
     private String createTime;
-    @ApiComment(value = "添加时间", sample = "2020-04-22 22:44:40")
+    @JsonIgnore
+    @ApiComment(value = "更新时间", sample = "2020-04-22 22:44:40")
     private String updateTime;
     /**
      * 0：非值班人员 1：值班人员
@@ -67,15 +71,16 @@ public class Contacts extends BaseObject {
     private Integer personAttribute;
     @ApiComment(value = "登录用户名", sample = "aaa")
     private String username;
+//    @JsonIgnore
     @ApiComment(value = "登录密码", sample = "123")
     private String password;
 
     private String commonIcon = host + "/img/contacts-common.png";
 
 	private String activeIcon = host + "/img/contacts-active.png";
-
+    @JsonIgnore
 	private String loginTime;
-
+    @JsonIgnore
 	private String expireTime;
 
 	private String token;

@@ -3,7 +3,9 @@ package com.kira.emercmdplat.controller;
 import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.EventProcess;
+import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.enums.TaskStatus;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
@@ -11,18 +13,11 @@ import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.BASE64Decoder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @Author: kira
@@ -31,7 +26,7 @@ import java.util.UUID;
  */
 @CrossOrigin
 @RestController
-@RequestMapping("/app")
+@RequestMapping(name = "app接口", value = "/app")
 public class AppController extends BaseController {
 
     @Autowired
@@ -41,16 +36,15 @@ public class AppController extends BaseController {
     @Autowired
     private ContactService cs;
 
-
     @ResponseBody
-    @PostMapping(value = "login")
-    public AlvesJSONResult login(@RequestBody Contacts contacts, HttpServletRequest request) {
+    @PostMapping(name = "登录", value = "login")
+    public AlvesJSONResult login(@RequestBody Contacts contacts) {
         if (null == contacts.getUsername() || null == contacts.getPassword()) {
             return AlvesJSONResult.errorMsg("用户名密码不能为空");
         }
         ContactsResult user = cs.selectByUserName(contacts.getUsername());
         if (user == null || !StringUtil.isEq(user.getPassword(), MD52.MD5Encode(contacts.getPassword()))) {
-            return AlvesJSONResult.errorMsg("用户名或密码错误");
+            throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo(), "用户名密码错误");
         } else {
             TokenVO tokenVo = cs.createToken(user);
             JSONObject json = new JSONObject();
@@ -59,29 +53,17 @@ public class AppController extends BaseController {
             return AlvesJSONResult.ok(json);
         }
     }
-
-    /**
-     * 事件查询接口，查询app登录用户所上报的事件列表
-     * @param event
-     * @return
-     */
     @ResponseBody
-    @PostMapping("query_event")
+    @PostMapping(name = "事件查询接口，查询app登录用户所上报的事件列表", value = "query_event")
     public AlvesJSONResult queryEventList(@RequestBody Event event, HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
-        event.setDid(contactsResult.getId());
+        event.setContactId(contactsResult.getId());
         List<EventResult> eventResultList = es.queryByTitle(event);
         return AlvesJSONResult.ok(eventResultList);
     }
-
-    /**
-     * 返回登录人员所属的单位信息
-     * @param contactId 联系人ID
-     * @return
-     */
     @ResponseBody
-    @GetMapping("mechanism/{contactId}")
+    @GetMapping(name = "返回登录人员所属的单位信息", value = "mechanism/{contactId}")
     public AlvesJSONResult mechanism(@PathVariable Long contactId) {
         ContactsResult contactsResult = cs.selectById(contactId);
         JSONObject resultJson = new JSONObject();
@@ -89,14 +71,8 @@ public class AppController extends BaseController {
         resultJson.put("mName", contactsResult.getmName());
         return AlvesJSONResult.ok(resultJson);
     }
-
-    /**
-     * 开始处理 处理完成事件任务
-     * @param taskExtend
-     * @return
-     */
     @ResponseBody
-    @PostMapping("update_task")
+    @PostMapping(name = "开始处理 处理完成事件任务", value = "update_task")
     public AlvesJSONResult updateTask(@RequestBody TaskExtend taskExtend) {
             //开始处理事件任务,添加事件任务的响应时间
         if (taskExtend.getStatus() == TaskStatus.TASK_PROCESSING.getNo()) {
@@ -107,19 +83,13 @@ public class AppController extends BaseController {
         }
         boolean result = ts.update(taskExtend);
         if (result) {
-            return AlvesJSONResult.ok("success update...");
+            return AlvesJSONResult.ok("任务处理成功");
         } else {
-            return AlvesJSONResult.errorMsg("fail update...");
+            return AlvesJSONResult.errorMsg("任务处理失败");
         }
     }
-
-    /**
-     * 查询任务
-     * @param taskExtend
-     * @return
-     */
     @ResponseBody
-    @PostMapping("list_task")
+    @PostMapping(name = "查询任务", value = "list_task")
     public AlvesJSONResult eventTaskList(@RequestBody TaskExtend taskExtend, HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
@@ -127,50 +97,32 @@ public class AppController extends BaseController {
         List<Task> taskList = ts.queryForAll(taskExtend);
         return AlvesJSONResult.ok(taskList);
     }
-
-    /**
-     * 查看事件任务详情
-     * @param id 事件任务ID
-     * @return
-     */
     @ResponseBody
-    @GetMapping("task/{id}")
+    @GetMapping(name = "查看事件任务详情", value = "task/{id}")
     public AlvesJSONResult eventTask(@PathVariable Long id) {
         Task task = ts.selectById(id);
         return AlvesJSONResult.ok(task);
     }
-
-    /**
-     * 查询反馈信息集合
-     * @param taskId 事件任务ID
-     * @return
-     */
     @ResponseBody
-    @GetMapping("list_feedback/{taskId}")
+    @GetMapping(name = "查询反馈信息集合", value = "list_feedback/{taskId}")
     public AlvesJSONResult feedbackList(@PathVariable Long taskId) {
         List<Feedback> feedbackList = ts.selectFeedbackByTaskId(taskId);
 
         return AlvesJSONResult.ok(feedbackList);
     }
-
-    /**
-     * 添加反馈任务 并设置事件任务为已到场状态，添加事件任务到场事件
-     * @param feedback
-     * @return
-     */
     @ResponseBody
-    @PostMapping("add_feedback")
+    @PostMapping(name = "添加反馈任务 并设置事件任务为已到场状态，添加事件任务到场事件", value = "add_feedback")
     public AlvesJSONResult insertFeedback(@RequestBody Feedback feedback) {
         feedback.setFeedbackTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         int result = ts.insertFeedback(feedback);
         if (result > 0) {
-            return AlvesJSONResult.ok("success insert...");
+            return AlvesJSONResult.ok("反馈成功");
         } else {
-            return AlvesJSONResult.errorMsg("fail insert...");
+            return AlvesJSONResult.errorMsg("反馈失败");
         }
     }
     @ResponseBody
-    @GetMapping("arrive/{taskId}")
+    @GetMapping(name = "指派任务到场", value = "arrive/{taskId}")
     public AlvesJSONResult arrive(@PathVariable Long taskId) {
         TaskExtend taskExtend = new TaskExtend();
         taskExtend.setId(taskId);
@@ -178,28 +130,22 @@ public class AppController extends BaseController {
         taskExtend.setArriveTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         boolean result = ts.update(taskExtend);
         if (result) {
-            return AlvesJSONResult.ok("success arrive...");
+            return AlvesJSONResult.ok("到场成功");
         } else {
-            return AlvesJSONResult.errorMsg("fail arrive ...");
+            return AlvesJSONResult.errorMsg("到场失败");
         }
     }
-
     @ResponseBody
-    @PostMapping("upload_files")
+    @PostMapping(name = "文件上传", value = "upload_files")
     public AlvesJSONResult upload(@RequestBody FilesReq filesReq) {
-        String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
-        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath").toString();
+        String path = PropertiesUtils.getInstance().getProperty("attachmentPath");
+        String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath");
         List<String> fileList = FileuploadUtil.saveFileByBase64(filesReq, path, attachmentGainPath);
         return AlvesJSONResult.ok(fileList);
     }
-    /**
-     * 事件接报
-     * @param eventDomain
-     * @return
-     */
     @MyLog(value = 1)
     @ResponseBody
-    @PostMapping(value = "add_event")
+    @PostMapping(name = "手机端事件接报", value = "add_event")
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain) {
         Event event = eventDomain.getEvent();
         String preEventNumber = DateUtil.getNowStr("yyyyMMdd");
@@ -220,9 +166,9 @@ public class AppController extends BaseController {
         event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
         int result = es.insert(event);
         if (result > 0) {
-            return AlvesJSONResult.ok("success insert...");
+            return AlvesJSONResult.ok("录入成功");
         } else {
-            return AlvesJSONResult.errorMsg("fail insert...");
+            return AlvesJSONResult.errorMsg("录入失败");
         }
     }
 }

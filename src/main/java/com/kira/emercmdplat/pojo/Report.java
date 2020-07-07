@@ -12,9 +12,9 @@ public class Report {
 
     private Long id;
 
-    private Long eId;
+    private Long eventId;
 
-    private String did;
+    private String contactId;
 
     private String reportTime;
 

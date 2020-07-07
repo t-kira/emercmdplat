@@ -5,7 +5,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
 /**
  * @Author: kira
  * @Date: 2020/6/26 12:57
- * @Description:
+ * @Description:事件类型
  */
 public enum EventType implements BaseEnum<EventType> {
     NORMAL_EVENT(1, "一般事件"), EMERGENCY_EVENT(2, "应急事件");

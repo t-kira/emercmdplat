@@ -3,7 +3,7 @@
 <mapper namespace="com.kira.emercmdplat.mapper.SysLogMapper">
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.SysLog">
         <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="e_id" property="eid" jdbcType="INTEGER"/>
+        <result column="event_id" property="eventId" jdbcType="INTEGER"/>
         <result column="sys_log_type" property="sysLogType" jdbcType="INTEGER"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="operation" property="operation" jdbcType="VARCHAR"/>
@@ -12,15 +12,15 @@
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, e_id, sys_log_type, user_name, operation, method, params, create_time
+    id, event_id, sys_log_type, user_name, operation, method, params, create_time
   </sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
         <if test="id != null">
-            and id = #{id,jdbcType=INTEGER}
+            and id = #{id,jdbcType=BIGINT}
         </if>
-        <if test="eid != null">
-            and e_id = #{eid, jdbcType=BIGINT}
+        <if test="eventId != null">
+            and event_id = #{eventId, jdbcType=BIGINT}
         </if>
         <if test="sysLogType != null">
             and sys_log_type = #{sysLogType, jdbcType=INTEGER}
@@ -41,20 +41,20 @@
             and create_time = #{createTime,jdbcType=VARCHAR}
         </if>
     </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Duty">
-        insert into sys_log (id, e_id, sys_log_type, user_name, operation, method, params, create_time)
-        values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=BIGINT}, #{sysLogType, jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR},
-                #{params,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.SysLog">
+        insert into sys_log (id, event_id, sys_log_type, user_name, operation, method, params, create_time)
+        values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{sysLogType, jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR},
+                #{method,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
     </insert>
     <update id="delete" parameterType="java.lang.Long">
         DELETE sys_log
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.SysLog">
         update sys_log
         <set>
-            <if test="eid != null">
-                e_id = #{eid, jdbcType=BIGINT},
+            <if test="eventId != null">
+                event_id = #{eventId, jdbcType=BIGINT},
             </if>
             <if test="sysLogType != null">
                 sys_log_type = #{sysLogType, jdbcType=INTEGER},
@@ -75,7 +75,7 @@
                 create_time = #{createTime,jdbcType=VARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
     </update>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
@@ -83,11 +83,11 @@
         from sys_log
         <include refid="Basic_Conditions"/>
     </select>
-    <select id="selectByEid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="selectByEventId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from sys_log
-        where e_id = #{eid, jdbcType=INTEGER}
+        where event_id = #{eventId, jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.SysLogExtend">
         select
@@ -103,7 +103,7 @@
         limit ${page}, ${pageSize}
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.SysLogExtend">
-        select count(h_id)
+        select count(1)
         from sys_log
         <include refid="Basic_Conditions"/>
     </select>

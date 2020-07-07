@@ -14,11 +14,11 @@ public class LeaderInstruct{
     /**
      * 事件ID
      */
-    private Long eid;
+    private Long eventId;
     /**
      *领导ID
      */
-    private Long did;
+    private Long contactId;
     /**
      * 批示内容
      */

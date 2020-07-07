@@ -14,15 +14,15 @@ public class Message {
     /**
      * 事件id
      */
-    private Long eid;
+    private Long eventId;
     /**
      * 批示人员ID
      */
-    private Long did;
+    private Long contactId;
     /**
      * 事件被转人员
      */
-    private Long toDid;
+    private Long toContactId;
     /**
      * 核实报告ID
      */

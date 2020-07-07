@@ -27,5 +27,5 @@ public interface SysLogService {
 
     List<SysLog> queryForPage(SysLogExtend sysLogExtend);
 
-    List<JSONObject> selectByEid(Long eid);
+    List<JSONObject> selectByEventId(Long eventId);
 }

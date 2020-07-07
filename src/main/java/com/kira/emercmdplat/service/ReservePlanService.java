@@ -41,10 +41,10 @@ public interface ReservePlanService {
     /**
      * 根据id查询单个
      *
-     * @param eId
+     * @param eventId
      * @return
      */
-    List<ReservePlanResult> selectByEId(Long eId);
+    List<ReservePlanResult> selectByEventId(Long eventId);
 
     /**
      * 根据id查询单个

@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @Author: kira
  * @Date: 2020/4/12 23:19
- * @Description:
+ * @Description:事件查询返回结果集
  */
 @Data
 public class EventResult extends Event{
@@ -16,7 +16,7 @@ public class EventResult extends Event{
     /**
      * 值班人员姓名
      */
-    private String dName;
+    private String contactName;
     /**
      *事发区域名称
      */

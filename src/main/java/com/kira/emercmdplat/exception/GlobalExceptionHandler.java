@@ -1,41 +1,37 @@
 package com.kira.emercmdplat.exception;
 
-
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import com.kira.emercmdplat.enums.ResultEnum;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
- * 异常捕捉
+ * @Author: kira
+ * @Date: 2020/7/6 17:33
+ * @Description:全局异常处理
  */
-@ControllerAdvice //抛出的异常会被这个类捕获
-@ResponseBody
+@RestControllerAdvice
 public class GlobalExceptionHandler {
-    public static final String PROJECT_ERROR_VIEW = "error";//这个其实是指向  error 那个页面
-
 
     @ExceptionHandler(Exception.class)
-    public Object errorHandler(HttpServletRequest request,
+    public ErrorResponseEntity errorHandler(HttpServletRequest request,
                                HttpServletResponse response,
-                               Exception e) throws Exception {
+                               Exception e){
         e.printStackTrace();
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("%%%                 error             %%%%%%                      error          %%%");
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        if (isAjax(request)) {
-            return response;
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        if (e instanceof CustomException) {
+            CustomException exception = (CustomException) e;
+            return new ErrorResponseEntity(exception.getCode(), exception.getMessage());
+        } else {
+            return new ErrorResponseEntity(ResultEnum.UNKNOW_ERROR.getNo(), ResultEnum.UNKNOW_ERROR.getName());
         }
-        ModelAndView mav = new ModelAndView();
-        mav.addObject("exception", e);
-        mav.addObject("url", request.getRequestURL());
-        // System.out.println("GlobalException-捕捉："+request.getRequestURL());
-        mav.setViewName(PROJECT_ERROR_VIEW);
-        return mav;
     }
 
     /**

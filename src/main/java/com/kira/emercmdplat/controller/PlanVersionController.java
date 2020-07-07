@@ -96,8 +96,8 @@ public class PlanVersionController extends BaseController {
 	@RequestMapping(name="上传预案文件",value="/fileUpload",method=RequestMethod.POST)
     public String upload(@RequestParam(value = "file") MultipartFile file) {
         try {
-            String path = PropertiesUtils.getInstance().getProperty("attachmentPath").toString();
-            String extension = PropertiesUtils.getInstance().getProperty("pdfExtension").toString();
+            String path = PropertiesUtils.getInstance().getProperty("attachmentPath");
+            String extension = PropertiesUtils.getInstance().getProperty("pdfExtension");
             FileResult fileResult = FileuploadUtil.saveFile(file, path, extension);
             return JSONObject.fromObject(fileResult).toString();
         } catch (IOException e) {
@@ -276,7 +276,7 @@ public class PlanVersionController extends BaseController {
 		planVersionService.insertResponseFlow(planResponseFlow);
 		return "success";
 	}
-	
+
 	@Api2Doc(order = 39)
     @ApiComment(value="修改预案响应流程")
 	@RequestMapping(name="修改预案响应流程",value="/updateResponseFlow",method=RequestMethod.POST)
@@ -316,7 +316,7 @@ public class PlanVersionController extends BaseController {
 		planVersionService.insertResponseFlowTask(planResponseFlowTask);
 		return "success";
 	}
-	
+
 	@Api2Doc(order = 40)
     @ApiComment(value="修改预案响应流程任务")
 	@RequestMapping(name="修改预案响应流程任务",value="/updateResponseFlowTask",method=RequestMethod.POST)
