@@ -10,7 +10,7 @@
 
     <sql id="Base_Column_List">
     pt_id, pt_name, pt_order, pt_parent_id
-  </sql>
+  	</sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
         <if test="id != null">
@@ -26,14 +26,14 @@
             and pt_parent_id = #{parentId,jdbcType=INTEGER}
         </if>
     </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanType">
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanType" keyColumn="pt_id" keyProperty="id" useGeneratedKeys="true">
     insert into plan_type (pt_id, pt_name, pt_order, pt_parent_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{order,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER})
-  </insert>
+  	</insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanType">
     DELETE from plan_type
     where pt_id = #{id,jdbcType=INTEGER}
-  </update>
+  	</update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanType">
         update plan_type
         <set>

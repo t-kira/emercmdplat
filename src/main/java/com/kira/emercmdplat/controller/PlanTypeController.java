@@ -45,9 +45,9 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 2)
 	@ApiComment(value="插入预案类型，参数类型参见预案分类树")
 	@RequestMapping(name="插入预案类型",value="/insertType",method=RequestMethod.POST)
-	public String insertType(@ApiComment(value="插入预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") @RequestBody PlanType planType) {
-		planTypeService.insertType(planType);
-		return "success";
+	public int insertType(@ApiComment(value="插入预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") @RequestBody PlanType planType) {
+		int id = planTypeService.insertType(planType);
+		return id;
 	}
 
 	@Api2Doc(order = 3)

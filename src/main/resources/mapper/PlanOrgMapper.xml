@@ -47,6 +47,10 @@
     DELETE from plan_org
     where po_id = #{id,jdbcType=INTEGER}
   	</update>
+  	<update id="deleteParent" parameterType="com.kira.emercmdplat.pojo.PlanOrg">
+    DELETE from plan_org
+    where po_parent_id = #{id,jdbcType=INTEGER}
+  	</update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanOrg">
         update plan_org
         <set>

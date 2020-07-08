@@ -36,7 +36,7 @@ public interface PlanVersionService {
 
 	List<PlanResponse> listResponses(int pvId,int form);
 
-	void insertResponse(PlanResponse planResponse);
+	int insertResponse(PlanResponse planResponse);
 
 	void deleteResponse(Integer id);
 
@@ -58,7 +58,7 @@ public interface PlanVersionService {
 
 	List<Node> listResponseGuardTree(PlanResponseGuard planResponseGuard);
 
-	void insertResponseGuard(PlanResponseGuard planResponseGuard);
+	int insertResponseGuard(PlanResponseGuard planResponseGuard);
 
 	void updateResponseGuard(PlanResponseGuard planResponseGuard);
 
@@ -66,7 +66,7 @@ public interface PlanVersionService {
 
 	List<Node> listCatalogTree(PlanCatalog planCatalog);
 
-	void insertCatalog(PlanCatalog planCatalog);
+	int insertCatalog(PlanCatalog planCatalog);
 
 	void updateCatalog(PlanCatalog planCatalog);
 

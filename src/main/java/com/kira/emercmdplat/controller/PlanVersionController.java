@@ -233,9 +233,9 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 10)
     @ApiComment(value="插入预案响应")
 	@RequestMapping(name="插入预案响应",value="/insertResponse",method=RequestMethod.POST)
-	public String insertResponse(@ApiComment(value="插入预案响应",sample="{id:1,form:0,level:'一级响应',color:1,type:1,desc:'aaa',params:'[{id:1,value:\'aaa\'}]',pvId:1}") @RequestBody PlanResponse planResponse) {
-		planVersionService.insertResponse(planResponse);
-		return "success";
+	public int insertResponse(@ApiComment(value="插入预案响应",sample="{id:1,form:0,level:'一级响应',color:1,type:1,desc:'aaa',params:'[{id:1,value:\'aaa\'}]',pvId:1}") @RequestBody PlanResponse planResponse) {
+		int id = planVersionService.insertResponse(planResponse);
+		return id;
 	}
 
 	@Api2Doc(order = 33)

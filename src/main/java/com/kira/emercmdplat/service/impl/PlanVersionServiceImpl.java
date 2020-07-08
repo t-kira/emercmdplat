@@ -119,6 +119,7 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 		PlanOrg param = new PlanOrg();
 		param.setId(id);
 		planOrgMapper.delete(param);
+		planOrgMapper.deleteParent(param);
 	}
 
 	@Override
@@ -130,8 +131,9 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public void insertResponse(PlanResponse planResponse) {
+	public int insertResponse(PlanResponse planResponse) {
 		planResponseMapper.insert(planResponse);
+		return planResponse.getId();
 	}
 
 	@Override
@@ -199,8 +201,9 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public void insertResponseGuard(PlanResponseGuard planResponseGuard) {
+	public int insertResponseGuard(PlanResponseGuard planResponseGuard) {
 		planResponseGuardMapper.insert(planResponseGuard);
+		return planResponseGuard.getId();
 	}
 
 	@Override
@@ -226,8 +229,9 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public void insertCatalog(PlanCatalog planCatalog) {
+	public int insertCatalog(PlanCatalog planCatalog) {
 		planCatalogMapper.insert(planCatalog);
+		return planCatalog.getId();
 	}
 
 	@Override

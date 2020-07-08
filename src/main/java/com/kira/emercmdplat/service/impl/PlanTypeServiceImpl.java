@@ -53,8 +53,9 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
-    public void insertType(PlanType planType) {
+    public int insertType(PlanType planType) {
         planTypeMapper.insert(planType);
+        return planType.getId();
     }
 
     @Override

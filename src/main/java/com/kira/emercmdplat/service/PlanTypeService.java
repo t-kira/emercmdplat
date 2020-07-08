@@ -12,7 +12,7 @@ public interface PlanTypeService {
 
     List<Node> listTypeTree(Node node);
 
-    void insertType(PlanType planType);
+    int insertType(PlanType planType);
 
     void updateType(PlanType planType);
 

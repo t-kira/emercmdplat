@@ -13,7 +13,7 @@
 
     <sql id="Base_Column_List">
     prg_id, prg_type, prg_name, prg_desc, prg_res, prg_parent_id, prg_pr_id
-  </sql>
+    </sql>
     <sql id="Basic_Conditions">
         <![CDATA[where 1=1 ]]>
         <if test="id != null">
@@ -38,15 +38,15 @@
             and prg_pr_id = #{prId,jdbcType=INTEGER}
         </if>
     </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanResponseGuard">
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanResponseGuard" keyColumn="prg_id" keyProperty="id" useGeneratedKeys="true">
     insert into plan_response_guard (prg_id, prg_type, prg_name, prg_desc, prg_res, prg_parent_id, prg_pr_id)
     values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR},
     #{res,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER})
-  </insert>
+    </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanResponseGuard">
     DELETE from plan_response_guard
     where prg_id = #{id,jdbcType=INTEGER}
-  </update>
+    </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanResponseGuard">
         update plan_response_guard
         <set>

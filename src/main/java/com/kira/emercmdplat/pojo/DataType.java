@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import java.util.List;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 public class DataType extends BaseObject {
@@ -49,6 +51,10 @@ public class DataType extends BaseObject {
 	 * 预案任务中任务具体所属的分组
 	 */
 	private Long dataTypeId;
+	/**
+	 * 预案组成员和预案流程任务成员分解到通讯录成员的列表
+	 */
+	private List<ContactsResult> userList;
 
 	protected String commonIcon = host + "/img/active.png";
 
@@ -189,4 +195,13 @@ public class DataType extends BaseObject {
 	public void setDataTypeId(Long dataTypeId) {
 		this.dataTypeId = dataTypeId;
 	}
+
+	public List<ContactsResult> getUserList() {
+		return userList;
+	}
+
+	public void setUserList(List<ContactsResult> userList) {
+		this.userList = userList;
+	}
+
 }

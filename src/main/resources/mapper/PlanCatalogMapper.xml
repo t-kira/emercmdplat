@@ -30,15 +30,15 @@
             and pc_pv_id = #{pvId,jdbcType=INTEGER}
         </if>
     </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanCatalog">
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanCatalog" keyColumn="pc_id" keyProperty="id" useGeneratedKeys="true">
     insert into plan_catalog (pc_id, pc_node, pc_node_content, pc_parent_id, pc_pv_id)
     values (#{id,jdbcType=INTEGER}, #{node,jdbcType=VARCHAR}, #{nodeContent,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
     #{pvId,jdbcType=INTEGER})
-  </insert>
+    </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanCatalog">
     DELETE from plan_catalog
     where pc_id = #{id,jdbcType=INTEGER}
-  </update>
+    </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanCatalog">
         update plan_catalog
         <set>

@@ -42,15 +42,15 @@
             and pr_pv_id = #{pvId,jdbcType=INTEGER}
         </if>
     </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanResponse">
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanResponse" keyColumn="pr_id" keyProperty="id" useGeneratedKeys="true">
     insert into plan_response (pr_id, pr_form, pr_level, pr_color, pr_type, pr_desc, pr_params, pr_pv_id)
     values (#{id,jdbcType=INTEGER}, #{form,jdbcType=INTEGER}, #{level,jdbcType=VARCHAR}, #{color,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
     #{desc,jdbcType=VARCHAR}, #{params,jdbcType=VARCHAR}, #{pvId,jdbcType=INTEGER})
-  </insert>
+  	</insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.PlanResponse">
     DELETE from plan_response
     where pr_id = #{id,jdbcType=INTEGER}
-  </update>
+  	</update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.PlanResponse">
         update plan_response
         <set>
