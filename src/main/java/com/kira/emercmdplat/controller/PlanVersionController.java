@@ -73,7 +73,10 @@ public class PlanVersionController extends BaseController {
 			Integer type = pv.getType();
 			pv.setTypeName(planTypeService.getPlanTypeById(type).getName());
 			Integer userId = pv.getUserId();
-			pv.setUserName(contactService.selectById(new Long(userId)).getContactName());
+			ContactsResult user = contactService.selectById(new Long(userId));
+			if (user != null) {
+				pv.setUserName(user.getContactName());
+			}
 			String params = pv.getParams();
 			String tags = pv.getTags();
 			if (params != null) {
@@ -114,7 +117,10 @@ public class PlanVersionController extends BaseController {
 		Integer type = pv.getType();
 		pv.setTypeName(planTypeService.getPlanTypeById(type).getName());
 		Integer userId = pv.getUserId();
-		pv.setUserName(contactService.selectById(new Long(userId)).getContactName());
+		ContactsResult user = contactService.selectById(new Long(userId));
+		if (user != null) {
+			pv.setUserName(user.getContactName());
+		}
 		String params = pv.getParams();
 		String tags = pv.getTags();
 		if (params != null) {
@@ -131,10 +137,11 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 2)
 	@ApiComment("插入预案，参数类型参见列出预案列表")
 	@RequestMapping(name="插入预案",value="/insertVersion",method=RequestMethod.POST)
-	public int insertVersion(@ApiComment(value="插入预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion) {
+	public int insertVersion(@ApiComment(value="插入预案",sample="{id:1,name:'aaa',version:'1',type:1,code:'1',org:'aaa',userId:1,pubTime:'2020-04-14',scope:'aaa',params:'1,2,3',tags:'1,2,3'}") @RequestBody PlanVersion planVersion,HttpServletRequest request) {
 		String nowStr = DateUtil.getNowStr("yyyy-MM-dd hh:mm:ss");
 		planVersion.setCreateTime(nowStr);
 		planVersion.setStatus(0);//编制中
+		planVersion.setUserId(getLoginUser(request));
 		int id = planVersionService.insertVersion(planVersion);
 		return id;
 	}
