@@ -16,7 +16,11 @@ public class Permission {
 
     private String pName;
 
-    private String pValue;
+    private String path;
+
+    private String component;
+
+    private String meta;
 
     private Long parentId;
 

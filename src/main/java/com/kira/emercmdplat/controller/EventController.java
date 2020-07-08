@@ -82,10 +82,10 @@ public class EventController extends BaseController {
             if (result) {
                 return AlvesJSONResult.ok("success close");
             } else {
-                throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo());
+                throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "终结事件失败");
             }
         } else {
-            throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo());
+            throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo(), "事件ID必传");
         }
     }
     @ResponseBody
@@ -226,7 +226,6 @@ public class EventController extends BaseController {
         List<PlanResponse> responseList = pvs.listResponses(id,1);
         return AlvesJSONResult.ok(responseList);
     }
-    //需要上传ID
     @ResponseBody
     @GetMapping(name = "查询事件领导批示集合", value = "leader_instruct_list/{eventId}")
     public AlvesJSONResult listLeaderInstruct(@PathVariable Long eventId) {

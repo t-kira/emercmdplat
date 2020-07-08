@@ -42,7 +42,9 @@
     <resultMap id="PermissionResultMap" type="com.kira.emercmdplat.pojo.Permission">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="p_name" property="pName" jdbcType="VARCHAR"/>
-        <result column="p_value" property="pValue" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="meta" property="meta" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
