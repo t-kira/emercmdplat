@@ -75,10 +75,10 @@
         insert into feedback (id, task_id, lng, lat, address, feedback_content, attach_path, feedback_time)
         values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{lng, jdbcType=DOUBLE}, #{lat, jdbcType=DOUBLE}, #{address, jdbcType=VARCHAR}, #{feedbackContent, jdbcType=VARCHAR}, #{attachPath, jdbcType=VARCHAR}, #{feedbackTime, jdbcType=VARCHAR})
     </insert>
-    <update id="delete" parameterType="com.kira.emercmdplat.pojo.Task">
+    <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Task">
         DELETE from task
         where id = #{id,jdbcType=BIGINT}
-    </update>
+    </delete>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.Task">
         update task
         <set>

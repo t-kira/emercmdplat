@@ -18,7 +18,7 @@
     <sql id="Base_Column_List">
     r.id, r.event_id, e.event_number, r.contact_id, c.contact_name, r.report_time, r.key_word, r.report_content, r.r_type, r.create_time, r.update_time
   </sql>
-  <sql id="Basic_Conditions" >
+    <sql id="Basic_Conditions" >
     <if test="id != null" >
       and r.id = #{id,jdbcType=INTEGER}
     </if>
@@ -47,16 +47,16 @@
       and r.update_time = #{updateTime,jdbcType=VARCHAR}
     </if>
   </sql>
-  <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Report" >
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Report" >
     insert into report (id, event_id, contact_id, report_time, key_word, report_content, r_type, create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{reportTime,jdbcType=VARCHAR},
       #{keyWord,jdbcType=VARCHAR}, #{reportContent,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
       #{updateTime,jdbcType=VARCHAR})
   </insert>
-    <update id="delete" parameterType="java.lang.Long">
-    DELETE report
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE report
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.Report">
         update report
         <set>

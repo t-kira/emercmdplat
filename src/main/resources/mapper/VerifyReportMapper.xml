@@ -103,5 +103,4 @@
         from verify_report
         <include refid="Basic_Conditions"/>
     </select>
-
 </mapper>
