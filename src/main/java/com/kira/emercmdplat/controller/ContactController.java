@@ -1,10 +1,12 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.Group;
+import com.kira.emercmdplat.pojo.Shift;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping("/contact")
-public class ContactController {
+public class ContactController extends BaseController {
 
     @Autowired
     private ContactService cs;

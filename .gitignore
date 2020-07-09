@@ -36,3 +36,5 @@ src/.DS_Store
 .mvn/wrapper/MavenWrapperDownloader.java
 src/main/resources/application.properties
 *.properties
+src/main/resources/application.properties
+src/main/resources/application.properties
