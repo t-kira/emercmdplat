@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.ShiftMapper">
+    <sql id="Base_Column_list">
+        s.id, s.shift_name, s.start_time, s.end_time, s.mechanism_id, m.m_name as mechanism_name, s.person_number, s.shift_type, s.shift_status, s.create_time
+    </sql>
+    <resultMap id="ShiftResultMap" type="com.kira.emercmdplat.pojo.Shift">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="shift_name" property="shiftName" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="VARCHAR"/>
+        <result column="end_time" property="endTime" jdbcType="VARCHAR"/>
+        <result column="mechanism_id" property="mechanismId" jdbcType="BIGINT"/>
+        <result column="mechanism_name" property="mechanismName" jdbcType="VARCHAR"/>
+        <result column="person_number" property="personNumber" jdbcType="INTEGER"/>
+        <result column="shift_type" property="shiftType" jdbcType="INTEGER"/>
+        <result column="shift_status" property="shiftStatus" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ShiftDetailResultMap" type="com.kira.emercmdplat.pojo.ShiftDetailResult">
+        <result column="shift_date" property="shiftDate" jdbcType="VARCHAR"/>
+        <collection column="shift_id" property="shiftList" ofType="com.kira.emercmdplat.pojo.Shift">
+            <result column="shift_id" property="id" jdbcType="BIGINT"/>
+            <result column="shift_name" property="shiftName" jdbcType="VARCHAR"/>
+            <collection property="contactsList" column="contact_id" ofType="com.kira.emercmdplat.pojo.Contacts">
+                <result column="contact_id" property="id" jdbcType="BIGINT"/>
+                <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Conditions" >
+        <if test="id != null" >
+            and s.id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="shiftName != null" >
+            and s.shift_name like concat('%',#{shiftName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="shiftType != null" >
+            and s.shift_type = #{shiftType,jdbcType=INTEGER}
+        </if>
+        <if test="shiftStatus != null" >
+            and shift_status = #{shiftStatus,jdbcType=INTEGER}
+        </if>
+        <if test="mechanismId != null" >
+            and s.mechanism_id = #{mechanismId,jdbcType=BIGINT}
+        </if>
+    </sql>
+    <insert id="insertShift" parameterType="com.kira.emercmdplat.pojo.Shift">
+        insert into shift(id, shift_name, start_date, end_date, mechanism_id, person_number, shift_type, shift_status, create_time)
+        values
+        (#{id,jdbcType=BIGINT}, #{shiftName,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR}, #{mechanismId,jdbcType=BIGINT},
+        #{personNumber,jdbcType=INTEGER}, #{shiftType,jdbcType=INTEGER}, #{shiftStatus,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR})
+    </insert>
+    <delete id="deleteShift" parameterType="java.lang.Long">
+        delete from shift
+        where id = #{shiftId, jdbcType=BIGINT}
+    </delete>
+    <update id="updateShift" parameterType="com.kira.emercmdplat.pojo.Shift">
+        update shift
+        <set>
+            <if test="shiftStatus != null" >
+                shift_status = #{shiftStatus,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id, jdbcType=BIGINT}
+    </update>
+    <select id="selectByShiftId" resultMap="ShiftResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_list"/>
+        from shift s, mechanism m
+        where s.mechanism_id = m.id and s.id = #{shiftId, jdbcType=BIGINT}
+    </select>
+    <select id="queryShiftForAll" resultMap="ShiftResultMap" parameterType="com.kira.emercmdplat.pojo.ShiftExtend">
+        select
+        <include refid="Base_Column_list"/>
+        from shift s, mechanism m
+        where s.mechanism_id = m.id
+        <include refid="Base_Conditions"/>
+    </select>
+    <select id="queryShiftForPage" resultMap="ShiftResultMap" parameterType="com.kira.emercmdplat.pojo.ShiftExtend">
+        select
+        <include refid="Base_Column_list"/>
+        from shift s, mechanism m
+        where s.mechanism_id = m.id
+        <include refid="Base_Conditions"/>
+        limit ${page}, ${pageSize}
+    </select>
+    <select id="queryShiftForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ShiftExtend">
+        select count(s.id)
+        from shift s
+        <include refid="Base_Conditions"/>
+    </select>
+    <select id="queryDetail" resultMap="ShiftDetailResultMap" parameterType="java.util.HashMap">
+        SELECT sd.shift_date, sd.shift_id, s.shift_name, sd.contact_id, c.c_name
+        FROM shift_detail sd
+        LEFT JOIN shift s ON sd.shift_id = s.id
+        LEFT JOIN contacts c ON sd.contact_id = c.c_id
+        where str_to_date(sd.shift_date, #{dateFormat, jdbcType=VARCHAR}) = str_to_date(#{dateStr, jdbcType=VARCHAR}, #{dateFormat, jdbcType=VARCHAR})
+    </select>
+    <select id="countStartUpShiftByType" resultType="java.lang.Long" parameterType="java.lang.Integer">
+        select count(1) from shift where shift_status = 1 and shift_type = #{shiftType,jdbcType=INTEGER}
+    </select>
+</mapper>
