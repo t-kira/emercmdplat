@@ -11,9 +11,11 @@ import java.util.List;
  * @Description:
  */
 public interface EventService{
-    int insert(Event event, HttpServletRequest request);
+    int insert(EventDomain eventDomain, HttpServletRequest request);
 
     boolean delete(Event event);
+
+    boolean update(EventDomain eventDomain, HttpServletRequest request);
 
     boolean update(Event event);
 
@@ -34,4 +36,5 @@ public interface EventService{
     //app事件标题模糊查询
     List<EventResult> queryByTitle(Event event);
 
+    boolean mergeEvent(EventResult coverEvent, HttpServletRequest request, VerifyEventReq eventReq, EventResult mainEvent);
 }

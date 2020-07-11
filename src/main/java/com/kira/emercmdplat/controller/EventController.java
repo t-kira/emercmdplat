@@ -12,6 +12,7 @@ import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,18 +57,9 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(name = "事件接报", value = "add")
     public AlvesJSONResult insert(@Validated @RequestBody EventDomain eventDomain, HttpServletRequest request) {
-        Event event = eventDomain.getEvent();
-        List<EventParam> eventParamList = eventDomain.getEventParamList();
-        int result = es.insert(event, request);
+        int result = es.insert(eventDomain, request);
         if (result > 0) {
-            if (eventParamList != null && eventParamList.size() > 0) {
-                for (EventParam eventParam : eventParamList) {
-                    eventParam.setEventId(event.getId());
-                    eventParam.setEventNumber(event.getEventNumber());
-                    es.insertParam(eventParam);
-                }
-            }
-            return AlvesJSONResult.ok(event);
+            return AlvesJSONResult.ok();
         } else {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(),"事件保存失败");
         }
@@ -290,29 +282,12 @@ public class EventController extends BaseController {
         }
     }
     @MyLog(value = 9)
+    @Transactional
     @ResponseBody
     @PostMapping(name = "事件更新", value = "update")
     public AlvesJSONResult update(@RequestBody EventDomain eventDomain, HttpServletRequest request) {
-        Event event = eventDomain.getEvent();
-        List<EventParam> eventParamList = eventDomain.getEventParamList();
-        String token = TokenUtil.getRequestToken(request);
-        ContactsResult contactsResult = cs.findByToken(token);
-        event.setContactId(contactsResult.getId());
-        boolean result = es.update(event);
+        boolean result = es.update(eventDomain, request);
         if (result) {
-            List<EventParamResult> paramList =  es.selectParamByEventId(event.getId());
-            if (paramList != null && paramList.size() > 0) {
-                for (EventParamResult param : paramList) {
-                    es.deleteParam(param.getId());
-                }
-            }
-            if (eventParamList != null && eventParamList.size() > 0) {
-                for (EventParam eventParam : eventParamList) {
-                    eventParam.setEventId(event.getId());
-                    eventParam.setEventNumber(event.getEventNumber());
-                    es.insertParam(eventParam);
-                }
-            }
             return AlvesJSONResult.ok();
         } else {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "事件更新失败");
@@ -340,8 +315,9 @@ public class EventController extends BaseController {
     }
     @MyLog(value = 2)
     @ResponseBody
+    @Transactional
     @PostMapping(name = "审核事件", value = "verify_event")
-    public AlvesJSONResult verifyEvent(@Validated @RequestBody VerifyEventReq eventReq) {
+    public AlvesJSONResult verifyEvent(@Validated @RequestBody VerifyEventReq eventReq, HttpServletRequest request) {
         EventResult coverEvent = es.selectById(eventReq.getCoverEId());
         if (eventReq.getMainEId() != null) {
             EventResult mainEvent = es.selectById(eventReq.getMainEId());
@@ -356,22 +332,14 @@ public class EventController extends BaseController {
                 mainEvent.setProcess(EventProcess.VERIFY_REPORT.getNo());
             }
             es.update(mainEvent);
-            //被合并
-            coverEvent.setVerifyStatus(EventVerifyStatus.IS_MERGE.getNo());
-            es.update(coverEvent);
-            //被合并的事件记录
-            SysLog sysLog = new SysLog();
-            sysLog.setEventId(mainEvent.getId());
-            sysLog.setOperation(coverEvent.getEventDesc());
-            sysLog.setUserName(mainEvent.getReporter());
-            sysLog.setCreateTime(coverEvent.getReceiveTime());
-            sls.insert(sysLog);
+            //合并事件
+            es.mergeEvent(coverEvent, request, eventReq, mainEvent);
         } else {
             coverEvent.setVerifyMethod(eventReq.getVerifyMethod());
             coverEvent.setVerifyStatus(eventReq.getVerifyStatus());
             coverEvent.setEventType(eventReq.getEventType());
             coverEvent.setMergeReason(eventReq.getMergeReason());
-            if (eventReq.getEventType() == EventType.NORMAL_EVENT.getNo()) {
+            if (eventReq.getVerifyStatus() == EventVerifyStatus.IS_FALSE.getNo()) {
                 coverEvent.setProcess(EventProcess.EVENT_FINISH.getNo());
                 coverEvent.setStatus(EventStatus.FINISH.getNo());
             }
@@ -379,24 +347,18 @@ public class EventController extends BaseController {
         }
         return AlvesJSONResult.ok();
     }
-    @MyLog(value = 12)
+//  @MyLog(value = 12)
     @ResponseBody
+    @Transactional
     @PostMapping(name = "事件合并", value = "merge_event")
-    public AlvesJSONResult mergeEvent(@RequestBody VerifyEventReq eventReq) {
+    public AlvesJSONResult mergeEvent(@RequestBody VerifyEventReq eventReq, HttpServletRequest request) {
         if (eventReq.getMainEId() > 0 && eventReq.getCoverEId() > 0) {
             EventResult coverEvent = es.selectById(eventReq.getCoverEId());
             EventResult mainEvent = es.selectById(eventReq.getMainEId());
             coverEvent.setMergeReason(eventReq.getMergeReason());
-            //被合并
-            coverEvent.setVerifyStatus(EventVerifyStatus.IS_MERGE.getNo());
-            es.update(coverEvent);
-            //被合并的事件记录
-            SysLog sysLog = new SysLog();
-            sysLog.setEventId(mainEvent.getId());
-            sysLog.setOperation(coverEvent.getEventDesc());
-            sysLog.setUserName(mainEvent.getReporter());
-            sysLog.setCreateTime(coverEvent.getReceiveTime());
-            sls.insert(sysLog);
+
+            //合并事件
+            es.mergeEvent(coverEvent, request, eventReq, mainEvent);
             return AlvesJSONResult.ok();
         } else {
             throw new CustomException(ResultEnum.MISSING_PARAMETER.getNo(), "主事件和被合并事件ID不能为空");

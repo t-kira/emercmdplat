@@ -23,12 +23,22 @@ public class VerifyReportServiceImpl implements VerifyReportService {
 
     @Override
     public int insert(VerifyReport pojo) {
-        return vrm.insert(pojo);
+        VerifyReport verifyReport = vrm.selectByEventId(pojo.getEventId());
+        if (verifyReport != null){
+            pojo.setId(verifyReport.getId());
+            boolean result = vrm.update(pojo);
+            if (result)
+                return 1;
+            else
+                return 0;
+        }else {
+            return vrm.insert(pojo);
+        }
     }
 
     @Override
-    public boolean delete(VerifyReport pojo) {
-        return vrm.delete(pojo);
+    public boolean delete(Long verifyReportId) {
+        return vrm.delete(verifyReportId);
     }
 
     @Override
@@ -37,8 +47,8 @@ public class VerifyReportServiceImpl implements VerifyReportService {
     }
 
     @Override
-    public VerifyReport selectById(Integer id) {
-        return vrm.selectById(id);
+    public VerifyReport selectById(Long verifyReportId) {
+        return vrm.selectById(verifyReportId);
     }
 
     @Override
