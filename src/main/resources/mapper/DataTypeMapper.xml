@@ -187,6 +187,9 @@
 		<if test="name != null">
 			and name like concat('%',#{name},'%')
 		</if>
+		<if test="name == 'clear'">
+			and 1=2
+		</if>
     </select>
 
 	<update id="truncateTable" parameterType="java.lang.String" statementType="STATEMENT">

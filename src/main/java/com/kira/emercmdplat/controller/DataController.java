@@ -74,6 +74,12 @@ public class DataController {
 	@RequestMapping(name="查询应急资源",value="/queryResources",method=RequestMethod.POST)
 	public List<DataType> queryResources(@RequestBody DataType dataType) {
 		List<DataType> list = dataTypeService.queryResources(dataType);
+		for (DataType type : list) {
+			if (type.getIcon() != null) {
+				type.setCommonIcon(BaseObject.host + "/img/" + type.getIcon() + "-common.png");
+				type.setActiveIcon(BaseObject.host + "/img/" + type.getIcon() + "-active.png");
+			}
+		}
 		return list;
 	}
 }
