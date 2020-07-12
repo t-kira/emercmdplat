@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
 import lombok.Data;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class Permission {
     private String meta;
 
     private Long parentId;
+
+    private Integer hidden;
+
+    private JSONObject metaJson;
 
     private List<Permission> permissionList;
 }

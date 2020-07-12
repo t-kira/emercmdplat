@@ -331,6 +331,7 @@ public class EventController extends BaseController {
             } else {
                 mainEvent.setProcess(EventProcess.VERIFY_REPORT.getNo());
             }
+            //更新主事件
             es.update(mainEvent);
             //合并事件
             es.mergeEvent(coverEvent, request, eventReq, mainEvent);
@@ -396,5 +397,11 @@ public class EventController extends BaseController {
             list.add(json);
         }
         return AlvesJSONResult.ok(list);
+    }
+    @ResponseBody
+    @GetMapping(name = "事件数据统计", value = "event_statistics")
+    public AlvesJSONResult statistics() {
+        Map<String, Object> result = es.statistics();
+        return AlvesJSONResult.ok(result);
     }
 }

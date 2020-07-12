@@ -84,8 +84,8 @@ public class MessageController extends BaseController {
         if (result) {
             if (message.getType() == MessageType.MESSAGE_TRANSFER.getNo() || message.getType() == MessageType.MESSAGE_REPORT.getNo()) {
                 message.setStatus(MessageStatus.MESSAGE_UNREAD.getNo());
-                message.setContactId(message.getContactId());
-                message.setContactId(null);
+                message.setContactId(message.getToContactId());
+                message.setToContactId(null);
                 message.setId(null);
                 ms.insert(message);
             }

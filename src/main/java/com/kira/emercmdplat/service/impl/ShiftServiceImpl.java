@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.enums.ShiftStatus;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ShiftMapper;
 import com.kira.emercmdplat.pojo.Shift;
@@ -8,6 +9,7 @@ import com.kira.emercmdplat.pojo.ShiftDetail;
 import com.kira.emercmdplat.pojo.ShiftDetailResult;
 import com.kira.emercmdplat.pojo.ShiftExtend;
 import com.kira.emercmdplat.service.ShiftService;
+import com.kira.emercmdplat.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,8 @@ public class ShiftServiceImpl implements ShiftService {
         long count = sm.countStartUpShiftByType(shift.getShiftType());
         if (count > 0)
             throw new CustomException(ResultEnum.EXIST_DATA.getNo());
+        shift.setShiftStatus(ShiftStatus.START_UP.getNo());
+        shift.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         return sm.insertShift(shift);
     }
 
@@ -84,6 +88,7 @@ public class ShiftServiceImpl implements ShiftService {
         Shift shift = sm.selectByShiftId(shiftDetail.getShiftId());
         if (personCount >= shift.getPersonNumber())
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "该班次当天人数已到上限");
+        shiftDetail.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
         return sm.insertShiftDetail(shiftDetail);
     }
 

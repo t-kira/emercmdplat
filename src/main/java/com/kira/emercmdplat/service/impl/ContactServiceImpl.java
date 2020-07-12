@@ -128,10 +128,15 @@ public class ContactServiceImpl implements ContactService {
         //重新生成时间
         newContact.setExpireTime(expireTime);
         //登录已过失效时间，重新生成token
-        if (DateUtil.isBefore(contacts.getExpireTime())) {
-            //用UUID生成token
+        if (StringUtil.isEmpty(token)) {
             token = UUID.randomUUID().toString();
             newContact.setToken(token);
+        } else {
+            if (DateUtil.isBefore(contacts.getExpireTime())) {
+                //用UUID生成token
+                token = UUID.randomUUID().toString();
+                newContact.setToken(token);
+            }
         }
         String rongCloudResult = TokenUtil.getRongCloudToken(contacts);
         if (!StringUtil.isEmpty(rongCloudResult)) {

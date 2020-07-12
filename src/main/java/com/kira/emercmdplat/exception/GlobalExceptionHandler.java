@@ -1,11 +1,10 @@
 package com.kira.emercmdplat.exception;
 
 import com.kira.emercmdplat.enums.ResultEnum;
-import org.springframework.http.HttpStatus;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,19 +18,18 @@ import javax.servlet.http.HttpServletResponse;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ErrorResponseEntity errorHandler(HttpServletRequest request,
-                               HttpServletResponse response,
-                               Exception e){
+    public AlvesJSONResult errorHandler(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        Exception e){
         e.printStackTrace();
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("%%%                 error             %%%%%%                      error          %%%");
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
         if (e instanceof CustomException) {
             CustomException exception = (CustomException) e;
-            return new ErrorResponseEntity(exception.getCode(), ResultEnum.getByValue(exception.getCode()).getName());
+            return AlvesJSONResult.build(exception.getCode(), ResultEnum.getByValue(exception.getCode()).getName(), null);
         } else {
-            return new ErrorResponseEntity(ResultEnum.UNKNOW_ERROR.getNo(), ResultEnum.UNKNOW_ERROR.getName());
+            return AlvesJSONResult.build(ResultEnum.UNKNOW_ERROR.getNo(), ResultEnum.UNKNOW_ERROR.getName(), null);
         }
     }
 
@@ -41,10 +39,10 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ErrorResponseEntity methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
+    public AlvesJSONResult methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
         //获取异常中随机一个异常信息
         String defaultMessage = e.getBindingResult().getFieldError().getDefaultMessage();
-        return new ErrorResponseEntity(ResultEnum.ERROR_PARAMETER.getNo(), defaultMessage);
+        return AlvesJSONResult.build(ResultEnum.ERROR_PARAMETER.getNo(), defaultMessage, null);
     }
 
     /**

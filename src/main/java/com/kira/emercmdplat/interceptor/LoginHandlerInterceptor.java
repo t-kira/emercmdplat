@@ -6,7 +6,6 @@ import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.HttpContextUtil;
 import com.kira.emercmdplat.utils.TokenUtil;
-import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -63,7 +63,7 @@ public class DutyController extends BaseController {
         }
     }
     @ResponseBody
-    @GetMapping(name = "删除班次信息", value = "shift/{shiftId}")
+    @GetMapping(name = "查看班次信息", value = "shift/{shiftId}")
     public AlvesJSONResult shift(@PathVariable Long shiftId) {
         Shift shift = ss.selectByShiftId(shiftId);
         if (shift == null)
@@ -81,13 +81,12 @@ public class DutyController extends BaseController {
         return AlvesJSONResult.ok(map);
     }
 
-    @GetMapping("list_shift_detail/{shiftDate}")
-    public AlvesJSONResult listShiftDetail(@PathVariable String shiftDate) {
-        boolean toDay = false;
+    @GetMapping("list_shift_detail/{shiftDate}/{toDay}")
+    public AlvesJSONResult listShiftDetail(@PathVariable String shiftDate, @PathVariable Integer toDay) {
         Map<String,String> paramMap = new HashMap<>();
         String dateFormat = "%Y-%m";
         paramMap.put("dateStr", shiftDate);
-        if (toDay) {
+        if (toDay > 0) {
             dateFormat = "%Y-%m-%d";
         }
         paramMap.put("dateFormat", dateFormat);
