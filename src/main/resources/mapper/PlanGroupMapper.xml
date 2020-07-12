@@ -19,7 +19,7 @@
             and pg_id = #{id,jdbcType=INTEGER}
         </if>
         <if test="name != null and name != ''">
-            and pg_name = #{name,jdbcType=VARCHAR}
+            and pg_name like concat('%',#{name,jdbcType=VARCHAR},'%')
         </if>
         <if test="leader != null">
             and pg_leader = #{leader,jdbcType=VARCHAR}
