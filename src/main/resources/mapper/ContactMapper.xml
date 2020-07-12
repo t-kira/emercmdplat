@@ -46,6 +46,7 @@
         <result column="component" property="component" jdbcType="VARCHAR"/>
         <result column="meta" property="meta" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="hidden" property="hidden" jdbcType="INTEGER"/>
     </resultMap>
     <resultMap id="ShiftResultMap" type="com.kira.emercmdplat.pojo.Shift">
         <id column="id" property="id" jdbcType="BIGINT"/>

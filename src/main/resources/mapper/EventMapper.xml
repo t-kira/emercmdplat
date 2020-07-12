@@ -266,4 +266,31 @@
     <select id="selectParamByEventId" resultMap="BaseParamResultMap" parameterType="java.lang.Long">
         select ep.id, ep.event_id, ep.event_number, ep.pp_id, ep.pp_value, pp.pp_name, pp.pp_unit from event_param ep, plan_param pp where ep.pp_id = pp.pp_id and ep.event_id = #{eventId,jdbcType=BIGINT}
     </select>
+    <select id="countEventLevel" resultType="java.util.HashMap">
+        SELECT
+            SUM(CASE WHEN event_level = 3 THEN 1 ELSE 0 END) as common,
+            SUM(CASE WHEN event_level = 6 THEN 1 ELSE 0 END) as more,
+            SUM(CASE WHEN event_level = 9 THEN 1 ELSE 0 END) as major,
+            SUM(CASE WHEN event_level = 10 THEN 1 ELSE 0 END) as especially_important,
+            SUM(CASE WHEN event_level = 6 THEN 1 ELSE 0 END) as more
+        FROM event_receive where verify_status IN(0,1)
+    </select>
+    <select id="countEventPtId" resultType="java.util.HashMap">
+        SELECT pt_id as ptId, COUNT(1) as count FROM event_receive WHERE verify_status IN(0, 1) GROUP BY pt_id
+    </select>
+    <select id="selectParentId" resultType="java.util.HashMap" parameterType="java.lang.Long">
+        SELECT T2.pt_id AS ptId, T2.pt_name AS ptName
+        FROM (
+        SELECT
+        @r AS _id,
+        (SELECT @r := pt_parent_id FROM plan_type WHERE pt_id = _id) AS parent_id,
+        @l := @l + 1 AS lvl
+        FROM
+        (SELECT @r := #{ptId, jdbcType=BIGINT}, @l := 0) vars,
+        plan_type h
+        WHERE @r <![CDATA[ <> ]]> 0) T1
+        JOIN plan_type T2
+        ON T1._id = T2.pt_id
+        ORDER BY T1.lvl DESC LIMIT 1
+    </select>
 </mapper>

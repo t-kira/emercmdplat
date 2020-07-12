@@ -7,20 +7,21 @@ import com.kira.emercmdplat.enums.SysLogType;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.mapper.EventMapper;
+import com.kira.emercmdplat.mapper.PlanTypeMapper;
 import com.kira.emercmdplat.mapper.SysLogMapper;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.EventService;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
-import com.kira.emercmdplat.utils.DateUtil;
-import com.kira.emercmdplat.utils.StringUtil;
-import com.kira.emercmdplat.utils.TokenUtil;
+import com.kira.emercmdplat.utils.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kira
@@ -36,6 +37,8 @@ public class EventServiceImpl implements EventService {
     private ContactMapper cm;
     @Autowired
     private SysLogMapper slm;
+    @Autowired
+    private PlanTypeMapper ptm;
 
     @Transactional
     @Override
@@ -184,5 +187,42 @@ public class EventServiceImpl implements EventService {
         } else {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "合并事件失败");
         }
+    }
+
+    @Override
+    public Map<String, Object> statistics() {
+        Map<String, Object> statisticsMap = new HashMap<>();
+        Map<String, Integer> eventLevelMap =  em.countEventLevel();
+        List<Map<String, Object>> ptIdMapList = em.countEventPtId();
+
+        List<Map<String, Object>> parentMapList = new ArrayList<>();
+        //根据ptId统计事件数量
+        for (Map<String, Object> map : ptIdMapList) {
+            Long ptId = StringUtil.toLongDefValue(map.get("ptId").toString(), 0l);
+            Integer count = StringUtil.toIntDefValue(map.get("count").toString(), 0);
+            //查询ptId的顶级父节点数据
+            Map<String, Object> parentMap = em.selectParentId(ptId);
+            parentMap.put("count", count);
+            parentMapList.add(parentMap);
+        }
+        //相同的ptId 数量累加
+        for(int i = 0; i < parentMapList.size(); i++) {
+            Map<String, Object> map = parentMapList.get(i);
+            long ptId = StringUtil.toLongDefValue(map.get("ptId").toString(), 0l);
+            int count = StringUtil.toIntDefValue(map.get("count").toString(), 0);
+            for(int j = i + 1; j < parentMapList.size(); j++) {
+                Map<String, Object> _map = parentMapList.get(j);
+                long _ptId = StringUtil.toLongDefValue(_map.get("ptId").toString(), 0l);
+                int _count = StringUtil.toIntDefValue(_map.get("count").toString(), 0);
+                if (ptId == _ptId) {
+                    map.put("count", (count + _count));
+                    parentMapList.remove(j);
+                    j--;
+                }
+            }
+        }
+        statisticsMap.put("eventLevelMap", eventLevelMap);
+        statisticsMap.put("eventPtIdList", parentMapList);
+        return statisticsMap;
     }
 }

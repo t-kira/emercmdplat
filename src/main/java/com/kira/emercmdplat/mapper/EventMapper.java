@@ -34,4 +34,10 @@ public interface EventMapper{
     List<EventResult> queryByTitle(Event event);
 
     int deleteParam(Long id);
+
+    Map<String, Integer> countEventLevel();
+
+    List<Map<String, Object>> countEventPtId();
+
+    Map<String, Object> selectParentId(Long ptId);
 }

@@ -2,6 +2,7 @@ package com.kira.emercmdplat.utils;
 
 import com.kira.emercmdplat.pojo.Group;
 import com.kira.emercmdplat.pojo.Permission;
+import net.sf.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public class TreeUtil {
         for (Permission permission : treeList) {
             long id = permission.getId();
             long superGid = permission.getParentId();
+            JSONObject metaJson = JSONObject.fromObject(permission.getMeta());
+            permission.setMetaJson(metaJson);
             if (superGid == parentId) {
                 List<Permission> pList = treeRecursionPermissionDataList(treeList, id);
                 permission.setPermissionList(pList);

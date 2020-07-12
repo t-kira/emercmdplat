@@ -4,6 +4,7 @@ import com.kira.emercmdplat.pojo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kira
@@ -37,4 +38,6 @@ public interface EventService{
     List<EventResult> queryByTitle(Event event);
 
     boolean mergeEvent(EventResult coverEvent, HttpServletRequest request, VerifyEventReq eventReq, EventResult mainEvent);
+
+    Map<String,Object> statistics();
 }

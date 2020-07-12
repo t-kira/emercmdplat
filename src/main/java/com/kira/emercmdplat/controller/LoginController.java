@@ -44,6 +44,16 @@ public class LoginController {
 		}
     }
 
+    @ResponseBody
+	@GetMapping(name = "获取权限菜单", value = "list_permission")
+    public AlvesJSONResult permissionList(HttpServletRequest request) {
+		String token = TokenUtil.getRequestToken(request);
+		Contacts contacts = contactService.findByToken(token);
+		List<Permission> permissions = contactService.findPermissionsByCid(contacts.getId());
+		List<Permission> permissionList = TreeUtil.treeRecursionPermissionDataList(permissions, 0);
+		return AlvesJSONResult.ok(permissionList);
+	}
+
 	/**
 	 * 登出
 	 *

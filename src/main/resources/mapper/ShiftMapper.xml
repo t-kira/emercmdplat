@@ -21,6 +21,8 @@
         <collection column="shift_id" property="shiftList" ofType="com.kira.emercmdplat.pojo.Shift">
             <result column="shift_id" property="id" jdbcType="BIGINT"/>
             <result column="shift_name" property="shiftName" jdbcType="VARCHAR"/>
+            <result column="start_time" property="startTime" jdbcType="VARCHAR"/>
+            <result column="end_time" property="endTime" jdbcType="VARCHAR"/>
             <collection property="contactsList" column="contact_id" ofType="com.kira.emercmdplat.pojo.Contacts">
                 <result column="contact_id" property="id" jdbcType="BIGINT"/>
                 <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
@@ -46,14 +48,23 @@
         </if>
     </sql>
     <insert id="insertShift" parameterType="com.kira.emercmdplat.pojo.Shift">
-        insert into shift(id, shift_name, start_date, end_date, mechanism_id, person_number, shift_type, shift_status, create_time)
+        insert into shift(id, shift_name, start_time, end_time, mechanism_id, person_number, shift_type, shift_status, create_time)
         values
-        (#{id,jdbcType=BIGINT}, #{shiftName,jdbcType=VARCHAR}, #{startDate,jdbcType=VARCHAR}, #{endDate,jdbcType=VARCHAR}, #{mechanismId,jdbcType=BIGINT},
+        (#{id,jdbcType=BIGINT}, #{shiftName,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, #{mechanismId,jdbcType=BIGINT},
         #{personNumber,jdbcType=INTEGER}, #{shiftType,jdbcType=INTEGER}, #{shiftStatus,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertShiftDetail" parameterType="com.kira.emercmdplat.pojo.ShiftDetail">
+        insert into shift_detail(id, shift_date, shift_id, contact_id, create_time)
+        values
+        (#{id,jdbcType=BIGINT}, #{shiftDate,jdbcType=VARCHAR}, #{shiftId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{createTime,jdbcType=VARCHAR})
     </insert>
     <delete id="deleteShift" parameterType="java.lang.Long">
         delete from shift
         where id = #{shiftId, jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteShiftDetail" parameterType="java.lang.Long">
+        delete from shift_detail
+        where id = #{shiftDetailId,jdbcType=BIGINT}
     </delete>
     <update id="updateShift" parameterType="com.kira.emercmdplat.pojo.Shift">
         update shift
@@ -87,11 +98,11 @@
     </select>
     <select id="queryShiftForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ShiftExtend">
         select count(s.id)
-        from shift s
+        from shift s where 1 = 1
         <include refid="Base_Conditions"/>
     </select>
     <select id="queryDetail" resultMap="ShiftDetailResultMap" parameterType="java.util.HashMap">
-        SELECT sd.shift_date, sd.shift_id, s.shift_name, sd.contact_id, c.c_name
+        SELECT sd.shift_date, sd.shift_id, s.shift_name, sd.contact_id, c.c_name, s.start_time, s.end_time
         FROM shift_detail sd
         LEFT JOIN shift s ON sd.shift_id = s.id
         LEFT JOIN contacts c ON sd.contact_id = c.c_id
@@ -99,5 +110,9 @@
     </select>
     <select id="countStartUpShiftByType" resultType="java.lang.Long" parameterType="java.lang.Integer">
         select count(1) from shift where shift_status = 1 and shift_type = #{shiftType,jdbcType=INTEGER}
+    </select>
+    <select id="countShiftDetail" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ShiftDetail">
+        select count(1) from shift_detail
+        where shift_date = #{shiftDate,jdbcType=VARCHAR} and shift_id = #{shiftId,jdbcType=BIGINT}
     </select>
 </mapper>
