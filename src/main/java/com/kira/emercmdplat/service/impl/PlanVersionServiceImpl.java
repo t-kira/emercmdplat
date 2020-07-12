@@ -105,8 +105,9 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public void insertOrg(PlanOrg planOrg) {
+	public int insertOrg(PlanOrg planOrg) {
 		planOrgMapper.insert(planOrg);
+		return planOrg.getId();
 	}
 
 	@Override

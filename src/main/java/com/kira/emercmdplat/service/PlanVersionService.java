@@ -28,7 +28,7 @@ public interface PlanVersionService {
 
 	List<Node> listOrgTree(PlanOrg planOrg);
 
-	void insertOrg(PlanOrg planOrg);
+	int insertOrg(PlanOrg planOrg);
 
 	void updateOrg(PlanOrg planOrg);
 

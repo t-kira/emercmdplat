@@ -38,7 +38,7 @@
             and po_pv_id = #{pvId,jdbcType=INTEGER}
         </if>
     </sql>
-    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanOrg">
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.PlanOrg" keyColumn="po_id" keyProperty="id" useGeneratedKeys="true">
     insert into plan_org (po_id, po_name, po_type, po_duty, po_d_ids, po_parent_id, po_pv_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{duty,jdbcType=VARCHAR}, #{userIds,jdbcType=VARCHAR},
     #{parentId,jdbcType=INTEGER}, #{pvId,jdbcType=INTEGER})
