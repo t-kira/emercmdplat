@@ -50,7 +50,7 @@ public class Shift {
     @Min(value = 1, message = "班次人数必须大于0")
     private Integer personNumber;
 
-    private List<Contacts> contactsList;
+    private List<ShiftJob> shiftJobList;
     /**
      * 班次类型
      */

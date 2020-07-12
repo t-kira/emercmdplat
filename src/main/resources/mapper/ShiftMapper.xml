@@ -23,9 +23,14 @@
             <result column="shift_name" property="shiftName" jdbcType="VARCHAR"/>
             <result column="start_time" property="startTime" jdbcType="VARCHAR"/>
             <result column="end_time" property="endTime" jdbcType="VARCHAR"/>
-            <collection property="contactsList" column="contact_id" ofType="com.kira.emercmdplat.pojo.Contacts">
-                <result column="contact_id" property="id" jdbcType="BIGINT"/>
-                <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
+            <collection column="shift_job_id" property="shiftJobList" ofType="com.kira.emercmdplat.pojo.ShiftJob">
+                <result column="shift_job_id" property="id" jdbcType="BIGINT"/>
+                <result column="shift_job_name" property="shiftJobName" jdbcType="VARCHAR"/>
+                <collection property="contactsList" column="contact_id" ofType="com.kira.emercmdplat.pojo.ContactsResult">
+                    <result column="contact_id" property="id" jdbcType="BIGINT"/>
+                    <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
+                    <result column="j_name" property="jName" jdbcType="VARCHAR"/>
+                </collection>
             </collection>
         </collection>
     </resultMap>
@@ -54,9 +59,9 @@
         #{personNumber,jdbcType=INTEGER}, #{shiftType,jdbcType=INTEGER}, #{shiftStatus,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR})
     </insert>
     <insert id="insertShiftDetail" parameterType="com.kira.emercmdplat.pojo.ShiftDetail">
-        insert into shift_detail(id, shift_date, shift_id, contact_id, create_time)
+        insert into shift_detail(id, shift_date, shift_id, contact_id, shift_job_id, create_time)
         values
-        (#{id,jdbcType=BIGINT}, #{shiftDate,jdbcType=VARCHAR}, #{shiftId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{createTime,jdbcType=VARCHAR})
+        (#{id,jdbcType=BIGINT}, #{shiftDate,jdbcType=VARCHAR}, #{shiftId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{shiftJobId,jdbcType=BIGINT}, #{createTime,jdbcType=VARCHAR})
     </insert>
     <delete id="deleteShift" parameterType="java.lang.Long">
         delete from shift
@@ -102,10 +107,12 @@
         <include refid="Base_Conditions"/>
     </select>
     <select id="queryDetail" resultMap="ShiftDetailResultMap" parameterType="java.util.HashMap">
-        SELECT sd.shift_date, sd.shift_id, s.shift_name, sd.contact_id, c.c_name, s.start_time, s.end_time
+        SELECT sd.shift_date, sd.shift_id, s.shift_name, sd.contact_id, c.c_name, concat(DATE_FORMAT(NOW(),'%Y-%m-%d '),s.start_time) as start_time, concat(DATE_FORMAT(NOW(),'%Y-%m-%d '),s.end_time) as end_time, j.j_name, sj.id as shift_job_id, sj.shift_job_name
         FROM shift_detail sd
+        LEFT JOIN shift_job sj ON sd.shift_job_id = sj.id
         LEFT JOIN shift s ON sd.shift_id = s.id
         LEFT JOIN contacts c ON sd.contact_id = c.c_id
+        LEFT JOIN job j ON c.j_id = j.id
         where str_to_date(sd.shift_date, #{dateFormat, jdbcType=VARCHAR}) = str_to_date(#{dateStr, jdbcType=VARCHAR}, #{dateFormat, jdbcType=VARCHAR})
     </select>
     <select id="countStartUpShiftByType" resultType="java.lang.Long" parameterType="java.lang.Integer">
