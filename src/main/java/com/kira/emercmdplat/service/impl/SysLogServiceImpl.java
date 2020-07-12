@@ -89,12 +89,14 @@ public class SysLogServiceImpl implements SysLogService {
                     List<EventParam> eventParamList = eventDomain.getEventParamList();
                     if (eventParamList != null && eventParamList.size() > 0) {
                         for (EventParam eventParam : eventParamList) {
-                            JSONObject paramJson = new JSONObject();
-                            paramJson.put("value", eventParam.getPpValue());
-                            PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
-                            paramJson.put("name", param.getName());
-                            paramJson.put("unit", param.getUnit());
-                            paramList.add(paramJson);
+                            if (eventParam != null) {
+                                JSONObject paramJson = new JSONObject();
+                                paramJson.put("value", eventParam.getPpValue());
+                                PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
+                                paramJson.put("name", param.getName());
+                                paramJson.put("unit", param.getUnit());
+                                paramList.add(paramJson);
+                            }
                         }
                         rJson.put("paramList", paramList);
                     }
@@ -148,8 +150,9 @@ public class SysLogServiceImpl implements SysLogService {
                     break;
                 case EVENT_MERGE:
                     JSONObject eventMergeJson = JSONObject.fromObject(params);
-                    VerifyEventReq eventMerge = (VerifyEventReq)JSONObject.toBean(eventMergeJson, VerifyEventReq.class);
+                    VerifyEventReq eventMerge = (VerifyEventReq)JSONObject.toBean(eventMergeJson.getJSONObject("verifyEventReq"), VerifyEventReq.class);
                     rJson.put("reason", eventMerge.getMergeReason());
+                    rJson.put("eventDesc", eventMergeJson.get("eventDesc"));
                     break;
                 case EVENT_UPDATE:
                     JSONObject eventUpdateJson = JSONObject.fromObject(params);
@@ -165,12 +168,14 @@ public class SysLogServiceImpl implements SysLogService {
                     List<EventParam> eventParams = eventDomain1.getEventParamList();
                     if (eventParams != null && eventParams.size() > 0) {
                         for (EventParam eventParam : eventParams) {
-                            JSONObject paramJson = new JSONObject();
-                            paramJson.put("value", eventParam.getPpValue());
-                            PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
-                            paramJson.put("name", param.getName());
-                            paramJson.put("unit", param.getUnit());
-                            paramsList.add(paramJson);
+                            if (eventParam != null) {
+                                JSONObject paramJson = new JSONObject();
+                                paramJson.put("value", eventParam.getPpValue());
+                                PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
+                                paramJson.put("name", param.getName());
+                                paramJson.put("unit", param.getUnit());
+                                paramsList.add(paramJson);
+                            }
                         }
                         rJson.put("paramList", paramsList);
                     }

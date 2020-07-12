@@ -13,7 +13,7 @@
         <result column="quick_report_addr" property="quickReportAddr" jdbcType="VARCHAR"/>
         <result column="rich_text" property="richText" jdbcType="VARCHAR"/>
     </resultMap>
-    <sql id="Base_Column_List">
+    <sql id="Base_Verify_Column_List">
         id,event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, rich_text, create_time
     </sql>
     <sql id="Basic_Conditions" >
@@ -42,9 +42,9 @@
         values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{pvId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER}, #{contactId,jdbcType=BIGINT}, #{judgeOpinion,jdbcType=VARCHAR},
           #{attachAddress,jdbcType=VARCHAR}, #{quickReportAddr,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{richText,jdbcType=VARCHAR})
     </insert>
-    <update id="delete" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
+    <update id="delete" parameterType="java.lang.Long">
         DELETE verify_report
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{verifyReportId,jdbcType=BIGINT}
     </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         update verify_report
@@ -81,19 +81,25 @@
     </update>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Verify_Column_List"/>
         from verify_report
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{verifyReportId,jdbcType=BIGINT}
+    </select>
+    <select id="selectByEventId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Verify_Column_List"/>
+        from verify_report
+        where event_id = #{eventId,jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Verify_Column_List"/>
         from verify_report
         <include refid="Basic_Conditions"/>
     </select>
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Verify_Column_List"/>
         from verify_report
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}

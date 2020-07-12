@@ -146,8 +146,8 @@ public class AppController extends BaseController {
     @ResponseBody
     @PostMapping(name = "手机端事件接报", value = "add_event")
     public AlvesJSONResult insert(@RequestBody EventDomain eventDomain, HttpServletRequest request) {
-        Event event = eventDomain.getEvent();
-        int result = es.insert(event, request);
+//        Event event = eventDomain.getEvent();
+        int result = es.insert(eventDomain, request);
         if (result > 0) {
             return AlvesJSONResult.ok("录入成功");
         } else {
