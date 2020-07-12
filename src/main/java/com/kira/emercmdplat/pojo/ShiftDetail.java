@@ -36,6 +36,14 @@ public class ShiftDetail {
      */
     private String contactName;
     /**
+     * 值班职位ID
+     */
+    private Long shiftJobId;
+    /**
+     * 值班职位名称
+     */
+    private String shiftJobName;
+    /**
      * 新增时间
      */
     private String createTime;
