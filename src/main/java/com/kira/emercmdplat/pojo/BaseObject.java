@@ -1,12 +1,19 @@
 package com.kira.emercmdplat.pojo;
 
+import com.kira.emercmdplat.config.WebSecurityConfig;
+
 public class BaseObject extends Base {
 
-	public static final String host = "https://www.chinahqd.cn:9090";
+	public static final String host = WebSecurityConfig.HOST;
 
-	protected String commonIcon = host + "/img/active.png";
+	protected String commonIcon;
 
-	protected String activeIcon = host + "/img/common.png";
+	protected String activeIcon;
+
+	public BaseObject() {
+		this.commonIcon = this.host + WebSecurityConfig.COMMONICON;
+		this.activeIcon = this.host + WebSecurityConfig.ACTIVEICON;
+	}
 
 	public String getCommonIcon() {
 		return commonIcon;

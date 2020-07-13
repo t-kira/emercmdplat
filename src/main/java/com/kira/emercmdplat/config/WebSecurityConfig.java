@@ -18,4 +18,10 @@ public interface WebSecurityConfig {
     int HTTP_CONNECT_TIMEOUT = 3000;
 
     int HTTP_READ_TIMEOUT = 3000;
+
+    String HOST = "https://www.chinahqd.cn:9090";
+
+    String COMMONICON = "/img/active.png";
+
+    String ACTIVEICON = "/img/common.png";
 }
