@@ -2,7 +2,6 @@ package com.kira.emercmdplat.service;
 
 import com.kira.emercmdplat.pojo.QuickReportResult;
 import com.kira.emercmdplat.pojo.ReservePlan;
-import com.kira.emercmdplat.pojo.ReservePlanExtend;
 import com.kira.emercmdplat.pojo.ReservePlanResult;
 
 import java.util.List;
@@ -62,7 +61,7 @@ public interface ReservePlanService {
      */
     List<QuickReportResult> queryForAll(ReservePlan reservePlan);
 
-    List<QuickReportResult> queryForPage(ReservePlanExtend reservePlanExtend);
+    List<QuickReportResult> queryForPage(ReservePlan reservePlan);
 
-    Long queryForCounts(ReservePlanExtend reservePlanExtend);
+    Long queryForCounts(ReservePlan reservePlan);
 }

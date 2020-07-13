@@ -9,7 +9,7 @@ import net.sf.json.JSONArray;
  * @Description:事件任务反馈信息
  */
 @Data
-public class Feedback {
+public class Feedback extends Base{
 
     private Long id;
     /**

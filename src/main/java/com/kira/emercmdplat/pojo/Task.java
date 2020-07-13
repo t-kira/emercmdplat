@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @Description:事件任务
  */
 @Data
-public class Task {
+public class Task extends Base{
 
     private Long id;
     /**

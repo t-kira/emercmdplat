@@ -8,7 +8,7 @@ import lombok.Data;
  * @Description:
  */
 @Data
-public class Report {
+public class Report extends Base{
 
     private Long id;
 

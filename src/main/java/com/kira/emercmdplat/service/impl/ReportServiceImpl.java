@@ -2,7 +2,6 @@ package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.mapper.ReportMapper;
 import com.kira.emercmdplat.pojo.Report;
-import com.kira.emercmdplat.pojo.ReportExtend;
 import com.kira.emercmdplat.pojo.ReportResult;
 import com.kira.emercmdplat.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,22 +65,22 @@ public class ReportServiceImpl implements ReportService {
     /**
      * 按条件查询
      *
-     * @param reportExtend
+     * @param report
      * @return
      */
     @Override
-    public List<ReportResult> queryForAll(ReportExtend reportExtend) {
-        return rm.queryForAll(reportExtend);
+    public List<ReportResult> queryForAll(Report report) {
+        return rm.queryForAll(report);
     }
 
     @Override
-    public List<ReportResult> queryForPage(ReportExtend reportExtend) {
-        reportExtend.setPage((reportExtend.getPage() - 1) * reportExtend.getPageSize());
-        return rm.queryForPage(reportExtend);
+    public List<ReportResult> queryForPage(Report report) {
+        report.setPage((report.getPage() - 1) * report.getPageSize());
+        return rm.queryForPage(report);
     }
 
     @Override
-    public Long queryForCounts(ReportExtend reportExtend) {
-        return rm.queryForCounts(reportExtend);
+    public Long queryForCounts(Report report) {
+        return rm.queryForCounts(report);
     }
 }

@@ -19,11 +19,11 @@ public interface SysLogMapper {
 
     SysLog selectById(Long id);
 
-    List<SysLog> queryForAll(SysLogExtend sysLogExtend);
+    List<SysLog> queryForAll(SysLog sysLog);
 
-    Long queryForCounts(SysLogExtend sysLogExtend);
+    Long queryForCounts(SysLog sysLog);
 
-    List<SysLog> queryForPage(SysLogExtend sysLogExtend);
+    List<SysLog> queryForPage(SysLog sysLog);
 
     List<SysLog> selectByEventId(Long eventId);
 }

@@ -95,7 +95,7 @@
         where r.event_id = e.e_id and r.contact_id = c.c_id and r.id = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Report">
         select
         <include refid="Base_Column_List"/>
         from report r, event_receive e, contacts c
@@ -103,7 +103,7 @@
         <include refid="Basic_Conditions"/>
     </select>
 
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Report">
         select
         <include refid="Base_Column_List"/>
         from report r, event_receive e, contacts c
@@ -112,7 +112,7 @@
         limit ${page}, ${pageSize}
     </select>
 
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ReportExtend">
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Report">
         select count(id)
         from report r
         <include refid="Basic_Conditions"/>

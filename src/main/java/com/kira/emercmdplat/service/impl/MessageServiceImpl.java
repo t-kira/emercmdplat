@@ -2,7 +2,6 @@ package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.mapper.MessageMapper;
 import com.kira.emercmdplat.pojo.Message;
-import com.kira.emercmdplat.pojo.MessageExtend;
 import com.kira.emercmdplat.pojo.MessageResult;
 import com.kira.emercmdplat.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,22 +66,22 @@ public class MessageServiceImpl implements MessageService {
     /**
      * 按条件查询
      *
-     * @param messageExtend
+     * @param message
      * @return
      */
     @Override
-    public List<MessageResult> queryForAll(MessageExtend messageExtend) {
-        return mm.queryForAll(messageExtend);
+    public List<MessageResult> queryForAll(Message message) {
+        return mm.queryForAll(message);
     }
 
     @Override
-    public List<MessageResult> queryForPage(MessageExtend messageExtend) {
-        messageExtend.setPage((messageExtend.getPage() - 1) * messageExtend.getPageSize());
-        return mm.queryForPage(messageExtend);
+    public List<MessageResult> queryForPage(Message message) {
+        message.setPage((message.getPage() - 1) * message.getPageSize());
+        return mm.queryForPage(message);
     }
 
     @Override
-    public Long queryForCounts(MessageExtend messageExtend) {
-        return mm.queryForCounts(messageExtend);
+    public Long queryForCounts(Message message) {
+        return mm.queryForCounts(message);
     }
 }

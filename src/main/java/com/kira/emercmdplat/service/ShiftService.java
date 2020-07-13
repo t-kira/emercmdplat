@@ -20,11 +20,11 @@ public interface ShiftService {
 
     Shift selectByShiftId(Long shiftId);
 
-    List<Shift> queryShiftForAll(ShiftExtend shiftExtend);
+    List<Shift> queryShiftForAll(Shift shift);
 
-    List<Shift> queryShiftForPage(ShiftExtend shiftExtend);
+    List<Shift> queryShiftForPage(Shift shift);
 
-    Long queryShiftForCounts(ShiftExtend shiftExtend);
+    Long queryShiftForCounts(Shift shift);
 
     List<ShiftDetailResult> queryDetail(Map<String, String> paramMap);
 

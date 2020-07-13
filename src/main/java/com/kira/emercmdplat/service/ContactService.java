@@ -19,11 +19,11 @@ public interface ContactService {
 
     ContactsResult selectById(Long contactId);
 
-    List<ContactsResult> queryForAll(ContactsExtend contactsExtend);
+    List<ContactsResult> queryForAll(Contacts contacts);
 
-    List<ContactsResult> queryForPage(ContactsExtend contactsExtend);
+    List<ContactsResult> queryForPage(Contacts contacts);
 
-    Long queryForCounts(ContactsExtend contactsExtend);
+    Long queryForCounts(Contacts contacts);
 
     List<ContactsResult> queryForIds(List ids);
 

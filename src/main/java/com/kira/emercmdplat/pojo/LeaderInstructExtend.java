@@ -4,17 +4,14 @@ import lombok.Data;
 
 /**
  * @Author: kira
- * @Date: 2020/5/27 00:03
+ * @Date: 2020/7/13 12:30
  * @Description:
  */
 @Data
 public class LeaderInstructExtend extends LeaderInstruct{
+
     /**
-     * 信息ID
+     * 信息id
      */
     private Long mid;
-
-    private Integer page;
-
-    private Integer pageSize;
 }

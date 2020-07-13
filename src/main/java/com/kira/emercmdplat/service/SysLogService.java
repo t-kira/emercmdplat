@@ -1,7 +1,6 @@
 package com.kira.emercmdplat.service;
 
 import com.kira.emercmdplat.pojo.SysLog;
-import com.kira.emercmdplat.pojo.SysLogExtend;
 import net.sf.json.JSONObject;
 
 import java.util.List;
@@ -21,11 +20,11 @@ public interface SysLogService {
 
     SysLog selectById(Long id);
 
-    List<SysLog> queryForAll(SysLogExtend sysLogExtend);
+    List<SysLog> queryForAll(SysLog sysLog);
 
-    Long queryForCounts(SysLogExtend sysLogExtend);
+    Long queryForCounts(SysLog sysLog);
 
-    List<SysLog> queryForPage(SysLogExtend sysLogExtend);
+    List<SysLog> queryForPage(SysLog sysLog);
 
     List<JSONObject> selectByEventId(Long eventId);
 }

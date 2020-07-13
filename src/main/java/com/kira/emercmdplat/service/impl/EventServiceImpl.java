@@ -43,11 +43,11 @@ public class EventServiceImpl implements EventService {
         Event event = eventDomain.getEvent();
         List<EventParam> eventParamList = eventDomain.getEventParamList();
         String preEventNumber = DateUtil.getNowStr("yyyyMMdd");
-        EventExtend eventExtend = new EventExtend();
-        eventExtend.setOrder("e_id");
-        eventExtend.setOrderType("desc");
-        eventExtend.setEventNumber(preEventNumber);
-        List<EventResult> eventResults = em.queryEventNumberForAll(eventExtend);
+        Event newEvent = new Event();
+        newEvent.setOrder("e_id");
+        newEvent.setOrderType("desc");
+        newEvent.setEventNumber(preEventNumber);
+        List<EventResult> eventResults = em.queryEventNumberForAll(newEvent);
         if (eventResults != null && eventResults.size() > 0) {
             EventResult eventResult = eventResults.get(0);
             String eventNumber = eventResult.getEventNumber();
@@ -125,19 +125,19 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventResult> queryForAll(EventExtend eventExtend) {
-        return em.queryForAll(eventExtend);
+    public List<EventResult> queryForAll(Event event) {
+        return em.queryForAll(event);
     }
 
     @Override
-    public List<EventResult> queryForPage(EventExtend eventExtend) {
-        eventExtend.setPage((eventExtend.getPage() - 1) * eventExtend.getPageSize());
-        return em.queryForPage(eventExtend);
+    public List<EventResult> queryForPage(Event event) {
+        event.setPage((event.getPage() - 1) * event.getPageSize());
+        return em.queryForPage(event);
     }
 
     @Override
-    public Long queryForCounts(EventExtend pojo) {
-        return em.queryForCounts(pojo);
+    public Long queryForCounts(Event event) {
+        return em.queryForCounts(event);
     }
 
     @Override

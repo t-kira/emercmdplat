@@ -3,7 +3,6 @@ package com.kira.emercmdplat.service.impl;
 import com.kira.emercmdplat.mapper.ReservePlanMapper;
 import com.kira.emercmdplat.pojo.QuickReportResult;
 import com.kira.emercmdplat.pojo.ReservePlan;
-import com.kira.emercmdplat.pojo.ReservePlanExtend;
 import com.kira.emercmdplat.pojo.ReservePlanResult;
 import com.kira.emercmdplat.service.ReservePlanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,13 +87,13 @@ public class ReservePlanServiceImpl implements ReservePlanService {
     }
 
     @Override
-    public List<QuickReportResult> queryForPage(ReservePlanExtend reservePlanExtend) {
-        reservePlanExtend.setPage((reservePlanExtend.getPage() - 1) * reservePlanExtend.getPageSize());
-        return rpm.queryForPage(reservePlanExtend);
+    public List<QuickReportResult> queryForPage(ReservePlan reservePlan) {
+        reservePlan.setPage((reservePlan.getPage() - 1) * reservePlan.getPageSize());
+        return rpm.queryForPage(reservePlan);
     }
 
     @Override
-    public Long queryForCounts(ReservePlanExtend reservePlanExtend) {
-        return rpm.queryForCounts(reservePlanExtend);
+    public Long queryForCounts(ReservePlan reservePlan) {
+        return rpm.queryForCounts(reservePlan);
     }
 }

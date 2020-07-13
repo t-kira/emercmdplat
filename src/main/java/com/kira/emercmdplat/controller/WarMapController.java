@@ -78,25 +78,7 @@ public class WarMapController {
             dataType.setId(eventSource.getDataTypeId());
             dataTypeList.add(dataType);
         } else {
-            DataType dataType = new DataType();
-            dataType.setTaskType(1);
-            dataTypeList = dts.queryForAll(dataType);
-            DataType dataType1 = new DataType();
-            dataType1.setTaskType(2);
-            List<DataType> dataTypes = dts.queryForAll(dataType1);
-            DataType dataType2 = new DataType();
-            dataType2.setTaskType(3);
-            List<DataType> dataTypes1 = dts.queryForAll(dataType2);
-            if (dataTypes != null && dataTypes.size() > 0) {
-                for (DataType dataType3 : dataTypes) {
-                    dataTypeList.add(dataType3);
-                }
-            }
-            if (dataTypes1 != null && dataTypes1.size() > 0) {
-                for (DataType dataType3 : dataTypes1) {
-                    dataTypeList.add(dataType3);
-                }
-            }
+            dataTypeList = dts.getWarMapResourceList();
         }
         List<JSONObject> listJson = new ArrayList<>();
         for (DataType d : dataTypeList) {

@@ -8,7 +8,7 @@ import lombok.Data;
  * @Description:要情速报
  */
 @Data
-public class QuickReport {
+public class QuickReport extends Base{
 
     private Long id;
     /**

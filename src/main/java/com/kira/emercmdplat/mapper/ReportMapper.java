@@ -1,7 +1,6 @@
 package com.kira.emercmdplat.mapper;
 
 import com.kira.emercmdplat.pojo.Report;
-import com.kira.emercmdplat.pojo.ReportExtend;
 import com.kira.emercmdplat.pojo.ReportResult;
 
 import java.util.List;
@@ -45,12 +44,12 @@ public interface ReportMapper {
 
     /**
      * 按条件查询
-     * @param reportExtend
+     * @param report
      * @return
      */
-    List<ReportResult> queryForAll(ReportExtend reportExtend);
+    List<ReportResult> queryForAll(Report report);
 
-    List<ReportResult> queryForPage(ReportExtend reportExtend);
+    List<ReportResult> queryForPage(Report report);
 
-    Long queryForCounts(ReportExtend reportExtend);
+    Long queryForCounts(Report report);
 }

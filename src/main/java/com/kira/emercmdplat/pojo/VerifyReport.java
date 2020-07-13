@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @Description:核实报告
  */
 @Data
-public class VerifyReport {
+public class VerifyReport extends Base{
 
     private Long id;
     /**

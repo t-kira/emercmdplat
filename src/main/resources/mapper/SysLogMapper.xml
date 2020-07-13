@@ -77,7 +77,7 @@
         from sys_log
         where event_id = #{eventId, jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.SysLogExtend">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.SysLog">
         select
         <include refid="Base_Column_List"/>
         from sys_log
@@ -90,7 +90,7 @@
         <include refid="Basic_Conditions"/>
         limit ${page}, ${pageSize}
     </select>
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.SysLogExtend">
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.SysLog">
         select count(1)
         from sys_log
         <include refid="Basic_Conditions"/>

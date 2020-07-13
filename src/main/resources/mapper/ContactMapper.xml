@@ -266,14 +266,14 @@
         select g_id, g_name, super_g_id from contact_group
         where g_id = #{id, jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Contacts">
         select
         <include refid="Base_Column_List"/>
         from contacts c, job j, mechanism m , contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
         <include refid="Basic_Conditions"/>
     </select>
-    <select id="selectGeoContacts" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+    <select id="selectGeoContacts" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Contacts">
         select
         <include refid="Base_Column_List"/>
         from contacts c, job j, mechanism m , contact_group g
@@ -290,7 +290,7 @@
 			#{item}
 		</foreach>
     </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Contacts">
         select
         <include refid="Base_Column_List"/>
         from contacts c, job j, mechanism m , contact_group g
@@ -298,7 +298,7 @@
         <include refid="Basic_Conditions"/>
         limit ${page}, ${pageSize}
     </select>
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ContactsExtend">
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Contacts">
         select count(c_id)
         from contacts
         <include refid="Basic_Conditions"/>

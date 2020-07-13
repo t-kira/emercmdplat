@@ -2,19 +2,16 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.EmergencyTeam;
 import com.kira.emercmdplat.pojo.EmergencyTeamResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EmergencyTeamService;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -35,15 +32,15 @@ public class EmergencyTeamController extends BaseController {
 
     @Autowired
     private EmergencyTeamService emergencyTeamService;
-    
+
     @Autowired
 	private ContactService contactService;
-    
+
     @Api2Doc(order = 1)
     @ApiComment(value="添加应急队伍")
     @RequestMapping(name="添加应急队伍",value="/add",method=RequestMethod.POST)
     public String insert(@Validated @ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
-    	ContactsExtend contact = new ContactsExtend();
+    	Contacts contact = new Contacts();
     	contact.setTelephone(emergencyTeam.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
     	if (result != null && result.size() == 1) {
@@ -54,7 +51,7 @@ public class EmergencyTeamController extends BaseController {
         emergencyTeamService.insert(emergencyTeam);
         return "success";
     }
-    
+
     @Api2Doc(order = 2)
     @ApiComment(value="修改应急队伍")
     @RequestMapping(name="修改应急队伍",value="/update",method=RequestMethod.POST)
@@ -62,7 +59,7 @@ public class EmergencyTeamController extends BaseController {
         emergencyTeamService.update(emergencyTeam);
         return "success";
     }
-    
+
     @Api2Doc(order = 3)
     @ApiComment(value="删除应急队伍")
     @RequestMapping(name="删除应急队伍",value="/delete",method=RequestMethod.GET)
@@ -77,7 +74,7 @@ public class EmergencyTeamController extends BaseController {
     	}
         return "success";
     }
-    
+
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询应急队伍")
     @RequestMapping(name="根据id查询应急队伍",value="/selectById",method=RequestMethod.GET)
@@ -85,7 +82,7 @@ public class EmergencyTeamController extends BaseController {
         EmergencyTeam emergencyTeam = emergencyTeamService.selectById(id);
         return emergencyTeam;
     }
-    
+
     @Api2Doc(order = 5)
     @ApiComment(value="列出应急队伍")
     @RequestMapping(name="列出应急队伍",value="/list",method=RequestMethod.POST)

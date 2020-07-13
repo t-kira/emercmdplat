@@ -8,7 +8,7 @@ import lombok.Data;
  * @Description:领导批示
  */
 @Data
-public class LeaderInstruct{
+public class LeaderInstruct extends Base{
 
     private Long id;
     /**

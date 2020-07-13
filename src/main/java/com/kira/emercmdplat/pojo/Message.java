@@ -8,7 +8,7 @@ import lombok.Data;
  * @Description:信息管理
  */
 @Data
-public class Message {
+public class Message extends Base{
 
     private Long id;
     /**

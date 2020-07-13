@@ -7,13 +7,11 @@ import com.kira.emercmdplat.mapper.ShiftMapper;
 import com.kira.emercmdplat.pojo.Shift;
 import com.kira.emercmdplat.pojo.ShiftDetail;
 import com.kira.emercmdplat.pojo.ShiftDetailResult;
-import com.kira.emercmdplat.pojo.ShiftExtend;
 import com.kira.emercmdplat.service.ShiftService;
 import com.kira.emercmdplat.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -62,19 +60,19 @@ public class ShiftServiceImpl implements ShiftService {
     }
 
     @Override
-    public List<Shift> queryShiftForAll(ShiftExtend shiftExtend) {
-        return sm.queryShiftForAll(shiftExtend);
+    public List<Shift> queryShiftForAll(Shift shift) {
+        return sm.queryShiftForAll(shift);
     }
 
     @Override
-    public List<Shift> queryShiftForPage(ShiftExtend shiftExtend) {
-        shiftExtend.setPage((shiftExtend.getPage() - 1) * shiftExtend.getPageSize());
-        return sm.queryShiftForPage(shiftExtend);
+    public List<Shift> queryShiftForPage(Shift shift) {
+        shift.setPage((shift.getPage() - 1) * shift.getPageSize());
+        return sm.queryShiftForPage(shift);
     }
 
     @Override
-    public Long queryShiftForCounts(ShiftExtend shiftExtend) {
-        return sm.queryShiftForCounts(shiftExtend);
+    public Long queryShiftForCounts(Shift shift) {
+        return sm.queryShiftForCounts(shift);
     }
 
     @Override

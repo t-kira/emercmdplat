@@ -95,9 +95,9 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping(name = "获取值班人员集合", value = "duty_list")
     public AlvesJSONResult listDuty(){
-        ContactsExtend contactsExtend = new ContactsExtend();
-        contactsExtend.setPersonAttribute(1);
-        List<ContactsResult> contactsList = cs.queryForAll(contactsExtend);
+        Contacts contacts = new Contacts();
+        contacts.setPersonAttribute(1);
+        List<ContactsResult> contactsList = cs.queryForAll(contacts);
         return AlvesJSONResult.ok(contactsList);
     }
     @ResponseBody
@@ -168,17 +168,17 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping(name = "查询事件领导批示集合", value = "leader_instruct_list/{eventId}")
     public AlvesJSONResult listLeaderInstruct(@PathVariable Long eventId) {
-        LeaderInstructExtend leaderInstruct = new LeaderInstructExtend();
-        leaderInstruct.setEventId(eventId);
-        List<LeaderInstructResult> list = lis.queryForAll(leaderInstruct);
+        LeaderInstructExtend leaderInstructExtend = new LeaderInstructExtend();
+        leaderInstructExtend.setEventId(eventId);
+        List<LeaderInstructResult> list = lis.queryForAll(leaderInstructExtend);
         return AlvesJSONResult.ok(list);
     }
     @ResponseBody
     @GetMapping(name = "根据事件ID查询领导批示记录", value = "leader_instruct/{eventId}")
     public AlvesJSONResult selectLeaderInstructByEventId(@PathVariable Long eventId) {
-        LeaderInstructExtend leaderInstruct = new LeaderInstructExtend();
-        leaderInstruct.setEventId(eventId);
-        List<LeaderInstructResult> list = lis.queryForAll(leaderInstruct);
+        LeaderInstructExtend leaderInstructExtend = new LeaderInstructExtend();
+        leaderInstructExtend.setEventId(eventId);
+        List<LeaderInstructResult> list = lis.queryForAll(leaderInstructExtend);
         if (list != null && list.size() > 0) {
             return AlvesJSONResult.ok(list.get(0));
         } else {
@@ -252,10 +252,10 @@ public class EventController extends BaseController {
     }
     @ResponseBody
     @PostMapping(name = "查询事件列表", value = "list")
-    public AlvesJSONResult list(@RequestBody EventExtend eventExtend) {
+    public AlvesJSONResult list(@RequestBody Event event) {
         Map<String, Object> map = new HashMap<>();
-        List<EventResult> list = es.queryForPage(eventExtend);
-        Long count = es.queryForCounts(eventExtend);
+        List<EventResult> list = es.queryForPage(event);
+        Long count = es.queryForCounts(event);
         map.put("list", list);
         map.put("count", count);
         return AlvesJSONResult.ok(map);

@@ -13,7 +13,7 @@ import java.util.List;
  * @Description:班次
  */
 @Data
-public class Shift {
+public class Shift extends Base{
 
     private Long id;
     /**

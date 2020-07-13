@@ -2,19 +2,16 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.MedicalInstitution;
 import com.kira.emercmdplat.pojo.MedicalInstitutionResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.MedicalInstitutionService;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +31,7 @@ public class MedicalInstitutionController extends BaseController {
 
     @Autowired
     private MedicalInstitutionService medicalInstitutionService;
-    
+
     @Autowired
 	private ContactService contactService;
 
@@ -42,7 +39,7 @@ public class MedicalInstitutionController extends BaseController {
     @ApiComment(value="添加医疗机构")
     @RequestMapping(name="添加医疗机构",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
-    	ContactsExtend contact = new ContactsExtend();
+    	Contacts contact = new Contacts();
     	contact.setTelephone(medicalInstitution.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
     	if (result != null && result.size() == 1) {
@@ -53,7 +50,7 @@ public class MedicalInstitutionController extends BaseController {
     	medicalInstitutionService.insert(medicalInstitution);
         return "success";
     }
-    
+
     @Api2Doc(order = 2)
     @ApiComment(value="修改医疗机构")
     @RequestMapping(name="修改医疗机构",value="/update",method=RequestMethod.POST)
@@ -61,7 +58,7 @@ public class MedicalInstitutionController extends BaseController {
         medicalInstitutionService.update(medicalInstitution);
         return "success";
     }
-    
+
     @Api2Doc(order = 3)
     @ApiComment(value="删除医疗机构")
     @RequestMapping(name="删除医疗机构",value="/delete",method=RequestMethod.GET)
@@ -76,7 +73,7 @@ public class MedicalInstitutionController extends BaseController {
     	}
         return "success";
     }
-    
+
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询医疗机构")
     @RequestMapping(name="根据id查询医疗机构",value="/selectById",method=RequestMethod.GET)
@@ -84,7 +81,7 @@ public class MedicalInstitutionController extends BaseController {
         MedicalInstitution medicalInstitution = medicalInstitutionService.selectById(id);
         return medicalInstitution;
     }
-    
+
     @Api2Doc(order = 5)
     @ApiComment(value="列出医疗机构")
     @RequestMapping(name="列出医疗机构",value="/list",method=RequestMethod.POST)

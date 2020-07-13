@@ -17,14 +17,6 @@ public class TaskExtend extends Task{
 
     private List<JSONObject> contactList;
 
-    private Integer page;
-
-    private Integer pageSize;
-
-    private String order;
-
-    private String orderType;
-
     public TaskExtend() {
         super();
     }

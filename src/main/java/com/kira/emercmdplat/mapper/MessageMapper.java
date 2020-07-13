@@ -1,7 +1,6 @@
 package com.kira.emercmdplat.mapper;
 
 import com.kira.emercmdplat.pojo.Message;
-import com.kira.emercmdplat.pojo.MessageExtend;
 import com.kira.emercmdplat.pojo.MessageResult;
 
 import java.util.List;
@@ -44,12 +43,12 @@ public interface MessageMapper {
 
     /**
      * 按条件查询
-     * @param messageExtend
+     * @param message
      * @return
      */
-    List<MessageResult> queryForAll(MessageExtend messageExtend);
+    List<MessageResult> queryForAll(Message message);
 
-    List<MessageResult> queryForPage(MessageExtend messageExtend);
+    List<MessageResult> queryForPage(Message message);
 
-    Long queryForCounts(MessageExtend messageExtend);
+    Long queryForCounts(Message message);
 }

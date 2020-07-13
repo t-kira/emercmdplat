@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @Description:
  */
 @Data
-public class SysLog {
+public class SysLog extends Base{
 
     private Long id;
     /**

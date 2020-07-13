@@ -55,18 +55,19 @@ public class SysLogServiceImpl implements SysLogService {
     }
 
     @Override
-    public List<SysLog> queryForAll(SysLogExtend sysLogExtend) {
-        return slm.queryForAll(sysLogExtend);
+    public List<SysLog> queryForAll(SysLog sysLog) {
+        return slm.queryForAll(sysLog);
     }
 
     @Override
-    public Long queryForCounts(SysLogExtend sysLogExtend) {
-        return slm.queryForCounts(sysLogExtend);
+    public Long queryForCounts(SysLog sysLog) {
+        return slm.queryForCounts(sysLog);
     }
 
     @Override
-    public List<SysLog> queryForPage(SysLogExtend sysLogExtend) {
-        return slm.queryForPage(sysLogExtend);
+    public List<SysLog> queryForPage(SysLog sysLog) {
+        sysLog.setPage((sysLog.getPage() - 1) * sysLog.getPageSize());
+        return slm.queryForPage(sysLog);
     }
 
     @Override

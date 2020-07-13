@@ -225,7 +225,7 @@
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
         where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.mechanism_id = me.id and e.contact_id = c.c_id and e.verify_status &lt; 3 and e.e_id = #{id,jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventExtend">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select
         <include refid="Base_Column_List"/>
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
@@ -235,7 +235,7 @@
             order by ${order} ${orderType}
         </if>
     </select>
-    <select id="queryEventNumberForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventExtend">
+    <select id="queryEventNumberForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select
         <include refid="Base_Column_List"/>
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
@@ -252,7 +252,7 @@
         where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id and e.verify_status &lt; 3
         and e.event_title like concat('%',#{eventTitle},'%') and e.contact_id = #{contactId, jdbcType=BIGINT}
     </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EventExtend">
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select
         <include refid="Base_Column_List"/>
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me

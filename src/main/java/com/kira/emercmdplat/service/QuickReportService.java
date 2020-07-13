@@ -1,7 +1,6 @@
 package com.kira.emercmdplat.service;
 
 import com.kira.emercmdplat.pojo.QuickReport;
-import com.kira.emercmdplat.pojo.QuickReportExtend;
 import com.kira.emercmdplat.pojo.QuickReportResult;
 
 import java.util.List;
@@ -53,7 +52,7 @@ public interface QuickReportService {
      */
     List<QuickReportResult> queryForAll(QuickReport quickReport);
 
-    List<QuickReportResult> queryForPage(QuickReportExtend quickReportExtend);
+    List<QuickReportResult> queryForPage(QuickReport quickReport);
 
-    Long queryForCounts(QuickReportExtend quickReportExtend);
+    Long queryForCounts(QuickReport quickReport);
 }

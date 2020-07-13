@@ -11,7 +11,7 @@ import java.util.List;
  * @Description:权限列表
  */
 @Data
-public class Permission {
+public class Permission extends Base{
 
     private Long id;
 

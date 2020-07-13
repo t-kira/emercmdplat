@@ -2,19 +2,16 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.ReserveLibrary;
 import com.kira.emercmdplat.pojo.ReserveLibraryResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.ReserveLibraryService;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,15 +31,15 @@ public class ReserveLibraryController extends BaseController {
 
     @Autowired
     private ReserveLibraryService reserveLibraryService;
-    
+
     @Autowired
 	private ContactService contactService;
-    
+
     @Api2Doc(order = 1)
     @ApiComment(value="添加储备库")
     @RequestMapping(name="添加储备库",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加储备库",sample="根据id查询储备库接口可查看字段信息") @RequestBody ReserveLibrary reserveLibrary) {
-    	ContactsExtend contact = new ContactsExtend();
+    	Contacts contact = new Contacts();
     	contact.setTelephone(reserveLibrary.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
     	if (result != null && result.size() == 1) {
@@ -53,7 +50,7 @@ public class ReserveLibraryController extends BaseController {
         reserveLibraryService.insert(reserveLibrary);
         return "success";
     }
-    
+
     @Api2Doc(order = 2)
     @ApiComment(value="修改储备库")
     @RequestMapping(name="修改储备库",value="/update",method=RequestMethod.POST)
@@ -61,7 +58,7 @@ public class ReserveLibraryController extends BaseController {
         reserveLibraryService.update(reserveLibrary);
         return "success";
     }
-    
+
     @Api2Doc(order = 3)
     @ApiComment(value="删除储备库")
     @RequestMapping(name="删除储备库",value="/delete",method=RequestMethod.GET)
@@ -76,7 +73,7 @@ public class ReserveLibraryController extends BaseController {
     	}
         return "success";
     }
-    
+
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询储备库")
     @RequestMapping(name="根据id查询储备库",value="/selectById",method=RequestMethod.GET)
@@ -84,7 +81,7 @@ public class ReserveLibraryController extends BaseController {
         ReserveLibrary reserveLibrary = reserveLibraryService.selectById(id);
         return reserveLibrary;
     }
-    
+
     @Api2Doc(order = 5)
     @ApiComment(value="列出储备库")
     @RequestMapping(name="列出储备库",value="/list",method=RequestMethod.POST)

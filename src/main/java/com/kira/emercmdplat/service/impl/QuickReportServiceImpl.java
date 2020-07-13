@@ -2,7 +2,6 @@ package com.kira.emercmdplat.service.impl;
 
 import com.kira.emercmdplat.mapper.QuickReportMapper;
 import com.kira.emercmdplat.pojo.QuickReport;
-import com.kira.emercmdplat.pojo.QuickReportExtend;
 import com.kira.emercmdplat.pojo.QuickReportResult;
 import com.kira.emercmdplat.service.QuickReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +46,13 @@ public class QuickReportServiceImpl implements QuickReportService {
     }
 
     @Override
-    public List<QuickReportResult> queryForPage(QuickReportExtend quickReportExtend) {
-        quickReportExtend.setPage((quickReportExtend.getPage() - 1) * quickReportExtend.getPageSize());
-        return qrm.queryForPage(quickReportExtend);
+    public List<QuickReportResult> queryForPage(QuickReport quickReport) {
+        quickReport.setPage((quickReport.getPage() - 1) * quickReport.getPageSize());
+        return qrm.queryForPage(quickReport);
     }
 
     @Override
-    public Long queryForCounts(QuickReportExtend quickReportExtend) {
-        return qrm.queryForCounts(quickReportExtend);
+    public Long queryForCounts(QuickReport quickReport) {
+        return qrm.queryForCounts(quickReport);
     }
 }

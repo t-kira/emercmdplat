@@ -125,13 +125,13 @@ public class MessageController extends BaseController {
 
     @ResponseBody
     @PostMapping("list")
-    public AlvesJSONResult list(@RequestBody MessageExtend messageExtend, HttpServletRequest request) {
+    public AlvesJSONResult list(@RequestBody Message message, HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
-        messageExtend.setContactId(contactsResult.getId());
+        message.setContactId(contactsResult.getId());
         Map<String, Object> map = new HashMap<>();
-        List<MessageResult> list = ms.queryForPage(messageExtend);
-        Long count = ms.queryForCounts(messageExtend);
+        List<MessageResult> list = ms.queryForPage(message);
+        Long count = ms.queryForCounts(message);
         map.put("list", list);
         map.put("count", count);
         return AlvesJSONResult.ok(map);

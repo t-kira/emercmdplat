@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * @Description:事件信息表
  */
 @Data
-public class Event {
+public class Event extends Base{
     /**
      * 事件ID
      */

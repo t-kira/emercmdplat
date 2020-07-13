@@ -20,11 +20,11 @@ public interface ShiftMapper {
 
     Shift selectByShiftId(Long shiftId);
 
-    List<Shift> queryShiftForAll(ShiftExtend shiftExtend);
+    List<Shift> queryShiftForAll(Shift shift);
 
-    List<Shift> queryShiftForPage(ShiftExtend shiftExtend);
+    List<Shift> queryShiftForPage(Shift shift);
 
-    Long queryShiftForCounts(ShiftExtend shiftExtend);
+    Long queryShiftForCounts(Shift shift);
 
     int insertShiftDetail(ShiftDetail shiftDetail);
 

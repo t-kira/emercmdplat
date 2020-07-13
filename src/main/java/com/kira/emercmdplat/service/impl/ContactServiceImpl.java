@@ -54,19 +54,19 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<ContactsResult> queryForAll(ContactsExtend contactsExtend) {
-        return cm.queryForAll(contactsExtend);
+    public List<ContactsResult> queryForAll(Contacts contacts) {
+        return cm.queryForAll(contacts);
     }
 
     @Override
-    public List<ContactsResult> queryForPage(ContactsExtend contactsExtend) {
-        contactsExtend.setPage((contactsExtend.getPage() - 1) * contactsExtend.getPageSize());
-        return cm.queryForPage(contactsExtend);
+    public List<ContactsResult> queryForPage(Contacts contacts) {
+        contacts.setPage((contacts.getPage() - 1) * contacts.getPageSize());
+        return cm.queryForPage(contacts);
     }
 
     @Override
-    public Long queryForCounts(ContactsExtend contactsExtend) {
-        return cm.queryForCounts(contactsExtend);
+    public Long queryForCounts(Contacts contacts) {
+        return cm.queryForCounts(contacts);
     }
 
 	@Override

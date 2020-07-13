@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @Description:
  */
 @Data
-public class ReservePlan {
+public class ReservePlan extends Base{
     @NotNull(message = "预案ID不能为空")
     @Min(value = 1, message = "预案ID必传")
     private Long id;

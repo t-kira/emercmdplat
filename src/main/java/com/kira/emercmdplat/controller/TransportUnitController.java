@@ -2,19 +2,16 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.pojo.ContactsExtend;
+import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.TransportUnit;
 import com.kira.emercmdplat.pojo.TransportUnitResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.TransportUnitService;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,15 +31,15 @@ public class TransportUnitController extends BaseController{
 
     @Autowired
     private TransportUnitService transportUnitService;
-    
+
     @Autowired
 	private ContactService contactService;
-    
+
     @Api2Doc(order = 1)
     @ApiComment(value="添加运输单位")
     @RequestMapping(name="添加运输单位",value="/add",method=RequestMethod.POST)
     public String insert(@ApiComment(value="添加运输单位",sample="根据id查询运输单位接口可查看字段信息") @RequestBody TransportUnit transportUnit) {
-    	ContactsExtend contact = new ContactsExtend();
+    	Contacts contact = new Contacts();
     	contact.setTelephone(transportUnit.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
     	if (result != null && result.size() == 1) {
@@ -53,7 +50,7 @@ public class TransportUnitController extends BaseController{
         transportUnitService.insert(transportUnit);
         return "success";
     }
-    
+
     @Api2Doc(order = 2)
     @ApiComment(value="修改运输单位")
     @RequestMapping(name="修改运输单位",value="/update",method=RequestMethod.POST)
@@ -61,7 +58,7 @@ public class TransportUnitController extends BaseController{
         transportUnitService.update(transportUnit);
         return "success";
     }
-    
+
     @Api2Doc(order = 3)
     @ApiComment(value="删除运输单位")
     @RequestMapping(name="删除运输单位",value="/delete",method=RequestMethod.GET)
@@ -76,7 +73,7 @@ public class TransportUnitController extends BaseController{
     	}
         return "success";
     }
-    
+
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询运输单位")
     @RequestMapping(name="根据id查询运输单位",value="/selectById",method=RequestMethod.GET)
@@ -84,7 +81,7 @@ public class TransportUnitController extends BaseController{
         TransportUnit transportUnit = transportUnitService.selectById(id);
         return transportUnit;
     }
-    
+
     @Api2Doc(order = 5)
     @ApiComment(value="列出运输单位")
     @RequestMapping(name="列出运输单位",value="/list",method=RequestMethod.POST)

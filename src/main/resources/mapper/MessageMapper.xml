@@ -104,14 +104,14 @@
         where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
         and m.id = #{id,jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
+    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Message">
         select
         <include refid="Base_Column_List"/>
         from message m, event_receive e, plan_type pt, contacts c, verify_report v, plan_version pv, plan_response pr
         where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
         <include refid="Basic_Conditions"/>
     </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
+    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Message">
         select
         <include refid="Base_Column_List"/>
         from message m, event_receive e, plan_type pt, contacts c, verify_report v, plan_version pv, plan_response pr
@@ -122,7 +122,7 @@
         </if>
         limit ${page}, ${pageSize}
     </select>
-    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.MessageExtend">
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Message">
         select count(id)
         from message m
         where 1 = 1
