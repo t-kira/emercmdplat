@@ -1,7 +1,7 @@
 package com.kira.emercmdplat.mapper;
 
 import com.kira.emercmdplat.pojo.QuickReport;
-import com.kira.emercmdplat.pojo.QuickReportExtent;
+import com.kira.emercmdplat.pojo.QuickReportExtend;
 import com.kira.emercmdplat.pojo.QuickReportResult;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public interface QuickReportMapper {
      */
     List<QuickReportResult> queryForAll(QuickReport quickReport);
 
-    List<QuickReportResult> queryForPage(QuickReportExtent quickReportExtent);
+    List<QuickReportResult> queryForPage(QuickReportExtend quickReportExtend);
 
-    Long queryForCounts(QuickReportExtent quickReportExtent);
+    Long queryForCounts(QuickReportExtend quickReportExtend);
 }

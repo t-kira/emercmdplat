@@ -141,16 +141,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public int insertParam(EventParam eventParam) {
-        return em.insertParam(eventParam);
-    }
-
-    @Override
-    public int deleteParam(Long id) {
-        return em.deleteParam(id);
-    }
-
-    @Override
     public List<EventParamResult> selectParamByEventId(Long eventId) {
         return em.selectParamByEventId(eventId);
     }

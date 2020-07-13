@@ -15,7 +15,6 @@ import com.terran4j.commons.api2doc.config.EnableApi2Doc;
 @ComponentScan(basePackages= {"com.kira", "com.kira.emercmdplat"})
 @EnableTransactionManagement//开启事务（默认是开启的）
 @SpringBootApplication
-//@EnableApi2Doc
 public class EmercmdplatApplication {
 
     public static void main(String[] args) {

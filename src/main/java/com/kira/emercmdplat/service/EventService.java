@@ -28,10 +28,6 @@ public interface EventService{
 
     Long queryForCounts(EventExtend eventExtend);
 
-    int insertParam(EventParam eventParam);
-
-    int deleteParam(Long id);
-
     List<EventResult> queryForPage(EventExtend eventExtend);
 
     List<EventParamResult> selectParamByEventId(Long eventId);

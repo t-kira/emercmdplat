@@ -73,7 +73,7 @@ public class WarMapController {
     public AlvesJSONResult situationAnalysis(@Validated @RequestBody EventSource eventSource) {
         EventResult eventResult = es.selectById(eventSource.getEventId());
         List<DataType> dataTypeList = new ArrayList<>();
-        if (eventSource.getDataTypeId() != null && eventSource.getDataTypeId() > 0) {
+        if(eventSource.getDataTypeId() != null && eventSource.getDataTypeId() > 0) {
             DataType dataType = new DataType();
             dataType.setId(eventSource.getDataTypeId());
             dataTypeList.add(dataType);
@@ -128,10 +128,6 @@ public class WarMapController {
     @ResponseBody
     @GetMapping(name = "指定事件的所有任务集合", value = "list_task")
     public AlvesJSONResult taskList(Integer dataTypeId, Long eventId) {
-//        TaskExtend taskExtend = new TaskExtend();
-//        taskExtend.setEventId(eventId);
-//        taskExtend.setOrder("id");
-//        taskExtend.setOrderType("desc");
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("dataTypeId", dataTypeId);
         paramMap.put("eventId", eventId);

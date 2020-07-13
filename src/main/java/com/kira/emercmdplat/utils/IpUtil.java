@@ -1,13 +1,6 @@
 package com.kira.emercmdplat.utils;
 
-import net.sf.json.JSON;
-
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 /**
  * @Author: kira

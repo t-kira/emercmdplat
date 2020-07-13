@@ -9,15 +9,14 @@ import lombok.Data;
  * @Date: 2020/4/21 22:51
  * @Description:
  */
-//@Data
 public class ContactsResult extends Contacts{
-	
+
 	@ApiComment(value = "职务名称", sample = "aaa")
     private String jName;
-	
+
 	@ApiComment(value = "工作单位名称", sample = "aaa")
     private String mName;
-	
+
 	@ApiComment(value = "分组名称", sample = "aaa")
     private String gName;
 

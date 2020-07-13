@@ -11,7 +11,7 @@ import java.util.List;
  * @Create by :kira
  * @CreateTime :2020/2/4:19:23
  * @Version : v1.0.1
- * @Describe : so.
+ * @Describe : 接口返回对象格式
  */
 public class AlvesJSONResult {
 

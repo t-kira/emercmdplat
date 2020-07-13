@@ -8,7 +8,7 @@ import lombok.Data;
  * @Description:
  */
 @Data
-public class QuickReportExtent extends QuickReport{
+public class QuickReportExtend extends QuickReport{
 
     private Integer page;
 
