@@ -14,6 +14,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,7 @@ public class ReserveLibraryController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加储备库")
     @RequestMapping(name="添加储备库",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加储备库",sample="根据id查询储备库接口可查看字段信息") @RequestBody ReserveLibrary reserveLibrary) {
+    public String insert(@Validated @ApiComment(value="添加储备库",sample="根据id查询储备库接口可查看字段信息") @RequestBody ReserveLibrary reserveLibrary) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(reserveLibrary.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
@@ -54,7 +55,7 @@ public class ReserveLibraryController extends BaseController {
     @Api2Doc(order = 2)
     @ApiComment(value="修改储备库")
     @RequestMapping(name="修改储备库",value="/update",method=RequestMethod.POST)
-    public String update(@ApiComment(value="修改储备库",sample="根据id查询储备库接口可查看字段信息") @RequestBody ReserveLibrary reserveLibrary) {
+    public String update(@Validated @ApiComment(value="修改储备库",sample="根据id查询储备库接口可查看字段信息") @RequestBody ReserveLibrary reserveLibrary) {
         reserveLibraryService.update(reserveLibrary);
         return "success";
     }

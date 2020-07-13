@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -17,11 +19,13 @@ public class PlanResponseFlow {
 	 * 名称
 	 */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
 	private String name;
 	/**
 	 * 内容
 	 */
 	@ApiComment(value = "内容", sample = "aaa")
+	@NotNull(message = "内容不能为空")
 	private String content;
 	/**
 	 * 预案组ID
@@ -32,6 +36,7 @@ public class PlanResponseFlow {
 	 * 预案响应ID
 	 */
 	@ApiComment(value = "预案响应ID", sample = "1")
+	@NotNull(message = "预案响应ID不能为空")
 	private Integer prId;
 	/**
 	 * 预案组集合

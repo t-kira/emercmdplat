@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -17,16 +19,19 @@ public class PlanOrg {
      * 名称
      */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
     private String name;
     /**
      * 类型
      */
 	@ApiComment(value = "类型1 职位 2 部门", sample = "1")
+	@NotNull(message = "类型不能为空")
     private Integer type;
     /**
      * 职责
      */
 	@ApiComment(value = "职责", sample = "aaa")
+	@NotNull(message = "职责不能为空")
     private String duty;
     /**
      * 成员ID
@@ -37,11 +42,13 @@ public class PlanOrg {
      * 父级ID
      */
 	@ApiComment(value = "父级ID", sample = "1")
+	@NotNull(message = "父级ID不能为空")
     private Integer parentId;
     /**
      * 预案ID
      */
 	@ApiComment(value = "预案ID", sample = "1")
+	@NotNull(message = "预案ID不能为空")
     private Integer pvId;
 	/**
 	 * 成员集合

@@ -1,5 +1,9 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 /**
  * 应急专家
@@ -14,36 +18,45 @@ public class EmergencyExpert extends BaseObject {
 	 * 姓名
 	 */
 	@ApiComment(value = "姓名", sample = "aaa")
+	@NotNull(message = "姓名不能为空")
 	private String name;
 	/**
 	 * 类型
 	 */
 	@ApiComment(value = "类型", sample = "1")
+	@NotNull(message = "类型不能为空")
 	private Integer type;
 	/**
 	 * 单位
 	 */
 	@ApiComment(value = "单位", sample = "1")
+	@NotNull(message = "单位不能为空")
 	private Integer unit;
 	/**
 	 * 职务
 	 */
 	@ApiComment(value = "职务", sample = "aaa")
+	@NotNull(message = "职务不能为空")
 	private String position;
 	/**
 	 * 性别
 	 */
 	@ApiComment(value = "性别 0 男 1 女", sample = "0")
+	@NotNull(message = "性别不能为空")
 	private Integer gender;
 	/**
 	 * 级别
 	 */
 	@ApiComment(value = "级别", sample = "1")
+	@NotNull(message = "级别不能为空")
+	@DecimalMin(value = "1", message = "级别必须大于0")
+	@DecimalMax(value = "10", message = "级别必须小于10")
 	private Integer level;
 	/**
 	 * 专长
 	 */
 	@ApiComment(value = "专长", sample = "aaa")
+	@NotNull(message = "专长不能为空")
 	private String expertise;
 	/**
 	 * 电话
@@ -54,6 +67,7 @@ public class EmergencyExpert extends BaseObject {
 	 * 手机
 	 */
 	@ApiComment(value = "手机", sample = "123")
+	@NotNull(message = "手机不能为空")
 	private String cellNum;
 	/**
 	 * 传真

@@ -15,6 +15,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,7 +40,7 @@ public class ShelterController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加避难场所")
     @RequestMapping(name="添加避难场所",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
+    public String insert(@Validated @ApiComment(value="添加避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(shelter.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
@@ -55,7 +56,7 @@ public class ShelterController extends BaseController {
     @Api2Doc(order = 2)
     @ApiComment(value="修改避难场所")
     @RequestMapping(name="修改避难场所",value="/update",method=RequestMethod.POST)
-    public AlvesJSONResult update(@ApiComment(value="修改避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
+    public AlvesJSONResult update(@Validated @ApiComment(value="修改避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
         shelterService.update(shelter);
         return AlvesJSONResult.ok();
     }

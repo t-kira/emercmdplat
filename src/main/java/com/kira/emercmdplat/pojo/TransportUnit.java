@@ -1,5 +1,8 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
@@ -16,52 +19,64 @@ public class TransportUnit extends BaseObject {
 	 * 名称
 	 */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
 	private String name;
 	/**
 	 * 类型
 	 */
 	@ApiComment(value = "类型", sample = "1")
+	@NotNull(message = "类型不能为空")
 	private Integer type;
 	/**
 	 * 行政区划
 	 */
 	@ApiComment(value = "行政区划", sample = "aaa")
+	@NotNull(message = "行政区划不能为空")
 	private String district;
 	/**
 	 * 维护单位
 	 */
 	@ApiComment(value = "维护单位", sample = "aaa")
+	@NotNull(message = "维护单位不能为空")
 	private String maintenanceCompany;
 	/**
 	 * 运力
 	 */
 	@ApiComment(value = "运力", sample = "1.0")
+	@NotNull(message = "运力不能为空")
+	@DecimalMin(value = "0", message = "运力必须大于0")
 	private Double transportCapacity;
 	/**
 	 * 车辆总数
 	 */
 	@ApiComment(value = "车辆总数", sample = "100")
+	@NotNull(message = "车辆总数不能为空")
+	@DecimalMin(value = "0", message = "车辆总数必须大于0")
 	private Integer totalVehicle;
 	/**
 	 * 地址
 	 */
 	@ApiComment(value = "地址", sample = "aaa")
+	@NotNull(message = "地址不能为空")
 	private String addr;
 	/**
 	 * 经度
 	 */
 	@ApiComment(value = "经度", sample = "1.0")
+	@NotNull(message = "经度不能为空")
 	private Double lng;
 	/**
 	 * 纬度
 	 */
 	@ApiComment(value = "纬度", sample = "1.0")
+	@NotNull(message = "纬度不能为空")
 	private Double lat;
 	/**
 	 * 负责人
 	 */
 	@ApiComment(value = "负责人", sample = "aaa")
 	@JsonProperty(value = "PIC")
+	@NotNull(message = "负责人不能为空")
 	private String PIC;
 	/**
 	 * 负责人id，与通讯录关联
@@ -77,6 +92,7 @@ public class TransportUnit extends BaseObject {
 	 * 手机
 	 */
 	@ApiComment(value = "手机", sample = "aaa")
+	@NotNull(message = "手机不能为空")
 	private String cellNum;
 	/**
 	 * 住宅电话

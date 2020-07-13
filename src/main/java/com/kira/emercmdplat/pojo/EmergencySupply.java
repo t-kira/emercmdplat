@@ -1,5 +1,8 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -16,51 +19,63 @@ public class EmergencySupply extends BaseObject {
 	 * 名称
 	 */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
 	private String name;
 	/**
 	 * 类型
 	 */
 	@ApiComment(value = "类型", sample = "1")
+	@NotNull(message = "类型不能为空")
 	private Integer type;
 	/**
 	 * 计量单位
 	 */
 	@ApiComment(value = "计量单位", sample = "aaa")
+	@NotNull(message = "计量单位不能为空")
 	private String measurementUnit;
 	/**
 	 * 数量
 	 */
 	@ApiComment(value = "数量", sample = "1")
+	@NotNull(message = "数量不能为空")
+	@DecimalMin(value = "1", message = "数量必须大于0")
 	private Integer supplyNum;
 	/**
 	 * 来源
 	 */
 	@ApiComment(value = "来源", sample = "1")
+	@NotNull(message = "来源不能为空")
 	private Integer supplySource;
 	/**
 	 * 存储点
 	 */
 	@ApiComment(value = "存储点", sample = "1")
+	@NotNull(message = "存储点不能为空")
 	private Integer storagePoint;
 	/**
 	 * 联系人
 	 */
 	@ApiComment(value = "联系人", sample = "aaa")
+	@NotNull(message = "联系人不能为空")
 	private String contactName;
 	/**
 	 * 联系电话
 	 */
 	@ApiComment(value = "联系电话", sample = "aaa")
+	@NotNull(message = "联系电话不能为空")
 	private String contactNum;
 	/**
 	 * 单价
 	 */
 	@ApiComment(value = "单价", sample = "100.00")
+	@NotNull(message = "单价不能为空")
+	@DecimalMin(value = "0", message = "单价必须大于0")
 	private Double unitPrice;
 	/**
 	 * 维护单位
 	 */
 	@ApiComment(value = "维护单位", sample = "aaa")
+	@NotNull(message = "维护单位不能为空")
 	private String maintenanceCompany;
 	/**
 	 * 备注

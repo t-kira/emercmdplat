@@ -1,5 +1,9 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
@@ -18,27 +22,33 @@ public class HazardSouce extends BaseObject {
 	 * 名称
 	 */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
 	private String name;
 	/**
 	 * 类型
 	 */
 	@ApiComment(value = "类型", sample = "1")
+	@NotNull(message = "类型不能为空")
 	private Integer type;
 	/**
 	 * 行政区划
 	 */
 	@ApiComment(value = "行政区划", sample = "aaa")
+	@NotNull(message = "行政区划不能为空")
 	private String district;
 	/**
 	 * 威胁人数
 	 */
 	@ApiComment(value = "威胁人数", sample = "1")
+	@NotNull(message = "威胁人数不能为空")
+	@DecimalMin(value = "1", message = "威胁人数必须大于0")
 	private Integer number;
 	/**
 	 * 负责人
 	 */
 	@ApiComment(value = "负责人", sample = "aaa")
 	@JsonProperty(value = "PIC")
+	@NotNull(message = "负责人不能为空")
 	private String PIC;
 	/**
 	 * 负责人id，与通讯录关联
@@ -54,21 +64,27 @@ public class HazardSouce extends BaseObject {
 	 * 维护单位
 	 */
 	@ApiComment(value = "维护单位", sample = "aaa")
+	@NotNull(message = "维护单位不能为空")
 	private String maintenanceCompany;
 	/**
 	 * 危险等级
 	 */
 	@ApiComment(value = "危险等级", sample = "1")
+	@NotNull(message = "危险等级不能为空")
+	@DecimalMin(value = "1", message = "危险等级必须大于0")
+	@DecimalMax(value = "10", message = "危险等级必须小于10")
 	private Integer warningLevel;
 	/**
 	 * 经度
 	 */
 	@ApiComment(value = "经度", sample = "1")
+	@NotNull(message = "经度不能为空")
 	private Double lng;
 	/**
 	 * 纬度
 	 */
 	@ApiComment(value = "纬度", sample = "1")
+	@NotNull(message = "纬度不能为空")
 	private Double lat;
 	/**
 	 * 联系电话
@@ -79,6 +95,7 @@ public class HazardSouce extends BaseObject {
 	 * 手机
 	 */
 	@ApiComment(value = "手机", sample = "123")
+	@NotNull(message = "手机不能为空")
 	private String cellNum;
 	/**
 	 * 住宅电话

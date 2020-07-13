@@ -11,6 +11,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +36,7 @@ public class HazardSourceController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加风险隐患")
     @RequestMapping(name="添加风险隐患",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
+    public String insert(@Validated @ApiComment(value="添加风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(hazardSouce.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
@@ -51,7 +52,7 @@ public class HazardSourceController extends BaseController {
     @Api2Doc(order = 2)
     @ApiComment(value="修改风险隐患")
     @RequestMapping(name="修改风险隐患",value="/update",method=RequestMethod.POST)
-    public String update(@ApiComment(value="修改风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
+    public String update(@Validated @ApiComment(value="修改风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
         hazardSourceService.update(hazardSouce);
         return "success";
     }

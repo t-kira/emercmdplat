@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 /**
  * 预案应急资源保障
@@ -16,11 +18,13 @@ public class PlanResponseGuard {
 	 * 类型
 	 */
 	@ApiComment(value = "类型1 保障项 2 资源项", sample = "1")
+	@NotNull(message = "类型不能为空")
 	private Integer type;
 	/**
 	 * 保障名称
 	 */
 	@ApiComment(value = "保障名称", sample = "aaa")
+	@NotNull(message = "保障名称不能为空")
 	private String name;
 	/**
 	 * 保障描述
@@ -44,6 +48,7 @@ public class PlanResponseGuard {
 	 * 预案响应ID
 	 */
 	@ApiComment(value = "预案响应ID", sample = "1")
+	@NotNull(message = "预案响应ID不能为空")
 	private Integer prId;
 	/**
 	 * 资源项列表

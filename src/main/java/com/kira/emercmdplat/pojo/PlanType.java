@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -15,6 +17,7 @@ public class PlanType {
      * 名称
      */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
     private String name;
     /**
      * 排序
@@ -25,6 +28,7 @@ public class PlanType {
      * 父级ID
      */
 	@ApiComment(value = "父级ID", sample = "0")
+	@NotNull(message = "父级ID不能为空")
     private Integer parentId;
 
     public Integer getId() {

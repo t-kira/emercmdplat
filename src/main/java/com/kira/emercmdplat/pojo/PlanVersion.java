@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -17,16 +19,19 @@ public class PlanVersion extends BaseObject {
 	 * 名称
 	 */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
 	private String name;
 	/**
 	 * 版本
 	 */
 	@ApiComment(value = "版本", sample = "1")
+	@NotNull(message = "版本不能为空")
 	private String version;
 	/**
 	 * 类型
 	 */
 	@ApiComment(value = "预案类型id", sample = "1")
+	@NotNull(message = "预案类型id不能为空")
 	private Integer type;
 
 	@ApiComment(value = "预案类型名称", sample = "aaa")
@@ -40,11 +45,13 @@ public class PlanVersion extends BaseObject {
 	 * 编制单位
 	 */
 	@ApiComment(value = "编制单位", sample = "aaa")
+	@NotNull(message = "编制单位不能为空")
 	private String org;
 	/**
 	 * 编制人
 	 */
 	@ApiComment(value = "编制人id", sample = "1")
+	@NotNull(message = "编制人不能为空")
 	private Integer userId;
 
 	@ApiComment(value = "编制人", sample = "aaa")
@@ -61,6 +68,7 @@ public class PlanVersion extends BaseObject {
 	 * 适用范围
 	 */
 	@ApiComment(value = "适用范围", sample = "1")
+	@NotNull(message = "适用范围不能为空")
 	private String scope;
 	/**
 	 * 文件

@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -15,11 +17,13 @@ public class PlanTag {
      * 名称
      */
 	@ApiComment(value = "名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
     private String name;
     /**
      * 预案类型ID
      */
 	@ApiComment(value = "预案类型ID", sample = "1")
+	@NotNull(message = "预案类型ID不能为空")
     private Integer ptId;
 
     public Integer getId() {

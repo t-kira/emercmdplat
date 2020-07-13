@@ -7,6 +7,7 @@ import com.kira.emercmdplat.pojo.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,7 +46,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 2)
 	@ApiComment(value="插入预案类型，参数类型参见预案分类树")
 	@RequestMapping(name="插入预案类型",value="/insertType",method=RequestMethod.POST)
-	public int insertType(@ApiComment(value="插入预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") @RequestBody PlanType planType) {
+	public int insertType(@Validated @ApiComment(value="插入预案类型",sample="{id:1,name:'aaa',order:1,parentId:0}") @RequestBody PlanType planType) {
 		int id = planTypeService.insertType(planType);
 		return id;
 	}
@@ -77,7 +78,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 6)
 	@ApiComment(value="插入预案标签，参数类型参见列出预案标签")
 	@RequestMapping(name="插入预案标签",value="/insertTag",method=RequestMethod.POST)
-	public String insertTag(@ApiComment(value="插入预案标签",sample="{id:1,name:'aaa',ptId:3}") @RequestBody PlanTag planTag) {
+	public String insertTag(@Validated @ApiComment(value="插入预案标签",sample="{id:1,name:'aaa',ptId:3}") @RequestBody PlanTag planTag) {
 		planTypeService.insertTag(planTag);
 		return "success";
 	}
@@ -105,7 +106,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 9)
 	@ApiComment("插入预案参数，参数类型参见列出预案参数")
 	@RequestMapping(name="插入预案参数",value="/insertParam",method=RequestMethod.POST)
-	public String insertParam(@ApiComment(value="插入预案参数",sample="{id:1,name:'aaa',type:1,unit:'人数',ptId:3}") @RequestBody PlanParam planParam) {
+	public String insertParam(@Validated @ApiComment(value="插入预案参数",sample="{id:1,name:'aaa',type:1,unit:'人数',ptId:3}") @RequestBody PlanParam planParam) {
 		planTypeService.insertParam(planParam);
 		return "success";
 	}
@@ -156,7 +157,7 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 13)
 	@ApiComment("插入预案组，参数类型参见列出预案组")
 	@RequestMapping(name="插入预案组",value="/insertGroup",method=RequestMethod.POST)
-	public String insertGroup(@ApiComment(value="插入预案组",sample="{id:1,name:'aaa',leader:'aaa',userIds:'1,2,3',duty:'aaa',ptId:3}") @RequestBody PlanGroup planGroup) {
+	public String insertGroup(@Validated @ApiComment(value="插入预案组",sample="{id:1,name:'aaa',leader:'aaa',userIds:'1,2,3',duty:'aaa',ptId:3}") @RequestBody PlanGroup planGroup) {
 		PlanGroup sgroup = new PlanGroup();
 		sgroup.setName(planGroup.getName());
 		Long count = planTypeService.countGroups(sgroup);

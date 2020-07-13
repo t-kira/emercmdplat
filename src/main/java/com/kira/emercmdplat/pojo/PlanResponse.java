@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -15,26 +17,31 @@ public class PlanResponse {
 	private Integer id;
 
 	@ApiComment(value = "0 预警响应/1 应急响应", sample = "0")
+	@NotNull(message = "响应类型不能为空")
 	private Integer form;
 	/**
 	 * 等级
 	 */
 	@ApiComment(value = "等级", sample = "一级响应")
+	@NotNull(message = "等级不能为空")
 	private String level;
 	/**
 	 * 颜色
 	 */
 	@ApiComment(value = "颜色1 蓝 2 黄 3 橙 4 红", sample = "1")
+	@NotNull(message = "颜色不能为空")
 	private Integer color;
 	/**
 	 * 类型
 	 */
 	@ApiComment(value = "类型 1 普通 2 一般 3 较大 4重大 5 特别重大", sample = "1")
+	@NotNull(message = "类型不能为空")
 	private Integer type;
 	/**
 	 * 描述
 	 */
 	@ApiComment(value = "描述", sample = "aaa")
+	@NotNull(message = "描述不能为空")
 	private String desc;
 
 	@ApiComment(value = "参数值集合json", sample = "[{id:1,value:'aaa'}]")
@@ -43,6 +50,7 @@ public class PlanResponse {
 	 * 预案ID
 	 */
 	@ApiComment(value = "预案ID", sample = "1")
+	@NotNull(message = "预案ID不能为空")
 	private Integer pvId;
 
 	@ApiComment(value = "参数值集合list", sample = "[{id:1,name='aaa',value='bbb'}]")

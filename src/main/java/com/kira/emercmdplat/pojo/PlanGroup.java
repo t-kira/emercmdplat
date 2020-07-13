@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -17,11 +19,13 @@ public class PlanGroup extends BaseObject {
      * 预案组名称
      */
 	@ApiComment(value = "预案组名称", sample = "aaa")
+	@NotNull(message = "名称不能为空")
     private String name;
     /**
      * 预案组组长
      */
 	@ApiComment(value = "预案组组长", sample = "aaa")
+	@NotNull(message = "组长不能为空")
     private String leader;
     /**
      * 预案组成员ID

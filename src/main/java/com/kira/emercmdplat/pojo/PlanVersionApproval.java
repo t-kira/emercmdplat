@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 import lombok.Data;
@@ -18,6 +20,7 @@ public class PlanVersionApproval {
 	private Integer id;
 	
 	@ApiComment(value = "预案id", sample = "1")
+	@NotNull(message = "预案id不能为空")
 	private Integer pvId;
 	
 	@ApiComment(value = "提交人", sample = "1")

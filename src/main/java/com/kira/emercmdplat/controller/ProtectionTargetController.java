@@ -11,6 +11,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +36,7 @@ public class ProtectionTargetController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加防护目标")
     @RequestMapping(name="添加防护目标",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
+    public String insert(@Validated @ApiComment(value="添加防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(protectionTarget.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
@@ -51,7 +52,7 @@ public class ProtectionTargetController extends BaseController {
     @Api2Doc(order = 2)
     @ApiComment(value="修改防护目标")
     @RequestMapping(name="修改防护目标",value="/update",method=RequestMethod.POST)
-    public String update(@ApiComment(value="修改防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
+    public String update(@Validated @ApiComment(value="修改防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
         protectionTargetService.update(protectionTarget);
         return "success";
     }

@@ -1,5 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.NotNull;
+
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 public class PlanCatalog {
@@ -10,6 +12,7 @@ public class PlanCatalog {
      * 节点
      */
 	@ApiComment(value = "节点", sample = "aaa")
+	@NotNull(message = "节点不能为空")
     private String node;
     /**
      * 节点内容
@@ -20,11 +23,13 @@ public class PlanCatalog {
      * 父级ID
      */
 	@ApiComment(value = "父级ID", sample = "1")
+	@NotNull(message = "父级ID不能为空")
     private Integer parentId;
     /**
      * 预案ID
      */
 	@ApiComment(value = "预案ID", sample = "1")
+	@NotNull(message = "预案ID不能为空")
     private Integer pvId;
 
     public Integer getId() {

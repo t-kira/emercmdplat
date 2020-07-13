@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,7 +36,7 @@ public class EmergencyExpertController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加应急专家")
     @RequestMapping(name="添加应急专家",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加应急专家",sample="根据id查询专家接口可查看字段信息") @RequestBody EmergencyExpert emergencyExpert) {
+    public String insert(@Validated @ApiComment(value="添加应急专家",sample="根据id查询专家接口可查看字段信息") @RequestBody EmergencyExpert emergencyExpert) {
         emergencyExpertService.insert(emergencyExpert);
         return "success";
     }
@@ -43,7 +44,7 @@ public class EmergencyExpertController extends BaseController {
     @Api2Doc(order = 2)
     @ApiComment(value="修改应急专家")
     @RequestMapping(name="修改应急专家",value="/update",method=RequestMethod.POST)
-    public String update(@ApiComment(value="修改应急专家",sample="根据id查询专家接口可查看字段信息") @RequestBody EmergencyExpert emergencyExpert) {
+    public String update(@Validated @ApiComment(value="修改应急专家",sample="根据id查询专家接口可查看字段信息") @RequestBody EmergencyExpert emergencyExpert) {
         emergencyExpertService.update(emergencyExpert);
         return "success";
     }

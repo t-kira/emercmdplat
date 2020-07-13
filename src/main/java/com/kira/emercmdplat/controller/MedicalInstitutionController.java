@@ -14,6 +14,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,7 +39,7 @@ public class MedicalInstitutionController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加医疗机构")
     @RequestMapping(name="添加医疗机构",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
+    public String insert(@Validated @ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(medicalInstitution.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
@@ -54,7 +55,7 @@ public class MedicalInstitutionController extends BaseController {
     @Api2Doc(order = 2)
     @ApiComment(value="修改医疗机构")
     @RequestMapping(name="修改医疗机构",value="/update",method=RequestMethod.POST)
-    public String update(@ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
+    public String update(@Validated @ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
         medicalInstitutionService.update(medicalInstitution);
         return "success";
     }
