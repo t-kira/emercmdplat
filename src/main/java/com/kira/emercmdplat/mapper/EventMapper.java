@@ -40,4 +40,6 @@ public interface EventMapper{
     List<Map<String, Object>> countEventPtId();
 
     Map<String, Object> selectParentId(Long ptId);
+
+    List<EventResult> queryEventNumberForAll(EventExtend eventExtend);
 }

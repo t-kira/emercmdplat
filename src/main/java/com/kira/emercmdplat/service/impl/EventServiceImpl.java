@@ -50,7 +50,7 @@ public class EventServiceImpl implements EventService {
         eventExtend.setOrder("e_id");
         eventExtend.setOrderType("desc");
         eventExtend.setEventNumber(preEventNumber);
-        List<EventResult> eventResults = em.queryForAll(eventExtend);
+        List<EventResult> eventResults = em.queryEventNumberForAll(eventExtend);
         if (eventResults != null && eventResults.size() > 0) {
             EventResult eventResult = eventResults.get(0);
             String eventNumber = eventResult.getEventNumber();
