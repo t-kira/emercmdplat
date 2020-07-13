@@ -15,4 +15,6 @@ public interface DataTypeMapper extends BaseMapper<DataType> {
 	List<DataType> queryResources(Map param);
 
 	boolean truncateTable(@Param("tableName") String tableName);
+
+	List<DataType> getWarMapResourceList();
 }

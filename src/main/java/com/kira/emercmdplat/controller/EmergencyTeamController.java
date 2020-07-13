@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,7 +42,7 @@ public class EmergencyTeamController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加应急队伍")
     @RequestMapping(name="添加应急队伍",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
+    public String insert(@Validated @ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
     	ContactsExtend contact = new ContactsExtend();
     	contact.setTelephone(emergencyTeam.getCellNum());
     	List<ContactsResult> result = contactService.queryForAll(contact);
@@ -57,7 +58,7 @@ public class EmergencyTeamController extends BaseController {
     @Api2Doc(order = 2)
     @ApiComment(value="修改应急队伍")
     @RequestMapping(name="修改应急队伍",value="/update",method=RequestMethod.POST)
-    public String update(@ApiComment(value="修改应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
+    public String update(@Validated @ApiComment(value="修改应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
         emergencyTeamService.update(emergencyTeam);
         return "success";
     }

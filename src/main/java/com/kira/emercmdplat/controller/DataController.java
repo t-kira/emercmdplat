@@ -82,4 +82,9 @@ public class DataController {
 		}
 		return list;
 	}
+	
+	@RequestMapping(name="获取战时一张图资源列表",value="/getWarMapResourceList",method=RequestMethod.GET)
+	public List<DataType> getWarMapResourceList() {
+		return dataTypeService.getWarMapResourceList();
+	}
 }

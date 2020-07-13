@@ -195,4 +195,11 @@
 	<update id="truncateTable" parameterType="java.lang.String" statementType="STATEMENT">
 		TRUNCATE table ${tableName}
 	</update>
+	
+	<select id="getWarMapResourceList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+        <include refid="Base_Column_List"/>
+        from data_type
+        where d_task_type in (1,2,3)
+	</select>
 </mapper>

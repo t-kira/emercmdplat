@@ -323,4 +323,9 @@ public class DataTypeServiceImpl implements DataTypeService {
 		}
 		return true;
 	}
+
+	@Override
+	public List<DataType> getWarMapResourceList() {
+		return dm.getWarMapResourceList();
+	}
 }

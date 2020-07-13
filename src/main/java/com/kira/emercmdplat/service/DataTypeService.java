@@ -21,4 +21,6 @@ public interface DataTypeService extends BaseService<DataType> {
 	List<DataType> getFlowTaskMembers(String json);
 
 	boolean truncateTable(List<String> tableList);
+	
+	List<DataType> getWarMapResourceList();
 }
