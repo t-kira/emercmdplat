@@ -105,7 +105,7 @@ public class SysLogAspect {
         String params = json.toString();
         sysLog.setParams(params);
 
-        sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        sysLog.setCreateTime(DateUtil.getNowStr());
         //获取用户名
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);

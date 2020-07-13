@@ -116,62 +116,9 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(name = "添加核实报告内容", value = "add_verify")
     public AlvesJSONResult insertVerifyReport(@Validated @RequestBody VerifyReport verifyReport) {
-//        VerifyReport verifyReport = verifyQuickReport.getVerify();
-        verifyReport.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        verifyReport.setCreateTime(DateUtil.getNowStr());
         int result = vrs.insert(verifyReport);
         if (result > 0) {
-            EventResult eventResult = es.selectById(verifyReport.getEventId());
-            if (eventResult == null) {
-                throw new CustomException(ResultEnum.NON_DATA.getNo());
-            }
-            QuickReport quickReport = new QuickReport();
-            quickReport.setTitle(eventResult.getEventTitle());
-            quickReport.setContent(eventResult.getEventDesc());
-            quickReport.setEventId(verifyReport.getEventId());
-            quickReport.setOrigin(QuickReportOrigin.VERIFY_REPORT_ORIGIN.getNo());
-            quickReport.setEditId(eventResult.getContactId());
-            quickReport.setIssueTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-            JSONObject json = new JSONObject();
-            json.put("richText", verifyReport.getRichText());
-
-            // 文件的实际路径
-            String path = PropertiesUtils.getInstance().getProperty("attachmentPath");
-            String attachmentGainPath = PropertiesUtils.getInstance().getProperty("attachmentGainPath");
-            String uuid = UUID.randomUUID().toString();
-
-            String toPath = FilenameUtils.separatorsToSystem(attachmentGainPath + path + uuid + ".pdf");
-            String content = PDFTemplateUtil.freeMarkerRender(json, "/ftlFile/pdf.ftl");
-            try {
-                PDFTemplateUtil.createPdf(content, toPath);
-                verifyReport.setQuickReportAddr(path + uuid + ".pdf");
-                vrs.update(verifyReport);
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "pdf文件生成失败");
-            }
-            quickReport.setPdfAddr(path + uuid + ".pdf");
-            quickReport.setSubmitId(eventResult.getContactId().intValue());
-            qrs.insert(quickReport);
-            //生成PDF
-            Event event = new Event();
-            event.setId(eventResult.getId());
-            event.setProcess(EventProcess.VERIFY_REPORT.getNo());
-            //新增一条消息
-            Message message = new Message();
-            message.setEventId(event.getId());
-            message.setContactId(verifyReport.getContactId());
-            message.setVId(verifyReport.getId());
-            message.setStatus(MessageStatus.MESSAGE_UNREAD.getNo());
-            message.setType(MessageType.NORMAL_TYPE.getNo());
-            mas.insert(message);
-            //更新事件进程
-            es.update(event);
-            //预先生成一条预案记录
-            ReservePlan reservePlan = new ReservePlan();
-            reservePlan.setEventId(verifyReport.getEventId());
-            reservePlan.setStatus(ReservePlanStatus.UNEDIT.getNo());
-            reservePlan.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
-            rps.insert(reservePlan);
             return AlvesJSONResult.ok(EventProcess.VERIFY_REPORT.getNo());
         } else {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo());
@@ -259,7 +206,7 @@ public class EventController extends BaseController {
         verifyReport.setPrId(reservePlanResult.getPrId());
         boolean result = vrs.update(verifyReport);
         if (result) {
-            reservePlanResult.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            reservePlanResult.setStartTime(DateUtil.getNowStr());
             Event event = new Event();
             event.setId(reservePlanResult.getEventId());
             event.setProcess(EventProcess.RESERVE_PLAN.getNo());
@@ -315,52 +262,25 @@ public class EventController extends BaseController {
     }
     @MyLog(value = 2)
     @ResponseBody
-    @Transactional
     @PostMapping(name = "审核事件", value = "verify_event")
     public AlvesJSONResult verifyEvent(@Validated @RequestBody VerifyEventReq eventReq, HttpServletRequest request) {
-        EventResult coverEvent = es.selectById(eventReq.getCoverEId());
-        if (eventReq.getMainEId() != null) {
-            EventResult mainEvent = es.selectById(eventReq.getMainEId());
-            mainEvent.setVerifyMethod(eventReq.getVerifyMethod());
-            mainEvent.setVerifyStatus(eventReq.getVerifyStatus());
-            mainEvent.setEventType(eventReq.getEventType());
-            coverEvent.setMergeReason(eventReq.getMergeReason());
-            if (eventReq.getEventType() == 1) {
-                mainEvent.setProcess(EventProcess.EVENT_FINISH.getNo());
-                mainEvent.setStatus(EventStatus.FINISH.getNo());
-            } else {
-                mainEvent.setProcess(EventProcess.VERIFY_REPORT.getNo());
-            }
-            //更新主事件
-            es.update(mainEvent);
-            //合并事件
-            es.mergeEvent(coverEvent, request, eventReq, mainEvent);
+        boolean result = es.verifyEvent(eventReq, request);
+        if (result) {
+            return AlvesJSONResult.ok("事件审核成功");
         } else {
-            coverEvent.setVerifyMethod(eventReq.getVerifyMethod());
-            coverEvent.setVerifyStatus(eventReq.getVerifyStatus());
-            coverEvent.setEventType(eventReq.getEventType());
-            coverEvent.setMergeReason(eventReq.getMergeReason());
-            if (eventReq.getVerifyStatus() == EventVerifyStatus.IS_FALSE.getNo()) {
-                coverEvent.setProcess(EventProcess.EVENT_FINISH.getNo());
-                coverEvent.setStatus(EventStatus.FINISH.getNo());
-            }
-            es.update(coverEvent);
+            return AlvesJSONResult.errorMsg("事件审核失败");
         }
-        return AlvesJSONResult.ok();
     }
-//  @MyLog(value = 12)
     @ResponseBody
     @Transactional
     @PostMapping(name = "事件合并", value = "merge_event")
     public AlvesJSONResult mergeEvent(@RequestBody VerifyEventReq eventReq, HttpServletRequest request) {
         if (eventReq.getMainEId() > 0 && eventReq.getCoverEId() > 0) {
-            EventResult coverEvent = es.selectById(eventReq.getCoverEId());
-            EventResult mainEvent = es.selectById(eventReq.getMainEId());
-            coverEvent.setMergeReason(eventReq.getMergeReason());
-
-            //合并事件
-            es.mergeEvent(coverEvent, request, eventReq, mainEvent);
-            return AlvesJSONResult.ok();
+            boolean result = es.mergeEvent(eventReq, request);
+            if (result)
+                return AlvesJSONResult.ok("事件合并成功");
+            else
+                return AlvesJSONResult.errorMsg("事件合并失败");
         } else {
             throw new CustomException(ResultEnum.MISSING_PARAMETER.getNo(), "主事件和被合并事件ID不能为空");
         }
@@ -378,7 +298,7 @@ public class EventController extends BaseController {
         Contacts contacts = cs.findByToken(token);
         sysLog.setUserName(contacts.getContactName());
         sysLog.setSysLogType(SysLogType.COMMON.getNo());
-        sysLog.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        sysLog.setCreateTime(DateUtil.getNowStr());
         int result = sls.insert(sysLog);
         if (result > 0) {
             return AlvesJSONResult.ok("success insert ...");

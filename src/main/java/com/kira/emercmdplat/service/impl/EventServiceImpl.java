@@ -1,9 +1,6 @@
 package com.kira.emercmdplat.service.impl;
 
-import com.kira.emercmdplat.enums.EventProcess;
-import com.kira.emercmdplat.enums.EventVerifyStatus;
-import com.kira.emercmdplat.enums.ResultEnum;
-import com.kira.emercmdplat.enums.SysLogType;
+import com.kira.emercmdplat.enums.*;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.mapper.EventMapper;
@@ -63,7 +60,7 @@ public class EventServiceImpl implements EventService {
         event.setContactId(contactsResult.getId());
         event.setVerifyStatus(EventVerifyStatus.UN_VERIFY.getNo());
         event.setProcess(EventProcess.EVENT_RECEIVE.getNo());
-        event.setReceiveTime(DateUtil.getNowStr("yyy-MM-dd HH:mm:ss"));
+        event.setReceiveTime(DateUtil.getNowStr());
         int result = em.insert(event);
         if (result > 0) {
             if (eventParamList != null && eventParamList.size() > 0) {
@@ -224,5 +221,51 @@ public class EventServiceImpl implements EventService {
         statisticsMap.put("eventLevelMap", eventLevelMap);
         statisticsMap.put("eventPtIdList", parentMapList);
         return statisticsMap;
+    }
+
+    @Transactional
+    @Override
+    public boolean verifyEvent(VerifyEventReq eventReq, HttpServletRequest request) {
+        EventResult coverEvent = em.selectById(eventReq.getCoverEId());
+        if (eventReq.getMainEId() != null) {
+            EventResult mainEvent = em.selectById(eventReq.getMainEId());
+            mainEvent.setVerifyMethod(eventReq.getVerifyMethod());
+            mainEvent.setVerifyStatus(eventReq.getVerifyStatus());
+            mainEvent.setEventType(eventReq.getEventType());
+            coverEvent.setMergeReason(eventReq.getMergeReason());
+            if (eventReq.getEventType() == 1) {
+                mainEvent.setProcess(EventProcess.EVENT_FINISH.getNo());
+                mainEvent.setStatus(EventStatus.FINISH.getNo());
+            } else {
+                mainEvent.setProcess(EventProcess.VERIFY_REPORT.getNo());
+            }
+            //更新主事件
+            em.update(mainEvent);
+            //合并事件
+            mergeEvent(coverEvent, request, eventReq, mainEvent);
+        } else {
+            coverEvent.setVerifyMethod(eventReq.getVerifyMethod());
+            coverEvent.setVerifyStatus(eventReq.getVerifyStatus());
+            coverEvent.setEventType(eventReq.getEventType());
+            coverEvent.setMergeReason(eventReq.getMergeReason());
+            if (eventReq.getVerifyStatus() == EventVerifyStatus.IS_FALSE.getNo()) {
+                coverEvent.setProcess(EventProcess.EVENT_FINISH.getNo());
+                coverEvent.setStatus(EventStatus.FINISH.getNo());
+            }
+            em.update(coverEvent);
+        }
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public boolean mergeEvent(VerifyEventReq eventReq, HttpServletRequest request) {
+
+        EventResult coverEvent = em.selectById(eventReq.getCoverEId());
+        EventResult mainEvent = em.selectById(eventReq.getMainEId());
+        coverEvent.setMergeReason(eventReq.getMergeReason());
+
+        //合并事件
+        return mergeEvent(coverEvent, request, eventReq, mainEvent);
     }
 }

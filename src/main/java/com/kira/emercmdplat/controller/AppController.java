@@ -75,10 +75,10 @@ public class AppController extends BaseController {
     public AlvesJSONResult updateTask(@RequestBody TaskExtend taskExtend) {
             //开始处理事件任务,添加事件任务的响应时间
         if (taskExtend.getStatus() == TaskStatus.TASK_PROCESSING.getNo()) {
-            taskExtend.setResponseTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            taskExtend.setResponseTime(DateUtil.getNowStr());
             //事件任务完成按钮，添加事件任务的完成时间
         } else if(taskExtend.getStatus() == TaskStatus.TASK_PROCESSED.getNo()) {
-            taskExtend.setEndTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            taskExtend.setEndTime(DateUtil.getNowStr());
         }
         boolean result = ts.update(taskExtend);
         if (result) {
@@ -112,7 +112,7 @@ public class AppController extends BaseController {
     @ResponseBody
     @PostMapping(name = "添加反馈任务 并设置事件任务为已到场状态，添加事件任务到场事件", value = "add_feedback")
     public AlvesJSONResult insertFeedback(@RequestBody Feedback feedback) {
-        feedback.setFeedbackTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        feedback.setFeedbackTime(DateUtil.getNowStr());
         int result = ts.insertFeedback(feedback);
         if (result > 0) {
             return AlvesJSONResult.ok("反馈成功");
@@ -126,7 +126,7 @@ public class AppController extends BaseController {
         TaskExtend taskExtend = new TaskExtend();
         taskExtend.setId(taskId);
         taskExtend.setIsArrive(0);
-        taskExtend.setArriveTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        taskExtend.setArriveTime(DateUtil.getNowStr());
         boolean result = ts.update(taskExtend);
         if (result) {
             return AlvesJSONResult.ok("到场成功");

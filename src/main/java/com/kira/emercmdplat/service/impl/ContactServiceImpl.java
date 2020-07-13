@@ -119,7 +119,7 @@ public class ContactServiceImpl implements ContactService {
     public TokenVO createToken(ContactsResult contacts) {
         String token = contacts.getToken();
         //当前时间
-        String now = DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss");
+        String now = DateUtil.getNowStr();
         //过期时间
         String expireTime = DateUtil.getExpireTime(now, WebSecurityConfig.EXPIRE);
         Contacts newContact = new Contacts();

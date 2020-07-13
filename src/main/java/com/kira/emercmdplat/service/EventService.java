@@ -1,6 +1,8 @@
 package com.kira.emercmdplat.service;
 
 import com.kira.emercmdplat.pojo.*;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -40,4 +42,8 @@ public interface EventService{
     boolean mergeEvent(EventResult coverEvent, HttpServletRequest request, VerifyEventReq eventReq, EventResult mainEvent);
 
     Map<String,Object> statistics();
+
+    boolean verifyEvent(VerifyEventReq eventReq, HttpServletRequest request);
+
+    boolean mergeEvent(VerifyEventReq eventReq, HttpServletRequest request);
 }

@@ -34,7 +34,7 @@ public class ShiftServiceImpl implements ShiftService {
         if (count > 0)
             throw new CustomException(ResultEnum.EXIST_DATA.getNo());
         shift.setShiftStatus(ShiftStatus.START_UP.getNo());
-        shift.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        shift.setCreateTime(DateUtil.getNowStr());
         return sm.insertShift(shift);
     }
 
@@ -88,7 +88,7 @@ public class ShiftServiceImpl implements ShiftService {
         Shift shift = sm.selectByShiftId(shiftDetail.getShiftId());
         if (personCount >= shift.getPersonNumber())
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "该班次当天人数已到上限");
-        shiftDetail.setCreateTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+        shiftDetail.setCreateTime(DateUtil.getNowStr());
         return sm.insertShiftDetail(shiftDetail);
     }
 

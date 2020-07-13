@@ -14,6 +14,8 @@ import java.util.Date;
 public class DateUtil {
     private static final String SHORT_DATETIME_FORMATTER = "yyyy-MM-dd";
 
+    private static final String FULL_DATETIME_FORMATTER = "yyyy-MM-dd HH:mm:ss";
+
     public static Date getNowDate() {
         return new Date();
     }
@@ -33,6 +35,24 @@ public class DateUtil {
             Date date = new Date();
 
             SimpleDateFormat sdf = new SimpleDateFormat(format);
+            d = sdf.format(date);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return d;
+    }
+
+    /**
+     * 获取当前时间，yyyy-MM-dd HH:mm:ss格式
+     * @return
+     */
+    public static String getNowStr() {
+        String d = "";
+        try {
+            Date date = new Date();
+
+            SimpleDateFormat sdf = new SimpleDateFormat(FULL_DATETIME_FORMATTER);
             d = sdf.format(date);
 
         } catch (Exception e) {

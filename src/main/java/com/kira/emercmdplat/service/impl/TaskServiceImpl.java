@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     public int insert(TaskExtend taskExtend) {
         try {
             //添加事件任务指派时间
-            taskExtend.setStartTime(DateUtil.getNowStr("yyyy-MM-dd HH:mm:ss"));
+            taskExtend.setStartTime(DateUtil.getNowStr());
             //默认未处理
             taskExtend.setStatus(TaskStatus.TASK_PENDING.getNo());
             //默认未到场
