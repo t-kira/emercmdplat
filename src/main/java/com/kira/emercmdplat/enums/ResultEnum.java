@@ -9,7 +9,7 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  */
 public enum ResultEnum implements BaseEnum<ResultEnum> {
     SUCCESS(200, "成功"), UNKNOW_ERROR(-1, "未知错误"), MISSING_PARAMETER(10001, "缺少参数"), ERROR_PARAMETER(10002, "参数错误"), NON_DATA(10003, "数据不存在"),
-    EXIST_DATA(10004, "数据已存在");
+    EXIST_DATA(10004, "数据已存在"), EVENT_FINISH(10005, "事件已结束,无法操作");
     private Integer code;
 
     private String msg;
@@ -62,6 +62,8 @@ public enum ResultEnum implements BaseEnum<ResultEnum> {
                 return NON_DATA;
             case 10004:
                 return EXIST_DATA;
+            case 10005:
+                return EVENT_FINISH;
             default:
                 return UNKNOW_ERROR;
         }

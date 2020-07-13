@@ -1,14 +1,14 @@
 package com.kira.emercmdplat.service.impl;
 
+import com.kira.emercmdplat.enums.EventProcess;
+import com.kira.emercmdplat.enums.EventStatus;
 import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ContactMapper;
+import com.kira.emercmdplat.mapper.EventMapper;
 import com.kira.emercmdplat.mapper.TaskMapper;
-import com.kira.emercmdplat.pojo.ContactsResult;
-import com.kira.emercmdplat.pojo.Task;
-import com.kira.emercmdplat.pojo.TaskExtend;
-import com.kira.emercmdplat.pojo.Feedback;
+import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.TaskService;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.StringUtil;
@@ -31,9 +31,18 @@ public class TaskServiceImpl implements TaskService {
     private TaskMapper tm;
     @Autowired
     private ContactMapper cm;
+    @Autowired
+    private EventMapper em;
 
     @Override
     public int insert(TaskExtend taskExtend) {
+        EventResult eventResult = em.selectById(taskExtend.getEventId());
+        if (eventResult == null) {
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
+        }
+        if (eventResult.getStatus() == EventStatus.FINISH.getNo() && eventResult.getProcess() == EventProcess.EVENT_FINISH.getNo()) {
+            throw new CustomException(ResultEnum.EVENT_FINISH.getNo());
+        }
         try {
             //添加事件任务指派时间
             taskExtend.setStartTime(DateUtil.getNowStr());

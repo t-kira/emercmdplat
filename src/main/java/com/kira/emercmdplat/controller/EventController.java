@@ -201,6 +201,13 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(name = "启动预案", value = "reserve_start")
     public AlvesJSONResult startReservePlan(@Validated @RequestBody ReservePlanResult reservePlanResult) {
+        EventResult eventResult = es.selectById(reservePlanResult.getEventId());
+        if (eventResult == null) {
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
+        }
+        if (eventResult.getStatus() == EventStatus.FINISH.getNo() && eventResult.getProcess() == EventProcess.EVENT_FINISH.getNo()) {
+            throw new CustomException(ResultEnum.EVENT_FINISH.getNo());
+        }
         VerifyReport verifyReport = new VerifyReport();
         verifyReport.setId(reservePlanResult.getVrId());
         verifyReport.setPrId(reservePlanResult.getPrId());
