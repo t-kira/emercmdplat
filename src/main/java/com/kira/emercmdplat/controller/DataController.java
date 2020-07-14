@@ -3,17 +3,20 @@ package com.kira.emercmdplat.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.pojo.BaseObject;
 import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.EType;
+import com.kira.emercmdplat.pojo.ETypeResult;
 import com.kira.emercmdplat.pojo.Mechanism;
 import com.kira.emercmdplat.service.DataTypeService;
+import com.kira.emercmdplat.service.ETypeService;
 import com.kira.emercmdplat.service.MechanismService;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
@@ -32,6 +35,8 @@ public class DataController {
 	private DataTypeService dataTypeService;
 	@Autowired
 	private MechanismService mechanismService;
+	@Autowired
+	private ETypeService eTypeService;
 	
 	@Api2Doc(order = 1)
     @ApiComment(value="获取类型")
@@ -87,4 +92,56 @@ public class DataController {
 	public List<DataType> getWarMapResourceList() {
 		return dataTypeService.getWarMapResourceList();
 	}
+	
+	@Api2Doc(order = 6)
+    @ApiComment(value="插入应急资源类型")
+	@RequestMapping(name="插入应急资源类型",value="/insertEType",method=RequestMethod.POST)
+	public String insertEType(@Validated @ApiComment(value="修改应急资源类型",sample="根据id查询应急资源类型接口可查看字段信息") @RequestBody EType pojo) {
+		eTypeService.insert(pojo);
+		return "success";
+	}
+	
+	@Api2Doc(order = 7)
+    @ApiComment(value="修改应急资源类型")
+    @RequestMapping(name="修改应急资源类型",value="/updateEType",method=RequestMethod.POST)
+    public String update(@ApiComment(value="修改应急资源类型",sample="根据id查询应急资源类型接口可查看字段信息") @RequestBody EType pojo) {
+		eTypeService.update(pojo);
+        return "success";
+    }
+	
+	@Api2Doc(order = 8)
+    @ApiComment(value="删除应急资源类型")
+    @RequestMapping(name="删除应急资源类型",value="/deleteEType",method=RequestMethod.GET)
+    public String delete(@ApiComment(value="应急资源类型id",sample="1") String ids) {
+    	if (StringUtils.isEmpty(ids)) {
+    		return "fail";
+    	}
+    	String[] idList = ids.split(",");
+    	for (String id : idList) {
+    		EType pojo = eTypeService.selectById(Integer.valueOf(id));
+    		eTypeService.delete(pojo);
+    	}
+        return "success";
+    }
+	
+	@Api2Doc(order = 9)
+    @ApiComment(value="根据id查询应急资源类型")
+    @RequestMapping(name="根据id查询应急资源类型",value="/selectETypeById",method=RequestMethod.GET)
+    public EType selectETypeById(@ApiComment(value="应急资源类型id",sample="1") Integer id) {
+		EType pojo = eTypeService.selectById(id);
+        return pojo;
+    }
+	
+	@Api2Doc(order = 10)
+    @ApiComment(value="列出应急资源类型")
+    @RequestMapping(name="列出应急资源类型",value="/listEType",method=RequestMethod.POST)
+    public ETypeResult list(@ApiComment(value="应急资源类型",sample="根据id查询应急资源类型接口可查看字段信息") @RequestBody EType pojo) {
+    	ETypeResult result = new ETypeResult();
+        List<EType> list = eTypeService.queryForPage(pojo, pojo.getPage(), pojo.getPageSize());
+        Long count = eTypeService.queryForCounts(pojo);
+        result.setList(list);
+        result.setCount(count);
+        return result;
+    }
+	
 }
