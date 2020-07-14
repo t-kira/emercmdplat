@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         if (e instanceof CustomException) {
             CustomException exception = (CustomException) e;
-            return AlvesJSONResult.build(exception.getCode(), ResultEnum.getByValue(exception.getCode()).getName(), null);
+            return AlvesJSONResult.build(exception.getCode(), exception.getMessage(), null);
         } else {
             return AlvesJSONResult.build(ResultEnum.UNKNOW_ERROR.getNo(), ResultEnum.UNKNOW_ERROR.getName(), null);
         }

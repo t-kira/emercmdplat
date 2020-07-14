@@ -51,14 +51,14 @@ public class Event extends Base {
      * 经度
      */
     @NotNull(message = "经度不能为空")
-    @Digits(integer = 4, fraction = 6, message = "经度只能为数值型")
+    @Digits(integer = 4, fraction = 6, message = "经度小数点位数过长")
     @DecimalMin(value = "0", message = "经度必须大于0")
     private Double lng;
     /**
      * 纬度
      */
     @NotNull(message = "纬度不能为空")
-    @Digits(integer = 4, fraction = 6, message = "纬度只能为数值型")
+    @Digits(integer = 4, fraction = 6, message = "纬度小数点位数过长")
     @DecimalMin(value = "0", message = "纬度必须大于0")
     private Double lat;
     /**
