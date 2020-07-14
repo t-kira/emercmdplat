@@ -51,7 +51,6 @@ public class PlanVersion extends BaseObject {
 	 * 编制人
 	 */
 	@ApiComment(value = "编制人id", sample = "1")
-	@NotNull(message = "编制人不能为空")
 	private Integer userId;
 
 	@ApiComment(value = "编制人", sample = "aaa")
