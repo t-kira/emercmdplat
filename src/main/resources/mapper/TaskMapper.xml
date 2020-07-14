@@ -162,11 +162,9 @@
     <select id="selectFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
         select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc
     </select>
-
     <select id="selectLatestFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
         select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc limit 1
     </select>
-
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select
         <include refid="Base_Column_List"/>
@@ -174,7 +172,9 @@
         where et.prf_id = prf.prf_id
         <include refid="Basic_Conditions"/>
         order by et.id desc
-        limit ${page}, ${pageSize}
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select count(id)

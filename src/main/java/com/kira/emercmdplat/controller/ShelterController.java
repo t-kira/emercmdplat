@@ -43,7 +43,7 @@ public class ShelterController extends BaseController {
     public String insert(@Validated @ApiComment(value="添加避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(shelter.getCellNum());
-    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
     	if (result != null && result.size() == 1) {
     		ContactsResult contactsResult = result.get(0);
     		shelter.setPIC(contactsResult.getContactName());

@@ -42,7 +42,7 @@ public class MedicalInstitutionController extends BaseController {
     public String insert(@Validated @ApiComment(value="添加医疗机构",sample="根据id查询医疗机构接口可查看字段信息") @RequestBody MedicalInstitution medicalInstitution) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(medicalInstitution.getCellNum());
-    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
     	if (result != null && result.size() == 1) {
     		ContactsResult contactsResult = result.get(0);
     		medicalInstitution.setPIC(contactsResult.getContactName());

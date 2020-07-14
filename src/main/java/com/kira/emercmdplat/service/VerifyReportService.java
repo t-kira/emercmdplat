@@ -21,9 +21,7 @@ public interface VerifyReportService {
 
     VerifyReport selectById(Long verifyReportId);
 
-    List<VerifyReport> queryForAll(VerifyReport verifyReport);
-
-    List<VerifyReport> queryForPage(VerifyReport pojo, Integer page, Integer pageSize);
+    List<VerifyReport> queryForAllOrPage(VerifyReport verifyReport);
 
     Long queryForCounts(VerifyReport verifyReport);
 

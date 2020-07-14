@@ -46,9 +46,7 @@ public interface MessageService {
      * @param message
      * @return
      */
-    List<MessageResult> queryForAll(Message message);
-
-    List<MessageResult> queryForPage(Message message);
+    List<MessageResult> queryForAllOrPage(Message message);
 
     Long queryForCounts(Message message);
 }

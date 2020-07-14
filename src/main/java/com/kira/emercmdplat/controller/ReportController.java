@@ -74,7 +74,7 @@ public class ReportController extends BaseController {
     @PostMapping("list")
     public AlvesJSONResult list(@RequestBody Report report) {
         Map<String, Object> map = new HashMap<>();
-        List<ReportResult> list = rs.queryForPage(report);
+        List<ReportResult> list = rs.queryForAllOrPage(report);
         Long count = rs.queryForCounts(report);
         map.put("list", list);
         map.put("count", count);

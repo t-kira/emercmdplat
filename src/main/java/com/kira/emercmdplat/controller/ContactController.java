@@ -3,17 +3,16 @@ package com.kira.emercmdplat.controller;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.exception.CustomException;
-import com.kira.emercmdplat.pojo.Contacts;
-import com.kira.emercmdplat.pojo.ContactsResult;
-import com.kira.emercmdplat.pojo.Group;
-import com.kira.emercmdplat.pojo.Shift;
+import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: kira
@@ -33,7 +32,7 @@ public class ContactController extends BaseController {
     public AlvesJSONResult insert(@Validated @RequestBody Contacts contacts) {
         int result = cs.insert(contacts);
         if (result > 0) {
-            return AlvesJSONResult.ok("success insert...");
+            return AlvesJSONResult.ok("联系人添加成功");
         } else {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "新增联系人失败");
         }
@@ -51,9 +50,9 @@ public class ContactController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("remove/{id}")
-    public AlvesJSONResult delete(@PathVariable Long id) {
-        boolean result = cs.delete(id);
+    @GetMapping("remove/{contactId}")
+    public AlvesJSONResult delete(@PathVariable Long contactId) {
+        boolean result = cs.delete(contactId);
         if (result) {
             return AlvesJSONResult.ok("success remove");
         } else {
@@ -62,13 +61,13 @@ public class ContactController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("remove_group/{id}")
-    public AlvesJSONResult deleteGroup(@PathVariable Long id) {
-        List<ContactsResult> contactsResultList = cs.selectByGid(id);
+    @GetMapping("remove_group/{groupId}")
+    public AlvesJSONResult deleteGroup(@PathVariable Long groupId) {
+        List<ContactsResult> contactsResultList = cs.selectByGid(groupId);
         if (contactsResultList != null || contactsResultList.size() > 0) {
             return AlvesJSONResult.errorMsg("分组下有联系人,无法删除");
         }
-        boolean result = cs.deleteGroup(id);
+        boolean result = cs.deleteGroup(groupId);
         if (result) {
             return AlvesJSONResult.ok("success remove");
         } else {
@@ -97,15 +96,15 @@ public class ContactController extends BaseController {
         }
     }
     @ResponseBody
-    @GetMapping("contact/{id}")
-    public AlvesJSONResult contact(@PathVariable Long id) {
-        Contacts contacts = cs.selectById(id);
+    @GetMapping("contact/{contactId}")
+    public AlvesJSONResult contact(@PathVariable Long contactId) {
+        Contacts contacts = cs.selectById(contactId);
         return AlvesJSONResult.ok(contacts);
     }
     @ResponseBody
-    @GetMapping("group/{id}")
-    public AlvesJSONResult group(@PathVariable Long id) {
-        Group group = cs.selectGroupById(id);
+    @GetMapping("group/{groupId}")
+    public AlvesJSONResult group(@PathVariable Long groupId) {
+        Group group = cs.selectGroupById(groupId);
         return AlvesJSONResult.ok(group);
     }
 
@@ -114,5 +113,27 @@ public class ContactController extends BaseController {
     public AlvesJSONResult geoContacts() {
         List<ContactsResult> contactsResultList = cs.selectGeoContacts();
         return AlvesJSONResult.ok(contactsResultList);
+    }
+
+    @ResponseBody
+    @PostMapping(name="分页查看联系人集合", value = "list")
+    public AlvesJSONResult list(@RequestBody Contacts contacts) {
+        Map<String, Object> map = new HashMap<>();
+        List<ContactsResult> list = cs.queryForAllOrPage(contacts);
+        Long count = cs.queryForCounts(contacts);
+        map.put("list", list);
+        map.put("count", count);
+        return AlvesJSONResult.ok(map);
+    }
+
+    @ResponseBody
+    @PostMapping(name="分页查看联系人分组集合", value = "list_group")
+    public AlvesJSONResult listGroup(@RequestBody Group group) {
+        Map<String, Object> map = new HashMap<>();
+        List<Group> list = cs.selectGroup(group);
+        Long count = cs.queryForGroupCounts(group);
+        map.put("list", list);
+        map.put("count", count);
+        return AlvesJSONResult.ok(map);
     }
 }

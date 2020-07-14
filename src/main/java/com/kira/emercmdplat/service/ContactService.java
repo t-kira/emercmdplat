@@ -19,9 +19,7 @@ public interface ContactService {
 
     ContactsResult selectById(Long contactId);
 
-    List<ContactsResult> queryForAll(Contacts contacts);
-
-    List<ContactsResult> queryForPage(Contacts contacts);
+    List<ContactsResult> queryForAllOrPage(Contacts contacts);
 
     Long queryForCounts(Contacts contacts);
 
@@ -38,6 +36,8 @@ public interface ContactService {
     boolean deleteGroup(Long id);
 
     boolean updateGroup(Group group);
+
+    Long queryForGroupCounts(Group group);
 
     Group selectGroupById(Long id);
 

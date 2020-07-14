@@ -14,39 +14,46 @@
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
         <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
     </resultMap>
-
     <sql id="Base_Column_List">
     r.id, r.event_id, e.event_number, r.contact_id, c.contact_name, r.report_time, r.key_word, r.report_content, r.r_type, r.create_time, r.update_time
   </sql>
     <sql id="Basic_Conditions" >
-    <if test="id != null" >
-      and r.id = #{id,jdbcType=INTEGER}
-    </if>
-    <if test="eventId != null" >
-      and r.event_id = #{eventId,jdbcType=BIGINT}
-    </if>
-    <if test="contactId != null" >
-      and r.contact_id = #{contactId,jdbcType=BIGINT}
-    </if>
-    <if test="reportTime != null" >
-      and r.report_time = #{reportTime,jdbcType=VARCHAR}
-    </if>
-    <if test="keyWord != null" >
-      and r.key_word = #{keyWord,jdbcType=VARCHAR}
-    </if>
-    <if test="reportContent != null" >
-      and r.report_content = #{reportContent,jdbcType=VARCHAR}
-    </if>
-    <if test="type != null" >
-      and r.r_type = #{type,jdbcType=INTEGER}
-    </if>
-    <if test="createTime != null" >
-      and r.create_time = #{createTime,jdbcType=VARCHAR}
-    </if>
-    <if test="updateTime != null" >
-      and r.update_time = #{updateTime,jdbcType=VARCHAR}
-    </if>
-  </sql>
+        <if test="id != null" >
+          and r.id = #{id,jdbcType=INTEGER}
+        </if>
+        <if test="eventId != null" >
+          and r.event_id = #{eventId,jdbcType=BIGINT}
+        </if>
+        <if test="contactId != null" >
+          and r.contact_id = #{contactId,jdbcType=BIGINT}
+        </if>
+        <if test="reportTime != null" >
+          and r.report_time = #{reportTime,jdbcType=VARCHAR}
+        </if>
+        <if test="keyWord != null" >
+          and r.key_word = #{keyWord,jdbcType=VARCHAR}
+        </if>
+        <if test="reportContent != null" >
+          and r.report_content = #{reportContent,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null" >
+          and r.r_type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="createTime != null" >
+          and r.create_time = #{createTime,jdbcType=VARCHAR}
+        </if>
+        <if test="updateTime != null" >
+          and r.update_time = #{updateTime,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Report" >
     insert into report (id, event_id, contact_id, report_time, key_word, report_content, r_type, create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{reportTime,jdbcType=VARCHAR},
@@ -87,35 +94,23 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
         from report r, event_receive e, contacts c
         where r.event_id = e.e_id and r.contact_id = c.c_id and r.id = #{id,jdbcType=INTEGER}
     </select>
-
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Report">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Report">
         select
         <include refid="Base_Column_List"/>
         from report r, event_receive e, contacts c
         where r.event_id = e.e_id and r.contact_id = c.c_id
         <include refid="Basic_Conditions"/>
+        <include refid="Page_Order"/>
     </select>
-
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Report">
-        select
-        <include refid="Base_Column_List"/>
-        from report r, event_receive e, contacts c
-        where r.event_id = e.e_id and r.contact_id = c.c_id
-        <include refid="Basic_Conditions"/>
-        limit ${page}, ${pageSize}
-    </select>
-
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Report">
         select count(id)
         from report r
         <include refid="Basic_Conditions"/>
     </select>
-
 </mapper>

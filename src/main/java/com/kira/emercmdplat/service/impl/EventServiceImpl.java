@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.service.impl;
 
+import com.kira.emercmdplat.config.WebSecurityConfig;
 import com.kira.emercmdplat.enums.*;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ContactMapper;
@@ -132,14 +133,31 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventResult> queryForAll(Event event) {
-        return em.queryForAll(event);
+    public List<EventResult> queryForAllOrPage(Event event) {
+        if (event.getPage() != null) {
+            event.setPage((event.getPage() - 1) * event.getPageSize());
+        }
+        List<EventResult> eventResultList = em.queryForAllOrPage(event);
+
+        List<EventResult> list = replaceIcon(eventResultList);
+
+        return list;
     }
 
-    @Override
-    public List<EventResult> queryForPage(Event event) {
-        event.setPage((event.getPage() - 1) * event.getPageSize());
-        return em.queryForPage(event);
+    protected List<EventResult> replaceIcon(List<EventResult> eventResultList) {
+        if (eventResultList != null && eventResultList.size() > 0) {
+            for (EventResult eventResult : eventResultList) {
+                if (eventResult.getEventLevel() != null) {
+                    String iconUrl = EventLevelIcon.getByValue(eventResult.getEventLevel()).getName();
+                    if (iconUrl.contains(",")) {
+                        String[] iconArr = iconUrl.split(",");
+                        eventResult.setCommonIcon(WebSecurityConfig.HOST + iconArr[0]);
+                        eventResult.setActiveIcon(WebSecurityConfig.HOST + iconArr[1]);
+                    }
+                }
+            }
+        }
+        return eventResultList;
     }
 
     @Override

@@ -7,15 +7,15 @@ import com.kira.emercmdplat.enums.base.BaseEnum;
  * @Date: 2020/4/30 23:34
  * @Description:事件等级
  */
-public enum EventLevel implements BaseEnum<EventLevel> {
-    UNDEFINED_LEVEL(0, "未识别事件等级"), EVENT_COMMON(3, "一般"), EVENT_MORE(6, "较大"), EVENT_MAJOR(9, "重大"),
-    EVENT_ESPECIALLY_IMPORTANT(10, "特别重大");
+public enum EventLevelIcon implements BaseEnum<EventLevelIcon> {
+    UNDEFINED_LEVEL(0, "未识别事件等级"), EVENT_COMMON(3, "/img/event_common.png,/img/event_common.png"), EVENT_MORE(6, "/img/event_more.png,/img/event_more.png"), EVENT_MAJOR(9, "/img/event_imp.png,/img/event_imp.png"),
+    EVENT_ESPECIALLY_IMPORTANT(10, "/img/event_v_imp.png,/img/event_v_imp.png");
 
     private Integer LEVEL_CODE;
 
     private String LEVEL_NAME;
 
-    EventLevel(Integer code, String name) {
+    EventLevelIcon(Integer code, String name) {
         this.LEVEL_CODE = code;
         this.LEVEL_NAME = name;
     }
@@ -47,7 +47,7 @@ public enum EventLevel implements BaseEnum<EventLevel> {
      * @return
      */
     @Override
-    public EventLevel getProperty(Integer key) {
+    public EventLevelIcon getProperty(Integer key) {
         switch (key) {
             case 3:
                 return EVENT_COMMON;
@@ -62,7 +62,7 @@ public enum EventLevel implements BaseEnum<EventLevel> {
         }
     }
 
-    public static EventLevel getByValue(Integer key) {
+    public static EventLevelIcon getByValue(Integer key) {
         switch (key) {
             case 3:
                 return EVENT_COMMON;

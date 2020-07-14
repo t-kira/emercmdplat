@@ -69,6 +69,14 @@
             and qr.origin = #{origin, jdbcType=INTEGER}
         </if>
     </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.QuickReport" >
         insert into quick_report (id, event_id, period_number, title, content, main_delivery_id, cc_id, submit_id, edit_id, contact_num, issuer_id, issue_company_id, issue_time, q_type, origin, pdf_addr)
         values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{periodNumber,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
@@ -133,26 +141,13 @@
         from quick_report qr, event_receive e, plan_type pt, contacts c
         where qr.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and id = #{id,jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.QuickReport">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.QuickReport">
         select
         <include refid="Base_Column_List"/>
         from quick_report qr, event_receive e, plan_type pt, contacts c
         where qr.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id
         <include refid="Basic_Conditions"/>
-        <if test="order != null and orderType">
-            order by ${order} ${orderType}
-        </if>
-    </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
-        select
-        <include refid="Base_Column_List"/>
-        from quick_report qr, event_receive e, plan_type pt, contacts c
-        where qr.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id
-        <include refid="Basic_Conditions"/>
-        <if test="order != null and orderType">
-            order by ${order} ${orderType}
-        </if>
-        limit ${page}, ${pageSize}
+        <include refid="Page_Order"/>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.QuickReport">
         select count(id)

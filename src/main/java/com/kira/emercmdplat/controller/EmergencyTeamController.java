@@ -42,7 +42,7 @@ public class EmergencyTeamController extends BaseController {
     public String insert(@Validated @ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(emergencyTeam.getCellNum());
-    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
     	if (result != null && result.size() == 1) {
     		ContactsResult contactsResult = result.get(0);
     		emergencyTeam.setPIC(contactsResult.getContactName());

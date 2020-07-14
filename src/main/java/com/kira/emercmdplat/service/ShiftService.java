@@ -20,9 +20,7 @@ public interface ShiftService {
 
     Shift selectByShiftId(Long shiftId);
 
-    List<Shift> queryShiftForAll(Shift shift);
-
-    List<Shift> queryShiftForPage(Shift shift);
+    List<Shift> queryShiftForAllOrPage(Shift shift);
 
     Long queryShiftForCounts(Shift shift);
 

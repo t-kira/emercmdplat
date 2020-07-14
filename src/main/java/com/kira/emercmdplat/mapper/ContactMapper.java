@@ -20,9 +20,7 @@ public interface ContactMapper {
 
     ContactsResult selectById(Long contactId);
 
-    List<ContactsResult> queryForAll(Contacts contacts);
-
-    List<ContactsResult> queryForPage(Contacts contacts);
+    List<ContactsResult> queryForAllOrPage(Contacts contacts);
 
     Long queryForCounts(Contacts contacts);
 
@@ -33,6 +31,8 @@ public interface ContactMapper {
     List<Group> selectGroup(Group group);
 
     List<ContactsResult> selectGeoContacts();
+
+    Long queryForGroupCounts(Group group);
 
     int insertGroup(Group group);
 

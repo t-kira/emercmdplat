@@ -82,14 +82,11 @@ public class ReservePlanServiceImpl implements ReservePlanService {
      * @return
      */
     @Override
-    public List<QuickReportResult> queryForAll(ReservePlan reservePlan) {
-        return rpm.queryForAll(reservePlan);
-    }
-
-    @Override
-    public List<QuickReportResult> queryForPage(ReservePlan reservePlan) {
-        reservePlan.setPage((reservePlan.getPage() - 1) * reservePlan.getPageSize());
-        return rpm.queryForPage(reservePlan);
+    public List<QuickReportResult> queryForAllOrPage(ReservePlan reservePlan) {
+        if (reservePlan.getPage() != null) {
+            reservePlan.setPage((reservePlan.getPage() - 1) * reservePlan.getPageSize());
+        }
+        return rpm.queryForAllOrPage(reservePlan);
     }
 
     @Override

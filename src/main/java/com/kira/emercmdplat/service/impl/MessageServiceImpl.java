@@ -70,14 +70,11 @@ public class MessageServiceImpl implements MessageService {
      * @return
      */
     @Override
-    public List<MessageResult> queryForAll(Message message) {
-        return mm.queryForAll(message);
-    }
-
-    @Override
-    public List<MessageResult> queryForPage(Message message) {
-        message.setPage((message.getPage() - 1) * message.getPageSize());
-        return mm.queryForPage(message);
+    public List<MessageResult> queryForAllOrPage(Message message) {
+        if (message.getPage() != null) {
+            message.setPage((message.getPage() - 1) * message.getPageSize());
+        }
+        return mm.queryForAllOrPage(message);
     }
 
     @Override

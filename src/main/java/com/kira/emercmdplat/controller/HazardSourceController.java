@@ -39,7 +39,7 @@ public class HazardSourceController extends BaseController {
     public String insert(@Validated @ApiComment(value="添加风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(hazardSouce.getCellNum());
-    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
     	if (result != null && result.size() == 1) {
     		ContactsResult contactsResult = result.get(0);
     		hazardSouce.setPIC(contactsResult.getContactName());

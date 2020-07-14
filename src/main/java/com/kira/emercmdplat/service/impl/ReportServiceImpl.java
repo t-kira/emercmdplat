@@ -69,14 +69,11 @@ public class ReportServiceImpl implements ReportService {
      * @return
      */
     @Override
-    public List<ReportResult> queryForAll(Report report) {
-        return rm.queryForAll(report);
-    }
-
-    @Override
-    public List<ReportResult> queryForPage(Report report) {
-        report.setPage((report.getPage() - 1) * report.getPageSize());
-        return rm.queryForPage(report);
+    public List<ReportResult> queryForAllOrPage(Report report) {
+        if (report.getPage() != null) {
+            report.setPage((report.getPage() - 1) * report.getPageSize());
+        }
+        return rm.queryForAllOrPage(report);
     }
 
     @Override

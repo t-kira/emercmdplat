@@ -54,14 +54,11 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<ContactsResult> queryForAll(Contacts contacts) {
-        return cm.queryForAll(contacts);
-    }
-
-    @Override
-    public List<ContactsResult> queryForPage(Contacts contacts) {
-        contacts.setPage((contacts.getPage() - 1) * contacts.getPageSize());
-        return cm.queryForPage(contacts);
+    public List<ContactsResult> queryForAllOrPage(Contacts contacts) {
+        if (contacts.getPage() != null) {
+            contacts.setPage((contacts.getPage() - 1) * contacts.getPageSize());
+        }
+        return cm.queryForAllOrPage(contacts);
     }
 
     @Override
@@ -83,6 +80,9 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<Group> selectGroup(Group group) {
+        if (group.getPage() != null) {
+            group.setPage((group.getPage() - 1) * group.getPageSize());
+        }
         return cm.selectGroup(group);
     }
 
@@ -188,5 +188,10 @@ public class ContactServiceImpl implements ContactService {
         }
         List<Group> groupList = TreeUtil.treeRecursionDataList(groups, 0);
         return groupList;
+    }
+
+    @Override
+    public Long queryForGroupCounts(Group group) {
+        return cm.queryForGroupCounts(group);
     }
 }

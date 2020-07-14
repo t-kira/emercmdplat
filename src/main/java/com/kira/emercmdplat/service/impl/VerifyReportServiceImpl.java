@@ -129,14 +129,11 @@ public class VerifyReportServiceImpl implements VerifyReportService {
     }
 
     @Override
-    public List<VerifyReport> queryForAll(VerifyReport pojo) {
-        return vrm.queryForAll(pojo);
-    }
-
-    @Override
-    public List<VerifyReport> queryForPage(VerifyReport pojo, Integer page, Integer pageSize) {
-        Map<String, Object> paramMap = new HashMap<>();
-        return vrm.queryForPage(paramMap);
+    public List<VerifyReport> queryForAllOrPage(VerifyReport verifyReport) {
+        if (verifyReport.getPage() != null) {
+            verifyReport.setPage((verifyReport.getPage() - 1) * verifyReport.getPageSize());
+        }
+        return vrm.queryForAllOrPage(verifyReport);
     }
 
     @Override

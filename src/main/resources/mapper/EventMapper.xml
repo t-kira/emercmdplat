@@ -50,6 +50,14 @@
     e.pt_id, pt.pt_name, e.report_mechanism_id, m.m_name, e.mechanism_id, me.m_name as mechanism_name, e.reporter, e.report_tel, e.contact_id, c.c_name as contact_name, e.status, e.process, e.summary, e.merge_reason, e.event_level,
     e.verify_method, e.event_type, e.verify_status, e.report_type, e.attach_addr
     </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
     <sql id="Basic_Conditions">
         <if test="id != null">
             and e.e_id = #{id,jdbcType=BIGINT}
@@ -225,15 +233,13 @@
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
         where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.mechanism_id = me.id and e.contact_id = c.c_id and e.verify_status &lt; 3 and e.e_id = #{id,jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select
         <include refid="Base_Column_List"/>
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
         where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id and e.verify_status &lt; 3
         <include refid="Basic_Conditions"/>
-        <if test="order != null and orderType">
-            order by ${order} ${orderType}
-        </if>
+        <include refid="Page_Order"/>
     </select>
     <select id="queryEventNumberForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select
@@ -241,9 +247,7 @@
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
         where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id
         <include refid="Basic_Conditions"/>
-        <if test="order != null and orderType">
-            order by ${order} ${orderType}
-        </if>
+        <include refid="Page_Order"/>
     </select>
     <select id="queryByTitle" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
         select
@@ -251,17 +255,6 @@
         from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
         where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id and e.verify_status &lt; 3
         and e.event_title like concat('%',#{eventTitle},'%') and e.contact_id = #{contactId, jdbcType=BIGINT}
-    </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Event">
-        select
-        <include refid="Base_Column_List"/>
-        from event_receive e, plan_type pt, mechanism m, contacts c, mechanism me
-        where e.pt_id = pt.pt_id and e.report_mechanism_id = m.id and e.contact_id = c.c_id and e.mechanism_id = me.id and e.verify_status &lt; 3
-        <include refid="Basic_Conditions"/>
-        <if test="order != null and orderType">
-            order by ${order} ${orderType}
-        </if>
-        limit ${page}, ${pageSize}
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Event">
         select count(e_id)
@@ -281,8 +274,7 @@
             SUM(CASE WHEN event_level = 3 THEN 1 ELSE 0 END) as common,
             SUM(CASE WHEN event_level = 6 THEN 1 ELSE 0 END) as more,
             SUM(CASE WHEN event_level = 9 THEN 1 ELSE 0 END) as major,
-            SUM(CASE WHEN event_level = 10 THEN 1 ELSE 0 END) as especially_important,
-            SUM(CASE WHEN event_level = 6 THEN 1 ELSE 0 END) as more
+            SUM(CASE WHEN event_level = 10 THEN 1 ELSE 0 END) as especially_important
         FROM event_receive where verify_status IN(0,1)
     </select>
     <select id="countEventPtId" resultType="java.util.HashMap">

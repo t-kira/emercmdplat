@@ -20,11 +20,9 @@ public interface SysLogService {
 
     SysLog selectById(Long id);
 
-    List<SysLog> queryForAll(SysLog sysLog);
+    List<SysLog> queryForAllOrPage(SysLog sysLog);
 
     Long queryForCounts(SysLog sysLog);
-
-    List<SysLog> queryForPage(SysLog sysLog);
 
     List<JSONObject> selectByEventId(Long eventId);
 }

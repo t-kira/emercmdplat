@@ -2,6 +2,8 @@ package com.kira.emercmdplat.pojo;
 
 import com.kira.emercmdplat.annotation.DateTime;
 import com.kira.emercmdplat.annotation.Phone;
+import com.kira.emercmdplat.enums.EventLevel;
+import com.kira.emercmdplat.enums.EventLevelIcon;
 import lombok.Data;
 
 import javax.validation.constraints.*;
@@ -12,7 +14,7 @@ import javax.validation.constraints.*;
  * @Description:事件信息表
  */
 @Data
-public class Event extends Base{
+public class Event extends Base {
     /**
      * 事件ID
      */
@@ -49,14 +51,14 @@ public class Event extends Base{
      * 经度
      */
     @NotNull(message = "经度不能为空")
-    @Digits(integer = 4, fraction = 6,message = "经度只能为数值型")
+    @Digits(integer = 4, fraction = 6, message = "经度只能为数值型")
     @DecimalMin(value = "0", message = "经度必须大于0")
     private Double lng;
     /**
      * 纬度
      */
     @NotNull(message = "纬度不能为空")
-    @Digits(integer = 4, fraction = 6,message = "纬度只能为数值型")
+    @Digits(integer = 4, fraction = 6, message = "纬度只能为数值型")
     @DecimalMin(value = "0", message = "纬度必须大于0")
     private Double lat;
     /**
@@ -143,4 +145,8 @@ public class Event extends Base{
      * 附件地址
      */
     private String attachAddr;
+
+    private String commonIcon;
+
+    private String activeIcon;
 }

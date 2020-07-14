@@ -3,6 +3,7 @@ package com.kira.emercmdplat.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kira.emercmdplat.annotation.Phone;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
+import net.sf.json.JSONObject;
 import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -41,6 +42,7 @@ public class Contacts extends BaseObject {
 
     @ApiComment(value = "手机号码", sample = "18223457654")
     @Phone
+    @NotNull(message = "手机号码不能为空")
     private String telephone;
 
     @ApiComment(value = "备用手机", sample = "17523126754")
@@ -372,4 +374,5 @@ public class Contacts extends BaseObject {
     public void setRongToken(String rongToken) {
         this.rongToken = rongToken;
     }
+
 }

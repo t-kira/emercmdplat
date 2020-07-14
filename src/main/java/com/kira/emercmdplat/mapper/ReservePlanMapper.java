@@ -57,9 +57,7 @@ public interface ReservePlanMapper {
      * @param reservePlan
      * @return
      */
-    List<QuickReportResult> queryForAll(ReservePlan reservePlan);
-
-    List<QuickReportResult> queryForPage(ReservePlan reservePlan);
+    List<QuickReportResult> queryForAllOrPage(ReservePlan reservePlan);
 
     Long queryForCounts(ReservePlan reservePlan);
 }

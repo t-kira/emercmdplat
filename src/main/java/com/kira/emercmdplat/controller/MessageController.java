@@ -136,7 +136,7 @@ public class MessageController extends BaseController {
         ContactsResult contactsResult = cs.findByToken(token);
         message.setContactId(contactsResult.getId());
         Map<String, Object> map = new HashMap<>();
-        List<MessageResult> list = ms.queryForPage(message);
+        List<MessageResult> list = ms.queryForAllOrPage(message);
         Long count = ms.queryForCounts(message);
         map.put("list", list);
         map.put("count", count);

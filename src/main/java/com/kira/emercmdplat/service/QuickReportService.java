@@ -50,9 +50,7 @@ public interface QuickReportService {
      * @param quickReport
      * @return
      */
-    List<QuickReportResult> queryForAll(QuickReport quickReport);
-
-    List<QuickReportResult> queryForPage(QuickReport quickReport);
+    List<QuickReportResult> queryForAllOrPage(QuickReport quickReport);
 
     Long queryForCounts(QuickReport quickReport);
 }

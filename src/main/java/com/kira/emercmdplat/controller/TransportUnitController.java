@@ -42,7 +42,7 @@ public class TransportUnitController extends BaseController{
     public String insert(@Validated @ApiComment(value="添加运输单位",sample="根据id查询运输单位接口可查看字段信息") @RequestBody TransportUnit transportUnit) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(transportUnit.getCellNum());
-    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
     	if (result != null && result.size() == 1) {
     		ContactsResult contactsResult = result.get(0);
     		transportUnit.setPIC(contactsResult.getContactName());

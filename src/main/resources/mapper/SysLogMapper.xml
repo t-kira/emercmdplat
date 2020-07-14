@@ -29,6 +29,14 @@
             and user_name = #{userName,jdbcType=VARCHAR}
         </if>
     </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.SysLog">
         insert into sys_log (id, event_id, sys_log_type, user_name, operation, method, params, create_time)
         values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{sysLogType, jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR},
@@ -77,18 +85,12 @@
         from sys_log
         where event_id = #{eventId, jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.SysLog">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.SysLog">
         select
         <include refid="Base_Column_List"/>
         from sys_log
         <include refid="Basic_Conditions"/>
-    </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_log
-        <include refid="Basic_Conditions"/>
-        limit ${page}, ${pageSize}
+        <include refid="Page_Order"/>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.SysLog">
         select count(1)

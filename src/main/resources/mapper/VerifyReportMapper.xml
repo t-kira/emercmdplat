@@ -37,6 +37,14 @@
             and create_time = #{createTime,jdbcType=VARCHAR}
         </if>
     </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.VerifyReport" useGeneratedKeys="true" keyProperty="id">
         insert into verify_report (id, event_id, pv_id, pr_id, contact_id, judge_opinion, attach_address, quick_report_addr, create_time, rich_text)
         values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{pvId,jdbcType=INTEGER}, #{prId,jdbcType=INTEGER}, #{contactId,jdbcType=BIGINT}, #{judgeOpinion,jdbcType=VARCHAR},
@@ -91,18 +99,12 @@
         from verify_report
         where event_id = #{eventId,jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         select
         <include refid="Base_Verify_Column_List"/>
         from verify_report
         <include refid="Basic_Conditions"/>
-    </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
-        select
-        <include refid="Base_Verify_Column_List"/>
-        from verify_report
-        <include refid="Basic_Conditions"/>
-        limit ${index}, ${pageSize}
+        <include refid="Page_Order"/>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.VerifyReport">
         select count(id)

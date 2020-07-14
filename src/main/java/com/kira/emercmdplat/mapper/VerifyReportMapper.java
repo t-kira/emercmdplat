@@ -20,9 +20,7 @@ public interface VerifyReportMapper{
 
     VerifyReport selectById(Long verifyReportId);
 
-    List<VerifyReport> queryForAll(VerifyReport verifyReport);
-
-    List<VerifyReport> queryForPage(Map<String, Object> map);
+    List<VerifyReport> queryForAllOrPage(VerifyReport verifyReport);
 
     Long queryForCounts(VerifyReport verifyReport);
 

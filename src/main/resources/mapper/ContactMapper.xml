@@ -121,6 +121,14 @@
             and s.mechanism_id = #{mechanismId,jdbcType=BIGINT}
         </if>
     </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Contacts" >
         insert into contacts (c_id, c_name, gender, j_id, m_id, telephone, backup_phone, terminal, work_phone, home_phone, other_phone, fax_number, email, importance_degree,
             photo, notes, g_id, person_attribute, create_time, update_time)
@@ -266,13 +274,6 @@
         select g_id, g_name, super_g_id from contact_group
         where g_id = #{id, jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Contacts">
-        select
-        <include refid="Base_Column_List"/>
-        from contacts c, job j, mechanism m , contact_group g
-        where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
-        <include refid="Basic_Conditions"/>
-    </select>
     <select id="selectGeoContacts" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Contacts">
         select
         <include refid="Base_Column_List"/>
@@ -290,18 +291,29 @@
 			#{item}
 		</foreach>
     </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Contacts">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Contacts">
         select
         <include refid="Base_Column_List"/>
         from contacts c, job j, mechanism m , contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
         <include refid="Basic_Conditions"/>
-        limit ${page}, ${pageSize}
+        <include refid="Page_Order"/>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Contacts">
         select count(c_id)
         from contacts
         <include refid="Basic_Conditions"/>
+    </select>
+    <select id="queryForGroupCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Group">
+        select count(g_id)
+        from contact_group
+        where 1 = 1
+        <if test="id != null">
+            and g_id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="gName != null">
+            and g_name = #{gName,jdbcType=VARCHAR}
+        </if>
     </select>
     <select id="selectByGid" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
@@ -311,6 +323,14 @@
     </select>
     <select id="selectGroup" resultMap="GroupResultMap" parameterType="com.kira.emercmdplat.pojo.Group">
         select g_id, g_name, super_g_id from contact_group
+        where 1 = 1
+        <if test="id != null">
+            and g_id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="gName != null">
+            and g_name = #{gName,jdbcType=VARCHAR}
+        </if>
+        <include refid="Page_Order"/>
     </select>
     <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.String">
     	select

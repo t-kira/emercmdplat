@@ -47,9 +47,7 @@ public interface ReportMapper {
      * @param report
      * @return
      */
-    List<ReportResult> queryForAll(Report report);
-
-    List<ReportResult> queryForPage(Report report);
+    List<ReportResult> queryForAllOrPage(Report report);
 
     Long queryForCounts(Report report);
 }

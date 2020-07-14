@@ -21,13 +21,11 @@ public interface EventMapper{
 
     EventResult selectById(Long id);
 
-    List<EventResult> queryForAll(Event event);
+    List<EventResult> queryForAllOrPage(Event event);
 
     Long queryForCounts(Event event);
 
     int insertParam(EventParam eventParam);
-
-    List<EventResult> queryForPage(Event event);
 
     List<EventParamResult> selectParamByEventId(Long eventId);
     //app事件标题模糊查询

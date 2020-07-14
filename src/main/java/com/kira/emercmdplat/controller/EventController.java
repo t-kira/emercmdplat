@@ -97,7 +97,7 @@ public class EventController extends BaseController {
     public AlvesJSONResult listDuty(){
         Contacts contacts = new Contacts();
         contacts.setPersonAttribute(1);
-        List<ContactsResult> contactsList = cs.queryForAll(contacts);
+        List<ContactsResult> contactsList = cs.queryForAllOrPage(contacts);
         return AlvesJSONResult.ok(contactsList);
     }
     @ResponseBody
@@ -129,7 +129,7 @@ public class EventController extends BaseController {
     public AlvesJSONResult selectVerifyReportByEventId(@PathVariable Long eventId) {
         VerifyReport verifyReport = new VerifyReport();
         verifyReport.setEventId(eventId);
-        List<VerifyReport> verifyReportList = vrs.queryForAll(verifyReport);
+        List<VerifyReport> verifyReportList = vrs.queryForAllOrPage(verifyReport);
         if (verifyReportList != null && verifyReportList.size() > 0) {
             return AlvesJSONResult.ok(verifyReportList.get(0));
         } else {
@@ -261,7 +261,7 @@ public class EventController extends BaseController {
     @PostMapping(name = "查询事件列表", value = "list")
     public AlvesJSONResult list(@RequestBody Event event) {
         Map<String, Object> map = new HashMap<>();
-        List<EventResult> list = es.queryForPage(event);
+        List<EventResult> list = es.queryForAllOrPage(event);
         Long count = es.queryForCounts(event);
         map.put("list", list);
         map.put("count", count);

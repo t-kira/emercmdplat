@@ -20,19 +20,13 @@ public interface ShiftMapper {
 
     Shift selectByShiftId(Long shiftId);
 
-    List<Shift> queryShiftForAll(Shift shift);
-
-    List<Shift> queryShiftForPage(Shift shift);
+    List<Shift> queryShiftForAllOrPage(Shift shift);
 
     Long queryShiftForCounts(Shift shift);
 
     int insertShiftDetail(ShiftDetail shiftDetail);
 
     boolean deleteShiftDetail(Long shiftDetailId);
-
-    ShiftDetail selectByShiftDetailId(Long shiftId);
-
-    List<ShiftDetail> queryShiftDetailForAll(ShiftDetail shiftDetail);
 
     List<ShiftDetailResult> queryDetail(Map<String,String> paramMap);
 

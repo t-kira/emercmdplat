@@ -61,6 +61,14 @@
             and m.reason = #{reason,jdbcType=VARCHAR}
         </if>
     </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Message">
         insert into message (id, event_id, contact_id, to_contact_id, v_id, m_type, status, reason)
         values (#{id,jdbcType=BIGINT}, #{eventId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{toContactId,jdbcType=BIGINT},
@@ -104,23 +112,13 @@
         where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
         and m.id = #{id,jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Message">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Message">
         select
         <include refid="Base_Column_List"/>
         from message m, event_receive e, plan_type pt, contacts c, verify_report v, plan_version pv, plan_response pr
         where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
         <include refid="Basic_Conditions"/>
-    </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Message">
-        select
-        <include refid="Base_Column_List"/>
-        from message m, event_receive e, plan_type pt, contacts c, verify_report v, plan_version pv, plan_response pr
-        where m.event_id = e.e_id and e.pt_id = pt.pt_id and e.contact_id = c.c_id and v.event_id = e.e_id and v.pv_id = pv.pv_id and v.pr_id = pr.pr_id
-        <include refid="Basic_Conditions"/>
-        <if test="order != null and orderType">
-            order by ${order} ${orderType}
-        </if>
-        limit ${page}, ${pageSize}
+        <include refid="Page_Order"/>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Message">
         select count(id)
@@ -128,5 +126,4 @@
         where 1 = 1
         <include refid="Basic_Conditions"/>
     </select>
-
 </mapper>

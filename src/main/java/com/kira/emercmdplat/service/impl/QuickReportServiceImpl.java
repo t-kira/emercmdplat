@@ -41,14 +41,11 @@ public class QuickReportServiceImpl implements QuickReportService {
     }
 
     @Override
-    public List<QuickReportResult> queryForAll(QuickReport pojo) {
-        return qrm.queryForAll(pojo);
-    }
-
-    @Override
-    public List<QuickReportResult> queryForPage(QuickReport quickReport) {
-        quickReport.setPage((quickReport.getPage() - 1) * quickReport.getPageSize());
-        return qrm.queryForPage(quickReport);
+    public List<QuickReportResult> queryForAllOrPage(QuickReport quickReport) {
+        if (quickReport.getPage() != null) {
+            quickReport.setPage((quickReport.getPage() - 1) * quickReport.getPageSize());
+        }
+        return qrm.queryForAllOrPage(quickReport);
     }
 
     @Override

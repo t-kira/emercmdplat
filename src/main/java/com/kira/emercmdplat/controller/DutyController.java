@@ -74,7 +74,7 @@ public class DutyController extends BaseController {
     @PostMapping(name = "查询班次列表", value = "list")
     public AlvesJSONResult list(@RequestBody Shift shift) {
         Map<String, Object> map = new HashMap<>();
-        List<Shift> list = ss.queryShiftForPage(shift);
+        List<Shift> list = ss.queryShiftForAllOrPage(shift);
         Long count = ss.queryShiftForCounts(shift);
         map.put("list", list);
         map.put("count", count);

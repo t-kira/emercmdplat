@@ -24,11 +24,9 @@ public interface EventService{
 
     EventResult selectById(Long id);
 
-    List<EventResult> queryForAll(Event event);
+    List<EventResult> queryForAllOrPage(Event event);
 
     Long queryForCounts(Event event);
-
-    List<EventResult> queryForPage(Event event);
 
     List<EventParamResult> selectParamByEventId(Long eventId);
 

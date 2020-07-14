@@ -3,6 +3,7 @@ package com.kira.emercmdplat.pojo;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 import lombok.Data;
+import net.sf.json.JSONObject;
 
 /**
  * @Author: kira

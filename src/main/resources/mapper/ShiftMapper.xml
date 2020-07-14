@@ -34,7 +34,6 @@
             </collection>
         </collection>
     </resultMap>
-
     <sql id="Base_Conditions" >
         <if test="id != null" >
             and s.id = #{id,jdbcType=BIGINT}
@@ -50,6 +49,14 @@
         </if>
         <if test="mechanismId != null" >
             and s.mechanism_id = #{mechanismId,jdbcType=BIGINT}
+        </if>
+    </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
         </if>
     </sql>
     <insert id="insertShift" parameterType="com.kira.emercmdplat.pojo.Shift">
@@ -86,20 +93,13 @@
         from shift s, mechanism m
         where s.mechanism_id = m.id and s.id = #{shiftId, jdbcType=BIGINT}
     </select>
-    <select id="queryShiftForAll" resultMap="ShiftResultMap" parameterType="com.kira.emercmdplat.pojo.Shift">
+    <select id="queryShiftForAllOrPage" resultMap="ShiftResultMap" parameterType="com.kira.emercmdplat.pojo.Shift">
         select
         <include refid="Base_Column_list"/>
         from shift s, mechanism m
         where s.mechanism_id = m.id
         <include refid="Base_Conditions"/>
-    </select>
-    <select id="queryShiftForPage" resultMap="ShiftResultMap" parameterType="com.kira.emercmdplat.pojo.Shift">
-        select
-        <include refid="Base_Column_list"/>
-        from shift s, mechanism m
-        where s.mechanism_id = m.id
-        <include refid="Base_Conditions"/>
-        limit ${page}, ${pageSize}
+        <include refid="Page_Order"/>
     </select>
     <select id="queryShiftForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Shift">
         select count(s.id)

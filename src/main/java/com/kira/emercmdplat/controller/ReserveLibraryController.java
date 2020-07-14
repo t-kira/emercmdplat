@@ -42,7 +42,7 @@ public class ReserveLibraryController extends BaseController {
     public String insert(@Validated @ApiComment(value="添加储备库",sample="根据id查询储备库接口可查看字段信息") @RequestBody ReserveLibrary reserveLibrary) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(reserveLibrary.getCellNum());
-    	List<ContactsResult> result = contactService.queryForAll(contact);
+    	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
     	if (result != null && result.size() == 1) {
     		ContactsResult contactsResult = result.get(0);
     		reserveLibrary.setPIC(contactsResult.getContactName());

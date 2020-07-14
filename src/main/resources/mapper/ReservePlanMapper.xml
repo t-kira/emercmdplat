@@ -13,13 +13,20 @@
         <result column="vr_id" property="vrId" jdbcType="INTEGER"/>
         <result column="pr_level" property="prLevel" jdbcType="VARCHAR"/>
     </resultMap>
-
     <sql id="Base_Column_List">
     r.id, r.event_id, r.status, r.start_time, pt.pt_name, pv.pv_name, pv.pv_id, vr.id as vr_id, pr.pr_id, pr.pr_level
     </sql>
     <sql id="Basic_Conditions">
         <if test="eventId != null">
             and r.event_id = #{eventId,jdbcType=BIGINT}
+        </if>
+    </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.ReservePlan" useGeneratedKeys="true" keyProperty="id">
@@ -57,20 +64,13 @@
         from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_report vr
         where r.event_id = e.e_id and vr.event_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id and r.event_id = #{id,jdbcType=BIGINT}
     </select>
-    <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
         select
         <include refid="Base_Column_List"/>
         from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_eport vr
         where r.event_id = e.e_id and vr.event_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
         <include refid="Basic_Conditions"/>
-    </select>
-    <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
-        select
-        <include refid="Base_Column_List"/>
-        from reserve_plan r, event_receive e, plan_type pt, plan_version pv, plan_response pr, verify_eport vr
-        where r.event_id = e.e_id and vr.event_id = e.e_id and vr.pv_id = pv.pv_id and vr.pr_id = pr.pr_id and e.pt_id = pt.pt_id
-        <include refid="Basic_Conditions"/>
-        limit ${page}, ${pageSize}
+        <include refid="Page_Order"/>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.ReservePlan">
         select count(id)
