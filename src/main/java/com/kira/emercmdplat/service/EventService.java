@@ -42,4 +42,5 @@ public interface EventService{
     boolean verifyEvent(VerifyEventReq eventReq, HttpServletRequest request);
 
     boolean mergeEvent(VerifyEventReq eventReq, HttpServletRequest request);
+
 }

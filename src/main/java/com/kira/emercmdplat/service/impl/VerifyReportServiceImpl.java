@@ -42,20 +42,23 @@ public class VerifyReportServiceImpl implements VerifyReportService {
 
     @Transactional
     @Override
-    public int insert(VerifyReport pojo) {
-        VerifyReport verifyReport = vrm.selectByEventId(pojo.getEventId());
+    public int insert(VerifyReport verifyReport) {
+        EventResult eventResult = em.selectById(verifyReport.getEventId());
+        if (eventResult == null) {
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
+        }
+        if (eventResult.getStatus() == EventStatus.FINISH.getNo() && eventResult.getProcess() == EventProcess.EVENT_FINISH.getNo()) {
+            throw new CustomException(ResultEnum.EVENT_FINISH.getNo());
+        }
         boolean result;
-        if (verifyReport != null){
-            pojo.setId(verifyReport.getId());
-            result = vrm.update(pojo);
+        VerifyReport _verifyReport = vrm.selectByEventId(verifyReport.getEventId());
+        if (_verifyReport != null){
+            verifyReport.setId(verifyReport.getId());
+            result = vrm.update(verifyReport);
         }else {
-            result =  vrm.insert(pojo) > 0?true:false;
+            result =  vrm.insert(verifyReport) > 0?true:false;
         }
         if (result) {
-            EventResult eventResult = em.selectById(verifyReport.getEventId());
-            if (eventResult == null) {
-                throw new CustomException(ResultEnum.NON_DATA.getNo());
-            }
             QuickReport quickReport = new QuickReport();
             quickReport.setTitle(eventResult.getEventTitle());
             quickReport.setContent(eventResult.getEventDesc());

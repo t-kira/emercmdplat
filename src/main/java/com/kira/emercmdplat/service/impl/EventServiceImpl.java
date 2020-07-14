@@ -87,6 +87,13 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public boolean update(EventDomain eventDomain, HttpServletRequest request) {
         Event event = eventDomain.getEvent();
+        EventResult eventResult = em.selectById(event.getId());
+        if (eventResult == null) {
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
+        }
+        if (eventResult.getStatus() == EventStatus.FINISH.getNo() && eventResult.getProcess() == EventProcess.EVENT_FINISH.getNo()) {
+            throw new CustomException(ResultEnum.EVENT_FINISH.getNo());
+        }
         List<EventParam> eventParamList = eventDomain.getEventParamList();
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cm.findByToken(token);
@@ -217,6 +224,12 @@ public class EventServiceImpl implements EventService {
     @Override
     public boolean verifyEvent(VerifyEventReq eventReq, HttpServletRequest request) {
         EventResult coverEvent = em.selectById(eventReq.getCoverEId());
+        if (coverEvent == null) {
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
+        }
+        if (coverEvent.getStatus() == EventStatus.FINISH.getNo() && coverEvent.getProcess() == EventProcess.EVENT_FINISH.getNo()) {
+            throw new CustomException(ResultEnum.EVENT_FINISH.getNo());
+        }
         if (eventReq.getMainEId() != null) {
             EventResult mainEvent = em.selectById(eventReq.getMainEId());
             mainEvent.setVerifyMethod(eventReq.getVerifyMethod());
@@ -254,7 +267,12 @@ public class EventServiceImpl implements EventService {
         EventResult coverEvent = em.selectById(eventReq.getCoverEId());
         EventResult mainEvent = em.selectById(eventReq.getMainEId());
         coverEvent.setMergeReason(eventReq.getMergeReason());
-
+        if (coverEvent == null) {
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
+        }
+        if (coverEvent.getStatus() == EventStatus.FINISH.getNo() && coverEvent.getProcess() == EventProcess.EVENT_FINISH.getNo()) {
+            throw new CustomException(ResultEnum.EVENT_FINISH.getNo());
+        }
         //合并事件
         return mergeEvent(coverEvent, request, eventReq, mainEvent);
     }

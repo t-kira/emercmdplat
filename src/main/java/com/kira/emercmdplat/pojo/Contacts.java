@@ -3,14 +3,11 @@ package com.kira.emercmdplat.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kira.emercmdplat.annotation.Phone;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
-import lombok.Data;
 import org.hibernate.validator.constraints.Range;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 
 /**
  * @Author: kira

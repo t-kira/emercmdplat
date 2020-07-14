@@ -2,9 +2,8 @@ package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.enums.EventProcess;
-import com.kira.emercmdplat.enums.MessageStatus;
-import com.kira.emercmdplat.enums.MessageType;
+import com.kira.emercmdplat.enums.*;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
@@ -104,6 +103,13 @@ public class MessageController extends BaseController {
     @ResponseBody
     @PostMapping(value = "add_leader_instruct")
     public AlvesJSONResult insertLeaderInstruct(@RequestBody LeaderInstructExtend leaderInstructExtend) {
+        EventResult eventResult = es.selectById(leaderInstructExtend.getEventId());
+        if (eventResult == null) {
+            throw new CustomException(ResultEnum.NON_DATA.getNo());
+        }
+        if (eventResult.getStatus() == EventStatus.FINISH.getNo() && eventResult.getProcess() == EventProcess.EVENT_FINISH.getNo()) {
+            throw new CustomException(ResultEnum.EVENT_FINISH.getNo());
+        }
         leaderInstructExtend.setInstructStatus(0);
         leaderInstructExtend.setInstructTime(DateUtil.getNowStr());
         int result = lis.insert(leaderInstructExtend);
