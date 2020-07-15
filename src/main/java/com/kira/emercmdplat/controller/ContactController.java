@@ -64,20 +64,24 @@ public class ContactController extends BaseController {
     @GetMapping("remove_group/{groupId}")
     public AlvesJSONResult deleteGroup(@PathVariable Long groupId) {
         List<ContactsResult> contactsResultList = cs.selectByGid(groupId);
-        if (contactsResultList != null || contactsResultList.size() > 0) {
-            return AlvesJSONResult.errorMsg("分组下有联系人,无法删除");
-        }
-        boolean result = cs.deleteGroup(groupId);
-        if (result) {
-            return AlvesJSONResult.ok("success remove");
+        if (contactsResultList != null && contactsResultList.size() > 0) {
+            boolean result = cs.deleteGroup(groupId);
+            if (result) {
+                return AlvesJSONResult.ok("success remove");
+            } else {
+                throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "删除分组失败");
+            }
         } else {
-            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "删除分组失败");
+            return AlvesJSONResult.errorMsg("分组下有联系人,无法删除");
         }
     }
 
     @ResponseBody
     @PostMapping("update")
     public AlvesJSONResult update(@RequestBody Contacts contacts) {
+        if (contacts.getId() == null || contacts.getId() <= 0) {
+            throw new CustomException(ResultEnum.MISSING_PARAMETER.getNo(), "联系人ID不能为空");
+        }
         boolean result = cs.update(contacts);
         if (result) {
             return AlvesJSONResult.ok("success update...");
@@ -88,6 +92,9 @@ public class ContactController extends BaseController {
     @ResponseBody
     @PostMapping("update_group")
     public AlvesJSONResult updateGroup(@RequestBody Group group) {
+        if (group.getId() == null || group.getId() <= 0) {
+            throw new CustomException(ResultEnum.MISSING_PARAMETER.getNo(), "分组ID不能为空");
+        }
         boolean result = cs.updateGroup(group);
         if (result) {
             return AlvesJSONResult.ok("success update...");
