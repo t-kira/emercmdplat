@@ -53,15 +53,15 @@ public class Contacts extends BaseObject {
     private String terminal;
 
     @ApiComment(value = "办公电话", sample = "0571-86432347")
-    @Pattern(regexp = "/^\\d{3}-\\d{7,8}|\\d{4}-\\d{7,8}$/",message = "办公电话格式不正确")
+    @ContactNum(message = "办公电话格式不正确")
     private String workPhone;
 
     @ApiComment(value = "家庭电话", sample = "0571-85463242")
-    @Pattern(regexp = "/^\\d{3}-\\d{7,8}|\\d{4}-\\d{7,8}$/",message = "家庭电话格式不正确")
+    @ContactNum(message = "家庭电话格式不正确")
     private String homePhone;
 
     @ApiComment(value = "其他电话", sample = "15623749876")
-    @Phone
+    @ContactNum(message = "其他电话格式不正确")
     private String otherPhone;
 
     @ApiComment(value = "传真号码", sample = "0571-86574327")
