@@ -2,12 +2,15 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.EmergencyTeam;
 import com.kira.emercmdplat.pojo.EmergencyTeamResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EmergencyTeamService;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
@@ -39,7 +42,7 @@ public class EmergencyTeamController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加应急队伍")
     @RequestMapping(name="添加应急队伍",value="/add",method=RequestMethod.POST)
-    public String insert(@Validated @ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
+    public AlvesJSONResult insert(@Validated @ApiComment(value="添加应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(emergencyTeam.getCellNum());
     	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
@@ -48,50 +51,58 @@ public class EmergencyTeamController extends BaseController {
     		emergencyTeam.setPIC(contactsResult.getContactName());
     		emergencyTeam.setContactsId(contactsResult.getId());
     	}
-        emergencyTeamService.insert(emergencyTeam);
-        return "success";
+        int count = emergencyTeamService.insert(emergencyTeam);
+        if (count > 0) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "应急队伍保存失败");
+        }
     }
 
     @Api2Doc(order = 2)
     @ApiComment(value="修改应急队伍")
     @RequestMapping(name="修改应急队伍",value="/update",method=RequestMethod.POST)
-    public String update(@Validated @ApiComment(value="修改应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
-        emergencyTeamService.update(emergencyTeam);
-        return "success";
+    public AlvesJSONResult update(@Validated @ApiComment(value="修改应急队伍",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
+        boolean result = emergencyTeamService.update(emergencyTeam);
+        if (result) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "应急队伍保存失败");
+        }
     }
 
     @Api2Doc(order = 3)
     @ApiComment(value="删除应急队伍")
     @RequestMapping(name="删除应急队伍",value="/delete",method=RequestMethod.GET)
-    public String delete(@ApiComment(value="应急队伍id",sample="1") String ids) {
+    public AlvesJSONResult delete(@ApiComment(value="应急队伍id",sample="1") String ids) {
     	if (StringUtils.isEmpty(ids)) {
-    		return "fail";
+    		throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo(), "ids为空");
     	}
     	String[] idList = ids.split(",");
     	for (String id : idList) {
     		EmergencyTeam emergencyTeam = emergencyTeamService.selectById(Integer.valueOf(id));
     		emergencyTeamService.delete(emergencyTeam);
     	}
-        return "success";
+    	return AlvesJSONResult.ok();
     }
 
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询应急队伍")
     @RequestMapping(name="根据id查询应急队伍",value="/selectById",method=RequestMethod.GET)
-    public EmergencyTeam selectById(@ApiComment(value="应急队伍id",sample="1") Integer id) {
+    public AlvesJSONResult selectById(@ApiComment(value="应急队伍id",sample="1") Integer id) {
         EmergencyTeam emergencyTeam = emergencyTeamService.selectById(id);
-        return emergencyTeam;
+        return AlvesJSONResult.ok(emergencyTeam);
     }
 
     @Api2Doc(order = 5)
     @ApiComment(value="列出应急队伍")
     @RequestMapping(name="列出应急队伍",value="/list",method=RequestMethod.POST)
-    public EmergencyTeamResult list(@ApiComment(value="应急队伍参数",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
+    public AlvesJSONResult list(@ApiComment(value="应急队伍参数",sample="根据id查询应急队伍接口可查看字段信息") @RequestBody EmergencyTeam emergencyTeam) {
     	EmergencyTeamResult result = new EmergencyTeamResult();
         List<EmergencyTeam> list = emergencyTeamService.queryForPage(emergencyTeam, emergencyTeam.getPage(), emergencyTeam.getPageSize());
         Long count = emergencyTeamService.queryForCounts(emergencyTeam);
         result.setList(list);
         result.setCount(count);
-        return result;
+        return AlvesJSONResult.ok(result);
     }
 }

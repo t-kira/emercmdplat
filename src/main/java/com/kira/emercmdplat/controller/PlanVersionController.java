@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ import com.kira.emercmdplat.pojo.PlanResponseFlow;
 import com.kira.emercmdplat.pojo.PlanResponseFlowTask;
 import com.kira.emercmdplat.pojo.PlanResponseGuard;
 import com.kira.emercmdplat.pojo.PlanTag;
+import com.kira.emercmdplat.pojo.PlanType;
 import com.kira.emercmdplat.pojo.PlanVersion;
 import com.kira.emercmdplat.pojo.PlanVersionApproval;
 import com.kira.emercmdplat.pojo.PlanVersionResult;
@@ -80,7 +82,10 @@ public class PlanVersionController extends BaseController {
 		List<PlanVersion> list = planVersionService.listVersions(planVersion);
 		for (PlanVersion pv : list) {
 			Integer type = pv.getType();
-			pv.setTypeName(planTypeService.getPlanTypeById(type).getName());
+			PlanType pt = planTypeService.getPlanTypeById(type);
+			if (pt != null) {
+				pv.setTypeName(pt.getName());
+			}
 			Integer userId = pv.getUserId();
 			ContactsResult user = contactService.selectById(new Long(userId));
 			if (user != null) {
@@ -170,6 +175,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 4)
 	@ApiComment(value="删除预案")
 	@RequestMapping(name="删除预案",value="/deleteVersion",method=RequestMethod.GET)
+	@Transactional
 	public AlvesJSONResult deleteVersion(@ApiComment("预案id") Integer id) {
 		//已关联核实报告的不能删除
 		VerifyReport vr = new VerifyReport();
@@ -183,7 +189,9 @@ public class PlanVersionController extends BaseController {
 			throw new CustomException(ResultEnum.PLAN_VERSION_RELATE.getNo(), "只有编制中和已退回的预案可以删除");
 		}
 		boolean result = planVersionService.deleteVersion(id);
-		if (result) {
+		//单独删除PlanOrg(没建外键，因为公用的组织也在里面)
+		boolean result2 = planVersionService.deleteOrgByPvId(id);
+		if (result && result2) {
             return AlvesJSONResult.ok();
         } else {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "预案删除失败");
@@ -483,6 +491,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 35)
     @ApiComment(value="提交预案审核")
 	@RequestMapping(name="提交预案审核",value="/insertPlanVersionApproval",method=RequestMethod.POST)
+	@Transactional
 	public String insertPlanVersionApproval(@Validated @ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval, HttpServletRequest request) {
 		int userId = getLoginUser(request);
 		planVersionApproval.setSubmitter(userId);
@@ -510,6 +519,7 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 36)
     @ApiComment(value="预案审核")
 	@RequestMapping(name="预案审核",value="/updatePlanVersionApproval",method=RequestMethod.POST)
+	@Transactional
 	public String updatePlanVersionApproval(@ApiComment(value="提交预案审核",sample="参看列出预案审核接口查看预案审核对象") @RequestBody PlanVersionApproval planVersionApproval, HttpServletRequest request) {
 		int userId = getLoginUser(request);
 		planVersionApproval.setExaminer(userId);

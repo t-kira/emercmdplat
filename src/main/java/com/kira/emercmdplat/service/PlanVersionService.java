@@ -33,6 +33,8 @@ public interface PlanVersionService {
 	void updateOrg(PlanOrg planOrg);
 
 	void deleteOrg(Integer id);
+	
+	boolean deleteOrgByPvId(Integer pvId);
 
 	List<PlanResponse> listResponses(int pvId,int form);
 

@@ -2,9 +2,12 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.ProtectionTargetService;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
@@ -36,7 +39,7 @@ public class ProtectionTargetController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加防护目标")
     @RequestMapping(name="添加防护目标",value="/add",method=RequestMethod.POST)
-    public String insert(@Validated @ApiComment(value="添加防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
+    public AlvesJSONResult insert(@Validated @ApiComment(value="添加防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(protectionTarget.getCellNum());
     	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
@@ -45,45 +48,53 @@ public class ProtectionTargetController extends BaseController {
     		protectionTarget.setPIC(contactsResult.getContactName());
     		protectionTarget.setContactsId(contactsResult.getId());
     	}
-        protectionTargetService.insert(protectionTarget);
-        return "success";
+        int count = protectionTargetService.insert(protectionTarget);
+        if (count > 0) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "防护目标保存失败");
+        }
     }
 
     @Api2Doc(order = 2)
     @ApiComment(value="修改防护目标")
     @RequestMapping(name="修改防护目标",value="/update",method=RequestMethod.POST)
-    public String update(@Validated @ApiComment(value="修改防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
-        protectionTargetService.update(protectionTarget);
-        return "success";
+    public AlvesJSONResult update(@Validated @ApiComment(value="修改防护目标",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
+        boolean result = protectionTargetService.update(protectionTarget);
+        if (result) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "防护目标保存失败");
+        }
     }
 
     @Api2Doc(order = 3)
     @ApiComment(value="删除防护目标")
     @RequestMapping(name="删除防护目标",value="/delete",method=RequestMethod.GET)
-    public String delete(@ApiComment(value="防护目标id",sample="1") String ids) {
+    public AlvesJSONResult delete(@ApiComment(value="防护目标id",sample="1") String ids) {
     	if (StringUtils.isEmpty(ids)) {
-    		return "fail";
+    		throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo(), "ids为空");
     	}
     	String[] idList = ids.split(",");
     	for (String id : idList) {
     		ProtectionTarget protectionTarget = protectionTargetService.selectById(Integer.valueOf(id));
     		protectionTargetService.delete(protectionTarget);
     	}
-        return "success";
+        return AlvesJSONResult.ok();
     }
 
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询防护目标")
     @RequestMapping(name="根据id查询防护目标",value="/selectById",method=RequestMethod.GET)
-    public ProtectionTarget selectById(@ApiComment(value="防护目标id",sample="1") Integer id) {
+    public AlvesJSONResult selectById(@ApiComment(value="防护目标id",sample="1") Integer id) {
         ProtectionTarget protectionTarget = protectionTargetService.selectById(id);
-        return protectionTarget;
+        return AlvesJSONResult.ok(protectionTarget);
     }
 
     @Api2Doc(order = 5)
     @ApiComment(value="列出防护目标")
     @RequestMapping(name="列出防护目标",value="/list",method=RequestMethod.POST)
-    public ProtectionTargetResult list(@ApiComment(value="防护目标参数",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
+    public AlvesJSONResult list(@ApiComment(value="防护目标参数",sample="根据id查询防护目标接口可查看字段信息") @RequestBody ProtectionTarget protectionTarget) {
     	ProtectionTargetResult result = new ProtectionTargetResult();
         List<ProtectionTarget> list = protectionTargetService.queryForPage(protectionTarget, protectionTarget.getPage(), protectionTarget.getPageSize());
         for (ProtectionTarget pt : list) {
@@ -95,6 +106,6 @@ public class ProtectionTargetController extends BaseController {
         Long count = protectionTargetService.queryForCounts(protectionTarget);
         result.setList(list);
         result.setCount(count);
-        return result;
+        return AlvesJSONResult.ok(result);
     }
 }

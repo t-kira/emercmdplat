@@ -3,6 +3,7 @@ package com.kira.emercmdplat.pojo;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
+import com.kira.emercmdplat.annotation.ContactNum;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -63,6 +64,7 @@ public class EmergencySupply extends BaseObject {
 	 */
 	@ApiComment(value = "联系电话", sample = "aaa")
 	@NotNull(message = "联系电话不能为空")
+	@ContactNum(message = "联系电话格式不正确")
 	private String contactNum;
 	/**
 	 * 单价

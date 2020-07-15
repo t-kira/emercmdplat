@@ -12,6 +12,8 @@ public interface PlanOrgMapper extends BaseMapper<PlanOrg> {
 	
 	void copyOrg(int pvId);
 	
-	void deleteParent(PlanOrg org);
+	boolean deleteParent(PlanOrg org);
+	
+	boolean deleteByPvId(Integer pvId);
 	
 }

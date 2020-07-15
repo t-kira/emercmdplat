@@ -2,8 +2,11 @@ package com.kira.emercmdplat.pojo;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import com.kira.emercmdplat.annotation.ContactNum;
+import com.kira.emercmdplat.annotation.Phone;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 /**
  * 应急专家
@@ -62,27 +65,32 @@ public class EmergencyExpert extends BaseObject {
 	 * 电话
 	 */
 	@ApiComment(value = "电话", sample = "123")
+	@ContactNum(message = "电话格式不正确")
 	private String contactNum;
 	/**
 	 * 手机
 	 */
 	@ApiComment(value = "手机", sample = "123")
 	@NotNull(message = "手机不能为空")
+	@Phone
 	private String cellNum;
 	/**
 	 * 传真
 	 */
 	@ApiComment(value = "传真", sample = "123")
+	@ContactNum(message = "传真格式不正确")
 	private String faxNum;
 	/**
 	 * 邮箱
 	 */
 	@ApiComment(value = "邮箱", sample = "123")
+	@Email
 	private String email;
 	/**
 	 * 家庭电话
 	 */
 	@ApiComment(value = "家庭电话", sample = "123")
+	@ContactNum(message = "家庭电话格式不正确")
 	private String homeNum;
 	/**
 	 * 家庭地址
