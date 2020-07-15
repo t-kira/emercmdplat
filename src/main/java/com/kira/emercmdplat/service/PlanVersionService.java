@@ -24,7 +24,7 @@ public interface PlanVersionService {
 
 	void updateVersion(PlanVersion planVersion);
 
-	void deleteVersion(Integer id);
+	boolean deleteVersion(Integer id);
 
 	List<Node> listOrgTree(PlanOrg planOrg);
 
@@ -38,7 +38,7 @@ public interface PlanVersionService {
 
 	int insertResponse(PlanResponse planResponse);
 
-	void deleteResponse(Integer id);
+	boolean deleteResponse(Integer id);
 
 	List<PlanResponseFlow> listResponseFlows(int prId);
 

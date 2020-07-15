@@ -88,10 +88,10 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public void deleteVersion(Integer id) {
+	public boolean deleteVersion(Integer id) {
 		PlanVersion param = new PlanVersion();
 		param.setId(id);
-		planVersionMapper.delete(param);
+		return planVersionMapper.delete(param);
 	}
 
 	@Override
@@ -138,10 +138,10 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 	}
 
 	@Override
-	public void deleteResponse(Integer id) {
+	public boolean deleteResponse(Integer id) {
 		PlanResponse param = new PlanResponse();
 		param.setId(id);
-		planResponseMapper.delete(param);
+		return planResponseMapper.delete(param);
 	}
 
 	@Override

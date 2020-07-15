@@ -9,5 +9,7 @@ import com.kira.emercmdplat.pojo.PlanType;
  * @Description:危险源mapper
  */
 public interface PlanTypeMapper extends BaseMapper<PlanType> {
+	
+	Long countsForParentId(Integer id);
 
 }

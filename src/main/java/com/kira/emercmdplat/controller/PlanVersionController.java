@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.DataType;
 import com.kira.emercmdplat.pojo.PlanCatalog;
@@ -32,10 +34,13 @@ import com.kira.emercmdplat.pojo.PlanTag;
 import com.kira.emercmdplat.pojo.PlanVersion;
 import com.kira.emercmdplat.pojo.PlanVersionApproval;
 import com.kira.emercmdplat.pojo.PlanVersionResult;
+import com.kira.emercmdplat.pojo.VerifyReport;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.DataTypeService;
 import com.kira.emercmdplat.service.PlanTypeService;
 import com.kira.emercmdplat.service.PlanVersionService;
+import com.kira.emercmdplat.service.VerifyReportService;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.DateUtil;
 import com.kira.emercmdplat.utils.Node;
 import com.kira.emercmdplat.utils.PropertiesUtils;
@@ -63,6 +68,9 @@ public class PlanVersionController extends BaseController {
 
 	@Autowired
 	private DataTypeService dataTypeService;
+	
+	@Autowired
+	private VerifyReportService verifyReportService;
 
 	@Api2Doc(order = 1)
     @ApiComment(value="列出预案列表")
@@ -162,9 +170,24 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 4)
 	@ApiComment(value="删除预案")
 	@RequestMapping(name="删除预案",value="/deleteVersion",method=RequestMethod.GET)
-	public String deleteVersion(@ApiComment("预案id") Integer id) {
-		planVersionService.deleteVersion(id);
-		return "success";
+	public AlvesJSONResult deleteVersion(@ApiComment("预案id") Integer id) {
+		//已关联核实报告的不能删除
+		VerifyReport vr = new VerifyReport();
+		vr.setPvId(new Long(id));
+		Long count = verifyReportService.queryForCounts(vr);
+		if (count > 0) {
+			throw new CustomException(ResultEnum.PLAN_VERSION_RELATE.getNo(), "预案相关核实报告信息已存在，无法删除");
+		}
+		PlanVersion pv = planVersionService.getPlanVerionById(id);
+		if (pv.getStatus() != 0 && pv.getStatus() != 3) {
+			throw new CustomException(ResultEnum.PLAN_VERSION_RELATE.getNo(), "只有编制中和已退回的预案可以删除");
+		}
+		boolean result = planVersionService.deleteVersion(id);
+		if (result) {
+            return AlvesJSONResult.ok();
+        } else {
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "预案删除失败");
+        }
 	}
 
 	@Api2Doc(order = 5)
@@ -257,9 +280,19 @@ public class PlanVersionController extends BaseController {
 	@Api2Doc(order = 11)
     @ApiComment(value="删除预案响应")
 	@RequestMapping(name="删除预案响应",value="/deleteResponse",method=RequestMethod.GET)
-	public String deleteResponse(@ApiComment("预案响应id") Integer id) {
-		planVersionService.deleteResponse(id);
-		return "success";
+	public AlvesJSONResult deleteResponse(@ApiComment("预案响应id") Integer id) {
+		VerifyReport vr = new VerifyReport();
+		vr.setPrId(new Long(id));
+		Long count = verifyReportService.queryForCounts(vr);
+		if (count > 0) {
+			throw new CustomException(ResultEnum.PLAN_RESPONSE_RELATE.getNo(), "预案响应相关核实报告信息已存在，无法删除");
+		}
+		boolean result = planVersionService.deleteResponse(id);
+		if (result) {
+            return AlvesJSONResult.ok();
+        } else {
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "预案删除失败");
+        }
 	}
 
 	@Api2Doc(order = 12)

@@ -64,10 +64,10 @@ public class PlanTypeServiceImpl implements PlanTypeService {
     }
 
     @Override
-    public void deleteType(Integer id) {
+    public boolean deleteType(Integer id) {
         PlanType param = new PlanType();
         param.setId(id);
-        planTypeMapper.delete(param);
+        return planTypeMapper.delete(param);
     }
 
     @Override
@@ -215,6 +215,11 @@ public class PlanTypeServiceImpl implements PlanTypeService {
 			paramList.add(param);
 		}
 		return paramList;
+	}
+
+	@Override
+	public Long countsForParentId(Integer id) {
+		return planTypeMapper.countsForParentId(id);
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.kira.emercmdplat.controller;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.kira.emercmdplat.pojo.*;
@@ -14,9 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.DataTypeService;
+import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.PlanTypeService;
+import com.kira.emercmdplat.service.PlanVersionService;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.kira.emercmdplat.utils.Node;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
@@ -34,6 +38,12 @@ public class PlanTypeController extends BaseController {
 	
 	@Autowired
 	private DataTypeService dataTypeService;
+	
+	@Autowired
+	private PlanVersionService planVersionService;
+	
+	@Autowired
+    private EventService eventService;
 
 	@Api2Doc(order = 1)
     @ApiComment(value="列出预案分类树")
@@ -62,9 +72,35 @@ public class PlanTypeController extends BaseController {
 	@Api2Doc(order = 4)
 	@ApiComment(value="删除预案类型")
 	@RequestMapping(name="删除预案类型",value="/deleteType",method=RequestMethod.GET)
-	public String deleteType(@ApiComment("预案类型id") Integer id) {
-		planTypeService.deleteType(id);
-		return "success";
+	public AlvesJSONResult deleteType(@ApiComment("预案类型id") Integer id) {
+		if (id == 1) {
+			throw new CustomException(ResultEnum.PLAN_TYPE_RELATE.getNo(), "通用类型不能删除");
+		}
+		//有子节点的不允许删除父节点
+		Long count = planTypeService.countsForParentId(id);
+		if (count > 0) {
+			throw new CustomException(ResultEnum.PLAN_TYPE_RELATE.getNo(), "该预案类型还有子节点，请先删除子节点");
+		}
+		//已存在预案不能删除
+		PlanVersion pv = new PlanVersion();
+		pv.setType(id);
+		count = planVersionService.countVersions(pv);
+		if (count > 0) {
+			throw new CustomException(ResultEnum.PLAN_TYPE_RELATE.getNo(), "预案类型相关预案信息已存在，无法删除");
+		}
+		//已存在事件不能删除
+		Event et = new Event();
+		et.setPtId(new Long(id));
+		count = eventService.queryForCounts(et);
+		if (count > 0) {
+			throw new CustomException(ResultEnum.PLAN_TYPE_RELATE.getNo(), "预案类型相关事件信息已存在，无法删除");
+		}
+		boolean result = planTypeService.deleteType(id);
+		if (result) {
+            return AlvesJSONResult.ok();
+        } else {
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "预案类型删除失败");
+        }
 	}
 
 	@Api2Doc(order = 5)

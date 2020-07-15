@@ -78,4 +78,10 @@
         from plan_type
         <include refid="Basic_Conditions"/>
     </select>
+    
+    <select id="countsForParentId" resultType="java.lang.Long" parameterType="java.lang.Integer">
+    	select count(*) from plan_type
+    	where pt_parent_id=#{id,jdbcType=INTEGER}
+    </select>
+    
 </mapper>
