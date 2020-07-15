@@ -2,6 +2,8 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.Contacts;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.pojo.Shelter;
@@ -40,7 +42,7 @@ public class ShelterController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加避难场所")
     @RequestMapping(name="添加避难场所",value="/add",method=RequestMethod.POST)
-    public String insert(@Validated @ApiComment(value="添加避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
+    public AlvesJSONResult insert(@Validated @ApiComment(value="添加避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(shelter.getCellNum());
     	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
@@ -49,50 +51,58 @@ public class ShelterController extends BaseController {
     		shelter.setPIC(contactsResult.getContactName());
     		shelter.setContactsId(contactsResult.getId());
     	}
-        shelterService.insert(shelter);
-        return "success";
+        int count = shelterService.insert(shelter);
+        if (count > 0) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "避难场所保存失败");
+        }
     }
 
     @Api2Doc(order = 2)
     @ApiComment(value="修改避难场所")
     @RequestMapping(name="修改避难场所",value="/update",method=RequestMethod.POST)
     public AlvesJSONResult update(@Validated @ApiComment(value="修改避难场所",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
-        shelterService.update(shelter);
-        return AlvesJSONResult.ok();
+        boolean result = shelterService.update(shelter);
+        if (result) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "避难场所保存失败");
+        }
     }
 
     @Api2Doc(order = 3)
     @ApiComment(value="删除避难场所")
     @RequestMapping(name="删除防护目标",value="/delete",method=RequestMethod.GET)
-    public String delete(@ApiComment(value="防护目标id",sample="1") String ids) {
+    public AlvesJSONResult delete(@ApiComment(value="防护目标id",sample="1") String ids) {
     	if (StringUtils.isEmpty(ids)) {
-    		return "fail";
+    		throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo(), "ids为空");
     	}
     	String[] idList = ids.split(",");
     	for (String id : idList) {
     		Shelter shelter = shelterService.selectById(Integer.valueOf(id));
     		shelterService.delete(shelter);
     	}
-        return "success";
+        return AlvesJSONResult.ok();
     }
 
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询避难场所")
     @RequestMapping(name="根据id查询避难场所",value="/selectById",method=RequestMethod.GET)
-    public Shelter selectById(@ApiComment(value="避难场所id",sample="1") Integer id) {
+    public AlvesJSONResult selectById(@ApiComment(value="避难场所id",sample="1") Integer id) {
         Shelter shelter = shelterService.selectById(id);
-        return shelter;
+        return AlvesJSONResult.ok(shelter);
     }
 
     @Api2Doc(order = 5)
     @ApiComment(value="列出避难场所")
     @RequestMapping(name="列出避难场所",value="/list",method=RequestMethod.POST)
-    public ShelterResult list(@ApiComment(value="避难场所参数",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
+    public AlvesJSONResult list(@ApiComment(value="避难场所参数",sample="根据id查询避难场所接口可查看字段信息") @RequestBody Shelter shelter) {
     	ShelterResult result = new ShelterResult();
         List<Shelter> list = shelterService.queryForPage(shelter, shelter.getPage(), shelter.getPageSize());
         Long count = shelterService.queryForCounts(shelter);
         result.setList(list);
         result.setCount(count);
-        return result;
+        return AlvesJSONResult.ok(result);
     }
 }

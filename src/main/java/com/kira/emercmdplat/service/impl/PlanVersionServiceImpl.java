@@ -122,6 +122,11 @@ public class PlanVersionServiceImpl implements PlanVersionService {
 		planOrgMapper.delete(param);
 		planOrgMapper.deleteParent(param);
 	}
+	
+	@Override
+	public boolean deleteOrgByPvId(Integer pvId) {
+		return planOrgMapper.deleteByPvId(pvId);
+	}
 
 	@Override
 	public List<PlanResponse> listResponses(int pvId,int form) {

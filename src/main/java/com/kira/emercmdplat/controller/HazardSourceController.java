@@ -2,9 +2,12 @@ package com.kira.emercmdplat.controller;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.HazardSourceService;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
@@ -36,7 +39,7 @@ public class HazardSourceController extends BaseController {
     @Api2Doc(order = 1)
     @ApiComment(value="添加风险隐患")
     @RequestMapping(name="添加风险隐患",value="/add",method=RequestMethod.POST)
-    public String insert(@Validated @ApiComment(value="添加风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
+    public AlvesJSONResult insert(@Validated @ApiComment(value="添加风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
     	Contacts contact = new Contacts();
     	contact.setTelephone(hazardSouce.getCellNum());
     	List<ContactsResult> result = contactService.queryForAllOrPage(contact);
@@ -45,45 +48,53 @@ public class HazardSourceController extends BaseController {
     		hazardSouce.setPIC(contactsResult.getContactName());
     		hazardSouce.setContactsId(contactsResult.getId());
     	}
-        hazardSourceService.insert(hazardSouce);
-        return "success";
+        int count = hazardSourceService.insert(hazardSouce);
+        if (count > 0) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "风险隐患保存失败");
+        }
     }
 
     @Api2Doc(order = 2)
     @ApiComment(value="修改风险隐患")
     @RequestMapping(name="修改风险隐患",value="/update",method=RequestMethod.POST)
-    public String update(@Validated @ApiComment(value="修改风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
-        hazardSourceService.update(hazardSouce);
-        return "success";
+    public AlvesJSONResult update(@Validated @ApiComment(value="修改风险隐患",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
+        boolean result = hazardSourceService.update(hazardSouce);
+        if (result) {
+        	return AlvesJSONResult.ok();
+        } else {
+        	throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "风险隐患保存失败");
+        }
     }
 
     @Api2Doc(order = 3)
     @ApiComment(value="删除风险隐患")
     @RequestMapping(name="删除风险隐患",value="/delete",method=RequestMethod.GET)
-    public String delete(@ApiComment(value="风险隐患id",sample="1") String ids) {
+    public AlvesJSONResult delete(@ApiComment(value="风险隐患id",sample="1") String ids) {
     	if (StringUtils.isEmpty(ids)) {
-    		return "fail";
+    		throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo(), "ids为空");
     	}
     	String[] idList = ids.split(",");
     	for (String id : idList) {
     		HazardSouce hazardSource = hazardSourceService.selectById(Integer.valueOf(id));
     		hazardSourceService.delete(hazardSource);
     	}
-        return "success";
+        return AlvesJSONResult.ok();
     }
 
     @Api2Doc(order = 4)
     @ApiComment(value="根据id查询风险隐患")
     @RequestMapping(name="根据id查询风险隐患",value="/selectById",method=RequestMethod.GET)
-    public HazardSouce selectById(@ApiComment(value="风险隐患id",sample="1") Integer id) {
+    public AlvesJSONResult selectById(@ApiComment(value="风险隐患id",sample="1") Integer id) {
         HazardSouce hazardSource = hazardSourceService.selectById(id);
-        return hazardSource;
+        return AlvesJSONResult.ok(hazardSource);
     }
 
     @Api2Doc(order = 5)
     @ApiComment(value="列出风险隐患")
     @RequestMapping(name="列出风险隐患",value="/list",method=RequestMethod.POST)
-    public HazardSouceResult list(@ApiComment(value="风险隐患参数",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
+    public AlvesJSONResult list(@ApiComment(value="风险隐患参数",sample="根据id查询风险隐患接口可查看字段信息") @RequestBody HazardSouce hazardSouce) {
     	HazardSouceResult result = new HazardSouceResult();
         List<HazardSouce> list = hazardSourceService.queryForPage(hazardSouce, hazardSouce.getPage(), hazardSouce.getPageSize());
         for (HazardSouce hs : list) {
@@ -95,6 +106,6 @@ public class HazardSourceController extends BaseController {
         Long count = hazardSourceService.queryForCounts(hazardSouce);
         result.setList(list);
         result.setCount(count);
-        return result;
+        return AlvesJSONResult.ok(result);
     }
 }

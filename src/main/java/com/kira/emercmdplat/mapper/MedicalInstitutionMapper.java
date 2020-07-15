@@ -9,5 +9,7 @@ import com.kira.emercmdplat.pojo.MedicalInstitution;
  * @Description:危险源mapper
  */
 public interface MedicalInstitutionMapper extends BaseMapper<MedicalInstitution> {
+	
+	Long queryForCountsForUID(MedicalInstitution pojo);
 
 }

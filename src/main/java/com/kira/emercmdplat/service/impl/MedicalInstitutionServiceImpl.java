@@ -57,4 +57,9 @@ public class MedicalInstitutionServiceImpl implements MedicalInstitutionService 
     public Long queryForCounts(MedicalInstitution pojo) {
         return medicalInstitutionMapper.queryForCounts(pojo);
     }
+
+	@Override
+	public Long queryForCountsForUID(MedicalInstitution pojo) {
+		return medicalInstitutionMapper.queryForCountsForUID(pojo);
+	}
 }

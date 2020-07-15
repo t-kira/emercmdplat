@@ -1,8 +1,11 @@
 package com.kira.emercmdplat.pojo;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.kira.emercmdplat.annotation.ContactNum;
+import com.kira.emercmdplat.annotation.Phone;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
@@ -74,27 +77,32 @@ public class ReserveLibrary extends BaseObject {
 	 * 联系电话
 	 */
 	@ApiComment(value = "联系电话", sample = "aaa")
+	@ContactNum(message = "联系电话格式不正确")
 	private String contactNum;
 	/**
 	 * 手机
 	 */
 	@ApiComment(value = "手机", sample = "aaa")
 	@NotNull(message = "手机不能为空")
+	@Phone
 	private String cellNum;
 	/**
 	 * 住宅电话
 	 */
 	@ApiComment(value = "住宅电话", sample = "aaa")
+	@ContactNum(message = "住宅电话格式不正确")
 	private String homeNum;
 	/**
 	 * 传真号码
 	 */
 	@ApiComment(value = "传真号码", sample = "aaa")
+	@ContactNum(message = "传真号码格式不正确")
 	private String faxNum;
 	/**
 	 * 电子邮箱
 	 */
 	@ApiComment(value = "电子邮箱", sample = "aaa")
+	@Email
 	private String email;
 	/**
 	 * 联系人名字
@@ -105,11 +113,13 @@ public class ReserveLibrary extends BaseObject {
 	 * 联系人办公电话
 	 */
 	@ApiComment(value = "联系人办公电话", sample = "aaa")
+	@ContactNum(message = "联系人办公电话格式不正确")
 	private String contactWorkNum;
 	/**
 	 * 联系人手机号码
 	 */
 	@ApiComment(value = "联系人手机号码", sample = "aaa")
+	@Phone
 	private String contactCellNum;
 	/**
 	 * 更新时间

@@ -222,5 +222,15 @@
         where 1=1
         <include refid="Basic_Conditions"/>
     </select>
+    
+    <select id="queryForCountsForUID" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution">
+        select count(m_id)
+        from medical_institution
+        where 1=1
+        <if test="UID != null">
+            and m_UID = #{UID,jdbcType=VARCHAR}
+        </if>
+        and m_id != #{id,jdbcType=INTEGER} 
+    </select>
 
 </mapper>

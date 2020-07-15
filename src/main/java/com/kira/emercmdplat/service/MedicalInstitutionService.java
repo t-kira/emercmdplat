@@ -9,5 +9,7 @@ import com.kira.emercmdplat.service.base.BaseService;
  * @Description:
  */
 public interface MedicalInstitutionService extends BaseService<MedicalInstitution> {
-
+	
+	Long queryForCountsForUID(MedicalInstitution pojo);
+	
 }
