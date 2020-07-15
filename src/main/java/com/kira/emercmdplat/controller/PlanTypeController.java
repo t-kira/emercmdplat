@@ -73,6 +73,9 @@ public class PlanTypeController extends BaseController {
 	@ApiComment(value="删除预案类型")
 	@RequestMapping(name="删除预案类型",value="/deleteType",method=RequestMethod.GET)
 	public AlvesJSONResult deleteType(@ApiComment("预案类型id") Integer id) {
+		if (id == 1) {
+			throw new CustomException(ResultEnum.PLAN_TYPE_RELATE.getNo(), "通用类型不能删除");
+		}
 		//有子节点的不允许删除父节点
 		Long count = planTypeService.countsForParentId(id);
 		if (count > 0) {
