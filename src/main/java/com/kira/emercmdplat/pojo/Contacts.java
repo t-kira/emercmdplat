@@ -1,9 +1,9 @@
 package com.kira.emercmdplat.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kira.emercmdplat.annotation.ContactNum;
 import com.kira.emercmdplat.annotation.Phone;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
-import net.sf.json.JSONObject;
 import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -65,7 +65,7 @@ public class Contacts extends BaseObject {
     private String otherPhone;
 
     @ApiComment(value = "传真号码", sample = "0571-86574327")
-    @Pattern(regexp = "/^(\\d{3,4}-)?\\d{7,8}$/", message = "传真号码格式不正确")
+    @ContactNum(message = "传真号码格式不正确")
     private String faxNumber;
 
     @ApiComment(value = "电子邮箱", sample = "kk@126.com")
