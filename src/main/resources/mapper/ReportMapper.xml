@@ -6,16 +6,17 @@
         <result column="event_id" property="eventId" jdbcType="BIGINT"/>
         <result column="event_number" property="eventNumber" jdbcType="VARCHAR"/>
         <result column="contact_id" property="contactId" jdbcType="BIGINT"/>
-        <result column="contact_name" property="contactName" jdbcType="VARCHAR"/>
+        <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
         <result column="report_time" property="reportTime" jdbcType="VARCHAR"/>
         <result column="key_word" property="keyWord" jdbcType="VARCHAR"/>
         <result column="report_content" property="reportContent" jdbcType="VARCHAR"/>
         <result column="r_type" property="type" jdbcType="INTEGER"/>
+        <result column="period" property="period" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
         <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    r.id, r.event_id, e.event_number, r.contact_id, c.contact_name, r.report_time, r.key_word, r.report_content, r.r_type, r.create_time, r.update_time
+    r.id, r.event_id, e.event_number, r.contact_id, c.c_name, r.report_time, r.key_word, r.report_content, r.r_type, r.period, r.create_time, r.update_time
   </sql>
     <sql id="Basic_Conditions" >
         <if test="id != null" >
@@ -55,9 +56,9 @@
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Report" >
-    insert into report (id, event_id, contact_id, report_time, key_word, report_content, r_type, create_time, update_time)
+    insert into report (id, event_id, contact_id, report_time, key_word, report_content, r_type, period, create_time, update_time)
     values (#{id,jdbcType=INTEGER}, #{eventId,jdbcType=BIGINT}, #{contactId,jdbcType=BIGINT}, #{reportTime,jdbcType=VARCHAR},
-      #{keyWord,jdbcType=VARCHAR}, #{reportContent,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
+      #{keyWord,jdbcType=VARCHAR}, #{reportContent,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{period,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
       #{updateTime,jdbcType=VARCHAR})
   </insert>
     <delete id="delete" parameterType="java.lang.Long">
@@ -81,12 +82,6 @@
             </if>
             <if test="reportContent != null" >
                 report_content = #{reportContent,jdbcType=VARCHAR},
-            </if>
-            <if test="type != null" >
-                r_type = #{type,jdbcType=INTEGER},
-            </if>
-            <if test="createTime != null" >
-                create_time = #{createTime,jdbcType=VARCHAR},
             </if>
             <if test="updateTime != null" >
                 update_time = #{updateTime,jdbcType=VARCHAR},
