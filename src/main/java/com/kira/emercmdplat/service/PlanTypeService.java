@@ -16,7 +16,7 @@ public interface PlanTypeService {
 
     void updateType(PlanType planType);
 
-    void deleteType(Integer id);
+    boolean deleteType(Integer id);
 
     List<PlanTag> listTags(int ptId,Boolean includeCommon);
 
@@ -59,5 +59,7 @@ public interface PlanTypeService {
 	PlanType getPlanTypeById(Integer id);
 
 	List<PlanParam> getParamByJson(String params);
+	
+	Long countsForParentId(Integer id);
 
 }
