@@ -52,4 +52,8 @@ public interface ContactService {
     List<Permission> findPermissionsByCid(Long cid);
 
     List<Group> selectContactList();
+
+    List<Role> queryRoleForAllOrPage(Role role);
+
+    Long queryRoleForCounts(Role role);
 }

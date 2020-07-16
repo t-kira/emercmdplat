@@ -194,4 +194,17 @@ public class ContactServiceImpl implements ContactService {
     public Long queryForGroupCounts(Group group) {
         return cm.queryForGroupCounts(group);
     }
+
+    @Override
+    public List<Role> queryRoleForAllOrPage(Role role) {
+        if (role.getPage() != null) {
+            role.setPage((role.getPage() - 1) * role.getPageSize());
+        }
+        return cm.queryRoleForAllOrPage(role);
+    }
+
+    @Override
+    public Long queryRoleForCounts(Role role) {
+        return cm.queryRoleForCounts(role);
+    }
 }

@@ -58,6 +58,10 @@
         <result column="person_number" property="personNumber" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
+    <resultMap id="RoleResultMap" type="com.kira.emercmdplat.pojo.Role">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+    </resultMap>
     <sql id="Base_Column_List">
         c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
         c.photo, c.notes, c.g_id, c.lng, c.lat, c.create_time, c.update_time, c.username, c.password, j.j_name, m.m_name, g.g_name, c.person_attribute, c.username, c.password, c.login_time, c.expire_time, c.token, c.rong_token
@@ -132,7 +136,7 @@
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Contacts" >
         insert into contacts (c_id, c_name, gender, j_id, m_id, telephone, backup_phone, terminal, work_phone, home_phone, other_phone, fax_number, email, importance_degree,
             photo, notes, g_id, person_attribute, create_time, update_time)
-        values (#{id,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR}
+        values (#{id,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR},
             #{backupPhone,jdbcType=VARCHAR}, #{terminal,jdbcType=VARCHAR}, #{workPhone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{otherPhone,jdbcType=VARCHAR}, #{faxNumber,jdbcType=VARCHAR},
             #{email, jdbcType=VARCHAR}, #{importanceDegree, jdbcType=INTEGER}, #{photo, jdbcType=VARCHAR}, #{notes, jdbcType=VARCHAR}, #{gId, jdbcType=INTEGER}, #{personAttribute,jdbcType=INTEGER},
             #{createTime, jdbcType=VARCHAR}, #{updateTime, jdbcType=VARCHAR})
@@ -347,5 +351,20 @@
     <select id="findPermissionsByCid" resultMap="PermissionResultMap" parameterType="java.lang.Long">
         select p.* from contacts c, role_permission rp, permission p
         where c.role_id = rp.role_id and rp.permission_id = p.id and c.c_id = #{cid,jdbcType=BIGINT}
+    </select>
+    <select id="queryRoleForAllOrPage" resultMap="RoleResultMap" parameterType="com.kira.emercmdplat.pojo.Role">
+        select * from role where 1 = 1
+        <if test="roleName != null" >
+            and role_name like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+        </if>
+        <include refid="Page_Order"/>
+    </select>
+    <select id="queryRoleForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Role">
+        select count(id)
+        from role
+        where 1 = 1
+        <if test="roleName != null" >
+            and role_name like concat('%',#{roleName,jdbcType=VARCHAR},'%')
+        </if>
     </select>
 </mapper>
