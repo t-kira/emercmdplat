@@ -135,10 +135,11 @@
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Contacts" >
         insert into contacts (c_id, c_name, gender, j_id, m_id, telephone, backup_phone, terminal, work_phone, home_phone, other_phone, fax_number, email, importance_degree,
-            photo, notes, g_id, person_attribute, create_time, update_time)
+            photo, notes, lng, lat, g_id, person_attribute, create_time, update_time)
         values (#{id,jdbcType=INTEGER}, #{contactName,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{jId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{telephone,jdbcType=VARCHAR},
             #{backupPhone,jdbcType=VARCHAR}, #{terminal,jdbcType=VARCHAR}, #{workPhone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{otherPhone,jdbcType=VARCHAR}, #{faxNumber,jdbcType=VARCHAR},
-            #{email, jdbcType=VARCHAR}, #{importanceDegree, jdbcType=INTEGER}, #{photo, jdbcType=VARCHAR}, #{notes, jdbcType=VARCHAR}, #{gId, jdbcType=INTEGER}, #{personAttribute,jdbcType=INTEGER},
+            #{email, jdbcType=VARCHAR}, #{importanceDegree, jdbcType=INTEGER}, #{photo, jdbcType=VARCHAR}, #{notes, jdbcType=VARCHAR},
+            #{lng, jdbcType=DOUBLE}, #{lat,jdbcType=DOUBLE},#{gId, jdbcType=INTEGER}, #{personAttribute,jdbcType=INTEGER},
             #{createTime, jdbcType=VARCHAR}, #{updateTime, jdbcType=VARCHAR})
     </insert>
     <insert id="insertGroup" parameterType="com.kira.emercmdplat.pojo.Group">
@@ -215,7 +216,7 @@
                 g_id = #{gId, jdbcType=INTEGER},
             </if>
             <if test="personAttribute != null">
-                person_attribure = #{personAttribute,jdbcType=INTEGER},
+                person_attribute = #{personAttribute,jdbcType=INTEGER},
             </if>
             <if test="updateTime != null">
                 update_time = #{updateTime, jdbcType=VARCHAR},
@@ -233,7 +234,7 @@
                 rong_token = #{rongToken, jdbcType=VARCHAR},
             </if>
         </set>
-        where c_id = #{id,jdbcType=INTEGER}
+        where c_id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateGroup" parameterType="com.kira.emercmdplat.pojo.Group">
         update contact_group
