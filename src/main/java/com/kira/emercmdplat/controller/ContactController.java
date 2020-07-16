@@ -6,6 +6,7 @@ import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
+import com.kira.emercmdplat.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,7 @@ public class ContactController extends BaseController {
     @ResponseBody
     @PostMapping("add")
     public AlvesJSONResult insert(@Validated @RequestBody Contacts contacts) {
+        contacts.setCreateTime(DateUtil.getNowStr());
         int result = cs.insert(contacts);
         if (result > 0) {
             return AlvesJSONResult.ok("联系人添加成功");
@@ -73,6 +75,17 @@ public class ContactController extends BaseController {
             } else {
                 throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "删除分组失败");
             }
+        }
+    }
+
+    @ResponseBody
+    @GetMapping(name = "根据分组信息查看联系人",value = "list_group_contact/{groupId}")
+    public AlvesJSONResult selectContactListByGroup(@PathVariable Long groupId) {
+        List<ContactsResult> contactsResultList = cs.selectByGid(groupId);
+        if (contactsResultList != null && contactsResultList.size() > 0) {
+            return AlvesJSONResult.ok(contactsResultList);
+        } else {
+            throw new CustomException(ResultEnum.NON_DATA.getNo(), "该分组没有联系人信息");
         }
     }
 
@@ -142,5 +155,12 @@ public class ContactController extends BaseController {
         map.put("list", list);
         map.put("count", count);
         return AlvesJSONResult.ok(map);
+    }
+
+    @ResponseBody
+    @PostMapping(name="查看角色集合", value = "list_role")
+    public AlvesJSONResult listRole(@RequestBody Role role) {
+        List<Role> list = cs.queryRoleForAllOrPage(role);
+        return AlvesJSONResult.ok(list);
     }
 }

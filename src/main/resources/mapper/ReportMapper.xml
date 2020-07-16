@@ -62,7 +62,7 @@
       #{updateTime,jdbcType=VARCHAR})
   </insert>
     <delete id="delete" parameterType="java.lang.Long">
-        DELETE report
+        DELETE from report
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.Report">
@@ -106,6 +106,7 @@
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Report">
         select count(id)
         from report r
+        where 1 = 1
         <include refid="Basic_Conditions"/>
     </select>
 </mapper>
