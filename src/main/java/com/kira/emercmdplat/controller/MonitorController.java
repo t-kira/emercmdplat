@@ -12,6 +12,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.kira.emercmdplat.pojo.Monitor;
 import com.kira.emercmdplat.pojo.MonitorResult;
 import com.kira.emercmdplat.service.MonitorService;
+import com.kira.emercmdplat.utils.AlvesJSONResult;
 import com.terran4j.commons.api2doc.annotations.Api2Doc;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 
@@ -65,13 +66,13 @@ public class MonitorController {
 	@Api2Doc(order = 5)
     @ApiComment(value="列出监控")
     @RequestMapping(name="列出监控",value="/list",method=RequestMethod.POST)
-    public MonitorResult list(@ApiComment(value="监控查询参数",sample="根据id查询监控接口可查看字段信息") @RequestBody Monitor monitor) {
+    public AlvesJSONResult list(@ApiComment(value="监控查询参数",sample="根据id查询监控接口可查看字段信息") @RequestBody Monitor monitor) {
     	MonitorResult result = new MonitorResult();
         List<Monitor> list = monitorService.queryForPage(monitor, monitor.getPage(), monitor.getPageSize());
         Long count = monitorService.queryForCounts(monitor);
         result.setList(list);
         result.setCount(count);
-        return result;
+        return AlvesJSONResult.ok(result);
     }
 	
 }
