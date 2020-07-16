@@ -211,8 +211,10 @@ public class PlanTypeServiceImpl implements PlanTypeService {
 			int id = js.getInt("id");
 			String value = js.getString("value");
 			PlanParam param = planParamMapper.selectById(id);
-			param.setValue(value);
-			paramList.add(param);
+			if (param != null) {
+				param.setValue(value);
+				paramList.add(param);
+			}
 		}
 		return paramList;
 	}

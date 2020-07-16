@@ -30,7 +30,7 @@
       and pv_id = #{id,jdbcType=INTEGER}
     </if>
     <if test="name != null and name != ''" >
-      and pv_name = #{name,jdbcType=VARCHAR}
+      and pv_name like concat('%',#{name,jdbcType=VARCHAR},'%')
     </if>
     <if test="version != null" >
       and pv_version = #{version,jdbcType=VARCHAR}
