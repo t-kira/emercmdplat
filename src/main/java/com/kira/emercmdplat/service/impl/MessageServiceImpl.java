@@ -71,7 +71,7 @@ public class MessageServiceImpl implements MessageService {
      */
     @Override
     public List<MessageResult> queryForAllOrPage(Message message) {
-        if (message.getPage() != null) {
+        if (message != null && message.getPage() != null) {
             message.setPage((message.getPage() - 1) * message.getPageSize());
         }
         return mm.queryForAllOrPage(message);

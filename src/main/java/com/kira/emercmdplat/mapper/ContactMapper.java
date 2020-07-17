@@ -51,4 +51,6 @@ public interface ContactMapper {
     List<Role> queryRoleForAllOrPage(Role role);
 
     Long queryRoleForCounts(Role role);
+
+    BaseData selectDataById(Integer type);
 }

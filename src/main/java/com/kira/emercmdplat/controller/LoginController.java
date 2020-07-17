@@ -2,17 +2,12 @@ package com.kira.emercmdplat.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.kira.emercmdplat.config.WebSecurityConfig;
-import com.kira.emercmdplat.pojo.Permission;
-import com.kira.emercmdplat.pojo.TokenVO;
+import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.utils.*;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.kira.emercmdplat.pojo.Contacts;
-import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.service.ContactService;
 
 import java.util.List;
@@ -36,10 +31,12 @@ public class LoginController {
     		TokenVO tokenVo = contactService.createToken(user);
 			List<Permission> permissions = contactService.findPermissionsByCid(user.getId());
 			List<Permission> permissionList = TreeUtil.treeRecursionPermissionDataList(permissions, 0);
+			BaseData baseData = contactService.selectDataById(1);
 			JSONObject json = new JSONObject();
 			json.put("permissionList", permissionList);
 			json.put("token", tokenVo);
 			json.put("user", user);
+			json.put("baseUrl", baseData.getBasicData());
 			return AlvesJSONResult.ok(json);
 		}
     }

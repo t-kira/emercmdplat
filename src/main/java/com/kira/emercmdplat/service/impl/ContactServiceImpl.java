@@ -55,7 +55,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<ContactsResult> queryForAllOrPage(Contacts contacts) {
-        if (contacts.getPage() != null) {
+        if (contacts != null && contacts.getPage() != null) {
             contacts.setPage((contacts.getPage() - 1) * contacts.getPageSize());
         }
         return cm.queryForAllOrPage(contacts);
@@ -206,5 +206,10 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public Long queryRoleForCounts(Role role) {
         return cm.queryRoleForCounts(role);
+    }
+
+    @Override
+    public BaseData selectDataById(Integer type) {
+        return cm.selectDataById(type);
     }
 }

@@ -54,7 +54,7 @@ public class SysLogServiceImpl implements SysLogService {
 
     @Override
     public List<SysLog> queryForAllOrPage(SysLog sysLog) {
-        if (sysLog.getPage() != null) {
+        if (sysLog != null && sysLog.getPage() != null) {
             sysLog.setPage((sysLog.getPage() - 1) * sysLog.getPageSize());
         }
         return slm.queryForAllOrPage(sysLog);
@@ -89,6 +89,8 @@ public class SysLogServiceImpl implements SysLogService {
                                 JSONObject paramJson = new JSONObject();
                                 paramJson.put("value", eventParam.getPpValue());
                                 PlanParam param = ppm.selectById(eventParam.getPpId().intValue());
+                                if (param == null)
+                                    throw new CustomException(ResultEnum.NON_DATA.getNo(), "事件参数配置信息不存在");
                                 paramJson.put("name", param.getName());
                                 paramJson.put("unit", param.getUnit());
                                 paramList.add(paramJson);

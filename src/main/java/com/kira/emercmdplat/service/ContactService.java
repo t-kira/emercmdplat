@@ -56,4 +56,6 @@ public interface ContactService {
     List<Role> queryRoleForAllOrPage(Role role);
 
     Long queryRoleForCounts(Role role);
+
+    BaseData selectDataById(Integer type);
 }

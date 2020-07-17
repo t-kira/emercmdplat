@@ -72,7 +72,7 @@ public class QuickReportController extends BaseController {
 
     @ResponseBody
     @PostMapping("list")
-    public AlvesJSONResult list(@RequestBody QuickReport quickReport) {
+    public AlvesJSONResult list(@RequestBody(required = false) QuickReport quickReport) {
         Map<String, Object> map = new HashMap<>();
         List<QuickReportResult> list = qrs.queryForAllOrPage(quickReport);
         Long count = qrs.queryForCounts(quickReport);

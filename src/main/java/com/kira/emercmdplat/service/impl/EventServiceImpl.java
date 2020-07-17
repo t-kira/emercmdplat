@@ -134,7 +134,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventResult> queryForAllOrPage(Event event) {
-        if (event.getPage() != null) {
+        if (event != null && event.getPage() != null) {
             event.setPage((event.getPage() - 1) * event.getPageSize());
         }
         List<EventResult> eventResultList = em.queryForAllOrPage(event);

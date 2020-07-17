@@ -1,6 +1,8 @@
 package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.QuickReportService;
@@ -62,6 +64,19 @@ public class ReportController extends BaseController {
     }
 
     @ResponseBody
+    @PostMapping(value = "delete_list")
+    public AlvesJSONResult deleteList(@RequestBody List<Long> reportIdList) {
+        if (reportIdList != null && reportIdList.size() > 0) {
+            for (Long reportId : reportIdList) {
+                rs.delete(reportId);
+            }
+            return AlvesJSONResult.ok("批量删除成功");
+        } else {
+            throw new CustomException(ResultEnum.MISSING_PARAMETER.getNo(),"没有上传快报ID");
+        }
+    }
+
+    @ResponseBody
     @PostMapping(value = "update")
     public AlvesJSONResult update(@RequestBody Report report) {
         boolean result = rs.update(report);
@@ -81,7 +96,7 @@ public class ReportController extends BaseController {
 
     @ResponseBody
     @PostMapping("list")
-    public AlvesJSONResult list(@RequestBody Report report) {
+    public AlvesJSONResult list(@RequestBody(required = false) Report report) {
         Map<String, Object> map = new HashMap<>();
         List<ReportResult> list = rs.queryForAllOrPage(report);
         Long count = rs.queryForCounts(report);

@@ -131,7 +131,7 @@ public class MessageController extends BaseController {
 
     @ResponseBody
     @PostMapping("list")
-    public AlvesJSONResult list(@RequestBody Message message, HttpServletRequest request) {
+    public AlvesJSONResult list(@RequestBody(required = false) Message message, HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
         message.setContactId(contactsResult.getId());

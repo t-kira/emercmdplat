@@ -83,7 +83,7 @@ public class ReservePlanServiceImpl implements ReservePlanService {
      */
     @Override
     public List<QuickReportResult> queryForAllOrPage(ReservePlan reservePlan) {
-        if (reservePlan.getPage() != null) {
+        if (reservePlan != null && reservePlan.getPage() != null) {
             reservePlan.setPage((reservePlan.getPage() - 1) * reservePlan.getPageSize());
         }
         return rpm.queryForAllOrPage(reservePlan);

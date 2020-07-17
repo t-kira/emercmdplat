@@ -6,10 +6,7 @@ import com.kira.emercmdplat.mapper.*;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.QuickReportService;
 import com.kira.emercmdplat.service.VerifyReportService;
-import com.kira.emercmdplat.utils.AlvesJSONResult;
-import com.kira.emercmdplat.utils.DateUtil;
-import com.kira.emercmdplat.utils.PDFTemplateUtil;
-import com.kira.emercmdplat.utils.PropertiesUtils;
+import com.kira.emercmdplat.utils.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +58,7 @@ public class VerifyReportServiceImpl implements VerifyReportService {
         if (result) {
             QuickReport quickReport = new QuickReport();
             quickReport.setTitle(eventResult.getEventTitle());
-            quickReport.setContent(eventResult.getEventDesc());
+            quickReport.setContent(StringUtil.toStr(eventResult.getEventDesc()));
             quickReport.setEventId(verifyReport.getEventId());
             quickReport.setOrigin(QuickReportOrigin.VERIFY_REPORT_ORIGIN.getNo());
             quickReport.setEditId(eventResult.getContactId());
@@ -130,7 +127,7 @@ public class VerifyReportServiceImpl implements VerifyReportService {
 
     @Override
     public List<VerifyReport> queryForAllOrPage(VerifyReport verifyReport) {
-        if (verifyReport.getPage() != null) {
+        if (verifyReport != null && verifyReport.getPage() != null) {
             verifyReport.setPage((verifyReport.getPage() - 1) * verifyReport.getPageSize());
         }
         return vrm.queryForAllOrPage(verifyReport);

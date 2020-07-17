@@ -42,7 +42,7 @@ public class QuickReportServiceImpl implements QuickReportService {
 
     @Override
     public List<QuickReportResult> queryForAllOrPage(QuickReport quickReport) {
-        if (quickReport.getPage() != null) {
+        if (quickReport != null && quickReport.getPage() != null) {
             quickReport.setPage((quickReport.getPage() - 1) * quickReport.getPageSize());
         }
         return qrm.queryForAllOrPage(quickReport);

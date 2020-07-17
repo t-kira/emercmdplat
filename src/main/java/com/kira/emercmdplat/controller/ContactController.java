@@ -45,7 +45,7 @@ public class ContactController extends BaseController {
     public AlvesJSONResult insertGroup(@Validated @RequestBody Group group) {
         int result = cs.insertGroup(group);
         if (result > 0) {
-            return AlvesJSONResult.ok("success insert...");
+            return AlvesJSONResult.ok("联系人分组添加成功");
         } else {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "新增分组失败");
         }
@@ -56,9 +56,9 @@ public class ContactController extends BaseController {
     public AlvesJSONResult delete(@PathVariable Long contactId) {
         boolean result = cs.delete(contactId);
         if (result) {
-            return AlvesJSONResult.ok("success remove");
+            return AlvesJSONResult.ok("联系人删除成功");
         } else {
-            return AlvesJSONResult.errorMsg("fail remove...");
+            return AlvesJSONResult.errorMsg("联系人删除失败");
         }
     }
 
@@ -71,7 +71,7 @@ public class ContactController extends BaseController {
         } else {
         	boolean result = cs.deleteGroup(groupId);
             if (result) {
-                return AlvesJSONResult.ok("success remove");
+                return AlvesJSONResult.ok("联系人分组删除成功");
             } else {
                 throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "删除分组失败");
             }
@@ -137,7 +137,7 @@ public class ContactController extends BaseController {
 
     @ResponseBody
     @PostMapping(name="分页查看联系人集合", value = "list")
-    public AlvesJSONResult list(@RequestBody Contacts contacts) {
+    public AlvesJSONResult list(@RequestBody(required = false) Contacts contacts) {
         Map<String, Object> map = new HashMap<>();
         List<ContactsResult> list = cs.queryForAllOrPage(contacts);
         Long count = cs.queryForCounts(contacts);

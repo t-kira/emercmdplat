@@ -45,13 +45,9 @@ public class EventController extends BaseController {
     @Autowired
     private ReservePlanService rps;
     @Autowired
-    private MessageService mas;
-    @Autowired
     private SysLogService sls;
     @Autowired
     private ContactService cs;
-    @Autowired
-    private QuickReportService qrs;
 
     @MyLog(value = 1)
     @ResponseBody
@@ -259,7 +255,7 @@ public class EventController extends BaseController {
     }
     @ResponseBody
     @PostMapping(name = "查询事件列表", value = "list")
-    public AlvesJSONResult list(@RequestBody Event event) {
+    public AlvesJSONResult list(@RequestBody(required = false) Event event) {
         Map<String, Object> map = new HashMap<>();
         List<EventResult> list = es.queryForAllOrPage(event);
         Long count = es.queryForCounts(event);
