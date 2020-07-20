@@ -3,12 +3,15 @@ package com.kira.emercmdplat.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.druid.util.StringUtils;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.Monitor;
 import com.kira.emercmdplat.pojo.MonitorResult;
 import com.kira.emercmdplat.service.MonitorService;
@@ -27,40 +30,48 @@ public class MonitorController {
 	@Api2Doc(order = 1)
     @ApiComment(value="添加监控")
     @RequestMapping(name="添加监控",value="/add",method=RequestMethod.POST)
-    public String insert(@ApiComment(value="添加监控",sample="根据id查询监控接口可查看字段信息") @RequestBody Monitor monitor) {
-		monitorService.insert(monitor);
-        return "success";
+    public AlvesJSONResult insert(@Validated @ApiComment(value="添加监控",sample="根据id查询监控接口可查看字段信息") @RequestBody Monitor monitor) {
+		int result = monitorService.insert(monitor);
+		if (result > 0) {
+			return AlvesJSONResult.ok();
+		} else {
+			throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "监控保存失败");
+		}
     }
 	
 	@Api2Doc(order = 2)
     @ApiComment(value="修改监控")
     @RequestMapping(name="修改监控",value="/update",method=RequestMethod.POST)
-    public String update(@ApiComment(value="修改监控",sample="根据id查询监控接口可查看字段信息") @RequestBody Monitor monitor) {
-		monitorService.update(monitor);
-        return "success";
+    public AlvesJSONResult update(@Validated @ApiComment(value="修改监控",sample="根据id查询监控接口可查看字段信息") @RequestBody Monitor monitor) {
+		boolean result = monitorService.update(monitor);
+		if (result) {
+			return AlvesJSONResult.ok();
+		} else {
+			throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "监控保存失败");
+		}
     }
 	
 	@Api2Doc(order = 3)
     @ApiComment(value="删除监控")
     @RequestMapping(name="删除监控",value="/delete",method=RequestMethod.GET)
-    public String delete(@ApiComment(value="监控id",sample="1") String ids) {
+    public AlvesJSONResult delete(@ApiComment(value="监控id",sample="1") String ids) {
     	if (StringUtils.isEmpty(ids)) {
-    		return "fail";
+    		throw new CustomException(ResultEnum.ERROR_PARAMETER.getNo(), "ids为空");
     	}
     	String[] idList = ids.split(",");
     	for (String id : idList) {
     		Monitor monitor = monitorService.selectById(Integer.valueOf(id));
     		monitorService.delete(monitor);
     	}
-        return "success";
+        return AlvesJSONResult.ok();
     }
 	
 	@Api2Doc(order = 4)
     @ApiComment(value="根据id查询监控")
     @RequestMapping(name="根据id查询监控",value="/selectById",method=RequestMethod.GET)
-    public Monitor selectById(@ApiComment(value="监控id",sample="1") Integer id) {
+    public AlvesJSONResult selectById(@ApiComment(value="监控id",sample="1") Integer id) {
 		Monitor monitor = monitorService.selectById(id);
-        return monitor;
+        return AlvesJSONResult.ok(monitor);
     }
 	
 	@Api2Doc(order = 5)
