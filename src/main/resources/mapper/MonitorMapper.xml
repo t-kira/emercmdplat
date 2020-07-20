@@ -19,7 +19,7 @@
             and id = #{id,jdbcType=INTEGER}
         </if>
         <if test="name != null and name != ''">
-            and name = #{name,jdbcType=VARCHAR}
+            and name like concat('%',#{name,jdbcType=VARCHAR},'%')
         </if>
         <if test="address != null">
             and address = #{address,jdbcType=VARCHAR}
