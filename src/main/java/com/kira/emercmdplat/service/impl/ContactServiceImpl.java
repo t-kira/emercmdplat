@@ -35,6 +35,9 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public int insert(Contacts contacts) {
+        if (!StringUtil.isEmpty(contacts.getUsername()) && !StringUtil.isEmpty(contacts.getPassword())) {
+            contacts.setPassword(MD52.MD5Encode(contacts.getPassword()));
+        }
         return cm.insert(contacts);
     }
 
@@ -45,6 +48,14 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public boolean update(Contacts contacts) {
+        if (!StringUtil.isEmpty(contacts.getUsername()) && !StringUtil.isEmpty(contacts.getPassword())) {
+            Contacts _contact = cm.selectByUserName(contacts.getUsername());
+            if (_contact == null) {
+                throw new CustomException(ResultEnum.NON_DATA.getNo(), "该用户名不存在");
+            } else {
+                contacts.setPassword(MD52.MD5Encode(contacts.getPassword()));
+            }
+        }
         return cm.update(contacts);
     }
 
