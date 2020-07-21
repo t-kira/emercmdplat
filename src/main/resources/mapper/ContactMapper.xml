@@ -318,8 +318,9 @@
         <include refid="Page_Order"/>
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Contacts">
-        select count(c_id)
-        from contacts
+        select count(c.c_id)
+        from contacts c
+        where 1 = 1
         <include refid="Basic_Conditions"/>
     </select>
     <select id="queryForGroupCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Group">
