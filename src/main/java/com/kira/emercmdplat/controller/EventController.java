@@ -10,7 +10,6 @@ import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -105,7 +104,7 @@ public class EventController extends BaseController {
     @ResponseBody
     @GetMapping(name = "查询机构集合", value = "mechanism_list")
     public AlvesJSONResult listMechanism() {
-        List<Mechanism> mechanismList = ms.queryForAll(new Mechanism());
+        List<Mechanism> mechanismList = ms.queryForAllOrPage(null);
         return AlvesJSONResult.ok(mechanismList);
     }
     @MyLog(value = 3)
@@ -256,12 +255,9 @@ public class EventController extends BaseController {
     @ResponseBody
     @PostMapping(name = "查询事件列表", value = "list")
     public AlvesJSONResult list(@RequestBody(required = false) Event event) {
-        Map<String, Object> map = new HashMap<>();
         List<EventResult> list = es.queryForAllOrPage(event);
         Long count = es.queryForCounts(event);
-        map.put("list", list);
-        map.put("count", count);
-        return AlvesJSONResult.ok(map);
+        return AlvesJSONResult.pageOk(list, count);
     }
     @MyLog(value = 2)
     @ResponseBody

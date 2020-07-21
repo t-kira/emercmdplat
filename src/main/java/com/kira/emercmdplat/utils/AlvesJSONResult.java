@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Create by :kira
@@ -37,6 +39,13 @@ public class AlvesJSONResult {
 
     public static AlvesJSONResult ok(Object data) {
         return new AlvesJSONResult(data);
+    }
+
+    public static AlvesJSONResult pageOk(Object list, Long count) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", list);
+        map.put("count", count);
+        return ok(map);
     }
 
     /**
