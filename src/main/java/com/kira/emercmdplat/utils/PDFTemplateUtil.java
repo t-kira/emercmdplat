@@ -34,6 +34,7 @@ public class PDFTemplateUtil {
 //        render.getSharedContext().setBaseURL(LOGO_PATH);
         render.layout();
         render.createPDF(new FileOutputStream(dest));
+        Runtime.getRuntime().exec("chmod 666 -R " + dest);
     }
 
     /**

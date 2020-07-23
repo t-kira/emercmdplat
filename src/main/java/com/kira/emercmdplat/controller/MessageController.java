@@ -135,12 +135,9 @@ public class MessageController extends BaseController {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
         message.setContactId(contactsResult.getId());
-        Map<String, Object> map = new HashMap<>();
         List<MessageResult> list = ms.queryForAllOrPage(message);
         Long count = ms.queryForCounts(message);
-        map.put("list", list);
-        map.put("count", count);
-        return AlvesJSONResult.ok(map);
+        return AlvesJSONResult.pageOk(list, count);
     }
 
     @ResponseBody

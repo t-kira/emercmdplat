@@ -132,6 +132,9 @@
             <if test="origin != null">
                 origin = #{origin, jdbcType=VARCHAR},
             </if>
+            <if test="pdfAddr != null">
+                pdf_addr = #{pdfAddr,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>

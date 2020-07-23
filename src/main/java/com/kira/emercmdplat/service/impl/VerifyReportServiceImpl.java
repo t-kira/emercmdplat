@@ -58,7 +58,7 @@ public class VerifyReportServiceImpl implements VerifyReportService {
         if (result) {
             QuickReport quickReport = new QuickReport();
             quickReport.setTitle(eventResult.getEventTitle());
-            quickReport.setContent(StringUtil.toStr(eventResult.getEventDesc()));
+            quickReport.setContent(verifyReport.getRichText());
             quickReport.setEventId(verifyReport.getEventId());
             quickReport.setOrigin(QuickReportOrigin.VERIFY_REPORT_ORIGIN.getNo());
             quickReport.setEditId(eventResult.getContactId());

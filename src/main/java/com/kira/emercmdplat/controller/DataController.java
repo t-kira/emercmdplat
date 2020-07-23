@@ -32,14 +32,14 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 @RestController
 @RequestMapping("/data")
 public class DataController {
-	
+
 	@Autowired
 	private DataTypeService dataTypeService;
 	@Autowired
 	private MechanismService mechanismService;
 	@Autowired
 	private ETypeService eTypeService;
-	
+
 	@Api2Doc(order = 1)
     @ApiComment(value="获取类型")
 	@RequestMapping(name="获取类型",value="/getType",method=RequestMethod.GET)
@@ -52,14 +52,14 @@ public class DataController {
 		}
 		return AlvesJSONResult.ok(list);
 	}
-	
+
 	@Api2Doc(order = 2)
     @ApiComment(value="获取单位")
 	@RequestMapping(name="获取单位",value="/getMechanism",method=RequestMethod.GET)
 	public AlvesJSONResult getMechanism() {
-		return AlvesJSONResult.ok(mechanismService.queryForAll(null));
+		return AlvesJSONResult.ok(mechanismService.queryForAllOrPage(null));
 	}
-	
+
 	@Api2Doc(order = 3)
     @ApiComment(value="获取物资来源类型")
 	@RequestMapping(name="获取物资来源类型",value="/getResourceTypes",method=RequestMethod.GET)
@@ -68,14 +68,14 @@ public class DataController {
 		d.setType(1);
 		return AlvesJSONResult.ok(dataTypeService.queryForAll(d));
 	}
-    
+
 	@Api2Doc(order = 4)
     @ApiComment(value="获取存储点列表")
 	@RequestMapping(name="获取存储点列表",value="/getResourcesByType",method=RequestMethod.GET)
 	public AlvesJSONResult getResourcesByType(@ApiComment("物资来源类型id") int id) {
 		return AlvesJSONResult.ok(dataTypeService.getResourcesByType(id));
 	}
-	
+
 	@Api2Doc(order = 5)
     @ApiComment(value="查询应急资源")
 	@RequestMapping(name="查询应急资源",value="/queryResources",method=RequestMethod.POST)
@@ -89,12 +89,12 @@ public class DataController {
 		}
 		return AlvesJSONResult.ok(list);
 	}
-	
+
 	@RequestMapping(name="获取战时一张图资源列表",value="/getWarMapResourceList",method=RequestMethod.GET)
 	public List<DataType> getWarMapResourceList() {
 		return dataTypeService.getWarMapResourceList();
 	}
-	
+
 	@Api2Doc(order = 6)
     @ApiComment(value="插入应急资源类型")
 	@RequestMapping(name="插入应急资源类型",value="/insertEType",method=RequestMethod.POST)
@@ -106,7 +106,7 @@ public class DataController {
 			throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "应急资源类型保存失败");
 		}
 	}
-	
+
 	@Api2Doc(order = 7)
     @ApiComment(value="修改应急资源类型")
     @RequestMapping(name="修改应急资源类型",value="/updateEType",method=RequestMethod.POST)
@@ -118,7 +118,7 @@ public class DataController {
 			throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "应急资源类型保存失败");
 		}
     }
-	
+
 	@Api2Doc(order = 8)
     @ApiComment(value="删除应急资源类型")
     @RequestMapping(name="删除应急资源类型",value="/deleteEType",method=RequestMethod.GET)
@@ -133,7 +133,7 @@ public class DataController {
     	}
         return AlvesJSONResult.ok();
     }
-	
+
 	@Api2Doc(order = 9)
     @ApiComment(value="根据id查询应急资源类型")
     @RequestMapping(name="根据id查询应急资源类型",value="/selectETypeById",method=RequestMethod.GET)
@@ -141,7 +141,7 @@ public class DataController {
 		EType pojo = eTypeService.selectById(id);
         return AlvesJSONResult.ok(pojo);
     }
-	
+
 	@Api2Doc(order = 10)
     @ApiComment(value="列出应急资源类型")
     @RequestMapping(name="列出应急资源类型",value="/listEType",method=RequestMethod.POST)
@@ -153,5 +153,5 @@ public class DataController {
         result.setCount(count);
         return AlvesJSONResult.ok(result);
     }
-	
+
 }

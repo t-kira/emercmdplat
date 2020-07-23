@@ -138,23 +138,17 @@ public class ContactController extends BaseController {
     @ResponseBody
     @PostMapping(name="分页查看联系人集合", value = "list")
     public AlvesJSONResult list(@RequestBody(required = false) Contacts contacts) {
-        Map<String, Object> map = new HashMap<>();
         List<ContactsResult> list = cs.queryForAllOrPage(contacts);
         Long count = cs.queryForCounts(contacts);
-        map.put("list", list);
-        map.put("count", count);
-        return AlvesJSONResult.ok(map);
+        return AlvesJSONResult.pageOk(list, count);
     }
 
     @ResponseBody
     @PostMapping(name="分页查看联系人分组集合", value = "list_group")
     public AlvesJSONResult listGroup(@RequestBody Group group) {
-        Map<String, Object> map = new HashMap<>();
         List<Group> list = cs.selectGroup(group);
         Long count = cs.queryForGroupCounts(group);
-        map.put("list", list);
-        map.put("count", count);
-        return AlvesJSONResult.ok(map);
+        return AlvesJSONResult.pageOk(list, count);
     }
 
     @ResponseBody
