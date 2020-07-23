@@ -150,11 +150,4 @@ public class ContactController extends BaseController {
         Long count = cs.queryForGroupCounts(group);
         return AlvesJSONResult.pageOk(list, count);
     }
-
-    @ResponseBody
-    @PostMapping(name="查看角色集合", value = "list_role")
-    public AlvesJSONResult listRole(@RequestBody Role role) {
-        List<Role> list = cs.queryRoleForAllOrPage(role);
-        return AlvesJSONResult.ok(list);
-    }
 }

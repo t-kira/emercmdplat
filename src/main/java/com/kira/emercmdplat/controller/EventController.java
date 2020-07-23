@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.annotation.MechanismPermission;
 import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.*;
@@ -257,6 +258,7 @@ public class EventController extends BaseController {
     public AlvesJSONResult list(@RequestBody(required = false) Event event) {
         List<EventResult> list = es.queryForAllOrPage(event);
         Long count = es.queryForCounts(event);
+        System.out.println("list");
         return AlvesJSONResult.pageOk(list, count);
     }
     @MyLog(value = 2)

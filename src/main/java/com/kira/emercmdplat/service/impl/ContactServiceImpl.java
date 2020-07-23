@@ -184,11 +184,6 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public List<Permission> findPermissionsByCid(Long cid) {
-        return cm.findPermissionsByCid(cid);
-    }
-
-    @Override
     public List<Group> selectContactList() {
         List<Group> groups = cm.selectGroup(new Group());
         for (Group group : groups) {
@@ -204,19 +199,6 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public Long queryForGroupCounts(Group group) {
         return cm.queryForGroupCounts(group);
-    }
-
-    @Override
-    public List<Role> queryRoleForAllOrPage(Role role) {
-        if (role.getPage() != null) {
-            role.setPage((role.getPage() - 1) * role.getPageSize());
-        }
-        return cm.queryRoleForAllOrPage(role);
-    }
-
-    @Override
-    public Long queryRoleForCounts(Role role) {
-        return cm.queryRoleForCounts(role);
     }
 
     @Override

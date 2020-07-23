@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.controller;
 
+import com.kira.emercmdplat.annotation.MechanismPermission;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.exception.CustomException;
@@ -33,6 +34,7 @@ public class DutyController extends BaseController {
     @Autowired
     private JobService js;
 
+    @MechanismPermission(message = "班次新增")
     @ResponseBody
     @PostMapping(name = "添加班次信息", value = "shift_add")
     public AlvesJSONResult insertShift(@Validated @RequestBody Shift shift) {
@@ -78,7 +80,7 @@ public class DutyController extends BaseController {
     }
     @ResponseBody
     @PostMapping(name = "查询班次列表", value = "list")
-    public AlvesJSONResult list(@RequestBody Shift shift) {
+    public AlvesJSONResult list(@RequestBody(required = false) Shift shift) {
         List<Shift> list = ss.queryShiftForAllOrPage(shift);
         Long count = ss.queryShiftForCounts(shift);
         return AlvesJSONResult.pageOk(list, count);

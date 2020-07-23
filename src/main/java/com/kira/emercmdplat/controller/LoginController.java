@@ -3,6 +3,7 @@ package com.kira.emercmdplat.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import com.kira.emercmdplat.pojo.*;
+import com.kira.emercmdplat.service.PermissionService;
 import com.kira.emercmdplat.utils.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class LoginController {
 
 	@Autowired
 	private ContactService contactService;
+	@Autowired
+	private PermissionService ps;
 
 	@ResponseBody
     @PostMapping(value = "login")
@@ -29,7 +32,7 @@ public class LoginController {
     		return AlvesJSONResult.errorMsg("用户名或密码错误");
     	} else {
     		TokenVO tokenVo = contactService.createToken(user);
-			List<Permission> permissions = contactService.findPermissionsByCid(user.getId());
+			List<Permission> permissions = ps.findPermissionsByCid(user.getId());
 			List<Permission> permissionList = TreeUtil.treeRecursionPermissionDataList(permissions, 0);
 			BaseData baseData = contactService.selectDataById(1);
 			JSONObject json = new JSONObject();
@@ -46,7 +49,7 @@ public class LoginController {
     public AlvesJSONResult permissionList(HttpServletRequest request) {
 		String token = TokenUtil.getRequestToken(request);
 		Contacts contacts = contactService.findByToken(token);
-		List<Permission> permissions = contactService.findPermissionsByCid(contacts.getId());
+		List<Permission> permissions = ps.findPermissionsByCid(contacts.getId());
 		List<Permission> permissionList = TreeUtil.treeRecursionPermissionDataList(permissions, 0);
 		return AlvesJSONResult.ok(permissionList);
 	}

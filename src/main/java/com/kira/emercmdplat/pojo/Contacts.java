@@ -131,6 +131,8 @@ public class Contacts extends BaseObject {
 
 	private String rongToken;
 
+	private Long roleId;
+
     public Long getId() {
         return id;
     }
@@ -375,4 +377,11 @@ public class Contacts extends BaseObject {
         this.rongToken = rongToken;
     }
 
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
 }

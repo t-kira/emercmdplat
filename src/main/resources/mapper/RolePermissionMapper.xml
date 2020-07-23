@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.RolePermissionMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.RolePermissionResult">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="role_id" property="roleId" jdbcType="BIGINT"/>
+        <result column="permission_id" property="permissionId" jdbcType="BIGINT"/>
+        <result column="permission_name" property="permissionName" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.RolePermission" >
+        insert into role_permission (id, role_id, permission_id)
+        values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT})
+    </insert>
+    <delete id="deleteByRoleId" parameterType="java.lang.Long">
+        DELETE from role_permission
+        where role_id = #{roleId,jdbcType=BIGINT}
+    </delete>
+    <select id="queryRoleAllPermissionByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+            rp.id AS id, rp.role_id as role_id, p.id as permission_id, p.p_name as permission_name, p.parent_id as parent_id
+        FROM permission p
+        LEFT JOIN role_permission rp
+        ON p.id = rp.permission_id
+        and rp.role_id = #{roleId, jdbcType=BIGINT}
+    </select>
+</mapper>

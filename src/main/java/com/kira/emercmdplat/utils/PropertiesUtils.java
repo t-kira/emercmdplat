@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 public class PropertiesUtils {
 
-    private Properties properties;
+    private static volatile Properties properties;
     private static PropertiesUtils propertiesUtils = new PropertiesUtils();
 
     /**
@@ -33,12 +33,16 @@ public class PropertiesUtils {
 
     /**
      * 获取单例
-     *
+     *double check + lock 防止被多个进程创建多个单例对象
      * @return PropertiesUtils
      */
     public static PropertiesUtils getInstance() {
         if (propertiesUtils == null) {
-            propertiesUtils = new PropertiesUtils();
+            synchronized (PropertiesUtils.class) {
+                if (propertiesUtils == null) {
+                    propertiesUtils = new PropertiesUtils();
+                }
+            }
         }
         return propertiesUtils;
     }

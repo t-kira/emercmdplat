@@ -61,7 +61,7 @@ public class ShiftServiceImpl implements ShiftService {
 
     @Override
     public List<Shift> queryShiftForAllOrPage(Shift shift) {
-        if (shift.getPage() != null) {
+        if (shift != null && shift.getPage() != null) {
             shift.setPage((shift.getPage() - 1) * shift.getPageSize());
         }
         return sm.queryShiftForAllOrPage(shift);
