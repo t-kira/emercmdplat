@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Monitor">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="address" property="addr" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="INTEGER"/>
         <result column="lng" property="lng" jdbcType="VARCHAR"/>
         <result column="lat" property="lat" jdbcType="VARCHAR"/>

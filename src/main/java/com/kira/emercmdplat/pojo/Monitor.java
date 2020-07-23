@@ -23,7 +23,7 @@ public class Monitor extends BaseObject {
 	
 	@ApiComment(value = "地址", sample = "aaa")
 	@NotNull(message = "地址不能为空")
-	private String address;
+	private String addr;
 	
 	@ApiComment(value = "编号", sample = "aaa")
 	private String code;
