@@ -39,15 +39,6 @@
         <result column="g_name" property="gName" jdbcType="VARCHAR"/>
         <result column="super_g_id" property="superGid" jdbcType="BIGINT"/>
     </resultMap>
-    <resultMap id="PermissionResultMap" type="com.kira.emercmdplat.pojo.Permission">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="p_name" property="pName" jdbcType="VARCHAR"/>
-        <result column="path" property="path" jdbcType="VARCHAR"/>
-        <result column="component" property="component" jdbcType="VARCHAR"/>
-        <result column="meta" property="meta" jdbcType="VARCHAR"/>
-        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
-        <result column="hidden" property="hidden" jdbcType="INTEGER"/>
-    </resultMap>
     <resultMap id="ShiftResultMap" type="com.kira.emercmdplat.pojo.Shift">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="shift_name" property="shiftName" jdbcType="VARCHAR"/>
@@ -58,17 +49,11 @@
         <result column="person_number" property="personNumber" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
-    <resultMap id="RoleResultMap" type="com.kira.emercmdplat.pojo.Role">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
-    </resultMap>
-
     <resultMap id="BaseDataResultMap" type="com.kira.emercmdplat.pojo.BaseData">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="b_data" property="basicData" jdbcType="VARCHAR"/>
         <result column="data_type" property="type" jdbcType="INTEGER"/>
     </resultMap>
-
     <sql id="Base_Column_List">
         c.c_id, c.c_name, c.gender, c.j_id, c.m_id, c.telephone, c.backup_phone, c.terminal, c.work_phone, c.home_phone, c.other_phone, c.fax_number, c.email, c.importance_degree,
         c.photo, c.notes, c.g_id, c.lng, c.lat, c.create_time, c.update_time, c.username, c.password, j.j_name, m.m_name, g.g_name, c.person_attribute, c.username, c.password, c.login_time, c.expire_time, c.token, c.rong_token
@@ -113,6 +98,9 @@
         </if>
         <if test="gId != null">
             and c.g_id = #{gId, jdbcType=BIGINT}
+        </if>
+        <if test="roleId != null">
+            and c.role_id = #{roleId, jdbcType=BIGINT}
         </if>
     </sql>
     <sql id="Basic_Shift_Conditions" >
@@ -246,6 +234,9 @@
             <if test="password != null">
                 password = #{password, jdbcType=VARCHAR},
             </if>
+            <if test="roleId != null">
+                role_id = #{roleId, jdbcType=BIGINT},
+            </if>
         </set>
         where c_id = #{id,jdbcType=BIGINT}
     </update>
@@ -362,25 +353,6 @@
         <include refid="Base_Column_List"/>
         from contacts c, job j, mechanism m, contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and token = #{token, jdbcType=VARCHAR}
-    </select>
-    <select id="findPermissionsByCid" resultMap="PermissionResultMap" parameterType="java.lang.Long">
-        select p.* from contacts c, role_permission rp, permission p
-        where c.role_id = rp.role_id and rp.permission_id = p.id and c.c_id = #{cid,jdbcType=BIGINT}
-    </select>
-    <select id="queryRoleForAllOrPage" resultMap="RoleResultMap" parameterType="com.kira.emercmdplat.pojo.Role">
-        select * from role where 1 = 1
-        <if test="roleName != null" >
-            and role_name like concat('%',#{roleName,jdbcType=VARCHAR},'%')
-        </if>
-        <include refid="Page_Order"/>
-    </select>
-    <select id="queryRoleForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Role">
-        select count(id)
-        from role
-        where 1 = 1
-        <if test="roleName != null" >
-            and role_name like concat('%',#{roleName,jdbcType=VARCHAR},'%')
-        </if>
     </select>
     <select id="selectDataById" resultMap="BaseDataResultMap" parameterType="java.lang.Integer">
         select

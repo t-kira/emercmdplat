@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.PermissionMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Permission">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="p_name" property="pName" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="meta" property="meta" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="hidden" property="hidden" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    p.id, p.p_name, p.path, p.component, p.meta, p.parent_id, p.hidden
+  </sql>
+    <sql id="Basic_Conditions" >
+        <![CDATA[where 1=1 ]]>
+        <if test="id != null" >
+            and p.id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="pName != null" >
+            and p.p_name like concat('%',#{pName, jdbcType=VARCHAR},'%')
+        </if>
+    </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Permission" >
+        insert into permission (id, p_name, path, component, meta, parent_id, hidden)
+        values (#{id,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR})
+    </insert>
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE from permission
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <update id="update" parameterType="com.kira.emercmdplat.pojo.Permission">
+        update permission
+        <set>
+            <if test="pName != null">
+                p_name = #{pName,jdbcType=VARCHAR},
+            </if>
+            <if test="path != null">
+                path = #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="component != null">
+                component = #{component,jdbcType=VARCHAR},
+            </if>
+            <if test="meta != null">
+                meta = #{meta,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="hidden != null">
+                hidden = #{hidden,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from permission
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Permission">
+        select
+        <include refid="Base_Column_List"/>
+        from permission
+        <include refid="Basic_Conditions"/>
+        <include refid="Page_Order"/>
+    </select>
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.Permission">
+        select count(id)
+        from permission
+        <include refid="Basic_Conditions"/>
+    </select>
+    <select id="findPermissionsByCid" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select p.* from contacts c, role_permission rp, permission p
+        where c.role_id = rp.role_id and rp.permission_id = p.id and c.c_id = #{cid,jdbcType=BIGINT}
+    </select>
+</mapper>

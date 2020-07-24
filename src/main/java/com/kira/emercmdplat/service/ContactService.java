@@ -49,13 +49,7 @@ public interface ContactService {
 
     void logout(String token);
 
-    List<Permission> findPermissionsByCid(Long cid);
-
     List<Group> selectContactList();
-
-    List<Role> queryRoleForAllOrPage(Role role);
-
-    Long queryRoleForCounts(Role role);
 
     BaseData selectDataById(Integer type);
 }

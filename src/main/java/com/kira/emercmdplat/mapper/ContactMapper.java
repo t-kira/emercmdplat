@@ -46,11 +46,5 @@ public interface ContactMapper {
 
     ContactsResult findByToken(String token);
 
-    List<Permission> findPermissionsByCid(Long cid);
-
-    List<Role> queryRoleForAllOrPage(Role role);
-
-    Long queryRoleForCounts(Role role);
-
     BaseData selectDataById(Integer type);
 }

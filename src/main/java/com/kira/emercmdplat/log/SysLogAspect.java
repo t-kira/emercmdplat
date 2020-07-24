@@ -11,9 +11,8 @@ import com.kira.emercmdplat.utils.TokenUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,12 +36,16 @@ public class SysLogAspect {
     private ContactService cs;
 
     @Pointcut("@annotation(com.kira.emercmdplat.annotation.MyLog)")
-    public void logPointCut() {
+    public void anyMethod() {
+
+    }
+    @Pointcut("@annotation(com.kira.emercmdplat.annotation.MechanismPermission)")
+    public void injectionParam() {
 
     }
 
     //切面 配置通知
-    @AfterReturning("logPointCut()")
+    @AfterReturning("anyMethod()")
     public void saveSysLog(JoinPoint joinPoint) {
         System.out.println("切面。。。。。");
         //保存日志
@@ -113,5 +116,39 @@ public class SysLogAspect {
 
         //调用service保存SysLog实体类到数据库
         sls.insert(sysLog);
+    }
+
+    /**
+     * 参数注入
+     * @param joinPoint
+     * @return
+     * @throws Throwable
+     */
+    @Around("injectionParam()")
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("@Around=1=方法执行前" + System.currentTimeMillis());
+        Object[] obj = joinPoint.getArgs();
+        System.out.println("@Around=2=请求参数" + JSONArray.fromObject(obj));
+
+        //通过反射实例化参数对象
+        //获取字节码
+        Class<?> aClass = obj[0].getClass();
+        //实例化对象
+        Object instance = aClass.newInstance();
+        //获取执行方法 获取父类方法 setDataList
+        //Method method = aClass.getDeclaredMethod("put", Object.class);
+        Method method = aClass.getMethod("setMechanismId", Long.class);
+
+        //获取RequestAttributes
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        //从获取RequestAttributes中获取HttpServletRequest的信息
+        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        String token = TokenUtil.getRequestToken(request);
+        ContactsResult contactsResult = cs.findByToken(token);
+        //执行方法
+        method.invoke(instance, contactsResult.getmId());
+
+        obj[0] = instance;
+        return joinPoint.proceed(obj);
     }
 }

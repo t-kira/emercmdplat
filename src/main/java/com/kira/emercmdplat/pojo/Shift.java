@@ -25,13 +25,13 @@ public class Shift extends Base{
      * 开始时间
      */
     @NotNull(message = "开始时间不能为空")
-    @DateTime(format = "yyyy-MM-dd HH:mm", message = "开始时间格式不对")
+    @DateTime(format = "HH:mm:ss", message = "开始时间格式不对")
     private String startTime;
     /**
      * 结束时间
      */
     @NotNull(message = "结束时间不能为空")
-    @DateTime(format = "yyyy-MM-dd HH:mm", message = "结束时间格式不对")
+    @DateTime(format = "HH:mm:ss", message = "结束时间格式不对")
     private String endTime;
     /**
      * 机构ID

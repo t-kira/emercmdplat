@@ -25,4 +25,5 @@ public class Base {
      * 排序类型 asc or desc
      */
     private String orderType;
+
 }
