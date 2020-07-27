@@ -2,6 +2,8 @@ package com.kira.emercmdplat.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.kira.emercmdplat.config.InitData;
+import com.kira.emercmdplat.enums.BaseDataType;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.PermissionService;
 import com.kira.emercmdplat.utils.*;
@@ -34,12 +36,12 @@ public class LoginController {
     		TokenVO tokenVo = contactService.createToken(user);
 			List<Permission> permissions = ps.findPermissionsByCid(user.getId());
 			List<Permission> permissionList = TreeUtil.treeRecursionPermissionDataList(permissions, 0);
-			BaseData baseData = contactService.selectDataById(1);
+			String baseUrl = InitData.getVal(BaseDataType.URL.getNo());
 			JSONObject json = new JSONObject();
 			json.put("permissionList", permissionList);
 			json.put("token", tokenVo);
 			json.put("user", user);
-			json.put("baseUrl", baseData.getBasicData());
+			json.put("baseUrl", baseUrl);
 			return AlvesJSONResult.ok(json);
 		}
     }

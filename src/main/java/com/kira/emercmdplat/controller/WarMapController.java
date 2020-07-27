@@ -40,6 +40,8 @@ public class WarMapController {
     private EmergencySupplyService ess;
     @Autowired
     private HazardSourceService hss;
+    @Autowired
+    private PointService ps;
 
     @ResponseBody
     @GetMapping(name = "通讯录", value = "list_group")
@@ -256,5 +258,18 @@ public class WarMapController {
         String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
         String newFileName = DateUtil.getNowStr("yyyyMMddHHmmss") + "." + extension;
         FileuploadUtil.downLoad(response, attachmentGainPath + path + fileName, newFileName);
+    }
+    @ResponseBody
+    @PostMapping(name = "分页查看历史轨迹", value = "list_history_point")
+    public AlvesJSONResult historyPointList(@Validated @RequestBody PointExtend pointExtend) {
+        List<Point> list = ps.queryForAllOrPage(pointExtend);
+        long count = ps.queryForCounts(pointExtend);
+        return AlvesJSONResult.pageOk(list, count);
+    }
+    @ResponseBody
+    @GetMapping(name = "最新坐标点", value = "latest_point/{resourceId}")
+    public AlvesJSONResult latestPoint(@PathVariable Long resourceId) {
+        Point point = ps.selectLastDataByResourceId(resourceId);
+        return AlvesJSONResult.ok(point);
     }
 }

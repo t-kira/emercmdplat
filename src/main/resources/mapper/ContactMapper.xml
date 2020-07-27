@@ -354,10 +354,9 @@
         from contacts c, job j, mechanism m, contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id and token = #{token, jdbcType=VARCHAR}
     </select>
-    <select id="selectDataById" resultMap="BaseDataResultMap" parameterType="java.lang.Integer">
+    <select id="queryAllData" resultMap="BaseDataResultMap">
         select
         *
         from base_data
-        where data_type = #{type, jdbcType=INTEGER}
     </select>
 </mapper>

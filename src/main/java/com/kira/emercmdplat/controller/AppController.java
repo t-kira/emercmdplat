@@ -1,13 +1,16 @@
 package com.kira.emercmdplat.controller;
 
 import com.kira.emercmdplat.annotation.MyLog;
+import com.kira.emercmdplat.config.InitData;
 import com.kira.emercmdplat.controller.base.BaseController;
+import com.kira.emercmdplat.enums.BaseDataType;
 import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.EventService;
+import com.kira.emercmdplat.service.PushService;
 import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.*;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
@@ -34,6 +37,8 @@ public class AppController extends BaseController {
     private TaskServiceImpl ts;
     @Autowired
     private ContactService cs;
+    @Autowired
+    private PushService ps;
 
     @ResponseBody
     @PostMapping(name = "登录", value = "login")
@@ -153,5 +158,21 @@ public class AppController extends BaseController {
         } else {
             return AlvesJSONResult.errorMsg("录入失败");
         }
+    }
+    @ResponseBody
+    @PostMapping(name = "获取实时坐标位置", value = "point_receive")
+    public AlvesJSONResult receiveCurrentPoint(@RequestBody Point point) {
+        point.setReportTimeStamp(DateUtil.getNowTimestamp().getTime());
+        int random = (int)(1 + Math.random() * (10 -1 + 1));
+        double d = random / 100.0;
+        double lat = point.getLat();
+        double lng = point.getLng();
+        point.setLat(lat + d);
+        point.setLng(lng + d);
+        ps.pushMsg(point);
+        Integer time = StringUtil.toIntDefValue(InitData.getVal(BaseDataType.REPORT_TIME.getNo()), 1);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("time", time);
+        return AlvesJSONResult.ok(jsonObject);
     }
 }

@@ -1,5 +1,8 @@
 package com.kira.emercmdplat.load;
 
+import com.kira.emercmdplat.config.InitData;
+import com.kira.emercmdplat.pojo.BaseData;
+import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.service.DataTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,6 +21,9 @@ public class LoadInitData implements CommandLineRunner {
 
     @Autowired
     private DataTypeService dts;
+    @Autowired
+    private ContactService cs;
+
 
     /**
      * Callback used to run the bean.
@@ -28,20 +34,22 @@ public class LoadInitData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("开始初始化数据...");
-        List<String> tableList = new ArrayList<>();
-        tableList.add("event_development");
-        tableList.add("event_param");
-        tableList.add("event_receive");
-        tableList.add("event_risk");
-        tableList.add("feedback");
-        tableList.add("leader_instruct");
-        tableList.add("message");
-        tableList.add("quick_report");
-        tableList.add("report");
-        tableList.add("reserve_plan");
-        tableList.add("sys_log");
-        tableList.add("task");
-        tableList.add("verify_report");
+        List<BaseData> dataList = cs.queryAllData();
+        InitData.putVal(dataList);
+//        List<String> tableList = new ArrayList<>();
+//        tableList.add("event_development");
+//        tableList.add("event_param");
+//        tableList.add("event_receive");
+//        tableList.add("event_risk");
+//        tableList.add("feedback");
+//        tableList.add("leader_instruct");
+//        tableList.add("message");
+//        tableList.add("quick_report");
+//        tableList.add("report");
+//        tableList.add("reserve_plan");
+//        tableList.add("sys_log");
+//        tableList.add("task");
+//        tableList.add("verify_report");
 //        tableList.add("plan_catalog");
 //        tableList.add("plan_group");
 //        tableList.add("plan_response_guard");

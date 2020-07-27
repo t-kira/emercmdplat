@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +90,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public List<Group> selectGroup(Group group) {
-        if (group.getPage() != null) {
+        if (group != null && group.getPage() != null) {
             group.setPage((group.getPage() - 1) * group.getPageSize());
         }
         return cm.selectGroup(group);
@@ -202,7 +201,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public BaseData selectDataById(Integer type) {
-        return cm.selectDataById(type);
+    public List<BaseData> queryAllData() {
+        return cm.queryAllData();
     }
 }

@@ -46,5 +46,5 @@ public interface ContactMapper {
 
     ContactsResult findByToken(String token);
 
-    BaseData selectDataById(Integer type);
+    List<BaseData> queryAllData();
 }

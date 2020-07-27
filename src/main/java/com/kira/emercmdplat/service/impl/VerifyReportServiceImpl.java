@@ -4,7 +4,6 @@ import com.kira.emercmdplat.enums.*;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.*;
 import com.kira.emercmdplat.pojo.*;
-import com.kira.emercmdplat.service.QuickReportService;
 import com.kira.emercmdplat.service.VerifyReportService;
 import com.kira.emercmdplat.utils.*;
 import net.sf.json.JSONObject;

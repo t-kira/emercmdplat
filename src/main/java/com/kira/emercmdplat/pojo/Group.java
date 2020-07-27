@@ -3,8 +3,6 @@ package com.kira.emercmdplat.pojo;
 import java.util.List;
 
 import com.terran4j.commons.api2doc.annotations.ApiComment;
-import net.sf.json.JSONObject;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 

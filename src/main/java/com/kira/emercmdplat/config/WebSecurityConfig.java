@@ -24,4 +24,6 @@ public interface WebSecurityConfig {
     String COMMONICON = "/img/active.png";
 
     String ACTIVEICON = "/img/common.png";
+    //redis 历史轨迹数据key
+    String RESOURCE_POINT_KEY = "resource_point";
 }

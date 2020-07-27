@@ -258,7 +258,6 @@ public class EventController extends BaseController {
     public AlvesJSONResult list(@RequestBody(required = false) Event event) {
         List<EventResult> list = es.queryForAllOrPage(event);
         Long count = es.queryForCounts(event);
-        System.out.println("list");
         return AlvesJSONResult.pageOk(list, count);
     }
     @MyLog(value = 2)

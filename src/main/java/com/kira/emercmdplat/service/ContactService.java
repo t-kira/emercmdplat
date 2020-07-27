@@ -51,5 +51,5 @@ public interface ContactService {
 
     List<Group> selectContactList();
 
-    BaseData selectDataById(Integer type);
+    List<BaseData> queryAllData();
 }

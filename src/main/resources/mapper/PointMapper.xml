@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kira.emercmdplat.mapper.PointMapper">
+    <resultMap id="BaseResultMap" type="com.kira.emercmdplat.pojo.Point">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="resource_id" property="resourceId" jdbcType="BIGINT"/>
+        <result column="lat" property="lat" jdbcType="BIGINT"/>
+        <result column="lng" property="lng" jdbcType="BIGINT"/>
+        <result column="report_timestamp" property="reportTimeStamp" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, resource_id, lat, lng, report_timestamp
+  </sql>
+    <sql id="Basic_Conditions" >
+        <![CDATA[where 1=1 ]]>
+        <if test="resourceId != null">
+            and resource_id = #{resourceId, jdbcType=BIGINT}
+        </if>
+        <if test="beginTime != null">
+            and report_timestamp <![CDATA[ >= ]]> #{beginTime,jdbcType=BIGINT}
+        </if>
+        <if test="endTime != null">
+            and report_timestamp <![CDATA[ <= ]]> #{endTime,jdbcType=BIGINT}
+        </if>
+    </sql>
+    <sql id="Page_Order">
+        <if test="order != null and orderType">
+            order by ${order} ${orderType}
+        </if>
+        <if test="page != null">
+            limit ${page}, ${pageSize}
+        </if>
+    </sql>
+    <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Point" >
+        insert into point (id, resource_id, lat, lng, report_timestamp)
+        values (#{id,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT}, #{lat, jdbcType=BIGINT}, #{lng, jdbcType=BIGINT}, #{reportTimeStamp, jdbcType=BIGINT})
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into point (<include refid="Base_Column_List"/>)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id,jdbcType=BIGINT}, #{item.resourceId,jdbcType=BIGINT}, #{item.lat, jdbcType=BIGINT}, #{item.lng, jdbcType=BIGINT}, #{item.reportTimeStamp, jdbcType=BIGINT})
+        </foreach>
+    </insert>
+    <select id="selectLastDataByResourceId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from point
+        where resource_id = #{resourceId,jdbcType=BIGINT} order by id desc limit 1
+    </select>
+    <select id="queryForAllOrPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.PointExtend">
+        select
+        <include refid="Base_Column_List"/>
+        from point
+        <include refid="Basic_Conditions"/>
+        <include refid="Page_Order"/>
+    </select>
+    <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.PointExtend">
+        select count(id)
+        from point
+        <include refid="Basic_Conditions"/>
+    </select>
+</mapper>
