@@ -21,7 +21,7 @@
         <if test="name != null and name != ''">
             and name like concat('%',#{name,jdbcType=VARCHAR},'%')
         </if>
-        <if test="address != null">
+        <if test="addr != null">
             and address = #{address,jdbcType=VARCHAR}
         </if>
         <if test="code != null">
@@ -36,7 +36,7 @@
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Monitor">
     insert into monitor (id, name, address, code, lng, lat)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
     #{lng,jdbcType=VARCHAR},#{lat,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.Monitor">
@@ -49,8 +49,8 @@
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
             </if>
-            <if test="address != null">
-                address = #{address,jdbcType=VARCHAR},
+            <if test="addr != null">
+                address = #{addr,jdbcType=VARCHAR},
             </if>
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR},
