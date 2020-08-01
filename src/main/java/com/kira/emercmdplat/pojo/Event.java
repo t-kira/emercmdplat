@@ -2,8 +2,6 @@ package com.kira.emercmdplat.pojo;
 
 import com.kira.emercmdplat.annotation.DateTime;
 import com.kira.emercmdplat.annotation.Phone;
-import com.kira.emercmdplat.enums.EventLevel;
-import com.kira.emercmdplat.enums.EventLevelIcon;
 import lombok.Data;
 
 import javax.validation.constraints.*;

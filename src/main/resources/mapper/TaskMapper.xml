@@ -30,6 +30,12 @@
         <result column="feedback_content" property="feedbackContent" jdbcType="VARCHAR"/>
         <result column="attach_path" property="attachPath" jdbcType="VARCHAR"/>
         <result column="feedback_time" property="feedbackTime" jdbcType="VARCHAR"/>
+        <collection property="mediaList" column="feedback_id" ofType="com.kira.emercmdplat.pojo.Media">
+            <result column="media_id" property="id" jdbcType="BIGINT"/>
+            <result column="feedback_id" property="feedbackId" jdbcType="BIGINT"/>
+            <result column="media_url" property="mediaUrl" jdbcType="VARCHAR"/>
+            <result column="media_type" property="mediaType" jdbcType="INTEGER"/>
+        </collection>
     </resultMap>
     <sql id="Base_Column_List">
         et.id, et.task_title, et.contact_id, et.contact_name, et.telephone, et.event_id,
@@ -71,9 +77,13 @@
         #{telephone,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
         #{lng, jdbcType=DOUBLE}, #{lat, jdbcType=DOUBLE}, #{address, jdbcType=VARCHAR}, #{taskContent, jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{isArrive, jdbcType=INTEGER}, #{taskType, jdbcType=INTEGER}, #{dataTypeId, jdbcType=BIGINT})
     </insert>
-    <insert id="insertFeedback" parameterType="com.kira.emercmdplat.pojo.Feedback" >
+    <insert id="insertFeedback" parameterType="com.kira.emercmdplat.pojo.Feedback" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
         insert into feedback (id, task_id, lng, lat, address, feedback_content, attach_path, feedback_time)
         values (#{id,jdbcType=BIGINT}, #{taskId,jdbcType=BIGINT}, #{lng, jdbcType=DOUBLE}, #{lat, jdbcType=DOUBLE}, #{address, jdbcType=VARCHAR}, #{feedbackContent, jdbcType=VARCHAR}, #{attachPath, jdbcType=VARCHAR}, #{feedbackTime, jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertMedia" parameterType="com.kira.emercmdplat.pojo.Media" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into media_source(id, feedback_id, media_url, media_type)
+        values (#{id,jdbcType=BIGINT}, #{feedbackId,jdbcType=BIGINT},#{mediaUrl,jdbcType=VARCHAR},#{mediaType,jdbcType=INTEGER})
     </insert>
     <delete id="delete" parameterType="com.kira.emercmdplat.pojo.Task">
         DELETE from task
@@ -136,16 +146,25 @@
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
+    <update id="updateMedia" parameterType="com.kira.emercmdplat.pojo.Media">
+        update media_source
+        <set>
+            <if test="feedbackId != null">
+                feedback_id = #{feedbackId,jdbcType=BIGINT}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from task et
-        where 1 = 1 and et.id = #{id,jdbcType=BIGINT}
+        from task
+        where 1 = 1 and id = #{id,jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select
         <include refid="Base_Column_List"/>
-        from task et
+        from task
         where 1 = 1
         <include refid="Basic_Conditions"/>
         order by et.id desc
@@ -160,10 +179,16 @@
         order by et.id desc
     </select>
     <select id="selectFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
-        select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc
+        select f.*, m.id as media_id, m.feedback_id, m.media_url, m.media_type
+        from feedback f left join media_source m
+        on f.id = m.feedback_id
+        and f.task_id = #{taskId, jdbcType=BIGINT} order by id desc
     </select>
     <select id="selectLatestFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
-        select * from feedback where task_id = #{taskId, jdbcType=BIGINT} order by id desc limit 1
+        select f.*, m.id as media_id, m.feedback_id, m.media_url, m.media_type
+        from feedback f left join media_source m
+        on f.id = m.feedback_id
+        and f.task_id = #{taskId, jdbcType=BIGINT} order by id desc limit 1
     </select>
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select

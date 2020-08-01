@@ -13,12 +13,15 @@ import com.kira.emercmdplat.service.EventService;
 import com.kira.emercmdplat.service.PushService;
 import com.kira.emercmdplat.service.impl.TaskServiceImpl;
 import com.kira.emercmdplat.utils.*;
+import com.kira.emercmdplat.utils.file.FileResult;
 import com.kira.emercmdplat.utils.file.FileuploadUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -174,5 +177,27 @@ public class AppController extends BaseController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("time", time);
         return AlvesJSONResult.ok(jsonObject);
+    }
+
+    @ResponseBody
+    @PostMapping(name = "附件上传", value = "fileUpload")
+    public AlvesJSONResult upload(@RequestParam(value = "file") MultipartFile file, @RequestParam int mediaType) {
+        try {
+            //#服务器静态文件地址
+            String path = PropertiesUtils.getInstance().getProperty("mediaPath");
+            String extension = PropertiesUtils.getInstance().getProperty("mediaExtension");
+            FileResult fileResult = FileuploadUtil.saveFile(file, path, extension);
+            Media media = new Media();
+            media.setMediaType(mediaType);
+            media.setMediaUrl(fileResult.getServerPath());
+            int result = ts.insertMedia(media);
+            if (result > 0)
+                return AlvesJSONResult.ok(media);
+            else
+                return AlvesJSONResult.errorMsg("上传失败");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "附件上传失败");
+        }
     }
 }

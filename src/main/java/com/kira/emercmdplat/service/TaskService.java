@@ -1,5 +1,6 @@
 package com.kira.emercmdplat.service;
 
+import com.kira.emercmdplat.pojo.Media;
 import com.kira.emercmdplat.pojo.Task;
 import com.kira.emercmdplat.pojo.TaskExtend;
 import com.kira.emercmdplat.pojo.Feedback;
@@ -35,4 +36,8 @@ public interface TaskService {
     List<Task> selectByTaskType(Map<String, Object> paramMap);
 
     Feedback selectLatestFeedbackByTaskId(Long taskId);
+
+    int insertMedia(Media media);
+
+    boolean updateMedia(Media media);
 }

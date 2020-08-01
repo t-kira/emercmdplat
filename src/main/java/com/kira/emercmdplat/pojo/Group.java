@@ -2,6 +2,7 @@ package com.kira.emercmdplat.pojo;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -29,6 +30,7 @@ public class Group extends Base{
     private List<ContactsResult> contactsList;
 
     @ApiComment(value = "分组列表", sample = "[]")
+    @JsonIgnore
     private List<Group> groupList;
 
     public Long getId() {

@@ -15,6 +15,7 @@ import com.kira.emercmdplat.utils.StringUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -107,9 +108,19 @@ public class TaskServiceImpl implements TaskService {
         return tm.queryForCounts(taskExtend);
     }
 
+    @Transactional
     @Override
     public int insertFeedback(Feedback feedback) {
-        return tm.insertFeedback(feedback);
+        int result = tm.insertFeedback(feedback);
+        if (result > 0) {
+            if (feedback.getMediaList() != null && feedback.getMediaList().size() > 0) {
+                for (Media media : feedback.getMediaList()) {
+                    media.setFeedbackId(feedback.getId());
+                    tm.updateMedia(media);
+                }
+            }
+        }
+        return 1;
     }
 
     @Override
@@ -125,5 +136,15 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Feedback selectLatestFeedbackByTaskId(Long taskId) {
         return tm.selectLatestFeedbackByTaskId(taskId);
+    }
+
+    @Override
+    public int insertMedia(Media media) {
+        return tm.insertMedia(media);
+    }
+
+    @Override
+    public boolean updateMedia(Media media) {
+        return tm.updateMedia(media);
     }
 }

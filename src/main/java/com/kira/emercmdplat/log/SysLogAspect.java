@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 public class SysLogAspect {
+
     @Autowired
     private SysLogService sls;
     @Autowired
@@ -39,12 +40,16 @@ public class SysLogAspect {
     public void anyMethod() {
 
     }
+
     @Pointcut("@annotation(com.kira.emercmdplat.annotation.MechanismPermission)")
     public void injectionParam() {
 
     }
 
-    //切面 配置通知
+    /**
+     * 切面 配置通知
+     * @param joinPoint
+     */
     @AfterReturning("anyMethod()")
     public void saveSysLog(JoinPoint joinPoint) {
         System.out.println("切面。。。。。");

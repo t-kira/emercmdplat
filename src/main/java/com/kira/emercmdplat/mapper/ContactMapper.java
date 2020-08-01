@@ -30,6 +30,8 @@ public interface ContactMapper {
 
     List<Group> selectGroup(Group group);
 
+    List<Group> selectContactList();
+
     List<ContactsResult> selectGeoContacts();
 
     Long queryForGroupCounts(Group group);

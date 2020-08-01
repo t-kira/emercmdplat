@@ -33,4 +33,8 @@ public interface TaskMapper {
     List<Task> selectByTaskType(Map<String, Object> paramMap);
 
     Feedback selectLatestFeedbackByTaskId(Long taskId);
+
+    int insertMedia(Media media);
+
+    boolean updateMedia(Media media);
 }

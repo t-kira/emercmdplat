@@ -71,6 +71,8 @@ public enum ResultEnum implements BaseEnum<ResultEnum> {
             	return PLAN_VERSION_RELATE;
             case 10008:
             	return PLAN_RESPONSE_RELATE;
+            case 10009:
+                return RELATED_DATA;
             default:
                 return UNKNOW_ERROR;
         }

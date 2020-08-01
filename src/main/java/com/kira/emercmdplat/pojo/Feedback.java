@@ -3,6 +3,8 @@ package com.kira.emercmdplat.pojo;
 import lombok.Data;
 import net.sf.json.JSONArray;
 
+import java.util.List;
+
 /**
  * @Author: kira
  * @Date: 2020/5/22 23:05
@@ -40,4 +42,8 @@ public class Feedback extends Base{
      * 反馈时间
      */
     private String feedbackTime;
+    /**
+     * 音视频集合
+     */
+    List<Media> mediaList;
 }

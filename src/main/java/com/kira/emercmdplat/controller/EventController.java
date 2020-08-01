@@ -310,13 +310,13 @@ public class EventController extends BaseController {
     @GetMapping(name = "通讯录", value = "list_group")
     public AlvesJSONResult groupList() {
         List<Group> groupList = cs.selectContactList();
-        List<JSONObject> list = new ArrayList<>();
-        for (Group group : groupList) {
-            JSONObject json = JSONObject.fromObject(group);
-            json.remove("groupList");
-            list.add(json);
-        }
-        return AlvesJSONResult.ok(list);
+//        List<JSONObject> list = new ArrayList<>();
+//        for (Group group : groupList) {
+//            JSONObject json = JSONObject.fromObject(group);
+//            json.remove("groupList");
+//            list.add(json);
+//        }
+        return AlvesJSONResult.ok(groupList);
     }
     @ResponseBody
     @GetMapping(name = "事件数据统计", value = "event_statistics")

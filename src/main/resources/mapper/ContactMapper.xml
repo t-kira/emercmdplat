@@ -128,6 +128,44 @@
             limit ${page}, ${pageSize}
         </if>
     </sql>
+    <resultMap id="GroupMap" type="com.kira.emercmdplat.pojo.Group">
+        <id column="g_id" property="id" jdbcType="BIGINT"/>
+        <result column="g_name" property="gName" jdbcType="VARCHAR"/>
+        <result column="super_g_id" property="superGid" jdbcType="BIGINT"/>
+        <collection property="contactsList" column="g_id" ofType="com.kira.emercmdplat.pojo.ContactsResult">
+            <id column="c_id" property="id" jdbcType="INTEGER"/>
+            <result column="c_name" property="contactName" jdbcType="VARCHAR"/>
+            <result column="gender" property="gender" jdbcType="INTEGER"/>
+            <result column="j_id" property="jId" jdbcType="INTEGER"/>
+            <result column="m_id" property="mId" jdbcType="INTEGER"/>
+            <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+            <result column="backup_phone" property="backupPhone" jdbcType="VARCHAR"/>
+            <result column="terminal" property="terminal" jdbcType="VARCHAR"/>
+            <result column="work_phone" property="workPhone" jdbcType="VARCHAR"/>
+            <result column="home_phone" property="homePhone" jdbcType="VARCHAR"/>
+            <result column="other_phone" property="otherPhone" jdbcType="VARCHAR"/>
+            <result column="fax_number" property="faxNumber" jdbcType="VARCHAR"/>
+            <result column="email" property="email" jdbcType="VARCHAR"/>
+            <result column="importance_degree" property="importanceDegree" jdbcType="INTEGER"/>
+            <result column="photo" property="photo" jdbcType="VARCHAR"/>
+            <result column="notes" property="notes" jdbcType="VARCHAR"/>
+            <result column="lng" property="lng" jdbcType="DOUBLE"/>
+            <result column="lat" property="lat" jdbcType="DOUBLE"/>
+            <result column="g_id" property="gId" jdbcType="INTEGER"/>
+            <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+            <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+            <result column="j_name" property="jName" jdbcType="VARCHAR"/>
+            <result column="m_name" property="mName" jdbcType="VARCHAR"/>
+            <result column="g_name" property="gName" jdbcType="VARCHAR"/>
+            <result column="person_attribute" property="personAttribute" jdbcType="INTEGER"/>
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+            <result column="password" property="password" jdbcType="VARCHAR"/>
+            <result column="login_time" property="loginTime" jdbcType="VARCHAR"/>
+            <result column="expire_time" property="expireTime" jdbcType="VARCHAR"/>
+            <result column="token" property="token" jdbcType="VARCHAR"/>
+            <result column="rong_token" property="rongToken" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Contacts" >
         insert into contacts (c_id, c_name, gender, j_id, m_id, telephone, backup_phone, terminal, work_phone, home_phone, other_phone, fax_number, email, importance_degree,
             photo, notes, lng, lat, g_id, person_attribute, create_time, update_time, user_name, password)
@@ -289,6 +327,9 @@
         from contacts c, job j, mechanism m , contact_group g
         where c.j_id = j.id and c.m_id = m.id and c.g_id = g.g_id
         and c.lat &gt; 0 and c.lng &gt; 0
+    </select>
+    <select id="selectContactList" resultMap="GroupMap">
+        select * from contact_group cg left join contacts c on c.g_id = cg.g_id
     </select>
     <select id="queryForIds" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
