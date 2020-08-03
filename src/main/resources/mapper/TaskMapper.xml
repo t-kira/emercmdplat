@@ -179,7 +179,7 @@
         order by et.id desc
     </select>
     <select id="selectFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
-        select f.*, m.id as media_id, m.feedback_id, m.media_url, m.media_type
+        select f.*, m.id as media_id, m.feedback_id, concat("a.html?", m.media_url) as media_url, m.media_type
         from feedback f left join media_source m
         on f.id = m.feedback_id
         and f.task_id = #{taskId, jdbcType=BIGINT} order by id desc

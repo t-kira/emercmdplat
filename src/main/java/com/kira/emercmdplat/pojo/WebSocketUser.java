@@ -16,6 +16,8 @@ public class WebSocketUser {
 
     private Long resourceId;
 
+    private Integer resourceType;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
