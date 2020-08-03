@@ -63,7 +63,7 @@
     #{summary,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
-    DELETE emergency_case
+    DELETE from emergency_case
     where ec_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
@@ -73,31 +73,31 @@
                 ec_name = #{name,jdbcType=VARCHAR},
             </if>
             <if test="key != null">
-                es_key = #{key,jdbcType=VARCHAR},
+                ec_key = #{key,jdbcType=VARCHAR},
             </if>
             <if test="point != null">
-                es_point = #{point,jdbcType=VARCHAR},
+                ec_point = #{point,jdbcType=VARCHAR},
             </if>
             <if test="source != null">
-                es_source = #{source,jdbcType=VARCHAR},
+                ec_source = #{source,jdbcType=VARCHAR},
             </if>
             <if test="happenTime != null">
-                es_happen_time = #{happenTime,jdbcType=VARCHAR},
+                ec_happen_time = #{happenTime,jdbcType=VARCHAR},
             </if>
             <if test="duration != null">
-                es_duration = #{duration,jdbcType=INTEGER},
+                ec_duration = #{duration,jdbcType=INTEGER},
             </if>
             <if test="district != null">
-                es_district = #{district,jdbcType=VARCHAR},
+                ec_district = #{district,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
-                es_type = #{type,jdbcType=INTEGER},
+                ec_type = #{type,jdbcType=INTEGER},
             </if>
             <if test="summary != null">
-                es_summary = #{summary,jdbcType=VARCHAR},
+                ec_summary = #{summary,jdbcType=VARCHAR},
             </if>
             <if test="content != null">
-                es_content = #{content,jdbcType=VARCHAR},
+                ec_content = #{content,jdbcType=VARCHAR},
             </if>
         </set>
         where ec_id = #{id,jdbcType=INTEGER}

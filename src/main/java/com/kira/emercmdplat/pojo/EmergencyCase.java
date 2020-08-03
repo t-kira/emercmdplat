@@ -1,6 +1,6 @@
 package com.kira.emercmdplat.pojo;
 
-public class EmergencyCase {
+public class EmergencyCase extends Base {
 
     private Integer id;
     /**

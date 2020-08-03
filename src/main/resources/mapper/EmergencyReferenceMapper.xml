@@ -31,7 +31,7 @@
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR})
   </insert>
     <update id="delete" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
-    DELETE emergency_reference
+    DELETE from emergency_reference
     where er_id = #{id,jdbcType=INTEGER}
   </update>
     <update id="update" parameterType="com.kira.emercmdplat.pojo.EmergencyCase">
