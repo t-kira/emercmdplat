@@ -26,12 +26,11 @@ public class Point extends Base{
      */
     private Double lng;
     /**
+     * 资源类型
+     */
+    private Integer resourceType;
+    /**
      * 上报时间
      */
     private Long reportTimeStamp;
-
-    public static void main(String[] args) {
-        int random = (int)(1 + Math.random() * (10 -1 + 1));
-        System.out.println(random/100.0);
-    }
 }

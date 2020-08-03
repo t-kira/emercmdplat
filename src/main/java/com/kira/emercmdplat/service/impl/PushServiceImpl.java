@@ -60,13 +60,13 @@ public class PushServiceImpl implements PushService {
         String str = JSONObject.fromObject(point).toString();
         if (userChannelMap.keySet().size() > 0) {
             for (WebSocketUser webSocketUser : userChannelMap.keySet()) {
-                if (webSocketUser.getResourceId() == point.getResourceId()) {
+                if (webSocketUser.getResourceId() == point.getResourceId() && webSocketUser.getResourceType() == point.getResourceType()) {
                     Channel channel = userChannelMap.get(webSocketUser);
                     channel.writeAndFlush(new TextWebSocketFrame(str));
                 }
             }
         }
-        String item = point.getResourceId() + "::" + point.getReportTimeStamp();
+        String item = point.getResourceId() + "::" + point.getReportTimeStamp() + "::" + point.getResourceType();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("lng", point.getLng());
         jsonObject.put("lat", point.getLat());
@@ -90,6 +90,7 @@ public class PushServiceImpl implements PushService {
             point.setLng(json.getDouble("lng"));
             point.setResourceId(StringUtil.toLongDefValue(split[0], 0l));
             point.setReportTimeStamp(StringUtil.toLongDefValue(split[1], 0l));
+            point.setResourceType(StringUtil.toIntDefValue(split[2], 0));
 
             //组装成 UserLike 对象
             list.add(point);

@@ -6,10 +6,11 @@
         <result column="resource_id" property="resourceId" jdbcType="BIGINT"/>
         <result column="lat" property="lat" jdbcType="BIGINT"/>
         <result column="lng" property="lng" jdbcType="BIGINT"/>
+        <result column="resource_type" property="resourceType" jdbcType="INTEGER"/>
         <result column="report_timestamp" property="reportTimeStamp" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, resource_id, lat, lng, report_timestamp
+    id, resource_id, lat, lng, resource_type, report_timestamp
   </sql>
     <sql id="Basic_Conditions" >
         <![CDATA[where 1=1 ]]>
@@ -32,14 +33,14 @@
         </if>
     </sql>
     <insert id="insert" parameterType="com.kira.emercmdplat.pojo.Point" >
-        insert into point (id, resource_id, lat, lng, report_timestamp)
-        values (#{id,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT}, #{lat, jdbcType=BIGINT}, #{lng, jdbcType=BIGINT}, #{reportTimeStamp, jdbcType=BIGINT})
+        insert into point (id, resource_id, lat, lng, resource_type, report_timestamp)
+        values (#{id,jdbcType=BIGINT}, #{resourceId,jdbcType=BIGINT}, #{lat, jdbcType=BIGINT}, #{lng, jdbcType=BIGINT}, #{resourceType,jdbcType=INTEGER}, #{reportTimeStamp, jdbcType=BIGINT})
     </insert>
     <insert id="insertBatch" parameterType="java.util.List">
         insert into point (<include refid="Base_Column_List"/>)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id,jdbcType=BIGINT}, #{item.resourceId,jdbcType=BIGINT}, #{item.lat, jdbcType=BIGINT}, #{item.lng, jdbcType=BIGINT}, #{item.reportTimeStamp, jdbcType=BIGINT})
+            (#{item.id,jdbcType=BIGINT}, #{item.resourceId,jdbcType=BIGINT}, #{item.lat, jdbcType=BIGINT}, #{item.lng, jdbcType=BIGINT}, #{item.resourceType, jdbcType=INTEGER}, #{item.reportTimeStamp, jdbcType=BIGINT})
         </foreach>
     </insert>
     <select id="selectLastDataByResourceId" resultMap="BaseResultMap" parameterType="java.lang.Long">

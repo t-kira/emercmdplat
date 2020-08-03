@@ -54,14 +54,19 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
 
         JSONObject jsonObject = JSONObject.fromObject(msg.text());
         long resourceId = 0;
+        int resourceType = 0;
         if (jsonObject.containsKey("resourceId")) {
             resourceId = jsonObject.getLong("resourceId");
+        }
+        if (jsonObject.containsKey("resourceType")) {
+            resourceType = jsonObject.getInt("resourceType");
         }
         if (jsonObject.containsKey("token")) {
             String token = jsonObject.getString("token");
 
             WebSocketUser webSocketUser = new WebSocketUser();
             webSocketUser.setResourceId(resourceId);
+            webSocketUser.setResourceType(resourceType);
             webSocketUser.setToken(token);
             if (NettyConfig.getUserChannelMap().containsKey(webSocketUser)) {
                 NettyConfig.getUserChannelMap().remove(webSocketUser);

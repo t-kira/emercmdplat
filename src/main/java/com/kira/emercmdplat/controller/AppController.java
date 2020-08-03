@@ -4,6 +4,7 @@ import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.config.InitData;
 import com.kira.emercmdplat.controller.base.BaseController;
 import com.kira.emercmdplat.enums.BaseDataType;
+import com.kira.emercmdplat.enums.PointResourceType;
 import com.kira.emercmdplat.enums.ResultEnum;
 import com.kira.emercmdplat.enums.TaskStatus;
 import com.kira.emercmdplat.exception.CustomException;
@@ -166,6 +167,7 @@ public class AppController extends BaseController {
     @PostMapping(name = "获取实时坐标位置", value = "point_receive")
     public AlvesJSONResult receiveCurrentPoint(@RequestBody Point point) {
         point.setReportTimeStamp(DateUtil.getNowTimestamp().getTime());
+        point.setResourceType(PointResourceType.AUTO.getNo());
         int random = (int)(1 + Math.random() * (10 -1 + 1));
         double d = random / 100.0;
         double lat = point.getLat();
@@ -196,7 +198,6 @@ public class AppController extends BaseController {
             else
                 return AlvesJSONResult.errorMsg("上传失败");
         } catch (IOException e) {
-            e.printStackTrace();
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "附件上传失败");
         }
     }
