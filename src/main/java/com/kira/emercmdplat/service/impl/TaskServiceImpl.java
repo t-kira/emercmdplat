@@ -124,13 +124,18 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Feedback> selectFeedbackByTaskId(Long taskId) {
         List<Feedback> list = tm.selectFeedbackByTaskId(taskId);
-        String htmlStr = InitData.getVal(BaseDataType.HTML_NAME.getNo());
+        String videoHtml = InitData.getVal(BaseDataType.VIDEO_HTML.getNo());
+        String audioHtml = InitData.getVal(BaseDataType.AUDIO_HTML.getNo());
         String baseUrl = InitData.getVal(BaseDataType.URL.getNo());
         String param = InitData.getVal(BaseDataType.PARAM.getNo());
         for (Feedback feedback : list) {
             for (Media media : feedback.getMediaList()) {
                 StringBuffer buffer = new StringBuffer(baseUrl);
-                buffer.append(htmlStr).append(param).append(baseUrl).append(media.getMediaUrl());
+                if (media.getMediaType() == MediaType.AUDIO.getNo())
+                    buffer.append(audioHtml);
+                else
+                    buffer.append(videoHtml);
+                buffer.append(param).append(baseUrl).append(media.getMediaUrl());
                 media.setMediaUrl(buffer.toString());
             }
 

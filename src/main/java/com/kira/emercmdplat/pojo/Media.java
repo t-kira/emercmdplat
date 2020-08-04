@@ -15,6 +15,8 @@ public class Media {
     private Long feedbackId;
 
     private String mediaUrl;
-
+    /**
+     * 多媒体类型 1：视频 2 音频
+     */
     private Integer mediaType;
 }

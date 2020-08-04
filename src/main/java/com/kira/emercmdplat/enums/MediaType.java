@@ -8,15 +8,15 @@ import com.kira.emercmdplat.exception.CustomException;
  * @Date: 2020/7/9 17:15
  * @Description:基础数据枚举类
  */
-public enum BaseDataType implements BaseEnum<BaseDataType> {
+public enum MediaType implements BaseEnum<MediaType> {
 
-    URL(1, "baseUrl"), REPORT_TIME(2, "reportTime"), VIDEO_HTML(3, "videoHtml"), PARAM(4, "paramName"), AUDIO_HTML(5, "audioHtml");
+    AUDIO(1, "音频"), VIDEO(2, "视频");
 
     private Integer code;
 
     private String name;
 
-    BaseDataType(Integer code, String name) {
+    MediaType(Integer code, String name) {
         this.code = code;
         this.name = name;
     }
@@ -47,22 +47,16 @@ public enum BaseDataType implements BaseEnum<BaseDataType> {
      * @return
      */
     @Override
-    public BaseDataType getProperty(Integer key) {
+    public MediaType getProperty(Integer key) {
         return null;
     }
 
-    public static BaseDataType getByValue(Integer key) {
+    public static MediaType getByValue(Integer key) {
         switch (key) {
             case 1:
-                return URL;
+                return AUDIO;
             case 2:
-                return REPORT_TIME;
-            case 3:
-                return VIDEO_HTML;
-            case 4:
-                return PARAM;
-            case 5:
-                return AUDIO_HTML;
+                return VIDEO;
             default:
                 throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "未知类型");
         }
