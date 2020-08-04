@@ -10,7 +10,7 @@ import com.kira.emercmdplat.exception.CustomException;
  */
 public enum BaseDataType implements BaseEnum<BaseDataType> {
 
-    URL(1, "baseUrl"), REPORT_TIME(2, "reportTime");
+    URL(1, "baseUrl"), REPORT_TIME(2, "reportTime"), HTML_NAME(3, "htmlName"), PARAM(4, "paramName");
 
     private Integer code;
 
@@ -57,6 +57,10 @@ public enum BaseDataType implements BaseEnum<BaseDataType> {
                 return URL;
             case 2:
                 return REPORT_TIME;
+            case 3:
+                return HTML_NAME;
+            case 4:
+                return PARAM;
             default:
                 throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "未知类型");
         }

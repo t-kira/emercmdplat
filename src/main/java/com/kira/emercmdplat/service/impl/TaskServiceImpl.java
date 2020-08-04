@@ -1,9 +1,7 @@
 package com.kira.emercmdplat.service.impl;
 
-import com.kira.emercmdplat.enums.EventProcess;
-import com.kira.emercmdplat.enums.EventStatus;
-import com.kira.emercmdplat.enums.ResultEnum;
-import com.kira.emercmdplat.enums.TaskStatus;
+import com.kira.emercmdplat.config.InitData;
+import com.kira.emercmdplat.enums.*;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.mapper.ContactMapper;
 import com.kira.emercmdplat.mapper.EventMapper;
@@ -125,7 +123,19 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Feedback> selectFeedbackByTaskId(Long taskId) {
-        return tm.selectFeedbackByTaskId(taskId);
+        List<Feedback> list = tm.selectFeedbackByTaskId(taskId);
+        String htmlStr = InitData.getVal(BaseDataType.HTML_NAME.getNo());
+        String baseUrl = InitData.getVal(BaseDataType.URL.getNo());
+        String param = InitData.getVal(BaseDataType.PARAM.getNo());
+        for (Feedback feedback : list) {
+            for (Media media : feedback.getMediaList()) {
+                StringBuffer buffer = new StringBuffer(baseUrl);
+                buffer.append(htmlStr).append(param).append(baseUrl).append(media.getMediaUrl());
+                media.setMediaUrl(buffer.toString());
+            }
+
+        }
+        return list;
     }
 
     @Override
