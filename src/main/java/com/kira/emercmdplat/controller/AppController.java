@@ -3,10 +3,7 @@ package com.kira.emercmdplat.controller;
 import com.kira.emercmdplat.annotation.MyLog;
 import com.kira.emercmdplat.config.InitData;
 import com.kira.emercmdplat.controller.base.BaseController;
-import com.kira.emercmdplat.enums.BaseDataType;
-import com.kira.emercmdplat.enums.PointResourceType;
-import com.kira.emercmdplat.enums.ResultEnum;
-import com.kira.emercmdplat.enums.TaskStatus;
+import com.kira.emercmdplat.enums.*;
 import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.*;
 import com.kira.emercmdplat.service.ContactService;
@@ -98,9 +95,12 @@ public class AppController extends BaseController {
     }
     @ResponseBody
     @PostMapping(name = "查询任务", value = "list_task")
-    public AlvesJSONResult eventTaskList(@RequestBody TaskExtend taskExtend, HttpServletRequest request) {
+    public AlvesJSONResult eventTaskList(@RequestBody(required = false) TaskExtend taskExtend, HttpServletRequest request) {
         String token = TokenUtil.getRequestToken(request);
         ContactsResult contactsResult = cs.findByToken(token);
+        if (taskExtend == null) {
+            taskExtend = new TaskExtend();
+        }
         taskExtend.setContactId(contactsResult.getId());
         List<Task> taskList = ts.queryForAll(taskExtend);
         return AlvesJSONResult.ok(taskList);
@@ -114,7 +114,7 @@ public class AppController extends BaseController {
     @ResponseBody
     @GetMapping(name = "查询反馈信息集合", value = "list_feedback/{taskId}")
     public AlvesJSONResult feedbackList(@PathVariable Long taskId) {
-        List<Feedback> feedbackList = ts.selectFeedbackByTaskId(taskId);
+        List<Feedback> feedbackList = ts.selectFeedbackByTaskId(taskId, true);
 
         return AlvesJSONResult.ok(feedbackList);
     }
@@ -193,10 +193,23 @@ public class AppController extends BaseController {
             media.setMediaType(mediaType);
             media.setMediaUrl(fileResult.getServerPath());
             int result = ts.insertMedia(media);
-            if (result > 0)
+            if (result > 0) {
+                //临时处理
+                String videoHtml = InitData.getVal(BaseDataType.VIDEO_HTML.getNo());
+                String audioHtml = InitData.getVal(BaseDataType.AUDIO_HTML.getNo());
+                String baseUrl = InitData.getVal(BaseDataType.URL.getNo());
+                String param = InitData.getVal(BaseDataType.PARAM.getNo());
+                StringBuffer buffer = new StringBuffer(baseUrl);
+                if (mediaType == MediaType.AUDIO.getNo())
+                    buffer.append(audioHtml);
+                else
+                    buffer.append(videoHtml);
+                buffer.append(param).append(baseUrl).append(media.getMediaUrl());
+                media.setMediaUrl(buffer.toString());
                 return AlvesJSONResult.ok(media);
-            else
+            }else {
                 return AlvesJSONResult.errorMsg("上传失败");
+            }
         } catch (IOException e) {
             throw new CustomException(ResultEnum.UNKNOW_ERROR.getNo(), "附件上传失败");
         }

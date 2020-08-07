@@ -166,6 +166,7 @@ public class FileuploadUtil {
         }
         // 文件名
         String fileName = multipartFile.getOriginalFilename();
+        System.out.println("保存文件，文件名是:" + fileName);
         // 文件后缀名
         String extName = FilenameUtils.getExtension(fileName);
         if (StringUtils.isEmpty(extName)) {
@@ -204,6 +205,7 @@ public class FileuploadUtil {
             result.setExtName(extName);
             result.setServerPath(destPath);
         }
+        Runtime.getRuntime().exec("chmod 777 -R " + serverPath);
         return result;
     }
 

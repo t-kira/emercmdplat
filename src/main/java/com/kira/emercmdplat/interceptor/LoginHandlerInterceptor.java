@@ -1,5 +1,8 @@
 package com.kira.emercmdplat.interceptor;
 
+import com.kira.emercmdplat.config.WebSecurityConfig;
+import com.kira.emercmdplat.enums.ResultEnum;
+import com.kira.emercmdplat.exception.CustomException;
 import com.kira.emercmdplat.pojo.ContactsResult;
 import com.kira.emercmdplat.service.ContactService;
 import com.kira.emercmdplat.utils.AlvesJSONResult;
@@ -52,6 +55,12 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+//        long now = DateUtil.getNowDate().getTime();
+//        long end = DateUtil.stringToDate("2020-08-06 10:00:00", "yyyy-MM-dd HH:mm:ss").getTime();
+//        if ((end - now) <= 0) {
+//            setReturn(response, 400, "未知错误");
+//            return false;
+//        }
         String token = TokenUtil.getRequestToken(request);
         if (StringUtils.isBlank(token)) {
             setReturn(response, 400, "用户未登录，请先登录");

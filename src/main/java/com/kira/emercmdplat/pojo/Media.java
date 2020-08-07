@@ -1,6 +1,7 @@
 package com.kira.emercmdplat.pojo;
 
 import lombok.Data;
+import net.sf.json.JSONObject;
 
 /**
  * @Author: kira
@@ -19,4 +20,8 @@ public class Media {
      * 多媒体类型 1：视频 2 音频
      */
     private Integer mediaType;
+
+    public static void main(String[] args) {
+        System.out.println(JSONObject.fromObject(new Media()));
+    }
 }

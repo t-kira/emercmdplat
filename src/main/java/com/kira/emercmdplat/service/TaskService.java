@@ -31,7 +31,7 @@ public interface TaskService {
 
     int insertFeedback(Feedback feedback);
 
-    List<Feedback> selectFeedbackByTaskId(Long taskId);
+    List<Feedback> selectFeedbackByTaskId(Long taskId, boolean isApp);
 
     List<Task> selectByTaskType(Map<String, Object> paramMap);
 

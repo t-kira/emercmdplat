@@ -272,4 +272,11 @@ public class WarMapController {
         Point point = ps.selectLastDataByResourceId(resourceId);
         return AlvesJSONResult.ok(point);
     }
+    @ResponseBody
+    @GetMapping(name = "查询反馈信息集合", value = "list_feedback/{taskId}")
+    public AlvesJSONResult feedbackList(@PathVariable Long taskId) {
+        List<Feedback> feedbackList = ts.selectFeedbackByTaskId(taskId, false);
+
+        return AlvesJSONResult.ok(feedbackList);
+    }
 }

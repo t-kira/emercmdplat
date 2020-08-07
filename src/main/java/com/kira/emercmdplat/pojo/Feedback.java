@@ -2,6 +2,7 @@ package com.kira.emercmdplat.pojo;
 
 import lombok.Data;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -46,4 +47,8 @@ public class Feedback extends Base{
      * 音视频集合
      */
     List<Media> mediaList;
+
+    public static void main(String[] args) {
+        System.out.println(JSONObject.fromObject(new Feedback()));
+    }
 }

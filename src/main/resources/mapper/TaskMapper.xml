@@ -158,13 +158,13 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List"/>
-        from task
-        where 1 = 1 and id = #{id,jdbcType=BIGINT}
+        from task et
+        where 1 = 1 and et.id = #{id,jdbcType=BIGINT}
     </select>
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select
         <include refid="Base_Column_List"/>
-        from task
+        from task et
         where 1 = 1
         <include refid="Basic_Conditions"/>
         order by et.id desc
@@ -186,9 +186,10 @@
     </select>
     <select id="selectLatestFeedbackByTaskId" resultMap="BaseFeedbackResultMap" parameterType="java.lang.Long">
         select f.*, m.id as media_id, m.feedback_id, m.media_url, m.media_type
-        from feedback f left join media_source m
+        from
+	    (SELECT * FROM feedback WHERE task_id = #{taskId, jdbcType=BIGINT} ORDER BY id desc LIMIT 1) f
+        left join media_source m
         on f.id = m.feedback_id
-        and f.task_id = #{taskId, jdbcType=BIGINT} order by id desc limit 1
     </select>
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select
@@ -203,7 +204,7 @@
     </select>
     <select id="queryForCounts" resultType="java.lang.Long" parameterType="com.kira.emercmdplat.pojo.TaskExtend">
         select count(id)
-        from task
+        from task et
         <include refid="Basic_Conditions"/>
     </select>
 </mapper>
