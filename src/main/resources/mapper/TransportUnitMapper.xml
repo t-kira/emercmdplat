@@ -25,12 +25,13 @@
         <result column="t_contactsId" property="contactsId" jdbcType="INTEGER"/>
         <result column="t_name2" property="typeName" jdbcType="VARCHAR"/>
         <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
+        <result column="d_name" property="dataTypeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     tu.t_id, tu.t_name, t_type, t_district, t_maintenance_company, t_transport_capacity, t_total_vehicle, t_addr, t_lng, t_lat, t_PIC,
     t_contact_num, t_cell_num, t_home_num, t_fax_num, t_email, t_contact_name, t_contact_work_num, t_contact_cell_num,
-    t_update_time, t_contactsId, t.t_name t_name2, t.d_id
+    t_update_time, t_contactsId, t.t_name t_name2, t.d_id, d.d_name
   </sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->
@@ -180,24 +181,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from transport_unit tu,e_type t
-        where tu.t_type = t.t_id
+        from transport_unit tu,e_type t,data_type d
+        where tu.t_type = t.t_id and t.d_id=d.d_id
         and tu.t_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.TransportUnit">
         select
         <include refid="Base_Column_List"/>
-        from transport_unit tu,e_type t
-        where tu.t_type = t.t_id
+        from transport_unit tu,e_type t,data_type d
+        where tu.t_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from transport_unit tu,e_type t
-        where tu.t_type = t.t_id
+        from transport_unit tu,e_type t,data_type d
+        where tu.t_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>

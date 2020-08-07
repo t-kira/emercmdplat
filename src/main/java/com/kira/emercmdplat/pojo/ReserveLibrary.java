@@ -133,6 +133,9 @@ public class ReserveLibrary extends BaseObject {
 	@ApiComment(value = "资源分组id", sample = "1")
 	private Long dataTypeId;
 
+	@ApiComment(value = "资源分组名称", sample = "1")
+	private String dataTypeName;
+
 	protected String commonIcon = host + "/img/library-common.png";
 
 	protected String activeIcon = host + "/img/library-active.png";
@@ -319,6 +322,14 @@ public class ReserveLibrary extends BaseObject {
 
 	public void setDataTypeId(Long dataTypeId) {
 		this.dataTypeId = dataTypeId;
+	}
+
+	public String getDataTypeName() {
+		return dataTypeName;
+	}
+
+	public void setDataTypeName(String dataTypeName) {
+		this.dataTypeName = dataTypeName;
 	}
 
 }

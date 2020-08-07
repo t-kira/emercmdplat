@@ -8,8 +8,10 @@ import javax.validation.constraints.NotNull;
 import com.kira.emercmdplat.annotation.ContactNum;
 import com.kira.emercmdplat.annotation.Phone;
 import com.terran4j.commons.api2doc.annotations.ApiComment;
+
 /**
  * 应急专家
+ * 
  * @author richard.yuq
  *
  */
@@ -131,6 +133,9 @@ public class EmergencyExpert extends BaseObject {
 
 	@ApiComment(value = "资源分组id", sample = "1")
 	private Long dataTypeId;
+
+	@ApiComment(value = "资源分组名称", sample = "1")
+	private String dataTypeName;
 
 	protected String commonIcon = host + "/img/expert-common.png";
 
@@ -326,6 +331,14 @@ public class EmergencyExpert extends BaseObject {
 
 	public void setDataTypeId(Long dataTypeId) {
 		this.dataTypeId = dataTypeId;
+	}
+
+	public String getDataTypeName() {
+		return dataTypeName;
+	}
+
+	public void setDataTypeName(String dataTypeName) {
+		this.dataTypeName = dataTypeName;
 	}
 
 }

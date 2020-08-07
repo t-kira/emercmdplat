@@ -24,12 +24,13 @@
         <result column="e_lat" property="lat" jdbcType="VARCHAR"/>
         <result column="e_addr" property="addr" jdbcType="VARCHAR"/>
         <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
+        <result column="d_name" property="dataTypeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     e.e_id, e.e_name, e.e_type, e.e_unit, e.e_position, e.e_gender, e.e_level, e.e_expertise, e.e_contact_num, e.e_cell_num,
     e.e_fax_num, e.e_email, e.e_home_num, e.e_home_addr, e.e_information, e.e_update_time, e.e_lng, e.e_lat, e.e_addr, 
-    t.t_name, m.m_name, t.d_id 
+    t.t_name, m.m_name, t.d_id, d.d_name 
   	</sql>
     <sql id="Basic_Conditions">
         <!-- [CDATA[where 1=1 ]]-->
@@ -158,24 +159,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from emergency_expert e,e_type t,mechanism m
-        where e.e_type=t.t_id and e.e_unit=m.id
+        from emergency_expert e,e_type t,mechanism m,data_type d
+        where e.e_type=t.t_id and e.e_unit=m.id and t.d_id=d.d_id
         and e_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyExpert">
         select
         <include refid="Base_Column_List"/>
-        from emergency_expert e,e_type t,mechanism m
-        where e.e_type=t.t_id and e.e_unit=m.id
+        from emergency_expert e,e_type t,mechanism m,data_type d
+        where e.e_type=t.t_id and e.e_unit=m.id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from emergency_expert e,e_type t,mechanism m
-        where e.e_type=t.t_id and e.e_unit=m.id
+        from emergency_expert e,e_type t,mechanism m,data_type d
+        where e.e_type=t.t_id and e.e_unit=m.id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>

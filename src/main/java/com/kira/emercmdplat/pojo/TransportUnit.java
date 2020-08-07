@@ -11,6 +11,7 @@ import com.terran4j.commons.api2doc.annotations.ApiComment;
 
 /**
  * 运输单位
+ * 
  * @author richard.yuq
  *
  */
@@ -145,6 +146,9 @@ public class TransportUnit extends BaseObject {
 
 	@ApiComment(value = "资源分组id", sample = "1")
 	private Long dataTypeId;
+
+	@ApiComment(value = "资源分组名称", sample = "1")
+	private String dataTypeName;
 
 	protected String commonIcon = host + "/img/transport-common.png";
 
@@ -348,6 +352,14 @@ public class TransportUnit extends BaseObject {
 
 	public void setDataTypeId(Long dataTypeId) {
 		this.dataTypeId = dataTypeId;
+	}
+
+	public String getDataTypeName() {
+		return dataTypeName;
+	}
+
+	public void setDataTypeName(String dataTypeName) {
+		this.dataTypeName = dataTypeName;
 	}
 
 }

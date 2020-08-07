@@ -27,12 +27,13 @@
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="m_contactsId" property="contactsId" jdbcType="INTEGER"/>
         <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
+        <result column="d_name" property="dataTypeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     m_id, m_name, m_type, m_district, m_maintenance_company, m_institution_level, m_UID, m_sickbed_num, m_medical_subjects, m_addr, m_lng, m_lat,
     m_PIC, m_contact_num, m_cell_num, m_home_num, m_fax_num, m_email, m_contact_name, m_contact_work_num, m_contact_cell_num,
-    m_update_time, m_contactsId, t_name, d_id
+    m_update_time, m_contactsId, t_name, t.d_id, d.d_name
   </sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->
@@ -194,24 +195,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from medical_institution m,e_type t
-        where m.m_type = t.t_id
+        from medical_institution m,e_type t,data_type d
+        where m.m_type = t.t_id and t.d_id=d.d_id
         and m_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.MedicalInstitution">
         select
         <include refid="Base_Column_List"/>
-        from medical_institution m,e_type t
-        where m.m_type = t.t_id
+        from medical_institution m,e_type t,data_type d
+        where m.m_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from medical_institution m,e_type t
-        where m.m_type = t.t_id
+        from medical_institution m,e_type t,data_type d
+        where m.m_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>

@@ -26,12 +26,13 @@
         <result column="s_contactsId" property="contactsId" jdbcType="INTEGER"/>
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
+        <result column="d_name" property="dataTypeName" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     s_id, s_name, s_type, s_district, s_maintenance_company, s_level, s_area, s_capacity, s_addr, s_lng, s_lat, s_PIC,
     s_contact_num, s_cell_num, s_home_num, s_fax_num, s_email, s_contact_name, s_contact_work_num, s_contact_cell_num,
-    s_update_time, s_contactsId, t_name, d_id
+    s_update_time, s_contactsId, t_name, t.d_id, d.d_name
   </sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->
@@ -187,24 +188,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from shelter s,e_type t
-        where s.s_type = t.t_id
+        from shelter s,e_type t,data_type d
+        where s.s_type = t.t_id and t.d_id=d.d_id
         and s_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.Shelter">
         select
         <include refid="Base_Column_List"/>
-        from shelter s,e_type t
-        where s.s_type = t.t_id
+        from shelter s,e_type t,data_type d
+        where s.s_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from shelter s,e_type t
-        where s.s_type = t.t_id
+        from shelter s,e_type t,data_type d
+        where s.s_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>

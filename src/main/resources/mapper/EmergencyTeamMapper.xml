@@ -25,12 +25,13 @@
         <result column="t_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="et_contactsId" property="contactsId" jdbcType="INTEGER"/>
         <result column="d_id" property="dataTypeId" jdbcType="INTEGER"/>
+        <result column="d_name" property="dataTypeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
     et_id, et_name, et_type, et_maintenance_company, et_district, et_level, et_number, et_addr, et_lng, et_lat, et_PIC,
     et_contact_num, et_cell_num, et_home_num, et_fax_num, et_email, et_contact_name, et_contact_work_num, et_contact_cell_num,
-    et_update_time, et_contactsId, t_name, d_id
+    et_update_time, et_contactsId, t_name, t.d_id, d.d_name
   </sql>
     <sql id="Basic_Conditions">
         <!--[CDATA[where 1=1 ]]-->
@@ -180,24 +181,24 @@
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from emergency_team et,e_type t
-        where et.et_type = t.t_id
+        from emergency_team et,e_type t,data_type d
+        where et.et_type = t.t_id and t.d_id=d.d_id
         and et_id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="queryForAll" resultMap="BaseResultMap" parameterType="com.kira.emercmdplat.pojo.EmergencyTeam">
         select
         <include refid="Base_Column_List"/>
-        from emergency_team et,e_type t
-        where et.et_type = t.t_id
+        from emergency_team et,e_type t,data_type d
+        where et.et_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
     </select>
 
     <select id="queryForPage" resultMap="BaseResultMap" parameterType="java.util.Map">
         select
         <include refid="Base_Column_List"/>
-        from emergency_team et,e_type t
-        where et.et_type = t.t_id
+        from emergency_team et,e_type t,data_type d
+        where et.et_type = t.t_id and t.d_id=d.d_id
         <include refid="Basic_Conditions"/>
         limit ${index}, ${pageSize}
     </select>
